@@ -1,0 +1,62 @@
+{
+  "name": "com.lagia.app",
+  "version": "0.0.1",
+  "description": "startup tourism & transport for private experiece",
+  "productName": "lagia",
+  "author": "ukik <muhamadduki@gmail.com>",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@quasar/extras": "^1.16.4",
+    "@yeger/vue-masonry-wall": "^3.4.3",
+    "animate.css": "^4.1.1",
+    "axios": "^1.2.1",
+    "core-js": "^3.31.1",
+    "lodash": "^4.17.21",
+    "mitt": "^3.0.0",
+    "pinia": "^2.0.11",
+    "quasar": "^2.16.0",
+    "tiny-emitter": "^2.1.0",
+    "vue": "^3.4.18",
+    "vue-easy-lightbox": "^1.19.0",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.12",
+    "vue-sweetalert2": "^5.0.5",
+    "vue-virtual-collection": "^1.5.0",
+    "vue-virtual-scroll-grid": "^1.10.2",
+    "vue-virtual-scroller": "^2.0.0-beta.8",
+    "vue3-carousel": "^0.3.3",
+    "vue3-lottie": "^2.5.0",
+    "vue3-social-share": "^0.1.7",
+    "vue3-tour": "^0.3.4",
+    "vue3-virtual-list": "^1.0.2",
+    "vue3-virtual-scroll-list": "^0.2.1",
+    "vue3-virtual-scroller": "^0.2.3",
+    "vue3-youtube": "^0.1.9"
+  },
+  "devDependencies": {
+    "@quasar/app-webpack": "^3.13.0",
+    "sass": "^1.62.1"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": "^20 || ^18 || ^16",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
