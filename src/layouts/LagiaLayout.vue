@@ -1,7 +1,5 @@
 <script setup>
-
-
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from "pinia";
 
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
@@ -9,7 +7,7 @@ import { ref, nextTick, watch, onMounted } from "vue";
 
 import { useRoute } from "vue-router";
 
-import { useAuthStore } from "stores/auth/AuthStore"
+import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
 const store = useAuthStore();
 const { fetchLoginAuth, fetchInitAuth } = store; // have all reactive states here
 const { auth } = storeToRefs(store); // have all reactive states here
@@ -133,6 +131,7 @@ export default {
       switch (this.$route.name) {
         case "dashboard-login":
         case "dashboard-register":
+        case "/register":
           return false;
         default:
           return true;
@@ -215,11 +214,12 @@ export default {
       side="left"
       bordered
     >
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-        <LayoutLeftMenu></LayoutLeftMenu>
-        <!-- <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" /> -->
-      </q-list>
+      <q-no-ssr>
+        <q-list>
+          <q-item-label header> Essential Links </q-item-label>
+          <LayoutLeftMenu></LayoutLeftMenu>
+        </q-list>
+      </q-no-ssr>
     </q-drawer>
 
     <q-drawer
@@ -229,22 +229,18 @@ export default {
       side="right"
       bordered
     >
-      <LayoutRightDrawerContent></LayoutRightDrawerContent>
-      <q-btn
-        class="absolute-top-left q-ma-sm"
-        flat
-        dense
-        round
-        icon="close"
-        aria-label="Menu"
-        @click="rightDrawerOpen = false"
-      />
-
-      <!-- <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
-      </q-list> -->
+      <q-no-ssr>
+        <LayoutRightDrawerContent></LayoutRightDrawerContent>
+        <q-btn
+          class="absolute-top-left q-ma-sm"
+          flat
+          dense
+          round
+          icon="close"
+          aria-label="Menu"
+          @click="rightDrawerOpen = false"
+        />
+      </q-no-ssr>
     </q-drawer>
 
     <q-page-container
@@ -257,9 +253,9 @@ export default {
           v-if="hideNav()"
           id="thing_to_stick"
           class="absolute-top bg-redX q-py-none row justify-center"
-          style="z-index: 9; margin-top: 60px; padding-left: 0px"
+          :style="$q.screen.width > 768 ? 'z-index: 9; margin-top: 60px;' : 'z-index: 9; margin-top: 10px;'"
         >
-          <q-toolbar class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
+          <q-toolbar class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12" style="padding-left: 0px;">
             <!-- <q-toolbar-title> Travel & Tour </q-toolbar-title> -->
 
             <LayoutHeaderMenu
@@ -292,8 +288,7 @@ export default {
             />
           </q-toolbar>
         </q-card-section>
-
-        <router-view ></router-view>
+        <!-- <router-view ></router-view> -->
 
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
           <component :is="Component" :key="$route.name"> </component>
@@ -306,9 +301,9 @@ export default {
           </router-view>
         </q-no-ssr>
 
-
-        <LayoutFooter v-if="hideNav()"></LayoutFooter>
-        <!-- </q-card> -->
+        <q-no-ssr>
+          <LayoutFooter v-if="hideNav()"></LayoutFooter>
+        </q-no-ssr>
       </q-page>
     </q-page-container>
 

@@ -23,12 +23,12 @@
 <script>
 import { ref, defineProps } from "vue"
 import { defineComponent } from "vue";
-import VueEasyLightbox, { useEasyLightbox } from "vue-easy-lightbox";
+// import VueEasyLightbox, { useEasyLightbox } from "vue-easy-lightbox";
 
 export default defineComponent({
-  components: {
-    VueEasyLightbox,
-  },
+  // components: {
+  //   VueEasyLightbox,
+  // },
   props: {
     _gallery: {
       default: () => [

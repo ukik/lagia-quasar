@@ -36,7 +36,7 @@
               </template>
             </q-img>
 
-            <q-card-section class="bg-grey-2 row flex items-start">
+            <q-card-section class="bg-grey-2 row flex items-start col">
               <div class="text-box q-mt-lg full-width q-px-sm col-12">
                 <h3>{{ item?.title }}</h3>
                 <q-item-label lines="4">{{ item?.subtitle }}</q-item-label>

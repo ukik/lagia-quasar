@@ -1,7 +1,7 @@
 <template>
   <!-- Call To Action -->
   <q-carousel
-    height="calc(100vh - 50px)"
+    :height="$q.screen.width > 768 ? 'calc(100vh)' : 'calc(100vh - 50px)'"
     class="bg-dark"
     infinite
     swipeable
@@ -14,15 +14,13 @@
   >
     <template v-for="(item, index) in options">
       <q-carousel-slide :name="item?.value" img-src="/assets/images/img16.jpg">
-        <!-- <q-img style="height: calc(100vh - 50px)" src="assets/images/banner-img1.jpg"> -->
+
         <div class="absolute-full dimmed"></div>
         <div class="absolute-full dimmed"></div>
         <div class="absolute-full row flex-center">
           <div
             class="row flex flex-center text-center col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12"
           >
-            <!-- <q-img class="col-3" src="assets/images/site-logo.png"></q-img> -->
-
             <div class="comming-soon-content col-12 q-mt-xl text-white">
               <div class="text-h5">YOUR DREAM COMES TRUE !</div>
               <h2 class="q-my-lg text-white">JOURNEY TO EXPLORE WORLD</h2>
@@ -58,7 +56,7 @@
             </div>
           </div>
         </div>
-        <!-- </q-img> -->
+
       </q-carousel-slide>
     </template>
   </q-carousel>

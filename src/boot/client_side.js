@@ -203,6 +203,9 @@ export default boot( async ({ app, ssrContext, router, store }) => {
 		defineAsyncComponent(() => import('src/components/ReplayChip.vue'))
 	)
 
+  // app.component('EasyLightbox',
+  //   defineAsyncComponent(() => import('src/components/lagia-components/EasyLightbox.vue'))
+  // )
 
 	// app.component('Regency',
 	// 	defineAsyncComponent(() => import('src/components/Regency.vue'))

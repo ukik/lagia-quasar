@@ -8,7 +8,10 @@ import { Loading, Notify, Cookies, Platform, Screen } from 'quasar'
 import { useAuthStore } from 'src/stores/auth/auth';
 import { useRouterStore } from 'src/stores/router-store'
 
-import { host } from 'src/boot/common'
+// import { host } from 'src/boot/common'
+import domains from 'src/settings/domains'
+const { apiDomain } = domains()
+const host = apiDomain
 
 export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -35,6 +38,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   axios.defaults.baseURL = host
 
   axios.interceptors.request.use(function (config) {
+    console.log('axios', config.headers)
 
     cookies = process.env.SERVER
       ? Cookies.parseSSR(ssrContext)
@@ -42,11 +46,11 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
     // config.headers.common['Authorization'] = `Bearer`
     // if(cookies.has('imajora_cookie')) {
-      token = cookies.get('imajora_cookie')
-      config.headers.common['Authorization'] = `Bearer ${token}`
+    token = cookies.get('imajora_cookie')
+    config.headers.common['Authorization'] = `Bearer ${token}`
     // }
 
-    if(cookies.has('imajora_csrf')) {
+    if (cookies.has('imajora_csrf')) {
       csrf = cookies.get('imajora_csrf')
       config.headers.common['imajora_csrf'] = csrf
     }
@@ -81,21 +85,32 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
     Loading.hide()
 
-    console.log('axios.interceptors.response.use', response?.data?.meta?.message, route.getName)
+    console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data, route.getName)
 
+    if (route.getName === '/register') {
+
+      await cookies.set('imajora_csrf', response?.data?.payload?.csrf, is_cookie_secure)
+      await cookies.set('imajora_cookie', response?.data?.payload?.token, is_cookie_secure)
+
+      await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
+      // await cookies.set('XSRF-TOKEN', response.data.payload.token, is_cookie_secure)
+    }
+
+    /*
     switch (response?.data?.meta?.message) {
       case 'login':
         await cookies.set('imajora_csrf', response.data.payload.csrf, is_cookie_secure)
         await cookies.set('imajora_cookie', response.data.payload.token, is_cookie_secure)
         break;
     }
+    */
 
     switch (response?.data?.payload) {
       case 'logout':
         await cookies.remove('imajora_cookie')
         await cookies.remove('imajora_csrf')
 
-        router.replace({ name:'home' })
+        router.replace({ name: 'home' })
         break;
     }
 
@@ -115,7 +130,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   console.log(error?.response)
 
   try {
-    if(error.response.data) { }
+    if (error.response.data) { }
   } catch (err) { }
 
   return Promise.reject(error.response)

@@ -9,6 +9,8 @@ import { Cookies } from 'quasar'
 import routes from './routes';
 import simple from './simple';
 import business from './business';
+import lagia from './lagia';
+
 
 /*
  * If not building with SSR mode, you can
@@ -34,7 +36,8 @@ export default route(function ({ store, ssrContext }) {
     // routes,
     routes: [
       ...routes(store, cookies, ssrContext),
-      ...business(store, cookies, ssrContext),
+      // ...business(store, cookies, ssrContext),
+      ...lagia(store, cookies, ssrContext),
       // ...simple(store, cookies, ssrContext),
     ],
 

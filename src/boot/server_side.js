@@ -145,10 +145,10 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     defineAsyncComponent(() => import('src/components/lagia-components/GoogleMapPackageSide.vue'))
   )
   app.component('FormRegister',
-    defineAsyncComponent(() => import('src/components/lagia-components/FormRegister.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/auth/FormRegister.vue'))
   )
   app.component('FormLogin',
-    defineAsyncComponent(() => import('src/components/lagia-components/FormLogin.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/auth/FormLogin.vue'))
   )
   app.component('FormCareer',
     defineAsyncComponent(() => import('src/components/lagia-components/FormCareer.vue'))

@@ -1,33 +1,26 @@
+import lagia_auth from './lagia-auth';
+
 export default function (store, cookies, ssrContext) {
   return [
     {
       path: '/',
       component: () => import('layouts/LagiaLayout.vue'),
       children: [
-
+        ...lagia_auth(store, cookies, ssrContext),
         // EMPTY
         {
-          path: "/lagia/index",
-          name: "lagia/index",
+          path: "", // /lagia/index
+          name: "/lagia/index",
           meta: {
             ssr: true,
             logged: false,
             role: '',
             title: 'lagia index',
           },
-          component: () => import("pages/pages/index.vue"),
+          component: () => import("pages/lagia-pages/index.vue"),
         },
-        {
-          path: "/reels",
-          name: "reels",
-          meta: {
-            ssr: true,
-            logged: false,
-            role: '',
-            title: 'reels',
-          },
-          component: () => import("pages/EmptyPage.vue"),
-        },
+
+
         {
           path: "/explore",
           name: "explore",
