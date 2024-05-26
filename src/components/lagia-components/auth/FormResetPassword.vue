@@ -12,7 +12,7 @@
         </p> -->
       </q-card-section>
       <q-card-section>
-        {{ auth }}
+
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -20,6 +20,7 @@
           @reset.prevent.stop="onReset"
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
+
           <div class="col-12">
             <q-input
               type="text"
@@ -31,7 +32,7 @@
               outlined
               color="primary"
               ref="emailRef"
-              v-model="form_login.email"
+              v-model="form_reset_password.email"
               placeholder="Email"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -44,7 +45,7 @@
                 <div class="text-white">Email kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form_login.email">Email</span>
+                <span class="text-white" v-if="form_reset_password.email">Email</span>
                 <span class="text-white" v-else>Email wajib diisi *</span>
               </template>
             </q-input>
@@ -61,7 +62,7 @@
               outlined
               color="primary"
               ref="passwordRef"
-              v-model="form_login.password"
+              v-model="form_reset_password.password"
               placeholder="Password"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -74,50 +75,74 @@
                 <div class="text-white">Password kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form_login.password">Password</span>
+                <span class="text-white" v-if="form_reset_password.password">Password</span>
                 <span class="text-white" v-else>Password wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
-          <div v-if="false" class="col-12 text-center row items-center">
-            <q-card-section
-              :class="[$q.screen.width > 425 ? '' : 'col-12 order-last']"
-              class="rounded-borders-3 row q-pa-none row justify-center"
-              style="background: rgba(255, 255, 255, 0.125)"
+          <div class="col-12">
+            <q-input
+              type="password"
+              clearable
+              counter
+              maxlength="100"
+              bg-color="white"
+              :rounded="true"
+              outlined
+              color="primary"
+              ref="passwordConfirmationRef"
+              v-model="form_reset_password.passwordConfirmation"
+              placeholder="Konfirmasi Password"
+              :lazy-rules="true"
+              :rules="[(val) => !!val || '']"
+              bottom-slots
             >
-              <q-field
-                ref="acceptRef"
-                v-model="accept"
-                dense
-                :rules="[(val) => !!val || '']"
-                bottom-slots
-                borderless
-                :lazy-rules="true"
-                class="q-pa-none q-py-sm q-px-sm row col-auto"
-              >
-                <q-toggle class="col-auto" v-model="accept" color="white">
-                  <div class="text-white q-pr-md">Saya setuju terms & conditions</div>
-                </q-toggle>
-                <template v-slot:error> </template>
-              </q-field>
-            </q-card-section>
-
-            <q-space v-if="$q.screen.width > 425"></q-space>
-
-            <div
-              class="col-auto text-center"
-              :class="[$q.screen.width > 425 ? '' : 'q-mb-lg col-12']"
-            >
-              <q-btn
-                outline
-                class="rounded-borders-3"
-                color="white"
-                label="baca"
-                icon="privacy_tip"
-              ></q-btn>
-            </div>
+              <template v-slot:prepend>
+                <q-icon name="key" color="primary" />
+              </template>
+              <template v-slot:error>
+                <div class="text-white">Konfirmasi password kosong</div>
+              </template>
+              <template v-slot:hint>
+                <span class="text-white" v-if="form_reset_password.passwordConfirmation"
+                  >Konfirmasi Password</span
+                >
+                <span class="text-white" v-else>Konfirmasi Password wajib diisi *</span>
+              </template>
+            </q-input>
           </div>
+
+          <div class="col-12">
+            <q-input
+              type="text"
+              clearable
+              counter
+              maxlength="100"
+              bg-color="white"
+              :rounded="true"
+              outlined
+              color="primary"
+              ref="tokenRef"
+              v-model="form_reset_password.token"
+              placeholder="Token"
+              :lazy-rules="true"
+              :rules="[(val) => !!val || '']"
+              bottom-slots
+            >
+              <template v-slot:prepend>
+                <q-icon name="key" color="primary" />
+              </template>
+              <template v-slot:error>
+                <div class="text-white">Token kosong</div>
+              </template>
+              <template v-slot:hint>
+                <span class="text-white" v-if="form_reset_password.token">Token</span>
+                <span class="text-white" v-else>Token wajib diisi *</span>
+              </template>
+            </q-input>
+          </div>
+
 
           <div class="col-12 text-center q-mt-lg">
             <q-btn
@@ -159,55 +184,57 @@ import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 export default {
   setup() {
     const store = useAuthStore();
-    const { onLogin, onClear } = store;
-    const { form_login, auth } = storeToRefs(store);
+    const { onResetPassword, onClearResetPassword } = store;
+    const { form_reset_password, auth } = storeToRefs(store);
 
     const $q = useQuasar();
 
     const emailRef = ref(null);
     const passwordRef = ref(null);
+    const passwordConfirmationRef = ref(null);
+    const tokenRef = ref(null);
 
     return {
       store,
       auth,
-      form_login,
+      form_reset_password,
 
       emailRef,
       passwordRef,
+      passwordConfirmationRef,
+      tokenRef,
 
       async onSubmit() {
         emailRef.value.validate();
         passwordRef.value.validate();
-
-        // acceptRef.value.validate();
+        passwordConfirmationRef.value.validate();
+        tokenRef.value.validate();
 
         if (
           emailRef.value.hasError ||
-          passwordRef.value.hasError
+          passwordRef.value.hasError ||
+          passwordConfirmationRef.value.hasError ||
+          tokenRef.value.hasError
         ) {
           $q.notify({
             color: "negative",
             message: "Peringatan",
-            caption: "Lengkapi form login",
+            caption: "Lengkapi form registrasi",
             position: "top",
           });
           return;
         }
 
-        await onLogin();
-
-        // $q.notify({
-        //   icon: "done",
-        //   color: "positive",
-        //   message: "Submitted",
-        // });
+        await onResetPassword();
       },
 
       onReset() {
-        onClear();
+        onClearResetPassword();
 
         emailRef.value.resetValidation();
         passwordRef.value.resetValidation();
+        passwordConfirmationRef.value.resetValidation();
+        tokenRef.value.resetValidation();
       },
     };
   },

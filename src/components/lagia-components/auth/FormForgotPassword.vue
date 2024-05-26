@@ -12,7 +12,7 @@
         </p> -->
       </q-card-section>
       <q-card-section>
-        {{ auth }}
+
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -31,7 +31,7 @@
               outlined
               color="primary"
               ref="emailRef"
-              v-model="form_login.email"
+              v-model="form_forgot_password.email"
               placeholder="Email"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -44,79 +44,10 @@
                 <div class="text-white">Email kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form_login.email">Email</span>
+                <span class="text-white" v-if="form_forgot_password.email">Email</span>
                 <span class="text-white" v-else>Email wajib diisi *</span>
               </template>
             </q-input>
-          </div>
-
-          <div class="col-12">
-            <q-input
-              type="text"
-              clearable
-              counter
-              maxlength="100"
-              bg-color="white"
-              :rounded="true"
-              outlined
-              color="primary"
-              ref="passwordRef"
-              v-model="form_login.password"
-              placeholder="Password"
-              :lazy-rules="true"
-              :rules="[(val) => !!val || '']"
-              bottom-slots
-            >
-              <template v-slot:prepend>
-                <q-icon name="key" color="primary" />
-              </template>
-              <template v-slot:error>
-                <div class="text-white">Password kosong</div>
-              </template>
-              <template v-slot:hint>
-                <span class="text-white" v-if="form_login.password">Password</span>
-                <span class="text-white" v-else>Password wajib diisi *</span>
-              </template>
-            </q-input>
-          </div>
-
-          <div v-if="false" class="col-12 text-center row items-center">
-            <q-card-section
-              :class="[$q.screen.width > 425 ? '' : 'col-12 order-last']"
-              class="rounded-borders-3 row q-pa-none row justify-center"
-              style="background: rgba(255, 255, 255, 0.125)"
-            >
-              <q-field
-                ref="acceptRef"
-                v-model="accept"
-                dense
-                :rules="[(val) => !!val || '']"
-                bottom-slots
-                borderless
-                :lazy-rules="true"
-                class="q-pa-none q-py-sm q-px-sm row col-auto"
-              >
-                <q-toggle class="col-auto" v-model="accept" color="white">
-                  <div class="text-white q-pr-md">Saya setuju terms & conditions</div>
-                </q-toggle>
-                <template v-slot:error> </template>
-              </q-field>
-            </q-card-section>
-
-            <q-space v-if="$q.screen.width > 425"></q-space>
-
-            <div
-              class="col-auto text-center"
-              :class="[$q.screen.width > 425 ? '' : 'q-mb-lg col-12']"
-            >
-              <q-btn
-                outline
-                class="rounded-borders-3"
-                color="white"
-                label="baca"
-                icon="privacy_tip"
-              ></q-btn>
-            </div>
           </div>
 
           <div class="col-12 text-center q-mt-lg">
@@ -159,31 +90,25 @@ import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 export default {
   setup() {
     const store = useAuthStore();
-    const { onLogin, onClear } = store;
-    const { form_login, auth } = storeToRefs(store);
+    const { onForgotPassword, onClearForgotPassword } = store;
+    const { form_forgot_password, auth } = storeToRefs(store);
 
     const $q = useQuasar();
 
     const emailRef = ref(null);
-    const passwordRef = ref(null);
 
     return {
       store,
       auth,
-      form_login,
+      form_forgot_password,
 
       emailRef,
-      passwordRef,
 
       async onSubmit() {
         emailRef.value.validate();
-        passwordRef.value.validate();
-
-        // acceptRef.value.validate();
 
         if (
-          emailRef.value.hasError ||
-          passwordRef.value.hasError
+          emailRef.value.hasError
         ) {
           $q.notify({
             color: "negative",
@@ -194,20 +119,13 @@ export default {
           return;
         }
 
-        await onLogin();
-
-        // $q.notify({
-        //   icon: "done",
-        //   color: "positive",
-        //   message: "Submitted",
-        // });
+        await onForgotPassword();
       },
 
       onReset() {
-        onClear();
+        onClearForgotPassword();
 
         emailRef.value.resetValidation();
-        passwordRef.value.resetValidation();
       },
     };
   },

@@ -132,6 +132,7 @@ export default {
         case "dashboard-login":
         case "dashboard-register":
         case "/register":
+        case "/login":
           return false;
         default:
           return true;

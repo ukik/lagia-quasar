@@ -12,7 +12,7 @@
         </p> -->
       </q-card-section>
       <q-card-section>
-
+      {{ auth }}
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -30,7 +30,7 @@
               outlined
               color="primary"
               ref="nameRef"
-              v-model="form.name"
+              v-model="form_register.name"
               placeholder="Name"
               :lazy-rules="true"
               :rules="nameRules"
@@ -43,7 +43,7 @@
                 <div class="text-white">Nama kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.name">Nama</span>
+                <span class="text-white" v-if="form_register.name">Nama</span>
                 <span class="text-white" v-else>Nama wajib diisi *</span>
               </template>
             </q-input>
@@ -60,7 +60,7 @@
               outlined
               color="primary"
               ref="usernameRef"
-              v-model="form.username"
+              v-model="form_register.username"
               placeholder="Username"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -73,7 +73,7 @@
                 <div class="text-white">Username kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.username">Username</span>
+                <span class="text-white" v-if="form_register.username">Username</span>
                 <span class="text-white" v-else>Username wajib diisi *</span>
               </template>
             </q-input>
@@ -90,7 +90,7 @@
               outlined
               color="primary"
               ref="phoneRef"
-              v-model="form.phone"
+              v-model="form_register.phone"
               placeholder="Telepon"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -103,7 +103,7 @@
                 <div class="text-white">Telepon kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.phone">Telepon</span>
+                <span class="text-white" v-if="form_register.phone">Telepon</span>
                 <span class="text-white" v-else>Telepon wajib diisi *</span>
               </template>
             </q-input>
@@ -120,7 +120,7 @@
               outlined
               color="primary"
               ref="emailRef"
-              v-model="form.email"
+              v-model="form_register.email"
               placeholder="Email"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -133,7 +133,7 @@
                 <div class="text-white">Email kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.email">Email</span>
+                <span class="text-white" v-if="form_register.email">Email</span>
                 <span class="text-white" v-else>Email wajib diisi *</span>
               </template>
             </q-input>
@@ -150,7 +150,7 @@
               outlined
               color="primary"
               ref="passwordRef"
-              v-model="form.password"
+              v-model="form_register.password"
               placeholder="Password"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -163,7 +163,7 @@
                 <div class="text-white">Password kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.password">Password</span>
+                <span class="text-white" v-if="form_register.password">Password</span>
                 <span class="text-white" v-else>Password wajib diisi *</span>
               </template>
             </q-input>
@@ -180,7 +180,7 @@
               outlined
               color="primary"
               ref="passwordConfirmationRef"
-              v-model="form.passwordConfirmation"
+              v-model="form_register.passwordConfirmation"
               placeholder="Konfirmasi Password"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -193,7 +193,7 @@
                 <div class="text-white">Konfirmasi password kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.passwordConfirmation"
+                <span class="text-white" v-if="form_register.passwordConfirmation"
                   >Konfirmasi Password</span
                 >
                 <span class="text-white" v-else>Konfirmasi Password wajib diisi *</span>
@@ -212,7 +212,7 @@
               @focus="onPlaceholder('hide')"
               @blur="onPlaceholder('show')"
               :options="genderOptions"
-              :clearable="form.gender !== 'Gender'"
+              :clearable="form_register.gender !== 'Gender'"
               counter
               maxlength="100"
               bg-color="white"
@@ -220,7 +220,7 @@
               outlined
               color="primary"
               ref="genderRef"
-              v-model="form.gender"
+              v-model="form_register.gender"
               placeholder="Gender"
               :lazy-rules="true"
               :rules="[(val) => (!!val && val !== 'Gender') || '']"
@@ -233,7 +233,7 @@
                 <div class="text-white">Gender kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.gender">Gender</span>
+                <span class="text-white" v-if="form_register.gender">Gender</span>
                 <span class="text-white" v-else>Gender wajib diisi *</span>
               </template>
             </q-select>
@@ -313,13 +313,13 @@ import { useQuasar } from "quasar";
 import { ref, defineProps } from "vue";
 
 import { storeToRefs } from "pinia";
-import { useRegisterStore } from "src/stores/lagia-stores/auth/RegisterStore";
+import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
 export default {
   setup() {
-    const store = useRegisterStore();
+    const store = useAuthStore();
     const { onRegister, onClear } = store;
-    const { form } = storeToRefs(store);
+    const { form_register, auth } = storeToRefs(store);
 
     const $q = useQuasar();
 
@@ -363,7 +363,8 @@ export default {
 
     return {
       store,
-      form,
+      auth,
+      form_register,
 
       nameRef,
       usernameRef,
@@ -400,7 +401,7 @@ export default {
 
       onPlaceholder(val) {
         if (val === "show") {
-          if (!form.gender) form.gender = "Gender";
+          if (!form_register.gender) form_register.gender = "Gender";
           // } else {
           //   gender.value = null
         }
