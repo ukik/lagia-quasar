@@ -1,18 +1,19 @@
 <template>
   <div class="form-box">
-    <q-card flat class="rounded-borders-2 bg-form q-pa-sm">
-      <q-card-section class="text-center q-mt-md">
+    <q-card flat class="rounded-borders-2 bg-form">
+      <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
-        <img style="height: 48px" src="assets/images/site-logo.png" />
-        <q-separator color="white" class="q-my-sm"></q-separator>
+        <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
+        <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
+        <div class="text-h5 text-uppercase text-white">Login</div>
         <div class="text-body text-capitalize text-white">fill the form below</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.
         </p> -->
       </q-card-section>
-      <q-card-section>
-        {{ auth }}
+      <q-separator color="white-1"></q-separator>
+      <q-card-section class="q-mt-md">
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -21,7 +22,7 @@
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_login" :disable="loading.form_login"
               type="text"
               clearable
               counter
@@ -51,7 +52,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_login" :disable="loading.form_login"
               type="text"
               clearable
               counter
@@ -80,47 +81,27 @@
             </q-input>
           </div>
 
-          <div v-if="false" class="col-12 text-center row items-center">
-            <q-card-section
-              :class="[$q.screen.width > 425 ? '' : 'col-12 order-last']"
-              class="rounded-borders-3 row q-pa-none row justify-center"
+          <div class="col-12 text-center row items-center">
+            <q-item
               style="background: rgba(255, 255, 255, 0.125)"
+              tag="label"
+              class="rounded-borders-3 q-pa-none"
+              v-ripple
             >
-              <q-field
-                ref="acceptRef"
-                v-model="accept"
-                dense
-                :rules="[(val) => !!val || '']"
-                bottom-slots
-                borderless
-                :lazy-rules="true"
-                class="q-pa-none q-py-sm q-px-sm row col-auto"
+              <q-item-section
+                class="bg-white q-px-md rounded-borders-3"
+                style="border-top-right-radius: 0px; border-bottom-right-radius: 0px"
               >
-                <q-toggle class="col-auto" v-model="accept" color="white">
-                  <div class="text-white q-pr-md">Saya setuju terms & conditions</div>
-                </q-toggle>
-                <template v-slot:error> </template>
-              </q-field>
-            </q-card-section>
-
-            <q-space v-if="$q.screen.width > 425"></q-space>
-
-            <div
-              class="col-auto text-center"
-              :class="[$q.screen.width > 425 ? '' : 'q-mb-lg col-12']"
-            >
-              <q-btn
-                outline
-                class="rounded-borders-3"
-                color="white"
-                label="baca"
-                icon="privacy_tip"
-              ></q-btn>
-            </div>
+                <q-checkbox :loading="loading.form_login" :disable="loading.form_login" dense v-model="form_login.remember" size="lg" />
+              </q-item-section>
+              <q-item-section side>
+                <q-item-label class="text-white q-pr-md">Remember me?</q-item-label>
+              </q-item-section>
+            </q-item>
           </div>
 
-          <div class="col-12 text-center q-mt-lg">
-            <q-btn
+          <div class="col-12 text-center row justify-center q-mt-lg">
+            <q-btn :loading="loading.form_login" :disable="loading.form_login"
               type="submit"
               icon-right="login"
               outline
@@ -129,10 +110,10 @@
               class="rounded-borders-4 q-mx-sm"
               label="login"
             ></q-btn>
-
-            <q-btn
+            <div class="col-1"></div>
+            <q-btn :loading="loading.form_login" :disable="loading.form_login"
               type="reset"
-              icon-right="refresh"
+              icon-right="delete"
               outline
               bg-color="orange"
               color="white"
@@ -140,10 +121,25 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-
-            <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" /> -->
           </div>
         </form>
+      </q-card-section>
+      <div class="col-12 q-mt-md"></div>
+      <q-separator color="white-1"></q-separator>
+      <q-card-section>
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">Don't have an account?</div>
+          <q-btn
+            flat
+            :to="{ name: '/register' }"
+            capitalize
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Create an account"
+          ></q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
@@ -159,32 +155,32 @@ import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 export default {
   setup() {
     const store = useAuthStore();
-    const { onLogin, onClear } = store;
-    const { form_login, auth } = storeToRefs(store);
+    const { onLogin, onClearLogin } = store;
+    const { form_login, auth, loading } = storeToRefs(store);
 
     const $q = useQuasar();
 
     const emailRef = ref(null);
     const passwordRef = ref(null);
+    const rememberRef = ref(null);
 
     return {
       store,
       auth,
       form_login,
+      loading,
 
       emailRef,
       passwordRef,
+      rememberRef,
 
       async onSubmit() {
         emailRef.value.validate();
         passwordRef.value.validate();
 
-        // acceptRef.value.validate();
+        // rememberRef.value.validate();
 
-        if (
-          emailRef.value.hasError ||
-          passwordRef.value.hasError
-        ) {
+        if (emailRef.value.hasError || passwordRef.value.hasError) {
           $q.notify({
             color: "negative",
             message: "Peringatan",
@@ -204,7 +200,7 @@ export default {
       },
 
       onReset() {
-        onClear();
+        onClearLogin();
 
         emailRef.value.resetValidation();
         passwordRef.value.resetValidation();

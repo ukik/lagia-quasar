@@ -26,6 +26,9 @@ module.exports = configure(function (ctx) {
       // "initSSR",
       'axios',
       'router',
+      {
+        path: 'init', server: false
+      },
       // "i18n", // bikin SSR ERROR
       'common',
       'server_side',
@@ -34,12 +37,12 @@ module.exports = configure(function (ctx) {
       'directive',
       // 'config',
       {
-          server: false,
-          path: 'client_side',
+        server: false,
+        path: 'client_side',
       },
       {
-          server: true,
-          path: 'plugins',
+        server: true,
+        path: 'plugins',
       },
     ],
 
@@ -89,7 +92,7 @@ module.exports = configure(function (ctx) {
 
       vueRouterMode: ctx.dev ? 'hash' : 'history',
       uglifyOptions: {
-          compress: { drop_console: true }
+        compress: { drop_console: true }
       },
       transpile: true, // wajib agar browser lawas support
       publicPath: '/',
@@ -108,7 +111,7 @@ module.exports = configure(function (ctx) {
       vueCompiler: true, // diperlukan agar "vue3-runtime-template" bisa berjalan
 
 
-      chainWebpack (/* chain */) {}
+      chainWebpack(/* chain */) { }
 
     },
 
@@ -161,13 +164,13 @@ module.exports = configure(function (ctx) {
       // manualPostHydrationTrigger: true,
 
       prodPort: 3000, // The default port that the production server should use
-                      // (gets superseded if process.env.PORT is specified at runtime)
+      // (gets superseded if process.env.PORT is specified at runtime)
 
       maxAge: 1000 * 60 * 60 * 24 * 30,
-        // Tell browser when a file from the server should expire from cache (in ms)
+      // Tell browser when a file from the server should expire from cache (in ms)
 
 
-      chainWebpackWebserver (/* chain */) {},
+      chainWebpackWebserver(/* chain */) { },
 
 
       middlewares: [
@@ -184,7 +187,7 @@ module.exports = configure(function (ctx) {
       // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
       // if using workbox in InjectManifest mode
 
-      chainWebpackCustomSW (/* chain */) {},
+      chainWebpackCustomSW(/* chain */) { },
 
 
       manifest: {
@@ -260,11 +263,11 @@ module.exports = configure(function (ctx) {
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
-      chainWebpackMain (/* chain */) {},
+      chainWebpackMain(/* chain */) { },
 
 
 
-      chainWebpackPreload (/* chain */) {},
+      chainWebpackPreload(/* chain */) { },
 
     }
   }

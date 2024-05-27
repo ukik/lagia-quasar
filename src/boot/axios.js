@@ -5,8 +5,8 @@ import axios from 'axios'
 import { Loading, Notify, Cookies, Platform, Screen } from 'quasar'
 
 // const api = axios.create({ baseURL: 'https://api.example.com' })
-import { useAuthStore } from 'src/stores/auth/auth';
-import { useRouterStore } from 'src/stores/router-store'
+import { useAuthStore } from 'src/stores/lagia-stores/auth/AuthStore';
+import { useRouterStore } from 'src/stores/lagia-stores/RouterStore'
 
 // import { host } from 'src/boot/common'
 import domains from 'src/settings/domains'
@@ -15,7 +15,7 @@ const host = apiDomain
 
 export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
-  const auth = useAuthStore(store)
+  const _store = useAuthStore(store)
   const route = useRouterStore(store)
 
   app.config.globalProperties.$axios = axios
@@ -38,7 +38,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   axios.defaults.baseURL = host
 
   axios.interceptors.request.use(function (config) {
-    console.log('axios', config.headers)
+    // console.log('axios', config.headers)
 
     cookies = process.env.SERVER
       ? Cookies.parseSSR(ssrContext)
@@ -46,7 +46,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
     // config.headers.common['Authorization'] = `Bearer`
     // if(cookies.has('imajora_cookie')) {
-    token = cookies.get('imajora_cookie')
+    token = cookies.get('accessToken')
     config.headers.common['Authorization'] = `Bearer ${token}`
     // }
 
@@ -60,13 +60,13 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     config.headers.post['Content-Type'] = 'application/json'
     config.headers.post['Content-Type'] = 'application/pdf';
 
-    console.log('axios', config)
+    console.log('boot/axios.js A', config)
 
     return config
 
   }, function (error) {
     // Loading.hide()
-    console.log(error.response)
+    console.log('boot/axios.js B', error.response)
 
     const message = err?.response?.data?.meta?.message
 
@@ -87,7 +87,10 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
     console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data, route.getName)
 
-    if (route.getName === '/register') {
+    if (
+      route.getName === '/register' ||
+      route.getName === '/login'
+    ) {
 
       await cookies.set('imajora_csrf', response?.data?.payload?.csrf, is_cookie_secure)
       await cookies.set('imajora_cookie', response?.data?.payload?.token, is_cookie_secure)
@@ -127,7 +130,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
 }, function (error) {
   // Loading.hide()
-  console.log(error?.response)
+  console.log('boot/axios.js', error?.response)
 
   try {
     if (error.response.data) { }

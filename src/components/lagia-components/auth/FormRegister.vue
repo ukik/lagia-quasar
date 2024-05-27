@@ -1,18 +1,19 @@
 <template>
   <div class="form-box">
-    <q-card flat class="rounded-borders-2 bg-form q-pa-sm">
-      <q-card-section class="text-center q-mt-md">
+    <q-card flat class="rounded-borders-2 bg-form">
+      <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
-        <img style="height: 48px" src="assets/images/site-logo.png" />
-        <q-separator color="white" class="q-my-sm"></q-separator>
+        <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
+        <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
+        <div class="text-h5 text-uppercase text-white">Register</div>
         <div class="text-body text-capitalize text-white">fill the form below</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.
         </p> -->
       </q-card-section>
-      <q-card-section>
-      {{ auth }}
+      <q-separator color="white-1"></q-separator>
+      <q-card-section class="q-mt-md">
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -21,7 +22,7 @@
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_register" :disable="loading.form_register"
               clearable
               counter
               maxlength="100"
@@ -50,7 +51,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_register" :disable="loading.form_register"
               type="text"
               clearable
               counter
@@ -80,7 +81,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_register" :disable="loading.form_register"
               clearable
               maxlength="25"
               mask="+62 #### #### ###########"
@@ -110,7 +111,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_register" :disable="loading.form_register"
               type="text"
               clearable
               counter
@@ -140,7 +141,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_register" :disable="loading.form_register"
               type="text"
               clearable
               counter
@@ -170,7 +171,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_register" :disable="loading.form_register"
               type="password"
               clearable
               counter
@@ -202,7 +203,7 @@
           </div>
 
           <div class="col-12">
-            <q-select
+            <q-select :loading="loading.form_register" :disable="loading.form_register"
               option-label="label"
               emit-value
               map-options
@@ -245,7 +246,7 @@
               class="rounded-borders-3 row q-pa-none row justify-center"
               style="background: rgba(255, 255, 255, 0.125)"
             >
-              <q-field
+              <q-field :loading="loading.form_register" :disable="loading.form_register"
                 ref="acceptRef"
                 v-model="accept"
                 dense
@@ -255,7 +256,7 @@
                 :lazy-rules="true"
                 class="q-pa-none q-py-sm q-px-sm row col-auto"
               >
-                <q-toggle class="col-auto" v-model="accept" color="white">
+                <q-toggle :loading="loading.form_register" :disable="loading.form_register" class="col-auto" v-model="accept" color="white">
                   <div class="text-white q-pr-md">Saya setuju terms & conditions</div>
                 </q-toggle>
                 <template v-slot:error> </template>
@@ -268,7 +269,7 @@
               class="col-auto text-center"
               :class="[$q.screen.width > 425 ? '' : 'q-mb-lg col-12']"
             >
-              <q-btn
+              <q-btn :loading="loading.form_register" :disable="loading.form_register"
                 outline
                 class="rounded-borders-3"
                 color="white"
@@ -278,8 +279,8 @@
             </div>
           </div>
 
-          <div class="col-12 text-center q-mt-lg">
-            <q-btn
+          <div class="col-12 text-center row justify-center q-mt-lg">
+            <q-btn :loading="loading.form_register" :disable="loading.form_register"
               type="submit"
               icon-right="login"
               outline
@@ -288,10 +289,10 @@
               class="rounded-borders-4 q-mx-sm"
               label="login"
             ></q-btn>
-
-            <q-btn
+            <div class="col-1"></div>
+            <q-btn :loading="loading.form_register" :disable="loading.form_register"
               type="reset"
-              icon-right="refresh"
+              icon-right="delete"
               outline
               bg-color="orange"
               color="white"
@@ -299,10 +300,25 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-
-            <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" /> -->
           </div>
         </form>
+      </q-card-section>
+      <div class="col-12 q-mt-md"></div>
+      <q-separator color="white-1"></q-separator>
+      <q-card-section>
+        <div class="col-12 row items-center justify-center text-white">
+          <div class=" text-left">Do you have an account?</div>
+          <q-btn capitalize
+            flat
+            :to="{ name: '/login' }"
+            outline
+
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Login"
+          ></q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
@@ -318,8 +334,8 @@ import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 export default {
   setup() {
     const store = useAuthStore();
-    const { onRegister, onClear } = store;
-    const { form_register, auth } = storeToRefs(store);
+    const { onRegister, onClearRegister } = store;
+    const { form_register, auth, loading } = storeToRefs(store);
 
     const $q = useQuasar();
 
@@ -365,6 +381,7 @@ export default {
       store,
       auth,
       form_register,
+      loading,
 
       nameRef,
       usernameRef,
@@ -454,7 +471,7 @@ export default {
       },
 
       onReset() {
-        onClear();
+        onClearRegister();
 
         accept.value = false;
 
@@ -465,7 +482,7 @@ export default {
         passwordRef.value.resetValidation();
         passwordConfirmationRef.value.resetValidation();
         genderRef.value.resetValidation();
-        acceptRef.value.resetValidation();
+        // acceptRef.value.resetValidation();
       },
     };
   },

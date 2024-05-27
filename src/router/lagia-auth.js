@@ -24,6 +24,17 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/dashboard/register.vue"),
     },
     {
+      path: "/forgot-password",
+      name: "/forgot-password",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Forget Password',
+      },
+      component: () => import("pages/lagia-pages/dashboard/forgot-password.vue"),
+    },
+    {
       path: "/reset-password",
       name: "/reset-password",
       meta: {
@@ -35,15 +46,15 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/dashboard/reset-password.vue"),
     },
     {
-      path: "/forgot-password",
-      name: "/forgot-password",
+      path: "/verify",
+      name: "/verify",
       meta: {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Forget Password',
+        title: 'Email Verification',
       },
-      component: () => import("pages/lagia-pages/dashboard/forgot-password.vue"),
+      component: () => import("pages/lagia-pages/dashboard/verify.vue"),
     },
   ]
 }

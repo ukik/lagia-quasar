@@ -19,9 +19,14 @@ export const useAuthStore = defineStore('AuthStore', {
     form_forgot_password: {
       email: "demo77338880643600@gmail.com",
     },
+    form_verify: {
+      email: "demo77338880643600@gmail.com",
+      token: "123456789"
+    },
     form_login: {
       email: "demo77338880643600@gmail.com",
-      password: "123456789"
+      password: "123456789",
+      remember: false,
     },
     form_reset_password: {
       email: "demo77338880643600@gmail.com",
@@ -63,6 +68,7 @@ export const useAuthStore = defineStore('AuthStore', {
           "updatedAt": "",
           "deletedAt": null
         },
+        "roles": null,
         "expiresIn": 0
       }
     },
@@ -71,17 +77,19 @@ export const useAuthStore = defineStore('AuthStore', {
       fetchLoginAuth: false,
       fetchInitAuth: false, // true after refresh (1x request only)
 
+      init: false,
       form_register: false,
       form_login: false,
       form_reset_password: false,
       form_forgot_password: false,
+      form_verify: false,
     }
   }),
 
   getters: {
     getAuth: state => state.auth,
-    isLogin: state => state.auth.isLogin,
-    accessToken: state => state.auth.data.accessToken
+    getIsLogin: state => state.auth.isLogin,
+    getAccessToken: state => state.auth.data.accessToken
   },
 
   actions: {
@@ -172,63 +180,32 @@ export const useAuthStore = defineStore('AuthStore', {
 
       return resp?.data // JSON.parse(JSON.stringify(resp))
     },
-    async fetchLoginAuth() {
 
-      console.log('this.loading.fetchLoginAuth', this.loading.fetchLoginAuth)
-      if (this.loading.fetchLoginAuth) return false;
+    async onInit() {
 
-      this.loading.fetchLoginAuth = true;
+      if (this.loading.init) return false;
 
-      console.log('AuthStore fetchLoginAuth')
+      this.loading.init = true;
 
-      const token = Cookies.get("XSRF-TOKEN");
-      console.log('XSRF-TOKEN', token)
-
-      const data = await api.post('/trevolia-api/v1/auth/login', {
-        body: {
-          email: this.form_login.email,
-          password: this.form_login.password,
-        },
-        headers: {
-          "X-XSRF-TOKEN": token, // tapi undefined, katanya hanya bisa sama domain/sub domain
-        }
+      const resp = await axios({
+        url: '/trevolia-api/v1/auth/init',
+        method: 'get',
       })
-        .then((response) => {
-          Notify.create({
-            color: 'positive',
-            position: 'top',
-            message: 'Loading failed',
-            icon: 'report_problem'
-          })
-          return response.data
-        })
-        .catch((error) => {
-          Notify.create({
-            color: 'negative',
-            position: 'top',
-            message: 'Loading failed',
-            icon: 'report_problem'
-          })
-          return error
-        })
+      .catch(error => { // wajib ada agar jika error server tidak error UI
+        console.log('store/lagia-stores/auth/AuthStore', error.response)
+      })
 
-      this.loading.fetchLoginAuth = false
+      this.loading.init = false
+      console.log('onInit', resp)
 
-      console.log('AuthStore fetchLoginAuth ERROR', data)
-      return
-      if (!data?.data) return false
+      if (!resp?.data) return this.loading.init = false
 
-      if (data) {
-        this.auth = data;
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
 
-        const accessToken = Cookies.get("accessToken");
-        accessToken = this.auth?.data?.accessToken
-
-        this.isLoggedIn = true
-      }
-
-      return true
+      this.auth = resp?.data
+      console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
     },
+
 
     async onLogin() {
 
@@ -237,7 +214,7 @@ export const useAuthStore = defineStore('AuthStore', {
       this.loading.form_login = true;
 
       // const accessToken = Cookies.get("accessToken");
-      const csrf = Cookies.get("XSRF-TOKEN");
+      // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
       for (const key in this.form_login) {
@@ -252,11 +229,11 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/login',
         method: 'post',
         data: formData,
-        headers: {
-          "Content-Type": "application/json",
-          // authorization: `Bearer ${accessToken}`,
-          "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
-        }
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   // authorization: `Bearer ${accessToken}`,
+        //   // "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
+        // }
       })
         .then((response) => {
           // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
@@ -284,7 +261,11 @@ export const useAuthStore = defineStore('AuthStore', {
 
       if (!resp?.data) return this.loading.form_login = false
 
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
       this.auth = resp?.data
+      console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
+
     },
 
     async onRegister() {
@@ -294,7 +275,7 @@ export const useAuthStore = defineStore('AuthStore', {
       this.loading.form_register = true;
 
       // const accessToken = Cookies.get("accessToken");
-      const csrf = Cookies.get("XSRF-TOKEN");
+      // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
       for (const key in this.form_register) {
@@ -309,11 +290,11 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/register',
         method: 'post',
         data: formData,
-        headers: {
-          "Content-Type": "application/json",
-          // authorization: `Bearer ${accessToken}`,
-          "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
-        }
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   // authorization: `Bearer ${accessToken}`,
+        //   // "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
+        // }
       })
         .then((response) => {
           // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
@@ -341,7 +322,11 @@ export const useAuthStore = defineStore('AuthStore', {
 
       if (!resp?.data) return this.loading.form_register = false
 
+
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
       this.auth = resp?.data
+      console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
     },
 
     async onResetPassword() {
@@ -366,11 +351,11 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/reset-password',
         method: 'post',
         data: formData,
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${accessToken}`,
-          "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
-        }
+        // headers: {
+        //   // "Content-Type": "application/json",
+        //   // authorization: `Bearer ${accessToken}`,
+        //   // "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
+        // }
       })
         .then((response) => {
           // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
@@ -406,7 +391,7 @@ export const useAuthStore = defineStore('AuthStore', {
       this.loading.form_forgot_password = true;
 
       // const accessToken = Cookies.get("accessToken");
-      const csrf = Cookies.get("XSRF-TOKEN");
+      // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
       for (const key in this.form_forgot_password) {
@@ -421,11 +406,11 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/forgot-password',
         method: 'post',
         data: formData,
-        headers: {
-          "Content-Type": "application/json",
-          // authorization: `Bearer ${accessToken}`,
-          "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
-        }
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   // authorization: `Bearer ${accessToken}`,
+        //   "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
+        // }
       })
         .then((response) => {
           Notify.create({
@@ -453,6 +438,65 @@ export const useAuthStore = defineStore('AuthStore', {
       if (!resp?.data) return this.loading.form_forgot_password = false
     },
 
+    async onVerify(slug = 'verify') {
+
+      if (this.loading.form_verify) return false;
+
+      this.loading.form_verify = true;
+
+      // const accessToken = Cookies.get("accessToken");
+      // const csrf = Cookies.get("XSRF-TOKEN");
+
+      const formData = new FormData();
+      for (const key in this.form_verify) {
+        const value = JSON.parse(JSON.stringify(this.form_verify[key]))
+        console.log(key, value)
+        formData.append(key, value);
+      }
+
+      console.log('formData', this.form_verify)
+
+      const resp = await axios({
+        url: '/trevolia-api/v1/auth/'+slug,
+        method: 'post',
+        data: formData,
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   // authorization: `Bearer ${accessToken}`,
+        //   // "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
+        // }
+      })
+        .then((response) => {
+          // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
+          Notify.create({
+            color: 'positive',
+            position: 'top',
+            message: 'Loading success',
+            caption: 'data berhasil diproses',
+            icon: 'done'
+          })
+          return response
+        })
+        .catch((err) => {
+          Notify.create({
+            color: 'negative',
+            position: 'top',
+            message: 'Loading failed',
+            caption: err?.data?.meta?.message[0],
+            icon: 'report_problem'
+          })
+        })
+
+      this.loading.form_verify = false
+      console.log('onLogin', resp)
+
+      if (!resp?.data) return this.loading.form_verify = false
+    },
+
+    async onRequestVerification() {
+      this.onVerify('re-request-verification')
+    },
+
     async onClearResetPassword() {
       this.form_reset_password = {
         email: "",
@@ -461,13 +505,28 @@ export const useAuthStore = defineStore('AuthStore', {
         token: "",
       }
     },
+    async onClearVerify() {
+      this.form_verify = {
+        email: "",
+        token: ""
+      }
+    },
 
     async onClearForgotPassword() {
       this.form_forgot_password = {
         email: "",
       }
     },
-    async onClear() {
+
+    async onClearLogin() {
+      this.form_login = {
+        email: "",
+        password: "",
+        remember: false,
+      }
+    },
+
+    async onClearRegister() {
       this.form_register = {
         name: '',
         username: '',
@@ -476,11 +535,6 @@ export const useAuthStore = defineStore('AuthStore', {
         password: '',
         confirm: '',
         gender: 'Gender',
-      }
-
-      this.form_login = {
-        "email": "",
-        "password": ""
       }
     }
   }

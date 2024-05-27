@@ -9,7 +9,10 @@ import { useRoute } from "vue-router";
 
 import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
 const store = useAuthStore();
-const { fetchLoginAuth, fetchInitAuth } = store; // have all reactive states here
+const {
+  // fetchLoginAuth,
+  fetchInitAuth
+} = store; // have all reactive states here
 const { auth } = storeToRefs(store); // have all reactive states here
 // await fetchInitAuth() // pindah ke plugins
 // await fetchLoginAuth() // DIRECTLY
@@ -71,7 +74,7 @@ watch(
 onMounted(async () => {
   // await fetchInitAuth()
   // const token = useCookie("XSRF-TOKEN");
-  await fetchLoginAuth();
+  // await fetchLoginAuth();
   console.log("layout/default.vue onMounted", auth, Cookies.getAll());
 
   if ($q.screen.width > 1024) {
@@ -133,6 +136,9 @@ export default {
         case "dashboard-register":
         case "/register":
         case "/login":
+        case "/forgot-password":
+        case "/reset-password":
+        case "/verify":
           return false;
         default:
           return true;
@@ -199,7 +205,19 @@ export default {
 
           <q-toolbar-title>DASHBOARD</q-toolbar-title>
 
-          <q-btn flat round dense icon="whatshot" />
+          <LayoutHeaderMenu
+            v-if="$q.screen.width > 768"
+          ></LayoutHeaderMenu>
+
+          <q-btn
+            flat
+            size="lg"
+            round
+            icon="support_agent"
+            aria-label="Menu"
+            @click="rightDrawerOpen = !rightDrawerOpen"
+          />
+
         </q-toolbar>
       </q-header>
     </q-no-ssr>

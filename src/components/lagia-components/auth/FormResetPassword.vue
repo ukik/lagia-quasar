@@ -1,17 +1,19 @@
 <template>
   <div class="form-box">
-    <q-card flat class="rounded-borders-2 bg-form q-pa-sm">
-      <q-card-section class="text-center q-mt-md">
+    <q-card flat class="rounded-borders-2 bg-form">
+      <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
-        <img style="height: 48px" src="assets/images/site-logo.png" />
-        <q-separator color="white" class="q-my-sm"></q-separator>
+        <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
+        <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
+        <div class="text-h5 text-uppercase text-white">Reset Password</div>
         <div class="text-body text-capitalize text-white">fill the form below</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.
         </p> -->
       </q-card-section>
-      <q-card-section>
+      <q-separator color="white-1"></q-separator>
+      <q-card-section class="q-mt-md">
 
         <form
           id="form-career-component"
@@ -22,7 +24,7 @@
         >
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -52,7 +54,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -82,7 +84,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
               type="password"
               clearable
               counter
@@ -114,7 +116,7 @@
           </div>
 
           <div class="col-12">
-            <q-input
+            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -144,8 +146,8 @@
           </div>
 
 
-          <div class="col-12 text-center q-mt-lg">
-            <q-btn
+          <div class="col-12 text-center row justify-center q-mt-lg">
+            <q-btn :loading="loading.form_reset_password" :disable="loading.form_reset_password"
               type="submit"
               icon-right="login"
               outline
@@ -154,10 +156,10 @@
               class="rounded-borders-4 q-mx-sm"
               label="login"
             ></q-btn>
-
-            <q-btn
+            <div class="col-1"></div>
+            <q-btn :loading="loading.form_reset_password" :disable="loading.form_reset_password"
               type="reset"
-              icon-right="refresh"
+              icon-right="delete"
               outline
               bg-color="orange"
               color="white"
@@ -165,8 +167,6 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-
-            <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" /> -->
           </div>
         </form>
       </q-card-section>
@@ -185,7 +185,7 @@ export default {
   setup() {
     const store = useAuthStore();
     const { onResetPassword, onClearResetPassword } = store;
-    const { form_reset_password, auth } = storeToRefs(store);
+    const { form_reset_password, auth, loading } = storeToRefs(store);
 
     const $q = useQuasar();
 
@@ -198,7 +198,7 @@ export default {
       store,
       auth,
       form_reset_password,
-
+      loading,
       emailRef,
       passwordRef,
       passwordConfirmationRef,

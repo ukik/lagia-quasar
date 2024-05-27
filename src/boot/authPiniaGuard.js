@@ -5,7 +5,11 @@ const { api } = domains()
 export default defineNuxtPlugin(async nuxt => {
 
     const store = useAuthStore(nuxt.$pinia);
-    const { fetchCSRF, fetchLoginAuth, fetchInitAuth } = store; // have all reactive states here
+    const {
+      fetchCSRF,
+      // fetchLoginAuth,
+      fetchInitAuth
+    } = store; // have all reactive states here
     const { auth } = storeToRefs(store); // have all reactive states here
 
     // console.log('plugins/auth_pinia', store, nuxt.$pinia)
@@ -35,7 +39,7 @@ export default defineNuxtPlugin(async nuxt => {
         if(store.isLoggedIn && accessToken.value) {
         } else {
             switch(to.name) { // WAJIB ada filter ini untuk global, jika tidak akan infinite loop
-                case "package-common": 
+                case "package-common":
                     return navigateTo('/')
             }
         }
@@ -45,7 +49,7 @@ export default defineNuxtPlugin(async nuxt => {
             console.log('store.isLoggedIn TRUE', store.isLoggedIn)
             // if (to.params.id === '1') {
             //     return abortNavigation()
-            // }            
+            // }
         } else {
             console.log('store.isLoggedIn FALSE', store.isLoggedIn)
             // await fetchLoginAuth()
@@ -53,8 +57,8 @@ export default defineNuxtPlugin(async nuxt => {
         }
     }, { global: true });
 
-    // for non-global middleware use this: 
-    // pasang di page 
+    // for non-global middleware use this:
+    // pasang di page
     /*
         <script setup lang="ts">
         definePageMeta({
