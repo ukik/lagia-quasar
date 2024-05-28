@@ -1,4 +1,5 @@
 import lagia_auth from './lagia-auth';
+import lagia_travel from './lagia-travel';
 
 export default function (store, cookies, ssrContext) {
   return [
@@ -7,6 +8,8 @@ export default function (store, cookies, ssrContext) {
       component: () => import('layouts/LagiaLayout.vue'),
       children: [
         ...lagia_auth(store, cookies, ssrContext),
+        ...lagia_travel(store, cookies, ssrContext),
+
         // EMPTY
         {
           path: "", // /lagia/index

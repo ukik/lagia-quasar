@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import domains from 'src/settings/domains'
+// import domains from 'src/settings/domains'
 import { api } from 'src/settings/axios'
 
 // const { apiDomain } = domains()
@@ -74,10 +74,10 @@ export const useAuthStore = defineStore('AuthStore', {
     },
     loading: {
       fetchCSRF: false,
-      fetchLoginAuth: false,
       fetchInitAuth: false, // true after refresh (1x request only)
 
       init: false,
+      relogin: false,
       form_register: false,
       form_login: false,
       form_reset_password: false,
@@ -89,7 +89,8 @@ export const useAuthStore = defineStore('AuthStore', {
   getters: {
     getAuth: state => state.auth,
     getIsLogin: state => state.auth.isLogin,
-    getAccessToken: state => state.auth.data.accessToken
+    getAccessToken: state => state.auth.data.accessToken,
+    getLoading: state => state.loading,
   },
 
   actions: {
@@ -181,6 +182,34 @@ export const useAuthStore = defineStore('AuthStore', {
       return resp?.data // JSON.parse(JSON.stringify(resp))
     },
 
+
+
+
+
+    async onRelogin() {
+
+      if (this.loading.relogin) return false;
+
+      this.loading.relogin = true;
+
+      const resp = await axios({
+        url: '/trevolia-api/v1/auth/init',
+        method: 'get',
+      })
+      .catch(error => { // wajib ada agar jika error server tidak error UI
+        console.log('store/lagia-stores/auth/AuthStore', error.response)
+      })
+
+      this.loading.relogin = false
+
+      if (!resp?.data) return this.loading.relogin = false
+
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
+      this.auth = resp?.data
+      console.log('stores/lagia-stores/auth/AuthStore/onRelogin', this.auth)
+    },
+
     async onInit() {
 
       if (this.loading.init) return false;
@@ -195,8 +224,8 @@ export const useAuthStore = defineStore('AuthStore', {
         console.log('store/lagia-stores/auth/AuthStore', error.response)
       })
 
-      this.loading.init = false
-      console.log('onInit', resp)
+      // this.loading.init = false
+      // console.log('onInit', resp)
 
       if (!resp?.data) return this.loading.init = false
 

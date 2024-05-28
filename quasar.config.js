@@ -25,9 +25,12 @@ module.exports = configure(function (ctx) {
     boot: [
       // "initSSR",
       'axios',
-      'router',
+      // 'router', // matikan saja
       {
-        path: 'init', server: false
+        path: 'lagia-router', server: true
+      },
+      {
+        path: 'lagia-init', server: false
       },
       // "i18n", // bikin SSR ERROR
       'common',

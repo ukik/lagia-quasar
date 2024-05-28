@@ -10,6 +10,7 @@ import { useRouterStore } from 'src/stores/lagia-stores/RouterStore'
 
 // import { host } from 'src/boot/common'
 import domains from 'src/settings/domains'
+import { storeToRefs } from 'pinia';
 const { apiDomain } = domains()
 const host = apiDomain
 
@@ -17,6 +18,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
   const _store = useAuthStore(store)
   const route = useRouterStore(store)
+  const { auth } = storeToRefs(_store)
 
   app.config.globalProperties.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
@@ -85,7 +87,12 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
     Loading.hide()
 
-    console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data, route.getName)
+    console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data?.isLogin, route?.getName)
+
+    // always update Login status
+    if(response?.data?.isLogin) {
+      auth.isLogin = response?.data?.isLogin
+    }
 
     if (
       route.getName === '/register' ||

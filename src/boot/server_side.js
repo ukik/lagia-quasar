@@ -59,6 +59,13 @@ export default boot(async ({ app, ssrContext, router, store }) => {
 
 
   app.component('Wrapper', Wrapper)
+
+
+
+  app.component('Pagination',
+    defineAsyncComponent(() => import('src/components/lagia-components/Pagination.vue'))
+  )
+
   app.component('TransactionHistoryProduct',
     defineAsyncComponent(() => import('src/components/lagia-components/TransactionHistoryProduct.vue'))
   )
