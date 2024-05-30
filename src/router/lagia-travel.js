@@ -45,6 +45,28 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/travel/single-page.vue"),
     },
+    {
+      path: "/travel/list",
+      name: "/travel/list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Travel Vendor',
+      },
+      component: () => import("pages/lagia-pages/travel/store-list.vue"),
+    },
+    {
+      path: "/travel/detail/:slug",
+      name: "/travel/detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Travel Vendor',
+      },
+      component: () => import("pages/lagia-pages/travel/store-detail.vue"),
+    },
 
   ]
 }

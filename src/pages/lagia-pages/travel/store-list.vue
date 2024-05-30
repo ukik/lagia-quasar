@@ -147,13 +147,13 @@
               <div class="package-price col-12 text-center row">
                 <h6 class="col-12">
                   {{ item?.travelPricesCount }}
-                  <small class="text-weight-light">item</small>
+                  <small class="text-weight-light">Deals</small>
                 </h6>
-                <small class="col-12 text-center">/ price available</small>
+                <small class="col-12 text-center">/ order achieved</small>
               </div>
 
               <div class="row col-12 justify-center">
-                <q-btn
+                <!-- <q-btn
                   unelevated
                   outline
                   rounded
@@ -162,7 +162,7 @@
                   color="white"
                   label="Price List"
                 />
-                <div class="col-1"></div>
+                <div class="col-1"></div> -->
                 <q-btn
                   unelevated
                   outline
@@ -246,8 +246,8 @@ import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 
-import { useTravelStoresStore } from "stores/lagia-stores/travel/TravelStoresStore";
-const store = useTravelStoresStore();
+import { useTravelStoresListStore } from "stores/lagia-stores/travel/TravelStoresListStore";
+const store = useTravelStoresListStore();
 const { onFetch } = store; // have all reactive states here
 const {
   errors,

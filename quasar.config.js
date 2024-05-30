@@ -32,6 +32,7 @@ module.exports = configure(function (ctx) {
       {
         path: 'lagia-init', server: false
       },
+      { path: 'lagia/travel/detail', server: true },
       // "i18n", // bikin SSR ERROR
       'common',
       'server_side',

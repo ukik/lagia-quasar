@@ -246,8 +246,8 @@ import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 
-import { useTravelStoresStore } from "stores/lagia-stores/travel/TravelStoresStore";
-const store = useTravelStoresStore();
+import { useTravelStoresListStore } from "stores/lagia-stores/travel/TravelStoresListStore";
+const store = useTravelStoresListStore();
 const { onFetch } = store; // have all reactive states here
 const {
   errors,

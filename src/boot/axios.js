@@ -4,15 +4,16 @@ import axios from 'axios'
 
 import { Loading, Notify, Cookies, Platform, Screen } from 'quasar'
 
-// const api = axios.create({ baseURL: 'https://api.example.com' })
+// const api = axios.create({ baseURL: 'http://localhost:8000' })
 import { useAuthStore } from 'src/stores/lagia-stores/auth/AuthStore';
 import { useRouterStore } from 'src/stores/lagia-stores/RouterStore'
 
 // import { host } from 'src/boot/common'
 import domains from 'src/settings/domains'
-import { storeToRefs } from 'pinia';
 const { apiDomain } = domains()
 const host = apiDomain
+
+import { storeToRefs } from 'pinia';
 
 export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -62,7 +63,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     config.headers.post['Content-Type'] = 'application/json'
     config.headers.post['Content-Type'] = 'application/pdf';
 
-    console.log('boot/axios.js A', config)
+    // console.log('boot/axios.js A', config)
 
     return config
 
@@ -87,7 +88,8 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
     Loading.hide()
 
-    console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data?.isLogin, route?.getName)
+    // console.log('boot/axios.js C', response)
+    // console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data?.isLogin, route?.getName)
 
     // always update Login status
     if(response?.data?.isLogin) {

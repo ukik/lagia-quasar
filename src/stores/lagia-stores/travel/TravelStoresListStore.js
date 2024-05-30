@@ -7,8 +7,8 @@ import { Notify, debounce } from 'quasar'
 import caseConvert from 'src/utils/case-convert';
 
 // no need to import defineStore and acceptHMRUpdate
-export const useTravelStoresStore = defineStore('TravelStoresStore', {
-  id: 'TravelStoresStore',
+export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
+  id: 'TravelStoresListStore',
 
   state: () => ({
     slug: 'travel-stores',
@@ -32,10 +32,11 @@ export const useTravelStoresStore = defineStore('TravelStoresStore', {
   }),
 
   getters: {
-    getPayload: state => state.payload,
+    getRecords: state => state.records,
   },
 
   actions: {
+    // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
     onFetch: debounce(async function () {
 
       if (this.loading) return false;
@@ -70,18 +71,18 @@ export const useTravelStoresStore = defineStore('TravelStoresStore', {
           return response
         })
         .catch((err) => {
-          Notify.create({
-            color: 'negative',
-            position: 'top',
-            message: 'Loading failed',
-            caption: err?.data?.meta?.message[0],
-            icon: 'report_problem'
-          })
+          // Notify.create({
+          //   color: 'negative',
+          //   position: 'top',
+          //   message: 'Loading failed',
+          //   caption: err?.data?.meta?.message[0],
+          //   icon: 'report_problem'
+          // })
         })
 
       this.loading = false
 
-      console.log('stores/lagia-stores/TravelStoresStore 1', response?.data)
+      console.log('stores/lagia-stores/TravelStoresListStore 1', response?.data)
 
       if (!response?.data) return this.loading = false
 
@@ -96,7 +97,7 @@ export const useTravelStoresStore = defineStore('TravelStoresStore', {
       this.data = response?.data?.data;
       this.records = response?.data?.data?.data;
 
-      console.log('stores/lagia-stores/TravelStoresStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
+      console.log('stores/lagia-stores/TravelStoresListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
     }, 500),
 
@@ -107,5 +108,5 @@ export const useTravelStoresStore = defineStore('TravelStoresStore', {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useTravelStoresStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useTravelStoresListStore, import.meta.hot));
 }

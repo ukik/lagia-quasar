@@ -51,7 +51,7 @@ watch(
       nextTick(() => {
         // wajib pakai nextTick biar q-page-container tidak freeze UI (tidak bisa scroll)
         leftDrawerMini.value = true; // aslinya true
-        leftDrawerOpen.value = true;
+        leftDrawerOpen.value = false; // default CLOSE
 
         behavior.value = "default";
       });
@@ -79,7 +79,7 @@ onMounted(async () => {
 
   if ($q.screen.width > 1024) {
     leftDrawerMini.value = true; // aslinya true
-    leftDrawerOpen.value = true;
+    leftDrawerOpen.value = false; // default CLOSE
   } else {
     leftDrawerMini.value = false;
     leftDrawerOpen.value = false;
