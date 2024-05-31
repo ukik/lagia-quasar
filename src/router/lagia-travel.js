@@ -45,9 +45,10 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/travel/single-page.vue"),
     },
+
     {
-      path: "/travel/list",
-      name: "/travel/list",
+      path: "/travel/store-list",
+      name: "/travel/store-list",
       meta: {
         ssr: true,
         logged: false,
@@ -57,13 +58,24 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/travel/store-list.vue"),
     },
     {
-      path: "/travel/detail/:slug",
-      name: "/travel/detail",
+      path: "/travel/price-list",
+      name: "/travel/price-list",
       meta: {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Travel Vendor',
+        title: 'Travel Price',
+      },
+      component: () => import("pages/lagia-pages/travel/price-list.vue"),
+    },
+    {
+      path: "/travel/store-detail/:slug",
+      name: "/travel/store-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Travel Vendor Detail',
       },
       component: () => import("pages/lagia-pages/travel/store-detail.vue"),
     },

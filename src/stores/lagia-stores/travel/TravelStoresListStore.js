@@ -37,7 +37,7 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    onFetch: debounce(async function () {
+    async onFetch ({ currentPage }) {
 
       if (this.loading) return false;
 
@@ -55,7 +55,7 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
             isAvailable: this.isAvailable,
             search: this.search,
             perPage: this.perPage,
-            page: this.currentPage,
+            page: currentPage, //this.currentPage,
             payload: [],
             loading: false
           }
@@ -99,6 +99,10 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
 
       console.log('stores/lagia-stores/TravelStoresListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+    },
+
+    onPaginate: debounce(async function ({ currentPage }) {
+      this.onFetch({ currentPage })
     }, 500),
 
     async onClearRegister() {

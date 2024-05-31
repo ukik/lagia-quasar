@@ -142,14 +142,13 @@
                 :max="5"
                 color="white"
               ></q-rating>
-
-              <div class="text-body text-center q-mx-sm">review (34)</div>
+              <div v-if="false" class="full-width text-body text-center q-mx-sm">Review (34)</div>
               <div class="package-price col-12 text-center row">
                 <h6 class="col-12">
-                  {{ item?.travelPricesCount }}
+                  {{ item?.travelPricePublicsCount }}
                   <small class="text-weight-light">Deals</small>
                 </h6>
-                <small class="col-12 text-center">/ order achieved</small>
+                <small class="col-12 text-center">/ price list</small>
               </div>
 
               <div class="row col-12 justify-center">
@@ -242,13 +241,17 @@
 //     page: currentRoute.params.page
 //   });
 // }),
+
+
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from 'quasar/wrappers'
 
 import { useTravelStoresListStore } from "stores/lagia-stores/travel/TravelStoresListStore";
+import { useRouter } from "vue-router";
 const store = useTravelStoresListStore();
-const { onFetch } = store; // have all reactive states here
+const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
   data,
@@ -267,11 +270,23 @@ const {
   loading,
 } = storeToRefs(store); // have all reactive states here
 
-onFetch();
+// onFetch();
+defineOptions({
+  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+  //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+  //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
+  // }
+  preFetch: preFetch(({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) => {
+    return useTravelStoresListStore(store).onFetch({ currentPage: currentRoute?.query?.page });
+  })
+})
+
+const router = useRouter()
 
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val);
-  onFetch();
+  router.push({ query: { page: val.value } })
+  onPaginate({ currentPage: val.value });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -280,65 +295,6 @@ watch(() => currentPage, onCurrentPage, {
 
 const ratingZero = 0;
 
-const content = {
-  title: "TOUR PACKAGES",
-  cards: [
-    {
-      id: "1",
-      rating: 4,
-      icon: "hotel",
-      title: "BEST HOTELS",
-      image: "assets/images/img4.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "flight_takeoff",
-      title: "TRAVEL INSURANCE",
-      image: "assets/images/img28.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "store_mall_directory",
-      title: "ACCESSIBILITY",
-      image: "assets/images/img12.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "sticky_note_2",
-      title: "ONLINE BOOKING",
-      image: "assets/images/img13.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "directions_bus",
-      title: "BEST TOUR",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "support_agent",
-      title: "FAST SUPPORT",
-      image: "assets/images/img10.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-  ],
-};
 </script>
 <style scoped>
 .content-page-section {

@@ -115,8 +115,13 @@ module.exports = configure(function (ctx) {
       vueCompiler: true, // diperlukan agar "vue3-runtime-template" bisa berjalan
 
 
-      chainWebpack(/* chain */) { }
-
+      // chainWebpack(/* chain */) { }
+      // chainWebpack (chain) {
+      //   chain.optimization.minimizer('js').tap(args => {
+      //     args[0].terserOptions.compress.drop_console = true
+      //     return args
+      //   })
+      // }
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
