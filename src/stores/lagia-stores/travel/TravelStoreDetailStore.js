@@ -7,8 +7,8 @@ import { Notify, debounce } from 'quasar'
 import caseConvert from 'src/utils/case-convert';
 
 // no need to import defineStore and acceptHMRUpdate
-export const useTravelStoresDetailStore = defineStore('TravelStoresDetailStore', {
-  id: 'TravelStoresDetailStore',
+export const useTravelStoreDetailStore = defineStore('TravelStoreDetailStore', {
+  id: 'TravelStoreDetailStore',
 
   state: () => ({
     dataType: {},
@@ -60,7 +60,7 @@ export const useTravelStoresDetailStore = defineStore('TravelStoresDetailStore',
 
       this.loading = false
 
-      // console.log('stores/lagia-stores/TravelStoresDetailStore 1', response)
+      // console.log('stores/lagia-stores/TravelStoreDetailStore 1', response)
 
       if (!response?.data) return this.loading = false
 
@@ -68,7 +68,7 @@ export const useTravelStoresDetailStore = defineStore('TravelStoresDetailStore',
 
       this.record = response?.data?.data;
 
-      console.log('stores/lagia-stores/TravelStoresDetailStore 2', this.record)
+      console.log('stores/lagia-stores/TravelStoreDetailStore 2', this.record)
       return this.record
 
     },

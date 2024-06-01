@@ -30,7 +30,7 @@ import StoreDetailContent from "./components/StoreDetailContent.vue"
 
 // SOLUSI SSR via SETUP
 
-import { useTravelStoresDetailStore } from "stores/lagia-stores/travel/TravelStoresDetailStore";
+import { useTravelStoreDetailStore } from "stores/lagia-stores/travel/TravelStoreDetailStore";
 import { useAuthStore } from 'src/stores/lagia-stores/auth/AuthStore';
 
 import { storeToRefs } from "pinia";
@@ -44,11 +44,11 @@ import { preFetch } from 'quasar/wrappers'
 defineOptions({
   // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
   //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-  //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
+  //   return useTravelStoreDetailStore(store).onFetch(currentRoute?.params?.slug);
   // }
   preFetch: preFetch(({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) => {
     console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-    return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
+    return useTravelStoreDetailStore(store).onFetch(currentRoute?.params?.slug);
   })
 })
 
@@ -57,7 +57,7 @@ const {
   auth
 } = storeToRefs($auth);
 
-const $store = useTravelStoresDetailStore();
+const $store = useTravelStoreDetailStore();
 const {
   dataType,
   record,
@@ -81,14 +81,14 @@ import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 
-import { useTravelStoresDetailStore } from "stores/lagia-stores/travel/TravelStoresDetailStore";
+import { useTravelStoreDetailStore } from "stores/lagia-stores/travel/TravelStoreDetailStore";
 import { useAuthStore } from 'src/stores/lagia-stores/auth/AuthStore';
 
 export default {
   // our hook here
   preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     // fetch data, validate route and optionally redirect to some other route...
-    const $store = useTravelStoresDetailStore(store);
+    const $store = useTravelStoreDetailStore(store);
     // return $store.onFetch(currentRoute.params?.slug)
   },
   data() {
@@ -101,7 +101,7 @@ export default {
   // SOLUSI transfer data dari Pinia ke Component
   // WAJIB pakai created()
   created() {
-    const store = useTravelStoresDetailStore();
+    const store = useTravelStoreDetailStore();
     const {
       record,
       isMaintenance,

@@ -1,7 +1,7 @@
 <template>
-  <div class="q-mb-sm q-mt-sm row items-start q-gutter-md">
+  <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <q-img style="min-height: 300px;" :src="item?.image" error-src="https://cdn.quasar.dev/logo-v2/header.png">
+      <q-img style="height: 300px;" :src="item?.image" error-src="https://cdn.quasar.dev/logo-v2/header.png">
         <q-badge
           :color="item?.ticketStatus == 'bisnis' ? 'pink' : 'positive'"
           class="q-mr-lg rounded-borders-2"
@@ -42,7 +42,7 @@
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">uuid</q-item-label>
             </q-item-section>
@@ -50,7 +50,7 @@
               <q-item-label lines="1">{{ item?.uuid }}</q-item-label>
             </q-item-section>
           </q-item>
-          <!-- <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <!-- <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">store id</q-item-label>
             </q-item-section>
@@ -58,7 +58,7 @@
               <q-item-label lines="1">{{ item?.uuid }}</q-item-label>
             </q-item-section>
           </q-item> -->
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">general price</q-item-label>
             </q-item-section>
@@ -66,7 +66,7 @@
               <q-item-label lines="1">{{ item?.generalPrice }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">discount price</q-item-label>
             </q-item-section>
@@ -74,7 +74,7 @@
               <q-item-label lines="1"><i>hingga</i> {{ item?.discountPrice }}%</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">cashback price</q-item-label>
             </q-item-section>
@@ -82,7 +82,7 @@
               <q-item-label lines="1"><i>hingga</i> {{ item?.cashbackPrice }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">Jumlah Kursi</q-item-label>
             </q-item-section>
@@ -90,7 +90,7 @@
               <q-item-label lines="1">{{ item?.seatCount }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">stok</q-item-label>
             </q-item-section>
@@ -98,7 +98,7 @@
               <q-item-label lines="1">{{ item?.quantity }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">kategori</q-item-label>
             </q-item-section>
@@ -106,7 +106,7 @@
               <q-item-label lines="1">{{ item?.category }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12">
+          <q-item class="col-12">
             <q-item-section>
               <q-item-label class="text-capitalize">Tiket Status</q-item-label>
             </q-item-section>

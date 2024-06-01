@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('AuthStore', {
       "message": "",
       "errors": null,
       "data": {
-        "accessToken": "",
+        "accessTokent": "",
         "tokenType": "",
         "user": {
           "id": "",
@@ -147,7 +147,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.fetchInitAuth = true;
 
-      const accessToken = Cookies.get("accessToken");
+      const accessToken = Cookies.get("accessTokent");
       console.log('accessToken', accessToken)
 
       const resp = await api.get('/trevolia-api/v1/dashboard', {
@@ -242,7 +242,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_login = true;
 
-      // const accessToken = Cookies.get("accessToken");
+      // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
@@ -303,7 +303,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_register = true;
 
-      // const accessToken = Cookies.get("accessToken");
+      // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
@@ -364,7 +364,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_reset_password = true;
 
-      const accessToken = Cookies.get("accessToken");
+      const accessToken = Cookies.get("accessTokent");
       const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
@@ -419,7 +419,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_forgot_password = true;
 
-      // const accessToken = Cookies.get("accessToken");
+      // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
@@ -473,7 +473,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_verify = true;
 
-      // const accessToken = Cookies.get("accessToken");
+      // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();

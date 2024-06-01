@@ -10,9 +10,9 @@
     <div class="text-caption q-mb-md">Dibuat: {{ record?.createdAt }}</div>
 
     <q-rating
-      v-if="record?.travelRatingAvg?.AvgRating"
+      v-if="record?.travelRatingAvg?.avgRating"
       readonly
-      v-model="record.travelRatingAvg.AvgRating"
+      v-model="record.travelRatingAvg.avgRating"
       size="sm"
       :max="5"
       color="red"
@@ -30,7 +30,8 @@
     <q-item class="rounded-borders-1 bg-grey-2 q-mt-lg" clickable v-ripple>
       <q-item-section avatar>
         <q-avatar>
-          <img :src="record?.badasoUser?.avatar" />
+          <img v-if="record?.badasoUser?.avatar" :src="record?.badasoUser?.avatar">
+          <img v-else src="http://localhost:8000/storage/photos/shares/default-user.png">
         </q-avatar>
       </q-item-section>
 

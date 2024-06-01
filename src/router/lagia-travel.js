@@ -64,10 +64,23 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Travel Price',
+        title: 'Travel Price (Private)',
       },
       component: () => import("pages/lagia-pages/travel/price-list.vue"),
     },
+    {
+      path: "/travel/price-public-list",
+      name: "/travel/price-public-list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Travel Price',
+      },
+      component: () => import("pages/lagia-pages/travel/price-public-list.vue"),
+    },
+
+
     {
       path: "/travel/store-detail/:slug",
       name: "/travel/store-detail",

@@ -37,7 +37,7 @@ export const useRegisterStore = defineStore('useRegisterStore', {
 
             this.loading.form = true;
 
-            // const accessToken = Cookies.get("accessToken");
+            // const accessToken = Cookies.get("accessTokent");
             const csrf = Cookies.get("XSRF-TOKEN");
 
             const formData = new FormData();

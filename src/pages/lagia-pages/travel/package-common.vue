@@ -126,9 +126,9 @@
               >
 
               <q-rating
-                v-if="item?.travelRatingAvg?.AvgRating"
+                v-if="item?.travelRatingAvg?.avgRating"
                 readonly
-                v-model="item.travelRatingAvg.AvgRating"
+                v-model="item.travelRatingAvg.avgRating"
                 size="sm"
                 :max="5"
                 color="white"
@@ -246,8 +246,8 @@ import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 
-import { useTravelStoresListStore } from "stores/lagia-stores/travel/TravelStoresListStore";
-const store = useTravelStoresListStore();
+import { useTravelStoreListStore } from "stores/lagia-stores/travel/TravelStoreListStore";
+const store = useTravelStoreListStore();
 const { onFetch } = store; // have all reactive states here
 const {
   errors,

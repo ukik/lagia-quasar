@@ -126,9 +126,9 @@
               >
 
               <q-rating
-                v-if="item?.travelRatingAvg?.AvgRating"
+                v-if="item?.travelRatingAvg?.avgRating"
                 readonly
-                v-model="item.travelRatingAvg.AvgRating"
+                v-model="item.travelRatingAvg.avgRating"
                 size="sm"
                 :max="5"
                 color="white"
@@ -248,9 +248,9 @@ import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from 'quasar/wrappers'
 
-import { useTravelStoresListStore } from "stores/lagia-stores/travel/TravelStoresListStore";
+import { useTravelStoreListStore } from "stores/lagia-stores/travel/TravelStoreListStore";
 import { useRouter } from "vue-router";
-const store = useTravelStoresListStore();
+const store = useTravelStoreListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -277,7 +277,7 @@ defineOptions({
   //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
   // }
   preFetch: preFetch(({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) => {
-    return useTravelStoresListStore(store).onFetch({ currentPage: currentRoute?.query?.page });
+    return useTravelStoreListStore(store).onFetch({ currentPage: currentRoute?.query?.page });
   })
 })
 
@@ -290,7 +290,7 @@ const onCurrentPage = async (val) => {
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
-  immediate: true,
+  // immediate: true,
 });
 
 const ratingZero = 0;

@@ -2,11 +2,11 @@
 import { storeToRefs } from 'pinia';
 import { boot } from 'quasar/wrappers';
 
-import { useTravelStoresDetailStore } from "stores/lagia-stores/travel/TravelStoresDetailStore";
+import { useTravelStoreDetailStore } from "stores/lagia-stores/travel/TravelStoreDetailStore";
 
 export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
-  const $store = useTravelStoresDetailStore(store) // inject disini ya
+  const $store = useTravelStoreDetailStore(store) // inject disini ya
   const { onFetch } = $store
   const { record } = storeToRefs($store)
 

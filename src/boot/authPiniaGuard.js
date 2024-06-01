@@ -29,7 +29,7 @@ export default defineNuxtPlugin(async nuxt => {
 
     // Triggered every route change or init
     addRouteMiddleware('global-test', async (to, from) => {
-        const accessToken = useCookie("accessToken");
+        const accessToken = useCookie("accessTokent");
 
         // console.log(`SERVER SIDE`, auth, accessToken.value)
         console.log('this global middleware was added in a plugin and will be run on every route change', 'server ' + import.meta.server, 'client ' + import.meta.client)
@@ -68,7 +68,7 @@ export default defineNuxtPlugin(async nuxt => {
         </script>
     */
     addRouteMiddleware('adminGuard', (to, from) => {
-        const accessToken = useCookie("accessToken");
+        const accessToken = useCookie("accessTokent");
 
         console.log('this named middleware was added in a plugin and would override any existing middleware of the same name')
 

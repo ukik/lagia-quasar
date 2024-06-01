@@ -7,11 +7,11 @@ import { Notify, debounce } from 'quasar'
 import caseConvert from 'src/utils/case-convert';
 
 // no need to import defineStore and acceptHMRUpdate
-export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
-  id: 'TravelStoresListStore',
+export const useTravelPricePublicListStore = defineStore('TravelPricePublicListStore', {
+  id: 'TravelPricePublicListStore',
 
   state: () => ({
-    slug: 'travel-stores',
+    slug: 'travel-prices-public',
     errors: {},
     data: {},
     paginate: [5, 10, 25, 50, 75, 100],
@@ -24,9 +24,10 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
     search: '', // filter & search itu sama
     lastPage: 0,
     currentPage: 1,
-    perPage: 1,  // perPage & rowPerPage itu sama
+    perPage: 25,  // perPage & rowPerPage itu sama
 
     isAvailable: '',
+    ticket_status: '',
 
     loading: false,
   }),
@@ -44,7 +45,7 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/travel-stores',
+          url: '/trevolia-api/v1/entities/travel-prices-public',
           method: 'get',
           params: {
             slug: this.slug,
@@ -57,8 +58,10 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
             perPage: this.perPage,
             page: currentPage, //this.currentPage,
             payload: [],
-            loading: false
-          }
+            loading: false,
+
+            ticket_status: this.ticket_status,
+         }
         })
         .then((response) => {
           // Notify.create({
@@ -82,13 +85,13 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
 
       this.loading = false
 
-      console.log('stores/lagia-stores/TravelStoresListStore 1', response?.data)
+      console.log('stores/lagia-stores/TravelPricePublicListStore 1', response?.data)
 
       if (!response?.data) return this.loading = false
 
-      response?.data?.data?.data.forEach(element => {
-        element['image'] = JSON.parse(element['image'])
-      });
+      // response?.data?.data?.data.forEach(element => {
+      //   element['image'] = JSON.parse(element['image'])
+      // });
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage
@@ -97,7 +100,7 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
       this.data = response?.data?.data;
       this.records = response?.data?.data?.data;
 
-      console.log('stores/lagia-stores/TravelStoresListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
+      console.log('stores/lagia-stores/TravelPricePublicListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
     },
 
@@ -112,5 +115,5 @@ export const useTravelStoresListStore = defineStore('TravelStoresListStore', {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useTravelStoresListStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useTravelPricePublicListStore, import.meta.hot));
 }
