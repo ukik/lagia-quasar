@@ -145,6 +145,17 @@
       </q-card-section>
       <q-separator></q-separator>
 
+      <q-card-section class="q-pa-none">
+        <q-btn-group spread outline>
+          <q-btn @click="$emit('onBubbleEvent', { label: 'store', payload: item })" label="First" icon="timeline" />
+          <q-btn label="Second" icon="visibility" />
+          <q-btn label="Second" icon="visibility" />
+        </q-btn-group>
+      </q-card-section>
+
+
+      <q-separator></q-separator>
+
       <q-card-actions class="q-pa-md">
         <q-btn
           outline

@@ -2,6 +2,7 @@
   <q-carousel
     :autoplay="autoplay"
     class="rounded-borders-2"
+    :class="[ fullscreen ? '' : 'q-my-lg' ]"
     swipeable
     animated
     navigation

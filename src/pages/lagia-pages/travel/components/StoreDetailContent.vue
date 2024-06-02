@@ -6,6 +6,13 @@
       src="assets/images/img16.jpg"
       :ratio="$q.screen.width > 425 ? 16 / 9 : 1"
     /> -->
+
+
+
+
+
+    <StoreDetailBody :record="record"></StoreDetailBody>
+<!--
     <h3 class="q-mb-xs">{{ record?.name }}</h3>
     <div class="text-caption q-mb-md">Dibuat: {{ record?.createdAt }}</div>
 
@@ -40,7 +47,6 @@
           record?.badasoUser?.name
         }}</q-item-label>
         <q-item-label caption lines="2">
-          <!-- <span class="text-weight-bold">Janet</span> -->
           {{ record?.badasoUser?.username }}
           <span v-if="$q.screen.width < 768">({{ record?.badasoUser?.createdAt }})</span>
         </q-item-label>
@@ -143,6 +149,11 @@
 
     <h6 class="q-mt-lg q-mb-sm">DESCRIPTION</h6>
     <div v-html="record?.description"></div>
+ -->
+
+
+
+
 
     <!-- <q-card
       v-if="contents?.include"
@@ -228,6 +239,7 @@
 import { ref, defineProps } from "vue";
 import RelatedImageSlideCarousel from "./RelatedImageSlideCarousel";
 import StoreDetailPriceList from "./StoreDetailPriceList";
+import StoreDetailBody from "./StoreDetailBody";
 
 const ratingZero = 0
 

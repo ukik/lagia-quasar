@@ -2,6 +2,33 @@
   <!-- <main> -->
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
+  <q-no-ssr>
+    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
+      transition-hide="slide-down">
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height:50px;" class="q-pa-none">
+            <div class="text-h6">Vendor</div>
+          <q-space></q-space>
+          <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+          <StoreDetailBody :record="record"></StoreDetailBody>
+        </q-card-section>
+
+        <!-- <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn flat label="Decline" color="primary" v-close-popup />
+          <q-btn flat label="Accept" color="primary" v-close-popup />
+        </q-card-actions> -->
+      </q-card>
+    </q-dialog>
+  </q-no-ssr>
   <!-- ***Inner Banner html end here*** -->
   <!-- <div class="content-page-section row justify-center">
     <div
@@ -22,10 +49,14 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-
-      <div v-for="(item, index) in records" class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-
-        <StoreDetailPriceListCard :item="item"></StoreDetailPriceListCard>
+      <div
+        v-for="(item, index) in records"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+      >
+        <PricePublicListCard
+          @onBubbleEvent="onBubbleEvent"
+          :item="item"
+        ></PricePublicListCard>
         <!-- <q-card flat class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
@@ -155,20 +186,20 @@
       </div>
       <div class="col-12 flex justify-center">
         <q-pagination
-        :disable="loading"
-        class="q-mt-lg"
-        size="lg"
-        v-model="currentPage"
-        :max="lastPage"
-        :max-pages="6"
-        :input="$q.screen.size < 425"
-        direction-links
-        outline
-        color="blue"
-        active-design="unelevated"
-        active-color="primary"
-        active-text-color="white"
-      />
+          :disable="loading"
+          class="q-mt-lg"
+          size="lg"
+          v-model="currentPage"
+          :max="lastPage"
+          :max-pages="6"
+          :input="$q.screen.size < 425"
+          direction-links
+          outline
+          color="blue"
+          active-design="unelevated"
+          active-color="primary"
+          active-text-color="white"
+        />
       </div>
     </div>
   </div>
@@ -210,7 +241,8 @@
 </template>
 
 <script async setup>
-import StoreDetailPriceListCard from "./components/StoreDetailPriceListCard";
+import PricePublicListCard from "./components/PricePublicListCard";
+import StoreDetailBody from "./components/StoreDetailBody";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -269,6 +301,16 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
+const layout = ref(false);
+const record = ref(null);
+
+function onBubbleEvent(value) {
+  let image = value?.payload?.travelStore
+  // image["image"] = JSON.parse(image["image"]);
+  record.value = image
+
+  layout.value = true;
+}
 </script>
 
 <style scoped>
