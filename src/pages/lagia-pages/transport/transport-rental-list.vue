@@ -3,13 +3,13 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <!-- detail ketika modal reservasi dibuka -->
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="kategori"       transition-show="slide-up"
+    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="detail"
+      transition-show="slide-up"
       transition-hide="slide-down">
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height:50px;" class="q-pa-none">
-            <div class="text-h6">Kategori Dipilih</div>
+            <div class="text-h6">Detail Vendor</div>
           <q-space></q-space>
           <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -18,7 +18,7 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
-          <PricePublicListDialog :item="record"></PricePublicListDialog>
+          <RentalDetailCard :item="record"></RentalDetailCard>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -26,22 +26,21 @@
 
     <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
       transition-hide="slide-down">
-      <q-card :style="($q.screen.width > 768 && label !== 'buat reservasi') ? 'width: 750px !important' : ''">
+      <q-card :style="myWidth">
         <q-card-section class="q-py-none">
           <q-toolbar style="height:50px;" class="q-pa-none">
-            <div class="text-h6 text-capitalize">{{ label }}</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="list" @click="kategori = true;"></q-btn>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+            <div class="text-h6">List Vehicle</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="list" @click="detail = true;"></q-btn>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
-          <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <PricePublicReservationDialog v-if="label === 'buat reservasi'" :item="record"></PricePublicReservationDialog>
-          <PricePublicListDialog v-else-if="label === 'detail'" :item="record"></PricePublicListDialog>
+          <!-- <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody> -->
+          <RentalVehicleDialog v-if="label === 'vehicle'" :item="record"></RentalVehicleDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -52,31 +51,54 @@
     <div
       class="row justify-start col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
-        $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
+        $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-lg q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-
-      <div v-for="(item, index) in records" class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-        <PricePublicListCard @onBubbleEvent="onBubbleEvent" :item="item"></PricePublicListCard>
+      <div
+        v-for="(item, index) in records"
+        class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+      >
+        <RentalListCard
+          @onBubbleEvent="onBubbleEvent"
+          :item="item"
+        ></RentalListCard>
       </div>
+
+
+      <!-- MASONRY -->
+      <!--
+      <q-card flat class="col-12 q-pa-none">
+        <div class="container q-ml-lg">
+          <template v-for="item in records">
+            <div class="card">
+              <RentalListCard
+                @onBubbleEvent="onBubbleEvent"
+                :item="item"
+              ></RentalListCard>
+            </div>
+          </template>
+        </div>
+      </q-card> -->
+
+
 
       <div class="col-12 flex justify-center">
         <q-pagination
-        :disable="loading"
-        class="q-mt-lg"
-        size="lg"
-        v-model="currentPage"
-        :max="lastPage"
-        :max-pages="6"
-        :input="$q.screen.width < 768"
-        direction-links
-        outline
-        color="blue"
-        active-design="unelevated"
-        active-color="primary"
-        active-text-color="white"
-      />
+          :disable="loading"
+          class="q-mt-lg"
+          size="lg"
+          v-model="currentPage"
+          :max="lastPage"
+          :max-pages="6"
+          :input="$q.screen.width < 768"
+          direction-links
+          outline
+          color="blue"
+          active-design="unelevated"
+          active-color="primary"
+          active-text-color="white"
+        />
       </div>
     </div>
   </div>
@@ -118,19 +140,19 @@
 </template>
 
 <script async setup>
-import PricePublicListCard from "./components/PricePublicListCard";
-import PricePublicListDialog from "./components/PricePublicListDialog";
-import PricePublicReservationDialog from "./components/PricePublicReservationDialog"
+import RentalListCard from "./components/RentalListCard";
+import RentalVehicleDialog from "./components/RentalVehicleDialog"
 import StoreDetailBody from "./components/StoreDetailBody";
+import RentalDetailCard from "./components/RentalDetailCard";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
-import { ref, nextTick, watch, onMounted } from "vue";
+import { ref, nextTick, watch, onMounted, computed } from "vue";
 import { preFetch } from "quasar/wrappers";
 
-import { useTravelPricePublicListStore } from "stores/lagia-stores/travel/TravelPricePublicListStore";
+import { useTransportRentalListStore } from "stores/lagia-stores/transport/TransportRentalListStore";
 import { useRouter } from "vue-router";
-const store = useTravelPricePublicListStore();
+const store = useTransportRentalListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -150,12 +172,7 @@ const {
   loading,
 } = storeToRefs(store); // have all reactive states here
 
-// onFetch();
 defineOptions({
-  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-  //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-  //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
-  // }
   preFetch: preFetch(
     ({
       store,
@@ -166,7 +183,7 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
-      return useTravelPricePublicListStore(store).onFetch({
+      return useTransportRentalListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
     }
@@ -185,10 +202,6 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 0;
-
-const kategori = ref(false);
-
 const layout = ref(false);
 const record = ref(null);
 const label = ref('');
@@ -197,9 +210,21 @@ function onBubbleEvent(value) {
   record.value = value?.payload
   label.value = value?.label
   layout.value = true;
+
 }
 
+const $q = useQuasar()
+const myWidth = computed(() => {
+  if($q.screen.width > 768) {
+    if(label.value == 'vehicle') return 'width: 80vw !important'
+    return 'width: 750px !important'
+  } else {
+    return ''
+  }
+})
 
+
+const detail = ref(false)
 </script>
 
 <style scoped>
@@ -250,4 +275,69 @@ h2 {
 .bg-light-grey {
   background-color: #f8f8f8;
 }
+
+
+
+
+
+
+
+
+.container {
+  list-style: none;
+  column-gap: 10px;
+  padding: 0;
+  column-count: 1;
+}
+.card {
+  width: 100%;
+  /* height: auto;*/
+  padding: 0;
+  padding-bottom: 10px;
+  margin: 0;
+  box-sizing: border-box;
+  /* border: 10px solid #ffffff00; */
+  break-inside: avoid;
+}
+
+@media (min-width: 375px) and (max-width: 425px) {
+  .container {
+    column-count: 1;
+  }
+  /* .card {
+    border-left: 2px solid #ffffff00;
+    border-right: 2px solid #ffffff00;
+    border-top: 5px solid #ffffff00;
+    border-bottom: 5px solid #ffffff00;
+  } */
+}
+@media (min-width: 425px) and (max-width: 768px) {
+  .container {
+    column-count: 1;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    column-count: 2;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .container {
+    column-count: 2;
+  }
+}
+@media (min-width: 1440px) {
+  .container {
+    column-count: 3;
+  }
+}
+
+.content-page-section {
+  padding-bottom: 80px;
+}
+
+.content-page-section p {
+  margin-bottom: 25px;
+}
+
 </style>

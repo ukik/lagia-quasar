@@ -22,6 +22,27 @@ import { useGlobalStore } from 'src/stores/global'
 let onGoto = null;
 import { mapState, mapWritableState, mapActions } from 'pinia'
 
+
+import formatTime from "src/utils/formatTime"
+import formatDate from "src/utils/formatDate"
+const stringToBoolean = (stringValue) => {
+  switch(stringValue?.toLowerCase()?.trim()){
+      case "true":
+      case "yes":
+      case "1":
+        return true;
+
+      case "false":
+      case "no":
+      case "0":
+      case null:
+      case undefined:
+        return false;
+
+      default:
+        return JSON.parse(stringValue);
+  }
+}
 export default boot(async ({ app, ssrContext, router, store }) => {
 
   const routerStore = useRouterStore()
@@ -50,6 +71,13 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     };
   }
   app.config.globalProperties.$onGoto = onGoto;
+
+
+  app.config.globalProperties.$formatTime = formatTime;
+  app.config.globalProperties.$formatDate = formatDate;
+  app.config.globalProperties.$stringToBoolean = stringToBoolean;
+  app.config.globalProperties.$defaultUser = "http://localhost:8000/storage/photos/shares/default-user.png";
+
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;
   // app.config.globalProperties.$is_higher_mobile_size = () => Screen.width > 425;

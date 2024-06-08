@@ -7,11 +7,11 @@ import { Notify, debounce } from 'quasar'
 import caseConvert from 'src/utils/case-convert';
 
 // no need to import defineStore and acceptHMRUpdate
-export const useTravelPricePublicListStore = defineStore('TravelPricePublicListStore', {
-  id: 'TravelPricePublicListStore',
+export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
+  id: 'TourismPriceListStore',
 
   state: () => ({
-    slug: 'travel-prices-public',
+    slug: 'tourism-prices',
     errors: {},
     data: {},
     paginate: [5, 10, 25, 50, 75, 100],
@@ -27,7 +27,6 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
     perPage: 25,  // perPage & rowPerPage itu sama
 
     isAvailable: '',
-    ticket_status: '',
 
     loading: false,
   }),
@@ -45,7 +44,7 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/travel-prices-public',
+          url: '/trevolia-api/v1/entities/tourism-prices',
           method: 'get',
           params: {
             slug: this.slug,
@@ -58,10 +57,8 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
             perPage: this.perPage,
             page: currentPage, //this.currentPage,
             payload: [],
-            loading: false,
-
-            ticket_status: this.ticket_status,
-         }
+            loading: false
+          }
         })
         .then((response) => {
           // Notify.create({
@@ -85,14 +82,13 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
 
       this.loading = false
 
-      console.log('stores/lagia-stores/TravelPricePublicListStore 1', response?.data)
+      console.log('stores/lagia-stores/TourismPriceListStore 1', response?.data)
 
       if (!response?.data) return this.loading = false
 
       response?.data?.data?.data.forEach(element => {
-        if(element?.travelStore) {
-          element.travelStore['image'] = JSON.parse(element?.travelStore['image'])
-        }
+        if(element?.tourismVenue?.image) element['tourismVenue']['image'] = JSON.parse(element['tourismVenue']['image'])
+        if(element?.tourismVenue?.category) element['tourismVenue']['category'] = JSON.parse(element['tourismVenue']['category'])
       });
 
       this.lastPage = response?.data?.data?.lastPage
@@ -102,7 +98,7 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
       this.data = response?.data?.data;
       this.records = response?.data?.data?.data;
 
-      console.log('stores/lagia-stores/TravelPricePublicListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
+      console.log('stores/lagia-stores/TourismPriceListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
     },
 
@@ -117,5 +113,5 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useTravelPricePublicListStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useTourismPriceListStore, import.meta.hot));
 }

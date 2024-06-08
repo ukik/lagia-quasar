@@ -12,9 +12,9 @@
       ]"
     >
       <div v-for="(item, index) in records" class="col-12">
-        <q-card flat class="rounded-borders-2">
+        <q-card flat bordered class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-            <q-img
+            <q-img v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
               class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
@@ -26,109 +26,59 @@
                 </div>
               </template>
             </q-img>
+            <q-img loading="lazy" :ratio="16 / 9"
+              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              v-else :src="$defaultUser"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <q-card-section class="bg-grey-2 row col flex items-start">
-              <div class="text-box q-mt-lg full-width q-px-sm col-12">
+              <div class="text-box full-width q-px-sm col-12 text-capitalize">
                 <h3>{{ item?.name }}</h3>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">location</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.location }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">address:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.address }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">codepos:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.codepos }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">city: </q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.city }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">country:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.country }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <!-- <q-item dense>
-                  <q-item-section>
-                    <q-item-label caption lines="1">policy:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label caption lines="1">{{ item?.policy }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label caption lines="1">description:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label caption lines="1">{{ item?.description }}</q-item-label>
-                  </q-item-section>
-                </q-item> -->
-
-                <!-- <q-item-label caption lines="1">address: {{ item?.address }}</q-item-label>
-                <q-item-label caption lines="1">codepos: {{ item?.codepos }}</q-item-label>
-                <q-item-label caption lines="1">city: {{ item?.city }}</q-item-label>
-                <q-item-label caption lines="1">country: {{ item?.country }}</q-item-label>
-                <q-item-label caption lines="1">policy: {{ item?.policy }}</q-item-label>
-                <q-item-label caption lines="1">description: {{ item?.description }}</q-item-label> -->
-              </div>
-
-              <div class="col-12 q-mt-md" v-if="item?.category">
-                <template
-                  v-for="(category, category_index) in item?.category?.split(',')"
-                >
-                  <q-chip
-                    color="blue-5"
-                    text-color="white"
-                    icon="label"
-                    class="text-capitalize"
-                    >{{ category }}</q-chip
-                  >
-                </template>
-
-                <!-- <q-chip outline color="orange" icon="schedule"> 7D/6N</q-chip>
-                <q-chip outline color="pink" icon="group">pax: 10</q-chip>
-                <q-chip outline color="green" icon="location_on">Malaysia</q-chip> -->
+                <QItemLabelSimpleValue label="uuid" :value="item?.uuid"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="email" :value="item?.email"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="phone" :value="item?.phone"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="location" :value="item?.location"></QItemLabelSimpleValue>
+                <!-- <QItemLabelSimpleValue label="image" :value="item?.image"></QItemLabelSimpleValue> -->
+                <QItemLabelSimpleValue label="address" :value="item?.address"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="codepos" :value="item?.codepos"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="city" :value="item?.city"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="country" :value="item?.country"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="policy" :value="item?.policy"></QItemLabelSimpleValue>
+                <QItemLabelSimpleValue label="description" :value="item?.description"></QItemLabelSimpleValue>
               </div>
             </q-card-section>
 
             <q-card-section
               class="bg-light-blue-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
             >
-              <q-badge
+              <!-- <q-badge
                 color="pink"
                 class="q-mr-lg rounded-borders-2"
                 style="margin-top: -10px"
                 floating
-                ><span class="text-title q-ma-sm">Vendor</span></q-badge
-              >
+                ><span class="text-title q-ma-sm text-uppercase">Vendor</span></q-badge
+              > -->
 
               <q-rating
-                v-if="item?.travelRatingAvg?.avgRating"
+                v-if="item?.ratingAvg?.avgRating"
                 readonly
-                v-model="item.travelRatingAvg.avgRating"
+                v-model="item.ratingAvg.avgRating"
                 size="sm"
                 :max="5"
                 color="white"
@@ -142,13 +92,14 @@
                 :max="5"
                 color="white"
               ></q-rating>
+
               <div v-if="false" class="full-width text-body text-center q-mx-sm">Review (34)</div>
-              <div class="package-price col-12 text-center row">
+              <div class="package-price col-12 text-center row q-mt-md">
                 <h6 class="col-12">
-                  {{ item?.travelPricePublicsCount }}
-                  <small class="text-weight-light">Deals</small>
+                  {{ item?.slotPassanger }}
+                  <small class="text-weight-light">seat</small>
                 </h6>
-                <small class="col-12 text-center">/ price list</small>
+                <small class="col-12 text-center">( maximum slot )</small>
               </div>
 
               <div class="row col-12 justify-center">
@@ -169,7 +120,7 @@
                   dense
                   class="q-px-lg q-py-sm q-mb-sm q-mt-md rounded-borders-3 text-weight-light"
                   color="white"
-                  label="Visit Profile"
+                  label="Visit Detail"
                 />
               </div>
             </q-card-section>
@@ -241,16 +192,16 @@
 //     page: currentRoute.params.page
 //   });
 // }),
-
+import QItemLabelSimpleValue from "./components/QItemLabelSimpleValue"
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from 'quasar/wrappers'
 
-import { useTravelStoreListStore } from "stores/lagia-stores/travel/TravelStoreListStore";
+import { useTransportRentalListStore } from "stores/lagia-stores/transport/TransportRentalListStore";
 import { useRouter } from "vue-router";
-const store = useTravelStoreListStore();
+const store = useTransportRentalListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -270,14 +221,9 @@ const {
   loading,
 } = storeToRefs(store); // have all reactive states here
 
-// onFetch();
 defineOptions({
-  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-  //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-  //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
-  // }
   preFetch: preFetch(({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) => {
-    return useTravelStoreListStore(store).onFetch({ currentPage: currentRoute?.query?.page });
+    return useTransportRentalListStore(store).onFetch({ currentPage: currentRoute?.query?.page });
   })
 })
 

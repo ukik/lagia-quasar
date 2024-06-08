@@ -1,5 +1,8 @@
 import lagia_auth from './lagia-auth';
 import lagia_travel from './lagia-travel';
+import lagia_pages from './lagia-pages';
+import lagia_transport from './lagia-transport';
+import lagia_tourism from './lagia-tourism';
 
 export default function (store, cookies, ssrContext) {
   return [
@@ -9,6 +12,9 @@ export default function (store, cookies, ssrContext) {
       children: [
         ...lagia_auth(store, cookies, ssrContext),
         ...lagia_travel(store, cookies, ssrContext),
+        ...lagia_transport(store, cookies, ssrContext),
+        ...lagia_pages(store, cookies, ssrContext),
+        ...lagia_tourism(store, cookies, ssrContext),
 
         // EMPTY
         {

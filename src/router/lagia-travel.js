@@ -79,8 +79,6 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/travel/price-public-list.vue"),
     },
-
-
     {
       path: "/travel/store-detail/:slug",
       name: "/travel/store-detail",
@@ -92,6 +90,19 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/travel/store-detail.vue"),
     },
+
+    {
+      path: "/travel/reservation-list",
+      name: "/travel/reservation-list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Travel Price',
+      },
+      component: () => import("pages/lagia-pages/travel/reservation-list.vue"),
+    },
+
 
   ]
 }

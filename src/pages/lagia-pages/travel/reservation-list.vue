@@ -1,5 +1,4 @@
 <template>
-  <!-- <main> -->
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
@@ -18,7 +17,8 @@
 
         <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
           <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <ReservationDialog v-if="label === 'reservasi'" :item="record"></ReservationDialog>
+          <PricePublicListCard v-else-if="label === 'penawaran'" :item="record"></PricePublicListCard>
+          <ReservationDialog v-else-if="label === 'detail'" :item="record"></ReservationDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -47,136 +47,11 @@
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
-        <PriceListCard
+        <ReservationListCard
           @onBubbleEvent="onBubbleEvent"
           :item="item"
-        ></PriceListCard>
-        <!-- <q-card flat class="rounded-borders-2">
-          <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-            <q-img
-              loading="lazy"
-              :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-              :src="item?.image[0]"
-            >
-              <template v-slot:error>
-                <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image {{ item?.image[0] }}
-                </div>
-              </template>
-            </q-img>
+        ></ReservationListCard>
 
-            <q-card-section class="bg-grey-2 row col flex items-start">
-              <div class="text-box q-mt-lg full-width q-px-sm col-12">
-                <h3>{{ item?.name }}</h3>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">location</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.location }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">address:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.address }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">codepos:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.codepos }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">city: </q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.city }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">country:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.country }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </div>
-
-              <div class="col-12 q-mt-md" v-if="item?.category">
-                <template
-                  v-for="(category, category_index) in item?.category?.split(',')"
-                >
-                  <q-chip
-                    color="blue-5"
-                    text-color="white"
-                    icon="label"
-                    class="text-capitalize"
-                    >{{ category }}</q-chip
-                  >
-                </template>
-              </div>
-            </q-card-section>
-
-            <q-card-section
-              class="bg-light-blue-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
-            >
-              <q-badge
-                color="pink"
-                class="q-mr-lg rounded-borders-2"
-                style="margin-top: -10px"
-                floating
-                ><span class="text-title q-ma-sm">Vendor</span></q-badge
-              >
-
-              <q-rating
-                v-if="item?.travelRatingAvg?.avgRating"
-                readonly
-                v-model="item.travelRatingAvg.avgRating"
-                size="sm"
-                :max="5"
-                color="white"
-              ></q-rating>
-
-              <q-rating
-                v-else
-                readonly
-                v-model="ratingZero"
-                size="sm"
-                :max="5"
-                color="white"
-              ></q-rating>
-              <div v-if="false" class="full-width text-body text-center q-mx-sm">Review (34)</div>
-              <div class="package-price col-12 text-center row">
-                <h6 class="col-12">
-                  {{ item?.travelPricePublicsCount }}
-                  <small class="text-weight-light">Deals</small>
-                </h6>
-                <small class="col-12 text-center">/ price list</small>
-              </div>
-
-              <div class="row col-12 justify-center">
-                <q-btn
-                  unelevated
-                  outline
-                  rounded
-                  dense
-                  class="q-px-lg q-py-sm q-mb-sm q-mt-md rounded-borders-3 text-weight-light"
-                  color="white"
-                  label="Visit Profile"
-                />
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card> -->
       </div>
       <div class="col-12 flex justify-center">
         <q-pagination
@@ -230,23 +105,22 @@
       </div>
     </div>
   </div>
-
-  <!-- </main> -->
 </template>
 
 <script async setup>
-import PriceListCard from "./components/PriceListCard";
-import ReservationDialog from "./components/ReservationDialog"
+import ReservationDialog from "./components/ReservationDialog";
+import ReservationListCard from "./components/ReservationListCard";
 import StoreDetailBody from "./components/StoreDetailBody";
+import PricePublicListCard from "./components/PricePublicListCard";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
-import { useTravelPriceListStore } from "stores/lagia-stores/travel/TravelPriceListStore";
+import { useTravelReservationListStore } from "stores/lagia-stores/travel/TravelReservationListStore";
 import { useRouter } from "vue-router";
-const store = useTravelPriceListStore();
+const store = useTravelReservationListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -277,7 +151,7 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
-      return useTravelPriceListStore(store).onFetch({
+      return useTravelReservationListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
     }
@@ -301,6 +175,7 @@ const record = ref(null);
 const label = ref('');
 
 function onBubbleEvent(value) {
+  console.log(value?.payload)
   record.value = value?.payload
   label.value = value?.label
   layout.value = true;

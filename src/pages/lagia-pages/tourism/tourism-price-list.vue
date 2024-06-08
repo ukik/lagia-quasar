@@ -3,45 +3,88 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <!-- detail ketika modal reservasi dibuka -->
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="kategori"       transition-show="slide-up"
-      transition-hide="slide-down">
+    <!-- DETAIL VENDOR -->
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="rental_vehicle_modal"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
-            <div class="text-h6">Kategori Dipilih</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6">Detail Vendor</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
-          <PricePublicListDialog :item="record"></PricePublicListDialog>
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <RentalDetailCard :item="record"></RentalDetailCard>
         </q-card-section>
       </q-card>
     </q-dialog>
 
-
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
-      transition-hide="slide-down">
-      <q-card :style="($q.screen.width > 768 && label !== 'buat reservasi') ? 'width: 750px !important' : ''">
+    <!-- DETAIL VEHICLE -->
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="rental_modal"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="myWidth">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
-            <div class="text-h6 text-capitalize">{{ label }}</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="list" @click="kategori = true;"></q-btn>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6">List Vehicle</div>
+            <q-space></q-space>
+            <!-- <q-btn dense flat icon="list" @click="rental_vehicle_modal = true"></q-btn> -->
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
-          <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <PricePublicReservationDialog v-if="label === 'buat reservasi'" :item="record"></PricePublicReservationDialog>
-          <PricePublicListDialog v-else-if="label === 'detail'" :item="record"></PricePublicListDialog>
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <RentalVehicleDialog :item="rental_record"></RentalVehicleDialog>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="layout"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">{{ label }}</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <VenueDialogCard
+            v-if="label === 'venue'"
+            @onBubbleEvent="onBubbleEventRental"
+            :item="record"
+          ></VenueDialogCard>
+          <PriceVehicleDialog
+            v-if="label === 'vehicle'"
+            :item="record"
+          ></PriceVehicleDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -56,27 +99,28 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-
-      <div v-for="(item, index) in records" class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-        <PricePublicListCard @onBubbleEvent="onBubbleEvent" :item="item"></PricePublicListCard>
+      <div
+        v-for="(item, index) in records"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+      >
+        <PriceListCard @onBubbleEvent="onBubbleEvent" :item="item"></PriceListCard>
       </div>
-
       <div class="col-12 flex justify-center">
         <q-pagination
-        :disable="loading"
-        class="q-mt-lg"
-        size="lg"
-        v-model="currentPage"
-        :max="lastPage"
-        :max-pages="6"
-        :input="$q.screen.width < 768"
-        direction-links
-        outline
-        color="blue"
-        active-design="unelevated"
-        active-color="primary"
-        active-text-color="white"
-      />
+          :disable="loading"
+          class="q-mt-lg"
+          size="lg"
+          v-model="currentPage"
+          :max="lastPage"
+          :max-pages="6"
+          :input="$q.screen.width < 768"
+          direction-links
+          outline
+          color="blue"
+          active-design="unelevated"
+          active-color="primary"
+          active-text-color="white"
+        />
       </div>
     </div>
   </div>
@@ -118,19 +162,21 @@
 </template>
 
 <script async setup>
-import PricePublicListCard from "./components/PricePublicListCard";
-import PricePublicListDialog from "./components/PricePublicListDialog";
-import PricePublicReservationDialog from "./components/PricePublicReservationDialog"
-import StoreDetailBody from "./components/StoreDetailBody";
+import PriceListCard from "./components/PriceListCard";
+import VenueDialogCard from "./components/VenueDialogCard";
+import RentalListCard from "./components/RentalListCard";
+import RentalVehicleDialog from "./components/RentalVehicleDialog";
+import PriceVehicleDialog from "./components/PriceVehicleDialog";
+import RentalDetailCard from "./components/RentalDetailCard";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
-import { useTravelPricePublicListStore } from "stores/lagia-stores/travel/TravelPricePublicListStore";
+import { useTourismPriceListStore } from "stores/lagia-stores/tourism/TourismPriceListStore";
 import { useRouter } from "vue-router";
-const store = useTravelPricePublicListStore();
+const store = useTourismPriceListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -150,12 +196,7 @@ const {
   loading,
 } = storeToRefs(store); // have all reactive states here
 
-// onFetch();
 defineOptions({
-  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-  //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-  //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
-  // }
   preFetch: preFetch(
     ({
       store,
@@ -166,7 +207,7 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
-      return useTravelPricePublicListStore(store).onFetch({
+      return useTourismPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
     }
@@ -185,21 +226,24 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 0;
-
-const kategori = ref(false);
-
 const layout = ref(false);
 const record = ref(null);
-const label = ref('');
+const label = ref("");
 
 function onBubbleEvent(value) {
-  record.value = value?.payload
-  label.value = value?.label
+  record.value = value?.payload;
+  label.value = value?.label;
   layout.value = true;
 }
 
+const rental_modal = ref(false);
+const rental_vehicle_modal = ref(false);
+const rental_record = ref(false);
 
+function onBubbleEventRental(value) {
+  rental_record.value = value?.payload;
+  rental_modal.value = true;
+}
 </script>
 
 <style scoped>

@@ -20,8 +20,8 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 export default boot(({ app, ssrContext, router, store }) => {
 
-  app.component("SkeletonTwitch", () => import('src/components/skeleton/skeleton-twitch.vue'))
-  app.component("SkeletonTwitter", () => import('src/components/skeleton/skeleton-twitter.vue'))
+  // app.component("SkeletonTwitch", () => import('src/components/skeleton/skeleton-twitch.vue'))
+  // app.component("SkeletonTwitter", () => import('src/components/skeleton/skeleton-twitter.vue'))
 
   app.component("BlankArtikel", () => import('src/components/blank/artikel.vue'))
   app.component("BlankCari", () => import('src/components/blank/cari.vue'))

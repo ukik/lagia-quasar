@@ -282,5 +282,20 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   // app.component('SkeletonTwitch', SkeletonTwitch)
 
   // app.component('QCurrencyInput', QCurrencyInput)
+  app.component('GlobalEasyLightbox',
+    defineAsyncComponent(() => import('src/components/lagia-components/GlobalEasyLightbox.vue'))
+  )
+
+  app.component("SkeletonTwitch",
+    defineAsyncComponent(() => import('src/components/skeleton/skeleton-twitch.vue'))
+  )
+  app.component("SkeletonTwitter",
+    defineAsyncComponent(() => import('src/components/skeleton/skeleton-twitter.vue'))
+  )
+
+  app.component("NoData",
+    defineAsyncComponent(() => import('src/components/lagia-components/NoData.vue'))
+  )
+
 
 })

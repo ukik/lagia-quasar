@@ -7,11 +7,11 @@ import { Notify, debounce } from 'quasar'
 import caseConvert from 'src/utils/case-convert';
 
 // no need to import defineStore and acceptHMRUpdate
-export const useTravelPricePublicListStore = defineStore('TravelPricePublicListStore', {
-  id: 'TravelPricePublicListStore',
+export const useTransportDriverListStore = defineStore('TransportDriverListStore', {
+  id: 'TransportDriverListStore',
 
   state: () => ({
-    slug: 'travel-prices-public',
+    slug: 'transport-drivers',
     errors: {},
     data: {},
     paginate: [5, 10, 25, 50, 75, 100],
@@ -27,9 +27,10 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
     perPage: 25,  // perPage & rowPerPage itu sama
 
     isAvailable: '',
-    ticket_status: '',
+    rentalId: '',
 
     loading: false,
+    init: false,
   }),
 
   getters: {
@@ -38,14 +39,17 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage }) {
+    async onFetch ({ currentPage, rentalId }) {
 
       if (this.loading) return false;
+
+      // untuk filter data berdasarkan rental id
+      this.rentalId = rentalId
 
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/travel-prices-public',
+          url: '/trevolia-api/v1/entities/transport-drivers',
           method: 'get',
           params: {
             slug: this.slug,
@@ -54,14 +58,13 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
             orderDirection: caseConvert.snake(this.orderDirection),
             showSoftDelete: this.isShowDataRecycle,
             isAvailable: this.isAvailable,
+            rentalId: rentalId,
             search: this.search,
             perPage: this.perPage,
             page: currentPage, //this.currentPage,
             payload: [],
-            loading: false,
-
-            ticket_status: this.ticket_status,
-         }
+            // loading: false
+          }
         })
         .then((response) => {
           // Notify.create({
@@ -85,15 +88,15 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
 
       this.loading = false
 
-      console.log('stores/lagia-stores/TravelPricePublicListStore 1', response?.data)
+      console.log('stores/lagia-stores/TransportDriverListStore 1', response?.data)
 
       if (!response?.data) return this.loading = false
 
-      response?.data?.data?.data.forEach(element => {
-        if(element?.travelStore) {
-          element.travelStore['image'] = JSON.parse(element?.travelStore['image'])
-        }
-      });
+      this.init = true
+
+      // response?.data?.data?.data.forEach(element => {
+      //   element['image'] = JSON.parse(element['image'])
+      // });
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage
@@ -102,12 +105,12 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
       this.data = response?.data?.data;
       this.records = response?.data?.data?.data;
 
-      console.log('stores/lagia-stores/TravelPricePublicListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
+      console.log('stores/lagia-stores/TransportDriverListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
     },
 
-    onPaginate: debounce(async function ({ currentPage }) {
-      this.onFetch({ currentPage })
+    onPaginate: debounce(async function ({ currentPage, rentalId }) {
+      this.onFetch({ currentPage, rentalId })
     }, 500),
 
     async onClearRegister() {
@@ -117,5 +120,5 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useTravelPricePublicListStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useTransportDriverListStore, import.meta.hot));
 }

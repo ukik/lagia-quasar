@@ -12,9 +12,10 @@
       ]"
     >
       <div v-for="(item, index) in records" class="col-12">
-        <q-card flat class="rounded-borders-2">
+        <q-card flat bordered class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
+              v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
               class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
@@ -26,109 +27,106 @@
                 </div>
               </template>
             </q-img>
+            <q-img
+              loading="lazy"
+              :ratio="16 / 9"
+              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              v-else
+              :src="$defaultUser"
+            />
 
             <q-card-section class="bg-grey-2 row col flex items-start">
-              <div class="text-box q-mt-lg full-width q-px-sm col-12">
-                <h3>{{ item?.name }}</h3>
+              <div class="text-box full-width q-px-sm col-12 text-capitalize">
+                <h3>{{ item?.model }}</h3>
                 <q-item dense>
                   <q-item-section>
-                    <q-item-label lines="1">location</q-item-label>
+                    <q-item-label lines="1">uuid</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label lines="1">{{ item?.location }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">address:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.address }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">codepos:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.codepos }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">city: </q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.city }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">country:</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.country }}</q-item-label>
+                    <q-item-label lines="1">{{ item?.uuid }}</q-item-label>
                   </q-item-section>
                 </q-item>
                 <!-- <q-item dense>
                   <q-item-section>
-                    <q-item-label caption lines="1">policy:</q-item-label>
+                    <q-item-label lines="1">model</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label caption lines="1">{{ item?.policy }}</q-item-label>
+                    <q-item-label lines="1">{{ item?.model }}</q-item-label>
+                  </q-item-section>
+                </q-item> -->
+                <q-item dense>
+                  <q-item-section>
+                    <q-item-label lines="1">brand</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1">{{ item?.brand }}</q-item-label>
                   </q-item-section>
                 </q-item>
                 <q-item dense>
                   <q-item-section>
-                    <q-item-label caption lines="1">description:</q-item-label>
+                    <q-item-label lines="1">category </q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label caption lines="1">{{ item?.description }}</q-item-label>
+                    <q-item-label lines="1"
+                      ><q-chip text-color="white" color="pink">{{
+                        item?.category
+                      }}</q-chip></q-item-label
+                    >
                   </q-item-section>
-                </q-item> -->
-
-                <!-- <q-item-label caption lines="1">address: {{ item?.address }}</q-item-label>
-                <q-item-label caption lines="1">codepos: {{ item?.codepos }}</q-item-label>
-                <q-item-label caption lines="1">city: {{ item?.city }}</q-item-label>
-                <q-item-label caption lines="1">country: {{ item?.country }}</q-item-label>
-                <q-item-label caption lines="1">policy: {{ item?.policy }}</q-item-label>
-                <q-item-label caption lines="1">description: {{ item?.description }}</q-item-label> -->
-              </div>
-
-              <div class="col-12 q-mt-md" v-if="item?.category">
-                <template
-                  v-for="(category, category_index) in item?.category?.split(',')"
-                >
-                  <q-chip
-                    color="blue-5"
-                    text-color="white"
-                    icon="label"
-                    class="text-capitalize"
-                    >{{ category }}</q-chip
-                  >
-                </template>
-
-                <!-- <q-chip outline color="orange" icon="schedule"> 7D/6N</q-chip>
-                <q-chip outline color="pink" icon="group">pax: 10</q-chip>
-                <q-chip outline color="green" icon="location_on">Malaysia</q-chip> -->
+                </q-item>
+                <q-item dense>
+                  <q-item-section>
+                    <q-item-label lines="1">bahan bakar</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1">{{ item?.fuelType }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item dense>
+                  <q-item-section>
+                    <q-item-label lines="1">color</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1">{{ item?.color }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item dense>
+                  <q-item-section>
+                    <q-item-label lines="1">stnk</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1">{{ item?.codeStnk }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item dense>
+                  <q-item-section>
+                    <q-item-label lines="1">slot kursi</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1"
+                      >{{ item?.slotPassanger }}
+                      <q-icon style="margin-top: -3px" size="18px" name="person"></q-icon
+                    ></q-item-label>
+                  </q-item-section>
+                </q-item>
               </div>
             </q-card-section>
 
             <q-card-section
-              class="bg-light-blue-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
+              class="bg-cyan-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
             >
-              <q-badge
+              <!-- <q-badge
                 color="pink"
                 class="q-mr-lg rounded-borders-2"
                 style="margin-top: -10px"
                 floating
-                ><span class="text-title q-ma-sm">Vendor</span></q-badge
-              >
+                ><span class="text-title q-ma-sm text-uppercase">{{ item?.category }}</span></q-badge
+              > -->
 
               <q-rating
-                v-if="item?.travelRatingAvg?.avgRating"
+                v-if="item?.ratingAvg?.avgRating"
                 readonly
-                v-model="item.travelRatingAvg.avgRating"
+                v-model="item.ratingAvg.avgRating"
                 size="sm"
                 :max="5"
                 color="white"
@@ -143,17 +141,19 @@
                 color="white"
               ></q-rating>
 
-              <div class="text-body text-center q-mx-sm">review (34)</div>
-              <div class="package-price col-12 text-center row">
+              <div v-if="false" class="full-width text-body text-center q-mx-sm">
+                Review (34)
+              </div>
+              <div class="package-price col-12 text-center row q-mt-md">
                 <h6 class="col-12">
-                  {{ item?.travelPricesCount }}
-                  <small class="text-weight-light">item</small>
+                  {{ item?.slotPassanger }}
+                  <small class="text-weight-light">seat</small>
                 </h6>
-                <small class="col-12 text-center">/ price available</small>
+                <small class="col-12 text-center">( maximum slot )</small>
               </div>
 
               <div class="row col-12 justify-center">
-                <q-btn
+                <!-- <q-btn
                   unelevated
                   outline
                   rounded
@@ -162,15 +162,16 @@
                   color="white"
                   label="Price List"
                 />
-                <div class="col-1"></div>
+                <div class="col-1"></div> -->
                 <q-btn
+                  @click="showMultiple(item?.image, 0)"
                   unelevated
                   outline
                   rounded
                   dense
                   class="q-px-lg q-py-sm q-mb-sm q-mt-md rounded-borders-3 text-weight-light"
                   color="white"
-                  label="Visit Profile"
+                  label="Visit Detail"
                 />
               </div>
             </q-card-section>
@@ -242,13 +243,17 @@
 //     page: currentRoute.params.page
 //   });
 // }),
+
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
 
-import { useTravelStoreListStore } from "stores/lagia-stores/travel/TravelStoreListStore";
-const store = useTravelStoreListStore();
-const { onFetch } = store; // have all reactive states here
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useTransportVehicleListStore } from "stores/lagia-stores/transport/TransportVehicleListStore";
+import { useRouter } from "vue-router";
+const store = useTransportVehicleListStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
   data,
@@ -267,78 +272,40 @@ const {
   loading,
 } = storeToRefs(store); // have all reactive states here
 
-onFetch();
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      return useTransportVehicleListStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
 
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val);
-  onFetch();
+  router.push({ query: { page: val.value } });
+  onPaginate({ currentPage: val.value });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
-  immediate: true,
+  // immediate: true,
 });
 
 const ratingZero = 0;
-
-const content = {
-  title: "TOUR PACKAGES",
-  cards: [
-    {
-      id: "1",
-      rating: 4,
-      icon: "hotel",
-      title: "BEST HOTELS",
-      image: "assets/images/img4.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "flight_takeoff",
-      title: "TRAVEL INSURANCE",
-      image: "assets/images/img28.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "store_mall_directory",
-      title: "ACCESSIBILITY",
-      image: "assets/images/img12.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "sticky_note_2",
-      title: "ONLINE BOOKING",
-      image: "assets/images/img13.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "directions_bus",
-      title: "BEST TOUR",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      rating: 4,
-      icon: "support_agent",
-      title: "FAST SUPPORT",
-      image: "assets/images/img10.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-  ],
-};
 </script>
 <style scoped>
 .content-page-section {

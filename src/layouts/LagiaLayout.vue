@@ -189,13 +189,14 @@ export default {
 
           <q-btn
             flat
-            size="lg"
+            size="17px"
             round
             icon="support_agent"
             aria-label="Menu"
             @click="rightDrawerOpen = !rightDrawerOpen"
           />
         </q-toolbar>
+
 
         <q-toolbar v-else class="bg-primary text-white">
           <q-btn flat round dense icon="menu" class="q-mr-sm" />
@@ -211,7 +212,7 @@ export default {
 
           <q-btn
             flat
-            size="lg"
+            size="17px"
             round
             icon="support_agent"
             aria-label="Menu"
@@ -268,18 +269,24 @@ export default {
       "
     >
       <q-page>
+        <q-no-ssr>
+          <GlobalEasyLightbox></GlobalEasyLightbox>
+        </q-no-ssr>
+
         <q-card-section
           v-if="hideNav()"
           id="thing_to_stick"
           class="absolute-top bg-redX q-py-none row justify-center"
-          :style="$q.screen.width > 768 ? 'z-index: 9; margin-top: 60px;' : 'z-index: 9; margin-top: 10px;'"
+          :style="$q.screen.width > 768 ?
+          'z-index: 9; margin-top: 60px;' : 'z-index: 9; margin-top: 10px;'"
         >
-          <q-toolbar class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12" style="padding-left: 0px;">
+          <q-toolbar class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+            style="padding-left: 0px; padding-right: 0px;">
             <!-- <q-toolbar-title> Travel & Tour </q-toolbar-title> -->
 
-            <LayoutHeaderMenu
+            <!-- <LayoutHeaderMenu
               v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
-            ></LayoutHeaderMenu>
+            ></LayoutHeaderMenu> -->
 
             <q-item class="q-pa-none" dense clickable v-ripple>
               <q-item-section avatar>
@@ -294,7 +301,9 @@ export default {
               </q-item-section>
             </q-item>
             <q-space></q-space>
+
             <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
+
             <q-space></q-space>
             <q-btn
               style="height: 46px"
