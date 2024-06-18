@@ -94,9 +94,19 @@ export const useTransportVehicleListStore = defineStore('TransportVehicleListSto
 
       this.init = true
 
-      response?.data?.data?.data.forEach(element => {
-        element['image'] = JSON.parse(element['image'])
-      });
+      // response?.data?.data?.data.forEach(element => {
+      //   element['image'] = JSON.parse(element['image'])
+      // });
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.image) element['image'] = JSON.parse(element['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.image) element['image'] = [element['image']]
+        });
+      }
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage

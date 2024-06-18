@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
   <div class="q-px-sm q-pt-sm">
     <div>
       <q-skeleton height="170px" square animation="fade" />
@@ -45,5 +45,5 @@
       </div>
     </div>
   </div>
-</fragment>
+</div>
 </template>

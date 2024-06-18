@@ -22,7 +22,7 @@
             >
               <template v-slot:error>
                 <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image {{ item?.image[0] }}
+                  Cannot load image
                 </div>
               </template>
             </q-img>
@@ -265,6 +265,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 onFetch();

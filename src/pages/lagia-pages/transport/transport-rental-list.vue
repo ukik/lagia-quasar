@@ -3,44 +3,57 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="detail"
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="detail"
       transition-show="slide-up"
-      transition-hide="slide-down">
+      transition-hide="slide-down"
+    >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6">Detail Vendor</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
-          <RentalDetailCard :item="record"></RentalDetailCard>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-
-
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
-      transition-hide="slide-down">
-      <q-card :style="myWidth">
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
-            <div class="text-h6">List Vehicle</div>
             <q-space></q-space>
-            <q-btn dense flat icon="list" @click="detail = true;"></q-btn>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <RentalDetailCard :item="record"></RentalDetailCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="layout"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="myWidth">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6">List Vehicle</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="list" @click="detail = true"></q-btn>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <!-- <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody> -->
-          <RentalVehicleDialog v-if="label === 'vehicle'" :item="record"></RentalVehicleDialog>
+          <RentalVehicleDialog
+            v-if="label === 'vehicle'"
+            :item="record"
+          ></RentalVehicleDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -59,12 +72,8 @@
         v-for="(item, index) in records"
         class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
       >
-        <RentalListCard
-          @onBubbleEvent="onBubbleEvent"
-          :item="item"
-        ></RentalListCard>
+        <RentalListCard @onBubbleEvent="onBubbleEvent" :item="item"></RentalListCard>
       </div>
-
 
       <!-- MASONRY -->
       <!--
@@ -80,8 +89,6 @@
           </template>
         </div>
       </q-card> -->
-
-
 
       <div class="col-12 flex justify-center">
         <q-pagination
@@ -141,7 +148,7 @@
 
 <script async setup>
 import RentalListCard from "./components/RentalListCard";
-import RentalVehicleDialog from "./components/RentalVehicleDialog"
+import RentalVehicleDialog from "./components/RentalVehicleDialog";
 import StoreDetailBody from "./components/StoreDetailBody";
 import RentalDetailCard from "./components/RentalDetailCard";
 
@@ -151,7 +158,7 @@ import { ref, nextTick, watch, onMounted, computed } from "vue";
 import { preFetch } from "quasar/wrappers";
 
 import { useTransportRentalListStore } from "stores/lagia-stores/transport/TransportRentalListStore";
-import { useRouter } from "vue-router";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
 const store = useTransportRentalListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
@@ -170,6 +177,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -183,6 +191,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTransportRentalListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
@@ -204,27 +215,25 @@ watch(() => currentPage, onCurrentPage, {
 
 const layout = ref(false);
 const record = ref(null);
-const label = ref('');
+const label = ref("");
 
 function onBubbleEvent(value) {
-  record.value = value?.payload
-  label.value = value?.label
+  record.value = value?.payload;
+  label.value = value?.label;
   layout.value = true;
-
 }
 
-const $q = useQuasar()
+const $q = useQuasar();
 const myWidth = computed(() => {
-  if($q.screen.width > 768) {
-    if(label.value == 'vehicle') return 'width: 80vw !important'
-    return 'width: 750px !important'
+  if ($q.screen.width > 768) {
+    if (label.value == "vehicle") return "width: 80vw !important";
+    return "width: 750px !important";
   } else {
-    return ''
+    return "";
   }
-})
+});
 
-
-const detail = ref(false)
+const detail = ref(false);
 </script>
 
 <style scoped>
@@ -275,13 +284,6 @@ h2 {
 .bg-light-grey {
   background-color: #f8f8f8;
 }
-
-
-
-
-
-
-
 
 .container {
   list-style: none;
@@ -339,5 +341,4 @@ h2 {
 .content-page-section p {
   margin-bottom: 25px;
 }
-
 </style>

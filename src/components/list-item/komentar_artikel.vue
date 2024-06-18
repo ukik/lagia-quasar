@@ -1,6 +1,6 @@
 <template>
 
-  <fragment>
+  <div>
 
         <ProfileKomentar
 
@@ -33,7 +33,7 @@
         </q-item-section>
 
 
-  </fragment>
+  </div>
 
 </template>
 

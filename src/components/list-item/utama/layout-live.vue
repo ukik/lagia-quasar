@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 	<!-- <q-list class="q-pa-none"> -->
 
       <!-- <div v-for="i in prop_data" :key="i"> -->
@@ -60,7 +60,7 @@
 
 	  <!-- </div> -->
 	<!-- </q-list> -->
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

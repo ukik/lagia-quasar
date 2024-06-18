@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 	<div v-for="(item1, i) in dataGroups" :key="i+'A'">
 		<div v-for="(item, index) in payload.slice(i * itemsPerRow, (i + 1) * itemsPerRow)" :key="index">
 			<!-- <Ayat :item="item" :index="index" /> -->
@@ -8,7 +8,7 @@
 			<slot v-bind="{ item, index }"></slot>
 		</div>
 	</div>	
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

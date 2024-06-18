@@ -29,6 +29,7 @@ export const useTransportPriceListStore = defineStore('TransportPriceListStore',
     isAvailable: '',
 
     loading: false,
+    init: false,
   }),
 
   getters: {
@@ -86,10 +87,33 @@ export const useTransportPriceListStore = defineStore('TransportPriceListStore',
 
       if (!response?.data) return this.loading = false
 
-      response?.data?.data?.data.forEach(element => {
-        if(element?.transportRental?.image) element['transportRental']['image'] = JSON.parse(element['transportRental']['image'])
-        if(element?.transportVehicle?.image) element['transportVehicle']['image'] = JSON.parse(element['transportVehicle']['image'])
-      });
+      this.init = true
+
+
+      // response?.data?.data?.data.forEach(element => {
+      //   if(element?.transportRental?.image) element['transportRental']['image'] = JSON.parse(element['transportRental']['image'])
+      //   if(element?.transportVehicle?.image) element['transportVehicle']['image'] = JSON.parse(element['transportVehicle']['image'])
+      // });
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.transportRental?.image) element['transportRental']['image'] = JSON.parse(element['transportRental']['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.transportRental?.image) element['transportRental']['image'] = [element['transportRental']['image']]
+        });
+      }
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.transportVehicle?.image) element['transportVehicle']['image'] = JSON.parse(element['transportVehicle']['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.transportVehicle?.image) element['transportVehicle']['image'] = [element['transportVehicle']['image']]
+        });
+      }
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage

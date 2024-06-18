@@ -1,6 +1,6 @@
 <template>
 
-	<fragment>
+	<div>
 
       <q-item class="q-pa-sm">
         <q-item-section top avatar>
@@ -55,7 +55,7 @@
         </q-item-section>
  -->
 
-	</fragment>
+	</div>
 
 </template>
 

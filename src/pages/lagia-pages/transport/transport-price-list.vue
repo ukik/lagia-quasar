@@ -174,7 +174,7 @@ import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
 import { useTransportPriceListStore } from "stores/lagia-stores/transport/TransportPriceListStore";
-import { useRouter } from "vue-router";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
 const store = useTransportPriceListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
@@ -193,6 +193,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -206,6 +207,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTransportPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });

@@ -1,107 +1,164 @@
 <template>
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- {{ item?.transportVehicle?.image }} -->
-      <!-- <q-img
-        class="bg-dark"
-        v-if="!item?.transportVehicle?.image"
-        style="height: 300px"
-        :src="item?.image"
-        error-src="https://cdn.quasar.dev/logo-v2/header.png"
+      <!-- {{ item?.tourismVenue?.image }} -->
+      <q-img
+        v-if="item?.tourismVenue?.image && item?.tourismVenue?.image.length > 0"
+        loading="lazy"
+        :ratio="16 / 9"
+        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+        :src="item?.tourismVenue?.image[0]"
+        :error-src="$defaultErrorImage"
       >
-        <q-badge
-          :color="badgeCondition(item?.condition)"
-          class="q-mr-lg rounded-borders-2"
-          style="margin-top: -17px"
-          floating
-          ><span class="text-title text-uppercase q-mt-md">{{
-            item?.condition
-          }}</span></q-badge
-        >
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center">Error encountered</div>
-          <q-badge
-            :color="badgeCondition(item?.condition)"
-            class="q-mr-lg rounded-borders-2"
-            style="margin-top: -17px"
-            floating
-            ><span class="text-title text-uppercase q-mt-md">{{
-              item?.condition
-            }}</span></q-badge
-          >
-        </template>
-      </q-img> -->
+        <div class="absolute-top-right bg-transparent">
+          <q-btn
+            size="16px"
+            rounded
+            dense
+            color="white"
+            text-color="primary"
+            icon="fullscreen"
+            @click="showMultiple(item?.tourismVenue?.image, 0)"
+          />
+        </div>
 
+        <template v-slot:error>
+          <div class="absolute-full flex flex-center text-white">Cannot load image</div>
+        </template>
+      </q-img>
       <q-img
         loading="lazy"
+        :ratio="16 / 9"
+        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+        v-else
+        :src="$defaultErrorImage"
+      />
+      <!-- <q-img
+        loading="lazy"
         style="height: 300px"
-        v-if="!item?.transportVehicle?.image"
+        v-if="!item?.tourismVenue?.image"
         :src="$defaultUser"
       />
-      <RentalImageSlideCarousel
+      <ImageSlideCarousel
         v-else
-        :_gallery="item?.transportVehicle?.image"
-      ></RentalImageSlideCarousel>
+        :_gallery="item?.tourismVenue?.image"
+      ></ImageSlideCarousel> -->
 
       <q-card-section>
-        <!-- <div class="text-overline text-uppercase text-orange-9">{{ item?.category }}</div> -->
-        <template v-for="(val, index) in item?.category">
+        <!-- <div class="text-overline text-uppercase text-pink">{{ item?.tourismVenue?.category }}</div> -->
+        <template v-for="(val, index) in item?.tourismVenue?.category">
           <q-chip
-            color="orange-9"
+            color="blue"
             text-color="white"
-            class="text-overline text-uppercase"
+            class="text-overline text-uppercase q-ml-none"
             >{{ val }}</q-chip
           >
         </template>
 
-        <div class="text-h6 q-mt-sm q-mb-xs">{{ item?.name }}</div>
-        <q-item-label caption>{{ item?.createdAt }}</q-item-label>
+        <div class="text-h6 q-mt-sm q-mb-xs">{{ item?.tourismVenue?.name }}</div>
+        <q-item-label caption class="q-my-lg">{{
+          item?.tourismVenue?.createdAt
+        }}</q-item-label>
 
-        <div class="row text-white">
+        <q-rating
+          v-if="item?.tourismVenue?.ratingAvg?.avgRating"
+          readonly
+          v-model="item.tourismVenue.ratingAvg.avgRating"
+          size="sm"
+          :max="5"
+          color="red"
+        ></q-rating>
+
+        <q-rating
+          v-else
+          readonly
+          v-model="ratingZero"
+          size="sm"
+          :max="5"
+          color="red"
+        ></q-rating>
+
+        <!-- <div class="row text-white">
           <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white">Start From</q-item-label>
-            <q-item-label class="text-h4">Rp. {{ item?.generalPrice }}</q-item-label>
+            <q-item-label class="text-h4">Rp. {{ item?.tourismVenue?.tourismVenue?.generalPrice }}</q-item-label>
           </q-item-section>
-        </div>
+        </div> -->
       </q-card-section>
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <QItemLabelValue label="id" :value="item?.id"></QItemLabelValue>
-          <QItemLabelValue label="userId" :value="item?.userId"></QItemLabelValue>
-          <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue>
-          <QItemLabelValue label="dayOpen" :value="item?.dayOpen"></QItemLabelValue>
-          <QItemLabelValue label="dayClose" :value="item?.dayClose"></QItemLabelValue>
+          <QItemLabelValue label="id" :value="item?.tourismVenue?.id"></QItemLabelValue>
+          <QItemLabelValue
+            label="userId"
+            :value="item?.tourismVenue?.userId"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="uuid"
+            :value="item?.tourismVenue?.uuid"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="dayOpen"
+            :value="item?.tourismVenue?.dayOpen"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="dayClose"
+            :value="item?.tourismVenue?.dayClose"
+          ></QItemLabelValue>
           <QItemLabelValue
             label="timeOpen"
-            :value="$formatTime(item?.timeOpen)"
+            :value="$formatTime(item?.tourismVenue?.timeOpen)"
           ></QItemLabelValue>
           <QItemLabelValue
             label="timeClose"
-            :value="$formatTime(item?.timeClose)"
+            :value="$formatTime(item?.tourismVenue?.timeClose)"
           ></QItemLabelValue>
-          <QItemLabelValue label="name" :value="item?.name"></QItemLabelValue>
-          <QItemLabelValue label="email" :value="item?.email"></QItemLabelValue>
-          <QItemLabelValue label="phone" :value="item?.phone"></QItemLabelValue>
-          <QItemLabelValue label="location" :value="item?.location"></QItemLabelValue>
-          <!-- <QItemLabelValue label="image" :value="item?.image"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="address" :value="item?.address"></QItemLabelValue> -->
-          <QItemLabelValue label="codepos" :value="item?.codepos"></QItemLabelValue>
-          <QItemLabelValue label="city" :value="item?.city"></QItemLabelValue>
-          <QItemLabelValue label="country" :value="item?.country"></QItemLabelValue>
-          <!-- <QItemLabelValue label="policy" :value="item?.policy"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="category" :value="item?.category"></QItemLabelValue> -->
+          <QItemLabelValue
+            label="name"
+            :value="item?.tourismVenue?.name"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="email"
+            :value="item?.tourismVenue?.email"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="phone"
+            :value="item?.tourismVenue?.phone"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="location"
+            :value="item?.tourismVenue?.location"
+          ></QItemLabelValue>
+          <!-- <QItemLabelValue label="image" :value="item?.tourismVenue?.image"></QItemLabelValue> -->
+          <!-- <QItemLabelValue label="address" :value="item?.tourismVenue?.address"></QItemLabelValue> -->
+          <QItemLabelValue
+            label="codepos"
+            :value="item?.tourismVenue?.codepos"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="city"
+            :value="item?.tourismVenue?.city"
+          ></QItemLabelValue>
+          <QItemLabelValue
+            label="country"
+            :value="item?.tourismVenue?.country"
+          ></QItemLabelValue>
+          <!-- <QItemLabelValue label="policy" :value="item?.tourismVenue?.policy"></QItemLabelValue> -->
+          <!-- <QItemLabelValue label="category" :value="item?.tourismVenue?.category"></QItemLabelValue> -->
           <!-- <QItemLabelValue
             label="description"
-            :value="item?.description"
+            :value="item?.tourismVenue?.description"
           ></QItemLabelValue> -->
           <QItemLabelValue
             label="isAvailable"
-            :value="item?.isAvailable"
+            :value="item?.tourismVenue?.isAvailable"
           ></QItemLabelValue>
-          <QItemLabelValue label="createdAt" :value="item?.createdAt"></QItemLabelValue>
-          <!-- <QItemLabelValue label="updatedAt" :value="item?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.deletedAt"></QItemLabelValue> -->
+          <!-- <QItemLabelValue
+            label="createdAt"
+            :value="item?.tourismVenue?.createdAt"
+          ></QItemLabelValue> -->
+          <!-- <QItemLabelValue label="updatedAt" :value="item?.tourismVenue?.updatedAt"></QItemLabelValue>
+          <QItemLabelValue label="deletedAt" :value="item?.tourismVenue?.deletedAt"></QItemLabelValue> -->
         </q-list>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -111,10 +168,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.address }} Follow the instructions to embed the icon font in your
-              site and learn how to style your icons using CSS. Follow the instructions to
-              embed the icon font in your site and learn how to style your icons using
-              CSS.
+              {{ item?.tourismVenue?.address }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -127,10 +181,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.policy }} Follow the instructions to embed the icon font in your
-              site and learn how to style your icons using CSS. Follow the instructions to
-              embed the icon font in your site and learn how to style your icons using
-              CSS.
+              {{ item?.tourismVenue?.policy }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -143,10 +194,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.tourismVenue?.description }}
             </q-card-section>
           </q-card>
           <!-- <q-separator></q-separator> -->
@@ -158,7 +206,7 @@
         <q-btn-group spread outline>
           <q-btn
             @click="
-              $emit('onBubbleEvent', { label: 'vendor', payload: item?.transportRental })
+              $emit('onBubbleEvent', { label: 'vendor', payload: item?.tourismVenue?.transportRental })
             "
             label="Vendor"
             icon="storefront"
@@ -167,7 +215,7 @@
             @click="
               $emit('onBubbleEvent', {
                 label: 'vehicle',
-                payload: item?.transportVehicle,
+                payload: item?.tourismVenue?.transportVehicle,
               })
             "
             label="Kendaraan"
@@ -193,7 +241,7 @@
         <div v-show="expanded">
           <q-separator />
           <q-card-section class="text-body">
-            {{ item?.description }}
+            {{ item?.tourismVenue?.description }}
           </q-card-section>
         </div>
       </q-slide-transition> -->
@@ -204,17 +252,23 @@
 <script>
 import { ref } from "vue";
 import QItemLabelValue from "./QItemLabelValue";
-import RentalImageSlideCarousel from "./RentalImageSlideCarousel";
+import ImageSlideCarousel from "./ImageSlideCarousel";
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
     QItemLabelValue,
-    RentalImageSlideCarousel,
+    ImageSlideCarousel,
   },
   setup() {
+    const lightbox = useGlobalEasyLightbox();
+    const { showMultiple } = lightbox;
+
     return {
+      showMultiple,
       expanded: ref(false),
+      ratingZero: 4.5,
     };
   },
   methods: {
@@ -229,8 +283,8 @@ export default {
       }
     },
     getCategory(item) {
-      if (!item?.category) return [];
-      return item?.category.split(",");
+      if (!item?.tourismVenue?.category) return [];
+      return item?.tourismVenue?.category.split(",");
     },
   },
 };

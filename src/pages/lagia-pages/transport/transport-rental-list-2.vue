@@ -1,12 +1,12 @@
 <template>
-    <InnerBanner _title="Gallery"></InnerBanner>
+  <InnerBanner _title="Gallery"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
-    <div class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md" :class="[
-        $q.screen.width > 425 ? '' : '',
-        $q.screen.width > 768 ? '' : '',
-      ]">
+    <div
+      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md"
+      :class="[$q.screen.width > 425 ? '' : '', $q.screen.width > 768 ? '' : '']"
+    >
       <q-card flat class="col-12 q-pa-none">
         <div class="container">
           <template v-for="item in records">
@@ -24,7 +24,7 @@
               >
                 <template v-slot:error>
                   <div class="absolute-full flex flex-center bg-negative text-white">
-                    Cannot load image {{ item?.image[0] }}
+                    Cannot load image 
                   </div>
                 </template>
               </q-img>
@@ -40,23 +40,35 @@
   </div>
 
   <q-no-ssr>
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
-      transition-hide="slide-down">
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="layout"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6">{{ label }}</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <PricePublicListCard v-else-if="label === 'penawaran'" :item="record"></PricePublicListCard>
-          <ReservationDialog v-else-if="label === 'detail'" :item="record"></ReservationDialog>
+          <PricePublicListCard
+            v-else-if="label === 'penawaran'"
+            :item="record"
+          ></PricePublicListCard>
+          <ReservationDialog
+            v-else-if="label === 'detail'"
+            :item="record"
+          ></ReservationDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -100,11 +112,9 @@
       </div>
     </div>
   </div> -->
-
 </template>
 
 <script setup>
-
 import ReservationDialog from "./components/ReservationDialog";
 import RentalListCard from "./components/RentalListCard";
 import StoreDetailBody from "./components/StoreDetailBody";
@@ -135,6 +145,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -169,14 +180,13 @@ watch(() => currentPage, onCurrentPage, {
 
 const layout = ref(false);
 const record = ref(null);
-const label = ref('');
+const label = ref("");
 
 function onBubbleEvent(value) {
-  console.log(value?.payload)
-  record.value = value?.payload
-  label.value = value?.label
+  console.log(value?.payload);
+  record.value = value?.payload;
+  label.value = value?.label;
   layout.value = true;
-
 }
 
 const cards = [
@@ -282,5 +292,4 @@ const cards = [
 .content-page-section p {
   margin-bottom: 25px;
 }
-
 </style>

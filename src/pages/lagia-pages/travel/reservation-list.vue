@@ -2,23 +2,35 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
-      transition-hide="slide-down">
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="layout"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6">{{ label }}</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <PricePublicListCard v-else-if="label === 'penawaran'" :item="record"></PricePublicListCard>
-          <ReservationDialog v-else-if="label === 'detail'" :item="record"></ReservationDialog>
+          <PricePublicListCard
+            v-else-if="label === 'penawaran'"
+            :item="record"
+          ></PricePublicListCard>
+          <ReservationDialog
+            v-else-if="label === 'detail'"
+            :item="record"
+          ></ReservationDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -51,7 +63,6 @@
           @onBubbleEvent="onBubbleEvent"
           :item="item"
         ></ReservationListCard>
-
       </div>
       <div class="col-12 flex justify-center">
         <q-pagination
@@ -138,6 +149,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -151,6 +163,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTravelReservationListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
@@ -172,14 +187,13 @@ watch(() => currentPage, onCurrentPage, {
 
 const layout = ref(false);
 const record = ref(null);
-const label = ref('');
+const label = ref("");
 
 function onBubbleEvent(value) {
-  console.log(value?.payload)
-  record.value = value?.payload
-  label.value = value?.label
+  console.log(value?.payload);
+  record.value = value?.payload;
+  label.value = value?.label;
   layout.value = true;
-
 }
 </script>
 

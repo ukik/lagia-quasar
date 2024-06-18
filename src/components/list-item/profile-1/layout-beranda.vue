@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
 	<!-- <q-separator /> -->
 
@@ -212,7 +212,7 @@
 		</q-item-section>
 	</q-item>
 
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

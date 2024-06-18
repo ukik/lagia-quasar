@@ -1,5 +1,5 @@
 <template>
-	<fragment>
+	<div>
 
 		<q-separator v-if="prop_id > 0" />
 			
@@ -86,7 +86,7 @@
 
 		</div>
 
-	</fragment>
+	</div>
 </template>
 
 <script type="text/javascript">

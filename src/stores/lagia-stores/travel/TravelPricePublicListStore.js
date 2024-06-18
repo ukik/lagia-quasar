@@ -89,11 +89,21 @@ export const useTravelPricePublicListStore = defineStore('TravelPricePublicListS
 
       if (!response?.data) return this.loading = false
 
-      response?.data?.data?.data.forEach(element => {
-        if(element?.travelStore) {
-          element.travelStore['image'] = JSON.parse(element?.travelStore['image'])
-        }
-      });
+      // response?.data?.data?.data.forEach(element => {
+      //   if(element?.travelStore) {
+      //     element.travelStore['image'] = JSON.parse(element?.travelStore['image'])
+      //   }
+      // });
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.travelStore?.image) element.travelStore['image'] = JSON.parse(element?.travelStore['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.travelStore?.image) element.travelStore['image'] = [element?.travelStore['image']]
+        });
+      }
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage

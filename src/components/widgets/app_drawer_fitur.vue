@@ -5,7 +5,7 @@
 </style>
 
 <template>
-<fragment>
+<div>
 
   <q-item-label header>Fitur</q-item-label>
 
@@ -86,6 +86,6 @@
     </q-item-section>
   </q-item> -->
  
-</fragment>
+</div>
 
 </template>

@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
     <q-btn
       flat
@@ -145,7 +145,7 @@
 
     </q-btn>
 
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

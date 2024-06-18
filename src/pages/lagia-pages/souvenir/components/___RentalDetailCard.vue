@@ -3,7 +3,7 @@
   <div class="row items-start">
 
     <q-card class="my-card" flat bordered>
-      <!-- <q-img style="height: 300px;" :src="getSingleImage" error-src="https://cdn.quasar.dev/logo-v2/header.png">
+      <!-- <q-img style="height: 300px;" :src="getSingleImage" :error-src="$defaultErrorImage">
         <q-badge
           :color="item?.ticketStatus == 'bisnis' ? 'pink' : 'positive'"
           class="q-mr-lg rounded-borders-2"
@@ -27,7 +27,7 @@
         </template>
       </q-img> -->
 
-      <RentalImageSlideCarousel :_gallery="item?.image"></RentalImageSlideCarousel>
+      <ImageSlideCarousel :_gallery="item?.image"></ImageSlideCarousel>
 
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-orange-9">{{ item?.category }}</div> -->
@@ -141,13 +141,13 @@
 <script>
 import { ref } from "vue";
 import QItemLabelValue from "./QItemLabelValue";
-import RentalImageSlideCarousel from "./RentalImageSlideCarousel";
+import ImageSlideCarousel from "./ImageSlideCarousel";
 
 export default {
   props: ["item"],
   components: {
     QItemLabelValue,
-    RentalImageSlideCarousel,
+    ImageSlideCarousel,
   },
   setup() {
     return {

@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
   <q-item-label header>Koin</q-item-label>
 
@@ -54,7 +54,7 @@
     </q-item-section>
   </q-item>
 
-</fragment>
+</div>
 
 </template>
 

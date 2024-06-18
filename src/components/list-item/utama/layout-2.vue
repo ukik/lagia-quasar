@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 <!-- 
 	<q-list class="q-pa-none">
 
@@ -268,7 +268,7 @@
 <!-- 	  </div>
 	</q-list> -->
 
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

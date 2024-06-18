@@ -1,7 +1,7 @@
 <template>
   <div class="q-mb-sm q-mt-sm row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <q-img style="min-height: 300px;" :src="item?.image" error-src="https://cdn.quasar.dev/logo-v2/header.png">
+      <q-img style="min-height: 300px;" :src="item?.image" :error-src="$defaultErrorImage">
         <q-badge
           :color="item?.ticketStatus == 'bisnis' ? 'pink' : 'positive'"
           class="q-mr-lg rounded-borders-2"

@@ -1,8 +1,9 @@
 <template>
   <!-- <div class="row items-start q-gutter-md"> -->
   <div class="row items-start">
+
     <q-card class="my-card" flat bordered>
-      <!-- <q-img style="height: 300px;" :src="getSingleImage" error-src="https://cdn.quasar.dev/logo-v2/header.png">
+      <!-- <q-img style="height: 300px;" :src="getSingleImage" :error-src="$defaultErrorImage">
         <q-badge
           :color="item?.ticketStatus == 'bisnis' ? 'pink' : 'positive'"
           class="q-mr-lg rounded-borders-2"
@@ -26,10 +27,11 @@
         </template>
       </q-img> -->
 
-      <RentalImageSlideCarousel :_gallery="item?.image"></RentalImageSlideCarousel>
+      <ImageSlideCarousel :_gallery="item?.image"></ImageSlideCarousel>
 
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-orange-9">{{ item?.category }}</div> -->
+
 
         <div class="text-h6 q-mb-xs">{{ item?.name }}</div>
         <q-item-label caption>{{ item?.createdAt }}</q-item-label>
@@ -38,23 +40,10 @@
           <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white">Unit Ready</q-item-label>
             <q-item-label class="text-h4">
-              <q-item
-                clickable
-                class="q-pa-none"
-                @click="
-                  $emit('onBubbleEvent', {
-                    label: 'vehicle',
-                    payload: item,
-                  })
-                "
-              >
-                <q-item-section>
-                  <h4 class="q-mb-none text-white q-mt-sm">
-                    {{ item?.transportVehiclesCount }}
-                    <small class="text-weight-light">Vehicle</small>
-                  </h4>
-                </q-item-section>
-              </q-item>
+              <h4 class="q-mb-none text-white q-mt-sm">
+                {{ item?.transportVehiclesCount }}
+                <small class="text-weight-light">Vehicle</small>
+              </h4>
             </q-item-label>
           </q-item-section>
         </div>
@@ -62,10 +51,10 @@
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue>
+          <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue>
           <QItemLabelValue label="name" :value="item?.name"></QItemLabelValue>
           <QItemLabelValue label="email" :value="item?.email"></QItemLabelValue>
-          <QItemLabelValue label="phone" :value="item?.phone"></QItemLabelValue> -->
+          <QItemLabelValue label="phone" :value="item?.phone"></QItemLabelValue>
           <QItemLabelValue label="location" :value="item?.location"></QItemLabelValue>
           <!-- <QItemLabelValue label="image" :value="item?.image"></QItemLabelValue> -->
           <QItemLabelValue label="address" :value="item?.address"></QItemLabelValue>
@@ -81,9 +70,11 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <q-expansion-item>
+        <q-expansion-item default-opened>
           <template v-slot:header>
-            <q-item-section> policy </q-item-section>
+            <q-item-section>
+              policy
+            </q-item-section>
           </template>
 
           <q-card>
@@ -96,21 +87,24 @@
           </q-card>
 
           <q-separator></q-separator>
+
         </q-expansion-item>
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <q-expansion-item>
+        <q-expansion-item default-opened>
           <template v-slot:header>
-            <q-item-section> description </q-item-section>
+            <q-item-section>
+              description
+            </q-item-section>
           </template>
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }} Follow the instructions to embed the icon font in your
+              site and learn how to style your icons using CSS. Follow the instructions to
+              embed the icon font in your site and learn how to style your icons using
+              CSS.
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -140,44 +134,6 @@
         </q-btn-group>
       </q-card-section> -->
 
-      <q-separator></q-separator>
-
-      <q-card-actions align="center">
-        <q-btn
-          @click="
-            $emit('onBubbleEvent', {
-              label: 'vehicle',
-              payload: item,
-            })
-          "
-          flat
-          color="primary"
-          size="md"
-          label="selengkapnya"
-        />
-
-        <!-- <q-btn flat color="secondary" label="Book" /> -->
-
-        <!-- <q-space />
-
-        <q-btn
-          color="grey"
-          round
-          flat
-          dense
-          :icon="expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-          @click="expanded = !expanded"
-        /> -->
-      </q-card-actions>
-
-      <!-- <q-slide-transition>
-        <div v-show="expanded">
-          <q-separator />
-          <q-card-section class="text-body">
-            {{ item?.description }}
-          </q-card-section>
-        </div>
-      </q-slide-transition> -->
     </q-card>
   </div>
 </template>
@@ -185,17 +141,19 @@
 <script>
 import { ref } from "vue";
 import QItemLabelValue from "./QItemLabelValue";
-import RentalImageSlideCarousel from "./RentalImageSlideCarousel";
+import ImageSlideCarousel from "./ImageSlideCarousel";
 
 export default {
   props: ["item"],
   components: {
     QItemLabelValue,
-    RentalImageSlideCarousel,
+    ImageSlideCarousel,
   },
   setup() {
     return {
       expanded: ref(false),
+      policy: ref(false),
+      description: ref(false),
     };
   },
   computed: {

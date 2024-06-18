@@ -1,6 +1,6 @@
 <template>
 
-	<fragment>
+	<div>
 
       <q-item class="q-px-sm position-relative" v-ripple="{color:'grey'}">
         <q-item-section top avatar>
@@ -43,7 +43,7 @@
 
 
 
-	</fragment>
+	</div>
 
 </template>
 

@@ -86,11 +86,21 @@ export const useTravelReservationListStore = defineStore('TravelReservationListS
 
       if (!response?.data) return this.loading = false
 
-      response?.data?.data?.data.forEach(element => {
-        if(element?.travelPrice?.travelStore) {
-          element.travelPrice.travelStore['image'] = JSON.parse(element?.travelPrice?.travelStore['image'])
-        }
-      });
+      // response?.data?.data?.data.forEach(element => {
+      //   if(element?.travelPrice?.travelStore) {
+      //     element.travelPrice.travelStore['image'] = JSON.parse(element?.travelPrice?.travelStore['image'])
+      //   }
+      // });
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.travelPrice?.travelStore?.image) element.travelPrice.travelStore['image'] = JSON.parse(element?.travelPrice?.travelStore['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.travelPrice?.travelStore?.image) element.travelPrice.travelStore['image'] = [element?.travelPrice?.travelStore['image']]
+        });
+      }
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage

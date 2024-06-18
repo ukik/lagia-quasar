@@ -29,6 +29,7 @@ export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
     isAvailable: '',
 
     loading: false,
+    init: false,
   }),
 
   getters: {
@@ -86,10 +87,34 @@ export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
 
       if (!response?.data) return this.loading = false
 
-      response?.data?.data?.data.forEach(element => {
-        if(element?.tourismVenue?.image) element['tourismVenue']['image'] = JSON.parse(element['tourismVenue']['image'])
-        if(element?.tourismVenue?.category) element['tourismVenue']['category'] = JSON.parse(element['tourismVenue']['category'])
-      });
+      this.init = true
+
+
+      // response?.data?.data?.data.forEach(element => {
+      //   if(element?.tourismVenue?.image) element['tourismVenue']['image'] = JSON.parse(element['tourismVenue']['image'])
+      //   if(element?.tourismVenue?.category) element['tourismVenue']['category'] = JSON.parse(element['tourismVenue']['category'])
+      // });
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.tourismVenue?.image) element['tourismVenue']['image'] = JSON.parse(element['tourismVenue']['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.tourismVenue?.image) element['tourismVenue']['image'] = [element['tourismVenue']['image']]
+        });
+      }
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.tourismVenue?.category) element['tourismVenue']['category'] = JSON.parse(element['tourismVenue']['category'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.tourismVenue?.category) element['tourismVenue']['category'] = [element['tourismVenue']['category']]
+        });
+      }
+
 
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage

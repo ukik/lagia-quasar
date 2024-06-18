@@ -43,6 +43,50 @@ const stringToBoolean = (stringValue) => {
         return JSON.parse(stringValue);
   }
 }
+
+
+function getImage(key) {
+  switch (key) {
+    case "guide":
+      return "/assets/category-talent/guide.jpg";
+    case "media":
+      return "/assets/category-talent/media.avif";
+    case "mc":
+      return "/assets/category-talent/mc.jpg";
+    case "dancer":
+      return "/assets/category-talent/dancer.jpg";
+    case "singer":
+      return "/assets/category-talent/singer.jpg";
+    case "band":
+      return "/assets/category-talent/band.jpg";
+    case "comedian":
+      return "/assets/category-talent/comedian.jpg";
+    case "others":
+      return "/assets/category-talent/others.avif";
+  }
+}
+
+// function finalPrice({ general, discount, cashback }) {
+//   console.log('getTotalAmount', { general, discount, cashback })
+//   const total =  (Number(general) - ((Number(general) * Number(discount)/100)) - Number(cashback))
+//   console.log('getTotalAmount', total)
+//   return total;
+// }
+
+import currency from "src/utils/currency";
+import percent from "src/utils/percent";
+
+function finalPrice(item) {
+  // console.log('getTotalAmount', { general, discount, cashback })
+  const general = item?.generalPrice
+  const discount = item?.discountPrice
+  const cashback = item?.cashbackPrice
+
+  const total =  (Number(general) - ((Number(general) * Number(discount)/100)) - Number(cashback))
+  // console.log('getTotalAmount', total)
+  return total;
+}
+
 export default boot(async ({ app, ssrContext, router, store }) => {
 
   const routerStore = useRouterStore()
@@ -73,10 +117,18 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$onGoto = onGoto;
 
 
+  app.config.globalProperties.$getImage = getImage;
   app.config.globalProperties.$formatTime = formatTime;
   app.config.globalProperties.$formatDate = formatDate;
   app.config.globalProperties.$stringToBoolean = stringToBoolean;
   app.config.globalProperties.$defaultUser = "http://localhost:8000/storage/photos/shares/default-user.png";
+  app.config.globalProperties.$defaultErrorImage = "https://cdn.quasar.dev/logo-v2/header.png";
+
+  app.config.globalProperties.$finalPrice = finalPrice;
+
+  app.config.globalProperties.$currency = currency;
+  app.config.globalProperties.$percent = percent;
+
 
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;

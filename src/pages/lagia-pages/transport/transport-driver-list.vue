@@ -275,7 +275,7 @@ import { preFetch } from "quasar/wrappers";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 import { useTransportDriverListStore } from "stores/lagia-stores/transport/TransportDriverListStore";
-import { useRouter } from "vue-router";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
 const store = useTransportDriverListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
@@ -294,6 +294,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -307,6 +308,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTransportDriverListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });

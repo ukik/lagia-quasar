@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 
 export const useRouterStore = defineStore('router', {
   state: () => ({
+    isDialogOpen:[],
     route: {
       name: '',
       path: '',
@@ -38,6 +39,12 @@ export const useRouterStore = defineStore('router', {
       setTimeout(() => {
         // this.router.push(value)
       }, 5000);
-    }
+    },
+    isDialogOpenRemove() {
+      this.isDialogOpen.pop();
+    },
+    isDialogOpenAdd() {
+      this.isDialogOpen.push(1);
+    },
   },
 });

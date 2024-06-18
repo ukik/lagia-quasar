@@ -5,7 +5,7 @@
       <q-img
         style="height: 400px"
         :src="item?.image"
-        error-src="https://cdn.quasar.dev/logo-v2/header.png"
+        :error-src="$defaultErrorImage"
       >
         <!-- <q-badge
           :color="item?.ticketStatus == 'bisnis' ? 'pink' : 'positive'"

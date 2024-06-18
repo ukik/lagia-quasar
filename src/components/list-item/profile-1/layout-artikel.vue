@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
       	  
       	  <ProfileUtama class="q-px-sm q-pt-sm q-pb-sm" /> 	
@@ -208,7 +208,7 @@
 
  		<q-separator />
 
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

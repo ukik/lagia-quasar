@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 	<!-- <q-list class="q-pa-none" separator> -->
 
       <q-item clickable @click="onSubmit" class="relative-position q-pa-sm q-ma-none full-width" :class="[ prop_data.read_at ? 'bg-white' : 'bg-grey-2' ]" v-ripple="{color:'grey'}">
@@ -34,7 +34,7 @@
       <q-separator />
 
 	<!-- </q-list> -->
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

@@ -3,22 +3,31 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
-      transition-hide="slide-down">
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="layout"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6">{{ label }}</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <ReservationDialog v-if="label === 'reservasi'" :item="record"></ReservationDialog>
+          <ReservationDialog
+            v-if="label === 'reservasi'"
+            :item="record"
+          ></ReservationDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -47,10 +56,7 @@
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
-        <PriceListCard
-          @onBubbleEvent="onBubbleEvent"
-          :item="item"
-        ></PriceListCard>
+        <PriceListCard @onBubbleEvent="onBubbleEvent" :item="item"></PriceListCard>
         <!-- <q-card flat class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
@@ -61,7 +67,7 @@
             >
               <template v-slot:error>
                 <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image {{ item?.image[0] }}
+                  Cannot load image 
                 </div>
               </template>
             </q-img>
@@ -236,7 +242,7 @@
 
 <script async setup>
 import PriceListCard from "./components/PriceListCard";
-import ReservationDialog from "./components/ReservationDialog"
+import ReservationDialog from "./components/ReservationDialog";
 import StoreDetailBody from "./components/StoreDetailBody";
 
 import { storeToRefs } from "pinia";
@@ -264,6 +270,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -277,6 +284,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTravelPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
@@ -298,13 +308,12 @@ watch(() => currentPage, onCurrentPage, {
 
 const layout = ref(false);
 const record = ref(null);
-const label = ref('');
+const label = ref("");
 
 function onBubbleEvent(value) {
-  record.value = value?.payload
-  label.value = value?.label
+  record.value = value?.payload;
+  label.value = value?.label;
   layout.value = true;
-
 }
 </script>
 

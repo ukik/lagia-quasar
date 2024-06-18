@@ -3,19 +3,17 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <!-- DETAIL VENDOR -->
+    <!-- TOURISM-SERVICES -->
     <q-dialog
       full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="rental_vehicle_modal"
+      v-model="tourism_services"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Detail Vendor</div>
+            <div class="text-h6">Layanan Wisata</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -24,50 +22,188 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <RentalDetailCard :item="record"></RentalDetailCard>
+          <q-list bordered class="row">
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isMedic">
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  icon="fa-solid fa-house-medical"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Medic</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isSecurity">
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  icon="fa-solid fa-tower-observation"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Security</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isWifi">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fa-solid fa-wifi" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Wifi</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isPark">
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  icon="fa-solid fa-square-parking"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Park</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isSouvenir">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fa-solid fa-gift" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Souvenir</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isCulinary">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fa-solid fa-burger" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Culinary</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isBar">
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  icon="fa-solid fa-wine-glass"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Bar</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isRestArea">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fa-solid fa-couch" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Rest Area</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isMushola">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fa-solid fa-mosque" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Mushola</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isToilet">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fa-solid fa-toilet" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Toilet</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item class="col-6" v-if="record?.tourismVenue?.tourismService?.isBathroom">
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  icon="fa-solid fa-restroom"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Bathroom</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-card-section>
       </q-card>
     </q-dialog>
 
-    <!-- DETAIL VEHICLE -->
+    <!-- WAHANA / FACILITIES -->
     <q-dialog
       full-width
       full-height
       :maximized="$q.screen.width <= 768"
-      v-model="rental_modal"
+      v-model="tourism_facilities"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
-      <q-card :style="myWidth">
+      <q-card>
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">List Vehicle</div>
+            <div class="text-h6">Wahana List</div>
             <q-space></q-space>
-            <!-- <q-btn dense flat icon="list" @click="rental_vehicle_modal = true"></q-btn> -->
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <RentalVehicleDialog :item="rental_record"></RentalVehicleDialog>
+        <q-card-section style="height: calc(99.5% - 50px - 60px)" class="scroll">
+          <TourismFacilitiesDialog :item="record"></TourismFacilitiesDialog>
         </q-card-section>
+
+        <q-separator />
+        <q-card-section style="height: 60px"> </q-card-section>
       </q-card>
     </q-dialog>
 
+    <!-- DETAIL -->
     <q-dialog
       full-width
       full-height
       :maximized="$q.screen.width <= 768"
-      v-model="layout"
+      v-model="dialog_selengkapnya"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none bg-primary text-white">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Price</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <!-- <q-separator /> -->
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <TourismPriceDialogDetailCard :item="record"></TourismPriceDialogDetailCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <!-- VENUE -->
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="tourism_venue"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">{{ label }}</div>
+            <div class="text-h6 text-capitalize">Detail Venue</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -76,15 +212,32 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <VenueDialogCard
-            v-if="label === 'venue'"
-            @onBubbleEvent="onBubbleEventRental"
-            :item="record"
-          ></VenueDialogCard>
-          <PriceVehicleDialog
-            v-if="label === 'vehicle'"
-            :item="record"
-          ></PriceVehicleDialog>
+          <!-- <div class="row q-col-gutter-md q-mb-md">
+            <div class="col-6">
+              <q-btn
+                @click="tourism_services = true"
+                unelevated
+                color="cyan"
+                class="full-width"
+              >
+                <q-icon left size="3em" name="hot_tub" />
+                <div>Layanan Wisata</div>
+              </q-btn>
+            </div>
+            <div class="col-6">
+              <q-btn
+                @click="tourism_facilities = true"
+                unelevated
+                color="teal"
+                class="full-width"
+              >
+                <q-icon left size="3em" name="weekend" />
+                <div>Wahana Wisata</div>
+              </q-btn>
+            </div>
+          </div> -->
+
+          <VenueDialogCard :item="record"></VenueDialogCard>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -164,10 +317,12 @@
 <script async setup>
 import PriceListCard from "./components/PriceListCard";
 import VenueDialogCard from "./components/VenueDialogCard";
-import RentalListCard from "./components/RentalListCard";
-import RentalVehicleDialog from "./components/RentalVehicleDialog";
-import PriceVehicleDialog from "./components/PriceVehicleDialog";
-import RentalDetailCard from "./components/RentalDetailCard";
+import TourismPriceDialogDetailCard from "./components/TourismPriceDialogDetailCard";
+import TourismFacilitiesDialog from "./components/TourismFacilitiesDialog";
+// import PriceVehicleDialog from "./components/PriceVehicleDialog";
+// import RentalDetailCard from "./components/RentalDetailCard";
+
+// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -175,7 +330,8 @@ import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
 import { useTourismPriceListStore } from "stores/lagia-stores/tourism/TourismPriceListStore";
-import { useRouter } from "vue-router";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+
 const store = useTourismPriceListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
@@ -194,6 +350,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -207,6 +364,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTourismPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
@@ -226,24 +386,35 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const layout = ref(false);
 const record = ref(null);
-const label = ref("");
+
+const dialog_selengkapnya = ref(false);
+
+const tourism_venue = ref(false);
+const tourism_facilities = ref(false);
+const tourism_services = ref(false);
+
+// const dialog_payload = ref(null);
+// const dialog_value = ref(false);
 
 function onBubbleEvent(value) {
   record.value = value?.payload;
-  label.value = value?.label;
-  layout.value = true;
+  if (value?.label == "venue") tourism_venue.value = true;
+  if (value?.label == "detail") dialog_selengkapnya.value = true;
+  if (value?.label == "fasilitas") tourism_facilities.value = true;
+  if (value?.label == "layanan") tourism_services.value = true;
 }
 
-const rental_modal = ref(false);
-const rental_vehicle_modal = ref(false);
-const rental_record = ref(false);
-
-function onBubbleEventRental(value) {
-  rental_record.value = value?.payload;
-  rental_modal.value = true;
+function closeDialog() {
+  dialog_selengkapnya.value = false;
+  tourism_venue.value = false;
+  tourism_facilities.value = false;
 }
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
 
 <style scoped>

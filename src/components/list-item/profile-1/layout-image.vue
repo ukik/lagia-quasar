@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
 	
 
@@ -73,7 +73,7 @@
 
 	<q-separator />
 
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

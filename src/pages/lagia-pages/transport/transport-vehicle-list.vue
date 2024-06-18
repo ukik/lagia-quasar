@@ -23,7 +23,7 @@
             >
               <template v-slot:error>
                 <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image {{ item?.image[0] }}
+                  Cannot load image 
                 </div>
               </template>
             </q-img>
@@ -251,7 +251,7 @@ import { preFetch } from "quasar/wrappers";
 
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 import { useTransportVehicleListStore } from "stores/lagia-stores/transport/TransportVehicleListStore";
-import { useRouter } from "vue-router";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
 const store = useTransportVehicleListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
@@ -270,6 +270,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -283,6 +284,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTransportVehicleListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });

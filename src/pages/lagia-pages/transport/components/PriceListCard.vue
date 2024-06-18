@@ -7,7 +7,7 @@
         v-if="!item?.transportVehicle?.image"
         style="height: 300px"
         :src="item?.image"
-        error-src="https://cdn.quasar.dev/logo-v2/header.png"
+        :error-src="$defaultErrorImage"
       >
         <q-badge
           :color="badgeCondition(item?.condition)"

@@ -5,7 +5,7 @@
 </style>
 
 <template>
-<fragment>
+<div>
 
   <q-item-label header>Lainnya</q-item-label>
 
@@ -226,6 +226,6 @@
       <q-item-label caption>Status penukaran koin</q-item-label>
     </q-item-section>
   </q-item>   -->
-</fragment>
+</div>
 
 </template>

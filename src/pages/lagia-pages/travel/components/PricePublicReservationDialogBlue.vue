@@ -1,8 +1,11 @@
 <template>
-  <form class="form-box" id="form-career-component"
-          @keyup.enter="onSubmit"
-          @submit.prevent.stop="onSubmit"
-          @reset.prevent.stop="onReset">
+  <form
+    class="form-box"
+    id="form-career-component"
+    @keyup.enter="onSubmit"
+    @submit.prevent.stop="onSubmit"
+    @reset.prevent.stop="onReset"
+  >
     <q-card flat class="rounded-borders-2 bg-form">
       <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
@@ -17,11 +20,11 @@
       </q-card-section>
       <q-separator color="white-1"></q-separator>
       <q-card-section class="q-mt-md">
-        <div
-          class="q-col-gutter-md row q-col-gutter-y-lg"
-        >
+        <div class="q-col-gutter-md row q-col-gutter-y-lg">
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               clearable
               counter
               maxlength="100"
@@ -50,7 +53,9 @@
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="text"
               clearable
               counter
@@ -110,7 +115,9 @@
           </div> -->
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="date"
               clearable
               counter
@@ -139,9 +146,10 @@
             </q-input>
           </div>
 
-
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-select :loading="loading" :disable="loading"
+            <q-select
+              :loading="loading"
+              :disable="loading"
               option-label="label"
               emit-value
               map-options
@@ -175,7 +183,9 @@
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="number"
               clearable
               counter
@@ -198,16 +208,16 @@
                 <div class="text-white">Jumlah Kursi kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.seat_no"
-                  >Jumlah Kursi</span
-                >
+                <span class="text-white" v-if="form.seat_no">Jumlah Kursi</span>
                 <span class="text-white" v-else>Jumlah Kursi wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="number"
               mask="Rp. ##############"
               unmasked-value
@@ -232,16 +242,16 @@
                 <div class="text-white">Min Budget kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.min_budget"
-                  >Min Budget</span
-                >
+                <span class="text-white" v-if="form.min_budget">Min Budget</span>
                 <span class="text-white" v-else>Min Budget wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="number"
               mask="Rp. ##############"
               unmasked-value
@@ -266,16 +276,16 @@
                 <div class="text-white">Max Budget kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.max_budget"
-                  >Max Budget</span
-                >
+                <span class="text-white" v-if="form.max_budget">Max Budget</span>
                 <span class="text-white" v-else>Max Budget wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-select :loading="loading" :disable="loading"
+            <q-select
+              :loading="loading"
+              :disable="loading"
               option-label="label"
               emit-value
               map-options
@@ -309,7 +319,9 @@
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="date"
               clearable
               counter
@@ -332,14 +344,18 @@
                 <div class="text-white">Tanggal Berangkat kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.starting_date">Tanggal Berangkat</span>
+                <span class="text-white" v-if="form.starting_date"
+                  >Tanggal Berangkat</span
+                >
                 <span class="text-white" v-else>Tanggal Berangkat wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="time"
               clearable
               counter
@@ -369,7 +385,9 @@
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               clearable
               counter
               maxlength="100"
@@ -391,14 +409,18 @@
                 <div class="text-white">Lokasi Berangkat kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.starting_location">Lokasi Berangkat</span>
+                <span class="text-white" v-if="form.starting_location"
+                  >Lokasi Berangkat</span
+                >
                 <span class="text-white" v-else>Lokasi Berangkat wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               clearable
               counter
               maxlength="100"
@@ -427,7 +449,9 @@
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               clearable
               counter
               maxlength="100"
@@ -449,14 +473,18 @@
                 <div class="text-white">Terminal Berangkat kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.starting_terminal">Terminal Berangkat</span>
+                <span class="text-white" v-if="form.starting_terminal"
+                  >Terminal Berangkat</span
+                >
                 <span class="text-white" v-else>Terminal Berangkat wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               clearable
               counter
               maxlength="100"
@@ -478,15 +506,18 @@
                 <div class="text-white">Terminal Tujuan kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.arrival_terminal">Terminal Tujuan</span>
+                <span class="text-white" v-if="form.arrival_terminal"
+                  >Terminal Tujuan</span
+                >
                 <span class="text-white" v-else>Terminal Tujuan wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
-
           <div class="col-12">
-            <q-input :loading="loading" :disable="loading"
+            <q-input
+              :loading="loading"
+              :disable="loading"
               type="textarea"
               clearable
               counter
@@ -509,47 +540,42 @@
                 <div class="text-white">Deskripsi kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form.description"
-                  >Deskripsi</span
-                >
+                <span class="text-white" v-if="form.description">Deskripsi</span>
                 <span class="text-white" v-else>Deskripsi wajib diisi *</span>
               </template>
             </q-input>
           </div>
-
-
-
-
-
-
-
         </div>
       </q-card-section>
       <div class="col-12 q-mt-md"></div>
       <q-separator color="white-1"></q-separator>
       <q-card-section>
         <div class="col-12 text-center row justify-center">
-            <q-btn :loading="loading" :disable="loading"
-              type="submit"
-              icon-right="login"
-              outline
-              color="white"
-              size="16px"
-              class="rounded-borders-4 q-mx-sm"
-              label="login"
-            ></q-btn>
-            <div class="col-1"></div>
-            <q-btn :loading="loading" :disable="loading"
-              type="reset"
-              icon-right="delete"
-              outline
-              bg-color="orange"
-              color="white"
-              size="16px"
-              class="rounded-borders-4 q-mx-sm"
-              label="reset"
-            ></q-btn>
-          </div>
+          <q-btn
+            :loading="loading"
+            :disable="loading"
+            type="submit"
+            icon-right="login"
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4 q-mx-sm"
+            label="login"
+          ></q-btn>
+          <div class="col-1"></div>
+          <q-btn
+            :loading="loading"
+            :disable="loading"
+            type="reset"
+            icon-right="delete"
+            outline
+            bg-color="orange"
+            color="white"
+            size="16px"
+            class="rounded-borders-4 q-mx-sm"
+            label="reset"
+          ></q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </form>
@@ -626,9 +652,8 @@ export default {
         label: "Pesawat",
         value: "pesawat",
         check: "ZZZZZZZZ",
-      }
+      },
     ];
-
 
     const ticketStatusOptions = [
       {
@@ -693,7 +718,6 @@ export default {
         arrival_terminal.value.validate();
 
         if (
-
           name_passanger.value.hasError ||
           ktp_passanger.value.hasError ||
           birth_date.value.hasError ||
@@ -741,7 +765,6 @@ export default {
         arrival_location.value.resetValidation();
         starting_terminal.value.resetValidation();
         arrival_terminal.value.resetValidation();
-
       },
     };
   },

@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
   <q-item-label header>Tanya Jawab</q-item-label>
 
@@ -40,6 +40,6 @@
     </q-item-section>
   </q-item>
 
-</fragment>
+</div>
 
 </template>

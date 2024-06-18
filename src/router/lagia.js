@@ -3,6 +3,8 @@ import lagia_travel from './lagia-travel';
 import lagia_pages from './lagia-pages';
 import lagia_transport from './lagia-transport';
 import lagia_tourism from './lagia-tourism';
+import lagia_talent from './lagia-talent';
+import lagia_souvenir from './lagia-souvenir';
 
 export default function (store, cookies, ssrContext) {
   return [
@@ -15,8 +17,9 @@ export default function (store, cookies, ssrContext) {
         ...lagia_transport(store, cookies, ssrContext),
         ...lagia_pages(store, cookies, ssrContext),
         ...lagia_tourism(store, cookies, ssrContext),
+        ...lagia_talent(store, cookies, ssrContext),
+        ...lagia_souvenir(store, cookies, ssrContext),
 
-        // EMPTY
         {
           path: "", // /lagia/index
           name: "/lagia/index",
@@ -28,6 +31,44 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/index.vue"),
         },
+        {
+          path: "/lagia/team", // /lagia/index
+          name: "/lagia/team",
+          meta: {
+            ssr: true,
+            logged: false,
+            role: '',
+            title: 'lagia team',
+          },
+          component: () => import("pages/lagia-pages/team.vue"),
+        },
+        {
+          path: "/lagia/destination", // /lagia/index
+          name: "/lagia/destination",
+          meta: {
+            ssr: true,
+            logged: false,
+            role: '',
+            title: 'lagia team',
+          },
+          component: () => import("pages/lagia-pages/destination.vue"),
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         {

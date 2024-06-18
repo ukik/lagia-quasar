@@ -1,6 +1,31 @@
 <template>
-  <!-- ***Inner Banner html end here*** -->
   <div class="row justify-center">
+    <q-no-ssr>
+      <q-dialog v-model="dialog_value">
+        <q-card style="min-width: 400px">
+          <q-toolbar>
+            <!-- <q-avatar>
+              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+            </q-avatar> -->
+
+            <q-toolbar-title
+              ><span class="text-capitalize">{{
+                dialog_payload?.label
+              }}</span></q-toolbar-title
+            >
+
+            <q-btn flat round dense icon="close" v-close-popup />
+          </q-toolbar>
+
+          <q-separator></q-separator>
+
+          <q-card-section>
+            {{ dialog_payload?.value }}
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+    </q-no-ssr>
+
     <SkeletonTwitch class="col-12" v-if="!init && loading"></SkeletonTwitch>
 
     <NoData v-if="isMounted && records.length <= 0 && !loading"></NoData>
@@ -17,31 +42,44 @@
           :square="$q.screen.width <= 1024"
           :class="[$q.screen.width > 768 ? 'rounded-borders-2' : '']"
         >
-          <q-card-section :horizontal="$q.screen.width > 1024" class="row q-pa-none">
+          <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
-              v-if="item?.image && item?.image.length > 0"
+              :error-src="$defaultErrorImage"
+              v-if="item?.image"
               loading="lazy"
               :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12"
-              :src="item?.image[0]"
+              class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12"
+              :src="item?.image"
             >
+              <div class="absolute-top-right bg-transparent">
+                <q-btn
+                  size="16px"
+                  rounded
+                  dense
+                  color="white"
+                  text-color="primary"
+                  icon="fullscreen"
+                  @click="showMultiple(item?.image, 0)"
+                />
+              </div>
+
               <template v-slot:error>
-                <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image {{ item?.image[0] }}
+                <div class="absolute-full flex flex-center text-white">
+                  Cannot load image
                 </div>
               </template>
             </q-img>
             <q-img
               loading="lazy"
               :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12"
+              class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12"
               v-else
               :src="$defaultUser"
             />
 
             <q-card-section class="bg-grey-2 row col flex items-start">
               <div class="text-box full-width q-px-sm col-12 text-capitalize">
-                <h3>{{ item?.model }}</h3>
+                <h3>{{ item?.name }}</h3>
                 <q-item dense>
                   <q-item-section>
                     <q-item-label lines="1">uuid</q-item-label>
@@ -50,73 +88,97 @@
                     <q-item-label lines="1">{{ item?.uuid }}</q-item-label>
                   </q-item-section>
                 </q-item>
-                <!-- <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">model</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.model }}</q-item-label>
-                  </q-item-section>
-                </q-item> -->
                 <q-item dense>
                   <q-item-section>
-                    <q-item-label lines="1">brand</q-item-label>
+                    <q-item-label lines="1">Wisata</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label lines="1">{{ item?.brand }}</q-item-label>
+                    <q-item-label lines="1">{{ item?.tourismVenue?.name }}</q-item-label>
                   </q-item-section>
                 </q-item>
                 <q-item dense>
                   <q-item-section>
-                    <q-item-label lines="1">category </q-item-label>
+                    <q-item-label lines="1">Fasilitas</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label lines="1"
-                      ><q-chip text-color="white" color="pink">{{
-                        item?.category
-                      }}</q-chip></q-item-label
-                    >
+                    <q-item-label lines="1">{{ item?.name }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item
+                  dense
+                  v-ripple
+                  clickable
+                  @click="
+                    dialog_value = true;
+                    dialog_payload = { value: item?.policy, label: 'policy' };
+                  "
+                >
+                  <q-item-section>
+                    <q-item-label lines="1">policy</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1">{{ item?.policy }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item
+                  dense
+                  v-ripple
+                  clickable
+                  @click="
+                    dialog_value = true;
+                    dialog_payload = { value: item?.description, label: 'description' };
+                  "
+                >
+                  <q-item-section>
+                    <q-item-label lines="1">description</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label lines="1">{{ item?.description }}</q-item-label>
                   </q-item-section>
                 </q-item>
                 <q-item dense>
                   <q-item-section>
-                    <q-item-label lines="1">bahan bakar</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.fuelType }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">color</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.color }}</q-item-label>
+                    <q-item-label>category</q-item-label>
+                    <q-item-label class="">
+                      <template v-for="(val, index) in getSplit(item)">
+                        <q-chip class="q-ml-none" color="pink" text-color="white">{{
+                          val
+                        }}</q-chip>
+                      </template>
+                    </q-item-label>
                   </q-item-section>
                 </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">stnk</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.codeStnk }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">slot kursi</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1"
-                      >{{ item?.slotPassanger }}
-                      <q-icon style="margin-top: -3px" size="18px" name="person"></q-icon
-                    ></q-item-label>
-                  </q-item-section>
-                </q-item>
+
+                <!-- <q-expansion-item default-opened>
+                  <template v-slot:header>
+                    <q-item-section> category </q-item-section>
+                  </template>
+
+                  <q-card class="bg-grey-2">
+                    <q-card-section class="q-py-none q-px-lg">
+                      <template v-for="(val, index) in getSplit(item)">
+                        <q-chip color="pink" text-color="white">{{ val }}</q-chip>
+                      </template>
+                    </q-card-section>
+                  </q-card>
+                </q-expansion-item> -->
               </div>
+              <!-- <div class="col-12 q-px-sm text-capitalize">
+                <q-item dense>
+                  <q-item-section>
+                    <q-item-label lines="1">category</q-item-label>
+                    <q-item-label class="text-right">
+                      <template v-for="(val, index) in getSplit(item)">
+                        <q-chip color="pink" text-color="white">{{ val }}</q-chip>
+                      </template>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </div> -->
             </q-card-section>
 
             <q-card-section
+              v-if="false"
               class="bg-cyan-8 col-xl-3 col-lg-3 col-md-3 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
             >
               <!-- <q-badge
@@ -221,9 +283,9 @@ import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
-import { useTransportVehicleListStore } from "stores/lagia-stores/transport/TransportVehicleListStore";
+import { useTourismFacilitiesListStore } from "stores/lagia-stores/tourism/TourismFacilitiesListStore";
 import { useRouter } from "vue-router";
-const store = useTransportVehicleListStore();
+const store = useTourismFacilitiesListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -255,7 +317,7 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
-      return useTransportVehicleListStore(store).onFetch({
+      return useTourismFacilitiesListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
     }
@@ -272,7 +334,7 @@ const router = useRouter();
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val, currentPage.value, props.item?.id);
   // router.push({ query: { page: val.value } })
-  onPaginate({ currentPage: currentPage.value, rentalId: props.item?.id });
+  onPaginate({ currentPage: currentPage.value, venueId: props.item?.id });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -282,12 +344,21 @@ watch(() => currentPage, onCurrentPage, {
 const isMounted = ref(false);
 
 onMounted(async () => {
+  console.log("Props", props.item);
   init.value = false;
-  await onPaginate({ currentPage: 1, rentalId: props.item?.id });
+  await onPaginate({ currentPage: 1, venueId: props.item?.id });
   isMounted.value = true;
 });
 
 const ratingZero = 0;
+
+function getSplit(item) {
+  if (!item?.category) return [];
+  return item?.category.split(",");
+}
+
+const dialog_payload = ref(null);
+const dialog_value = ref(false);
 </script>
 <style scoped>
 .package-price {

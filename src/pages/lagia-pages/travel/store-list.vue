@@ -22,7 +22,7 @@
             >
               <template v-slot:error>
                 <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image {{ item?.image[0] }}
+                  Cannot load image
                 </div>
               </template>
             </q-img>
@@ -142,7 +142,9 @@
                 :max="5"
                 color="white"
               ></q-rating>
-              <div v-if="false" class="full-width text-body text-center q-mx-sm">Review (34)</div>
+              <div v-if="false" class="full-width text-body text-center q-mx-sm">
+                Review (34)
+              </div>
               <div class="package-price col-12 text-center row">
                 <h6 class="col-12">
                   {{ item?.travelPricePublicsCount }}
@@ -242,11 +244,10 @@
 //   });
 // }),
 
-
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
-import { preFetch } from 'quasar/wrappers'
+import { preFetch } from "quasar/wrappers";
 
 import { useTravelStoreListStore } from "stores/lagia-stores/travel/TravelStoreListStore";
 import { useRouter } from "vue-router";
@@ -268,6 +269,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 // onFetch();
@@ -276,16 +278,31 @@ defineOptions({
   //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
   //   return useTravelStoresDetailStore(store).onFetch(currentRoute?.params?.slug);
   // }
-  preFetch: preFetch(({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) => {
-    return useTravelStoreListStore(store).onFetch({ currentPage: currentRoute?.query?.page });
-  })
-})
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
 
-const router = useRouter()
+      return useTravelStoreListStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const router = useRouter();
 
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val);
-  router.push({ query: { page: val.value } })
+  router.push({ query: { page: val.value } });
   onPaginate({ currentPage: val.value });
 };
 watch(() => currentPage, onCurrentPage, {
@@ -294,7 +311,6 @@ watch(() => currentPage, onCurrentPage, {
 });
 
 const ratingZero = 0;
-
 </script>
 <style scoped>
 .content-page-section {

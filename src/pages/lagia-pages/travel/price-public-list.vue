@@ -4,44 +4,67 @@
 
   <q-no-ssr>
     <!-- detail ketika modal reservasi dibuka -->
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="kategori"       transition-show="slide-up"
-      transition-hide="slide-down">
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="kategori"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6">Kategori Dipilih</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <PricePublicListDialog :item="record"></PricePublicListDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
 
-
-    <q-dialog full-width full-height :maximized="$q.screen.width <= 768" v-model="layout" transition-show="slide-up"
-      transition-hide="slide-down">
-      <q-card :style="($q.screen.width > 768 && label !== 'buat reservasi') ? 'width: 750px !important' : ''">
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="layout"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card
+        :style="
+          $q.screen.width > 768 && label !== 'buat reservasi'
+            ? 'width: 750px !important'
+            : ''
+        "
+      >
         <q-card-section class="q-py-none">
-          <q-toolbar style="height:50px;" class="q-pa-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6 text-capitalize">{{ label }}</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="list" @click="kategori = true;"></q-btn>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+            <q-space></q-space>
+            <q-btn dense flat icon="list" @click="kategori = true"></q-btn>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section style="height: calc(99.5% - 50px);" class="scroll">
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <StoreDetailBody v-if="label === 'vendor'" :record="record"></StoreDetailBody>
-          <PricePublicReservationDialog v-if="label === 'buat reservasi'" :item="record"></PricePublicReservationDialog>
-          <PricePublicListDialog v-else-if="label === 'detail'" :item="record"></PricePublicListDialog>
+          <PricePublicReservationDialog
+            v-if="label === 'buat reservasi'"
+            :item="record"
+          ></PricePublicReservationDialog>
+          <PricePublicListDialog
+            v-else-if="label === 'detail'"
+            :item="record"
+          ></PricePublicListDialog>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -56,27 +79,32 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-
-      <div v-for="(item, index) in records" class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-        <PricePublicListCard @onBubbleEvent="onBubbleEvent" :item="item"></PricePublicListCard>
+      <div
+        v-for="(item, index) in records"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+      >
+        <PricePublicListCard
+          @onBubbleEvent="onBubbleEvent"
+          :item="item"
+        ></PricePublicListCard>
       </div>
 
       <div class="col-12 flex justify-center">
         <q-pagination
-        :disable="loading"
-        class="q-mt-lg"
-        size="lg"
-        v-model="currentPage"
-        :max="lastPage"
-        :max-pages="6"
-        :input="$q.screen.width < 768"
-        direction-links
-        outline
-        color="blue"
-        active-design="unelevated"
-        active-color="primary"
-        active-text-color="white"
-      />
+          :disable="loading"
+          class="q-mt-lg"
+          size="lg"
+          v-model="currentPage"
+          :max="lastPage"
+          :max-pages="6"
+          :input="$q.screen.width < 768"
+          direction-links
+          outline
+          color="blue"
+          active-design="unelevated"
+          active-color="primary"
+          active-text-color="white"
+        />
       </div>
     </div>
   </div>
@@ -120,7 +148,7 @@
 <script async setup>
 import PricePublicListCard from "./components/PricePublicListCard";
 import PricePublicListDialog from "./components/PricePublicListDialog";
-import PricePublicReservationDialog from "./components/PricePublicReservationDialog"
+import PricePublicReservationDialog from "./components/PricePublicReservationDialog";
 import StoreDetailBody from "./components/StoreDetailBody";
 
 import { storeToRefs } from "pinia";
@@ -148,6 +176,7 @@ const {
   perPage,
 
   loading,
+  init,
 } = storeToRefs(store); // have all reactive states here
 
 // onFetch();
@@ -166,6 +195,9 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
       return useTravelPricePublicListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
@@ -191,15 +223,13 @@ const kategori = ref(false);
 
 const layout = ref(false);
 const record = ref(null);
-const label = ref('');
+const label = ref("");
 
 function onBubbleEvent(value) {
-  record.value = value?.payload
-  label.value = value?.label
+  record.value = value?.payload;
+  label.value = value?.label;
   layout.value = true;
 }
-
-
 </script>
 
 <style scoped>

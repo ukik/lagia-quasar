@@ -16,7 +16,7 @@
 <!-- <style src="@quasar/quasar-ui-qcalendar/dist/index.css"></style> -->/
 
 <template>
-<fragment>
+<div>
 
 <!-- 	<q-calendar mini-mode v-if="$q.screen.width < 1100 && $q.screen.width > 1000"
 	  ref="calendar" class="rounded-borders"
@@ -31,7 +31,7 @@
 		mask="YYYY-M-D"
 		:events="events" 
 		/>
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

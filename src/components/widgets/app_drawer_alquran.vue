@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
   <q-item-label header>Alquran</q-item-label>
 
@@ -52,6 +52,6 @@
     </q-item-section>
   </q-item>
 
-</fragment>
+</div>
 
 </template>

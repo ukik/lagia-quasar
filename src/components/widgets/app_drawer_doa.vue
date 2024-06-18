@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
   <q-item-label header>Doa</q-item-label>
 
@@ -40,6 +40,6 @@
     </q-item-section>
   </q-item> -->
 
-</fragment>
+</div>
 
 </template>

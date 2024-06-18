@@ -297,5 +297,18 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     defineAsyncComponent(() => import('src/components/lagia-components/NoData.vue'))
   )
 
+  app.component("isAvailable",
+    defineAsyncComponent(() => import('src/components/lagia-components/isAvailable.vue'))
+  )
+  app.component("isAvailableChip",
+    defineAsyncComponent(() => import('src/components/lagia-components/isAvailableChip.vue'))
+  )
+  app.component("isQItemLabelSimpleValue",
+    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelSimpleValue.vue'))
+  )
+  app.component("isQItemLabelSimpleValueNoDense",
+    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelSimpleValueNoDense.vue'))
+  )
+
 
 })

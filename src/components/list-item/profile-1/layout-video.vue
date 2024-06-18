@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 	
 
 	<ProfileContent class="q-px-sm q-pt-sm" /> 	
@@ -41,7 +41,7 @@
 	<ToolbarListVideo />
 
 	<q-separator />
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">

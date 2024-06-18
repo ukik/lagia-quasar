@@ -1,5 +1,5 @@
 <template>
-<fragment>
+<div>
 
 	<masonry
 	  class="q-mr-xs"
@@ -33,7 +33,7 @@
 	  </div>
 
 	</masonry>
-</fragment>
+</div>
 </template>
 
 <script type="text/javascript">
