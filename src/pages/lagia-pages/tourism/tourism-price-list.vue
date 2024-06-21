@@ -175,15 +175,21 @@
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none bg-primary text-white">
+        <!-- <q-card-section class="q-py-none bg-primary text-white">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Price</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section> -->
+        <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6 text-capitalize">Detail Price</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
-
-        <!-- <q-separator /> -->
+        <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <TourismPriceDialogDetailCard :item="record"></TourismPriceDialogDetailCard>
@@ -319,10 +325,6 @@ import PriceListCard from "./components/PriceListCard";
 import VenueDialogCard from "./components/VenueDialogCard";
 import TourismPriceDialogDetailCard from "./components/TourismPriceDialogDetailCard";
 import TourismFacilitiesDialog from "./components/TourismFacilitiesDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
-
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";

@@ -145,10 +145,7 @@
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }} 
             </q-card-section>
           </q-card>
         </q-expansion-item>

@@ -10,7 +10,15 @@
         transition-hide="slide-down"
       >
         <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-          <q-card-section class="q-py-none bg-primary text-white">
+          <!-- <q-card-section class="q-py-none bg-primary text-white">
+            <q-toolbar style="height: 50px" class="q-pa-none">
+              <div class="text-h6 text-capitalize">Detail Skill</div>
+              <q-space></q-space>
+              <q-btn dense flat icon="close" v-close-popup></q-btn>
+            </q-toolbar>
+          </q-card-section> -->
+
+          <q-card-section class="q-py-none">
             <q-toolbar style="height: 50px" class="q-pa-none">
               <div class="text-h6 text-capitalize">Detail Skill</div>
               <q-space></q-space>
@@ -18,8 +26,10 @@
             </q-toolbar>
           </q-card-section>
 
+          <q-separator />
+
           <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-            <q-list bordered class="row">
+            <q-list bordered class="row q-py-sm">
               <isQItemLabelSimpleValue
                 class="col-6"
                 label="uuid"
@@ -86,7 +96,15 @@
         transition-hide="slide-down"
       >
         <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-          <q-card-section class="q-py-none bg-primary text-white">
+          <!-- <q-card-section class="q-py-none bg-primary text-white">
+            <q-toolbar style="height: 50px" class="q-pa-none">
+              <div class="text-h6 text-capitalize">Detail Price</div>
+              <q-space></q-space>
+              <q-btn dense flat icon="close" v-close-popup></q-btn>
+            </q-toolbar>
+          </q-card-section> -->
+
+          <q-card-section class="q-py-none">
             <q-toolbar style="height: 50px" class="q-pa-none">
               <div class="text-h6 text-capitalize">Detail Price</div>
               <q-space></q-space>
@@ -94,8 +112,12 @@
             </q-toolbar>
           </q-card-section>
 
+          <q-separator />
+
           <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-            <ProfileDialogCard :item="record"></ProfileDialogCard>
+            <TalentPriceDialogProfileCard
+              :item="record?.talentProfile"
+            ></TalentPriceDialogProfileCard>
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -197,7 +219,7 @@
 //   });
 // }),
 import TalentPriceDialogCard from "./TalentPriceDialogCard";
-import ProfileDialogCard from "./ProfileDialogCard";
+import TalentPriceDialogProfileCard from "./TalentPriceDialogProfileCard";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -272,7 +294,7 @@ onMounted(async () => {
   isMounted.value = true;
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 
 function getSplit(item) {
   if (!item?.category) return [];

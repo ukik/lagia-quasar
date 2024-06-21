@@ -1,13 +1,15 @@
 <template>
+  <isModalDescription ref="isModal"></isModalDescription>
+
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- {{ item?.tourismVenue?.image }} -->
+      <!-- {{ item?.image }} -->
       <q-img
-        v-if="item?.tourismVenue?.image && item?.tourismVenue?.image.length > 0"
+        v-if="item?.image && item?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.tourismVenue?.image[0]"
+        :src="item?.image[0]"
         :error-src="$defaultErrorImage"
       >
         <div class="absolute-top-right bg-transparent">
@@ -18,7 +20,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.tourismVenue?.image, 0)"
+            @click="showMultiple(item?.image, 0)"
           />
         </div>
 
@@ -36,17 +38,17 @@
       <!-- <q-img
         loading="lazy"
         style="height: 300px"
-        v-if="!item?.tourismVenue?.image"
+        v-if="!item?.image"
         :src="$defaultUser"
       />
       <ImageSlideCarousel
         v-else
-        :_gallery="item?.tourismVenue?.image"
+        :_gallery="item?.image"
       ></ImageSlideCarousel> -->
 
       <q-card-section>
-        <!-- <div class="text-overline text-uppercase text-pink">{{ item?.tourismVenue?.category }}</div> -->
-        <template v-for="(val, index) in item?.tourismVenue?.category">
+        <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
+        <template v-for="(val, index) in item?.category">
           <q-chip
             color="blue"
             text-color="white"
@@ -55,15 +57,13 @@
           >
         </template>
 
-        <div class="text-h6 q-mt-sm q-mb-xs">{{ item?.tourismVenue?.name }}</div>
-        <q-item-label caption class="q-my-lg">{{
-          item?.tourismVenue?.createdAt
-        }}</q-item-label>
+        <div class="text-h6 q-mt-sm q-mb-xs">{{ item?.name }}</div>
+        <q-item-label caption class="q-my-lg">{{ item?.createdAt }}</q-item-label>
 
         <q-rating
-          v-if="item?.tourismVenue?.ratingAvg?.avgRating"
+          v-if="item?.ratingAvg?.avgRating"
           readonly
-          v-model="item.tourismVenue.ratingAvg.avgRating"
+          v-model="item.ratingAvg.avgRating"
           size="sm"
           :max="5"
           color="red"
@@ -81,84 +81,50 @@
         <!-- <div class="row text-white">
           <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white">Start From</q-item-label>
-            <q-item-label class="text-h4">Rp. {{ item?.tourismVenue?.tourismVenue?.generalPrice }}</q-item-label>
+            <q-item-label class="text-h4">Rp. {{ item?.generalPrice }}</q-item-label>
           </q-item-section>
         </div> -->
       </q-card-section>
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <QItemLabelValue label="id" :value="item?.tourismVenue?.id"></QItemLabelValue>
-          <QItemLabelValue
-            label="userId"
-            :value="item?.tourismVenue?.userId"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="uuid"
-            :value="item?.tourismVenue?.uuid"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="dayOpen"
-            :value="item?.tourismVenue?.dayOpen"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="dayClose"
-            :value="item?.tourismVenue?.dayClose"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          <!-- <isQItemLabelValue label="id" :value="item?.id"></isQItemLabelValue>
+          <isQItemLabelValue label="userId" :value="item?.userId"></isQItemLabelValue> -->
+          <isQItemLabelValue label="uuid" :value="item?.uuid"></isQItemLabelValue>
+          <isQItemLabelValue label="dayOpen" :value="item?.dayOpen"></isQItemLabelValue>
+          <isQItemLabelValue label="dayClose" :value="item?.dayClose"></isQItemLabelValue>
+          <isQItemLabelValue
             label="timeOpen"
-            :value="$formatTime(item?.tourismVenue?.timeOpen)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+            :value="$formatTime(item?.timeOpen)"
+          ></isQItemLabelValue>
+          <isQItemLabelValue
             label="timeClose"
-            :value="$formatTime(item?.tourismVenue?.timeClose)"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="name"
-            :value="item?.tourismVenue?.name"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="email"
-            :value="item?.tourismVenue?.email"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="phone"
-            :value="item?.tourismVenue?.phone"
-          ></QItemLabelValue>
-          <QItemLabelValue
+            :value="$formatTime(item?.timeClose)"
+          ></isQItemLabelValue>
+          <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue>
+          <isQItemLabelValue label="email" :value="item?.email"></isQItemLabelValue>
+          <isQItemLabelValue label="phone" :value="item?.phone"></isQItemLabelValue>
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: {
+                  value: item?.location,
+                  label: 'location',
+                },
+              })
+            "
+            :clickable="true"
             label="location"
-            :value="item?.tourismVenue?.location"
-          ></QItemLabelValue>
-          <!-- <QItemLabelValue label="image" :value="item?.tourismVenue?.image"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="address" :value="item?.tourismVenue?.address"></QItemLabelValue> -->
-          <QItemLabelValue
-            label="codepos"
-            :value="item?.tourismVenue?.codepos"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="city"
-            :value="item?.tourismVenue?.city"
-          ></QItemLabelValue>
-          <QItemLabelValue
-            label="country"
-            :value="item?.tourismVenue?.country"
-          ></QItemLabelValue>
-          <!-- <QItemLabelValue label="policy" :value="item?.tourismVenue?.policy"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="category" :value="item?.tourismVenue?.category"></QItemLabelValue> -->
-          <!-- <QItemLabelValue
-            label="description"
-            :value="item?.tourismVenue?.description"
-          ></QItemLabelValue> -->
-          <QItemLabelValue
-            label="isAvailable"
-            :value="item?.tourismVenue?.isAvailable"
-          ></QItemLabelValue>
-          <!-- <QItemLabelValue
-            label="createdAt"
-            :value="item?.tourismVenue?.createdAt"
-          ></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="updatedAt" :value="item?.tourismVenue?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.tourismVenue?.deletedAt"></QItemLabelValue> -->
+            :value="item?.location"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
+          <isQItemLabelValue label="codepos" :value="item?.codepos"></isQItemLabelValue>
+          <isQItemLabelValue label="city" :value="item?.city"></isQItemLabelValue>
+          <isQItemLabelValue label="country" :value="item?.country"></isQItemLabelValue>
+          <isAvailable :item="item?.isAvailable"></isAvailable>
         </q-list>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -168,7 +134,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.tourismVenue?.address }}
+              {{ item?.address }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -181,7 +147,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.tourismVenue?.policy }}
+              {{ item?.policy }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -194,7 +160,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.tourismVenue?.description }}
+              {{ item?.description }}
             </q-card-section>
           </q-card>
           <!-- <q-separator></q-separator> -->
@@ -206,7 +172,7 @@
         <q-btn-group spread outline>
           <q-btn
             @click="
-              $emit('onBubbleEvent', { label: 'vendor', payload: item?.tourismVenue?.transportRental })
+              $emit('onBubbleEvent', { label: 'vendor', payload: item?.transportRental })
             "
             label="Vendor"
             icon="storefront"
@@ -215,7 +181,7 @@
             @click="
               $emit('onBubbleEvent', {
                 label: 'vehicle',
-                payload: item?.tourismVenue?.transportVehicle,
+                payload: item?.transportVehicle,
               })
             "
             label="Kendaraan"
@@ -241,7 +207,7 @@
         <div v-show="expanded">
           <q-separator />
           <q-card-section class="text-body">
-            {{ item?.tourismVenue?.description }}
+            {{ item?.description }}
           </q-card-section>
         </div>
       </q-slide-transition> -->
@@ -251,24 +217,30 @@
 
 <script>
 import { ref } from "vue";
-import QItemLabelValue from "./QItemLabelValue";
-import ImageSlideCarousel from "./ImageSlideCarousel";
+// import QItemLabelValue from "./QItemLabelValue";
+// import ImageSlideCarousel from "./ImageSlideCarousel";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
-    QItemLabelValue,
-    ImageSlideCarousel,
+    // QItemLabelValue,
+    // ImageSlideCarousel,
   },
   setup() {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;
 
+    const dialog_payload = ref(null);
+    const dialog_value = ref(false);
+
     return {
       showMultiple,
       expanded: ref(false),
-      ratingZero: 4.5,
+      ratingZero: 0.00,
+
+      dialog_payload,
+      dialog_value,
     };
   },
   methods: {
@@ -283,8 +255,8 @@ export default {
       }
     },
     getCategory(item) {
-      if (!item?.tourismVenue?.category) return [];
-      return item?.tourismVenue?.category.split(",");
+      if (!item?.category) return [];
+      return item?.category.split(",");
     },
   },
 };

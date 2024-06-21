@@ -200,7 +200,7 @@
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">{{ label }}</div>
+            <div class="text-h6 text-capitalize">Detail Venue</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -209,7 +209,7 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <div class="row q-col-gutter-md q-mb-md">
+          <!-- <div class="row q-col-gutter-md q-mb-md">
             <div class="col-6">
               <q-btn
                 @click="tourism_services = true"
@@ -232,9 +232,9 @@
                 <div>Wahana Wisata</div>
               </q-btn>
             </div>
-          </div>
+          </div> -->
 
-          <VenueDialogCard v-if="label === 'venue'" :item="record"></VenueDialogCard>
+          <VenueDialogCard :item="record"></VenueDialogCard>
 
           <!-- <PriceVehicleDialog
             v-if="label === 'vehicle'"
@@ -533,14 +533,9 @@
 //     page: currentRoute.params.page
 //   });
 // }),
-// import PriceListCard from "./components/PriceListCard";
-import VenueDialogCard from "./components/VenueDialogCard";
-// import RentalListCard from "./components/RentalListCard";
-import TourismFacilitiesDialog from "./components/TourismFacilitiesDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
 
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
+import VenueDialogCard from "./components/VenueDialogCard";
+import TourismFacilitiesDialog from "./components/TourismFacilitiesDialog";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -607,7 +602,7 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 
 const layout = ref(false);
 const record = ref(null);

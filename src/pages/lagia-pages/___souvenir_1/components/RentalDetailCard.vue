@@ -1,7 +1,6 @@
 <template>
   <!-- <div class="row items-start q-gutter-md"> -->
   <div class="row items-start">
-
     <q-card class="my-card" flat bordered>
       <!-- <q-img style="height: 300px;" :src="getSingleImage" :error-src="$defaultErrorImage">
         <q-badge
@@ -31,7 +30,6 @@
 
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-orange-9">{{ item?.category }}</div> -->
-
 
         <div class="text-h6 q-mb-xs">{{ item?.name }}</div>
         <q-item-label caption>{{ item?.createdAt }}</q-item-label>
@@ -72,39 +70,28 @@
       <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
-            <q-item-section>
-              policy
-            </q-item-section>
+            <q-item-section> policy </q-item-section>
           </template>
 
           <q-card>
             <q-card-section>
-              {{ item?.policy }} Follow the instructions to embed the icon font in your
-              site and learn how to style your icons using CSS. Follow the instructions to
-              embed the icon font in your site and learn how to style your icons using
-              CSS.
+              {{ item?.policy }}
             </q-card-section>
           </q-card>
 
           <q-separator></q-separator>
-
         </q-expansion-item>
       </q-card-section>
 
       <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
-            <q-item-section>
-              description
-            </q-item-section>
+            <q-item-section> description </q-item-section>
           </template>
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in your
-              site and learn how to style your icons using CSS. Follow the instructions to
-              embed the icon font in your site and learn how to style your icons using
-              CSS.
+              {{ item?.description }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -133,7 +120,6 @@
           />
         </q-btn-group>
       </q-card-section> -->
-
     </q-card>
   </div>
 </template>

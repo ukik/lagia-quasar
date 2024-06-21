@@ -10,7 +10,7 @@
       >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
-            Cannot load image 
+            Cannot load image
           </div>
         </template>
       </q-img>
@@ -174,7 +174,7 @@ onMounted(async () => {
   isMounted.value = true;
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 </script>
 <style scoped>
 .package-price {

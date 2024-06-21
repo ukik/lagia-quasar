@@ -392,15 +392,10 @@
 //     page: currentRoute.params.page
 //   });
 // }),
-// import PriceListCard from "./components/PriceListCard";
+
 import SouvenirStoreDialogCard from "./components/SouvenirStoreDialogCard";
 import SouvenirPriceDialog from "./components/SouvenirPriceDialog";
-import QItemLabelSimpleValue from "./components/QItemLabelSimpleValue";
 import SouvenirProductDialog from "./components/SouvenirProductDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
-
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -467,7 +462,7 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 
 const dialog_selengkapnya = ref(false);
 const record = ref(null);

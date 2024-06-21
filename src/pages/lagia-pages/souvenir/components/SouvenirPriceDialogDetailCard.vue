@@ -1,42 +1,34 @@
 <template>
+  <q-no-ssr>
+    <q-dialog v-model="dialog_value">
+      <q-card style="min-width: 400px">
+        <q-toolbar>
+          <q-toolbar-title
+            ><span class="text-capitalize">{{
+              dialog_payload?.label
+            }}</span></q-toolbar-title
+          >
+
+          <q-btn flat round dense icon="close" v-close-popup />
+        </q-toolbar>
+
+        <q-separator></q-separator>
+
+        <q-card-section>
+          {{ dialog_payload?.value }}
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </q-no-ssr>
+
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- {{ item?.transportVehicle?.image }} -->
-      <!-- <q-img
-        v-if="!item?.transportVehicle?.image"
-        style="height: 300px"
-        :src="item?.transportVehicle?.image"
-        :error-src="$defaultErrorImage"
-      >
-        <q-badge
-          :color="badgeCondition(item?.condition)"
-          class="q-mr-lg rounded-borders-2"
-          style="margin-top: -17px"
-          floating
-          ><span class="text-title text-uppercase q-mt-md">{{
-            item?.condition
-          }}</span></q-badge
-        >
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center">Error encountered</div>
-          <q-badge
-            :color="badgeCondition(item?.condition)"
-            class="q-mr-lg rounded-borders-2"
-            style="margin-top: -17px"
-            floating
-            ><span class="text-title text-uppercase q-mt-md">{{
-              item?.condition
-            }}</span></q-badge
-          >
-        </template>
-      </q-img> -->
-
       <q-img
-        v-if="item?.talentProfile?.image && item?.talentProfile?.image.length > 0"
+        v-if="item?.souvenirProduct?.image && item?.souvenirProduct?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.talentProfile?.image[0]"
+        :src="item?.souvenirProduct?.image[0]"
       >
         <div class="absolute-top-right bg-transparent">
           <q-btn
@@ -46,13 +38,13 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.talentProfile?.image, 0)"
+            @click="showMultiple(item?.souvenirProduct?.image, 0)"
           />
         </div>
 
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
-            Cannot load image 
+            Cannot load image
           </div>
         </template>
       </q-img>
@@ -67,18 +59,18 @@
       <!-- <q-img
         loading="lazy"
         style="height: 300px"
-        v-if="!item?.talentProfile?.image"
+        v-if="!item?.souvenirProduct?.image"
         :src="$defaultErrorImage"
       />
       <ImageSlideCarousel
         v-else
-        :_gallery="item?.talentProfile?.image"
+        :_gallery="item?.souvenirProduct?.image"
       ></ImageSlideCarousel> -->
 
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
         <DestinationRating
-          :rating="item?.talentProfile?.ratingAvg?.avgRating"
+          :rating="item?.souvenirProduct?.ratingAvg?.avgRating"
         ></DestinationRating>
 
         <!-- <q-chip
@@ -125,39 +117,47 @@
       <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">
-        <q-expansion-item default-opened>
+        <q-expansion-item>
           <template v-slot:header>
-            <q-item-section> Detail Skill </q-item-section>
+            <q-item-section> Detail Produk </q-item-section>
           </template>
           <!-- <q-separator></q-separator> -->
 
           <q-card>
-            <q-card-section class="custom q-pa-none">
+            <q-card-section class="custom q-pa-none q-mb-md">
               <q-list class="row flex items-start text-caption text-dark q-pl-md">
-                <QItemLabelValue
-                  label="Skill"
-                  :value="item?.talentSkill?.name"
-                ></QItemLabelValue>
-                <QItemLabelValue
-                  label="Category"
-                  :value="item?.talentSkill?.category"
-                ></QItemLabelValue>
-                <QItemLabelValue
-                  label="Lainnya"
-                  :value="item?.talentSkill?.others"
-                ></QItemLabelValue>
-                <QItemLabelValue
-                  label="Sejak"
-                  :value="$formatDate(item?.talentSkill?.yearExp)"
-                ></QItemLabelValue>
-                <QItemLabelValue
-                  label="Deskripsi"
-                  :value="item?.talentSkill?.description"
-                ></QItemLabelValue>
-                <QItemLabelValue
-                  label="Kebijakan"
-                  :value="item?.talentSkill?.policy"
-                ></QItemLabelValue>
+                <isQItemLabelSimpleValueNoDense
+                  label="uuid"
+                  :value="item?.souvenirProduct?.uuid"
+                ></isQItemLabelSimpleValueNoDense>
+                <isQItemLabelSimpleValueNoDense
+                  label="name"
+                  :value="item?.souvenirProduct?.name"
+                ></isQItemLabelSimpleValueNoDense>
+                <isQItemLabelSimpleValueNoDense
+                  label="category"
+                  :value="item?.souvenirProduct?.category"
+                ></isQItemLabelSimpleValueNoDense>
+                <isQItemLabelSimpleValueNoDense
+                  label="lainnya"
+                  :value="item?.souvenirProduct?.others"
+                ></isQItemLabelSimpleValueNoDense>
+
+                <isQItemLabelSimpleValueNoDense
+                  @onBubbleEvent="
+                    dialog_value = true;
+                    dialog_payload = {
+                      value: item?.souvenirProduct?.description,
+                      label: 'description',
+                    };
+                  "
+                  :clickable="true"
+                  label="description"
+                  :value="item?.souvenirProduct?.description"
+                  textcolor="text-primary"
+                ></isQItemLabelSimpleValueNoDense>
+
+                <isAvailable :item="item?.souvenirProduct?.isAvailable"></isAvailable>
               </q-list>
             </q-card-section>
           </q-card>
@@ -169,35 +169,38 @@
 
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <QItemLabelValue label="id" :value="item?.id"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="rentalId" :value="item?.rentalId"></QItemLabelValue>
-          <QItemLabelValue label="vehicleId" :value="item?.vehicleId"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="name" :value="item?.name"></QItemLabelValue> -->
-          <QItemLabelValue
+          <!-- <isQItemLabelSimpleValueNoDense label="id" :value="item?.id"></isQItemLabelSimpleValueNoDense> -->
+          <!-- <isQItemLabelSimpleValueNoDense label="uuid" :value="item?.uuid"></isQItemLabelSimpleValueNoDense> -->
+          <!-- <isQItemLabelSimpleValueNoDense label="rentalId" :value="item?.rentalId"></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense label="vehicleId" :value="item?.vehicleId"></isQItemLabelSimpleValueNoDense> -->
+          <!-- <isQItemLabelSimpleValueNoDense label="name" :value="item?.name"></isQItemLabelSimpleValueNoDense> -->
+          <isQItemLabelSimpleValueNoDense
             label="generalPrice"
             :value="$currency(item?.generalPrice)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
             label="discountPrice"
             :value="$percent(item?.discountPrice)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
-          ></QItemLabelValue>
-          <!-- <QItemLabelValue
+          ></isQItemLabelSimpleValueNoDense>
+          <!-- <isQItemLabelSimpleValueNoDense
             label="description"
             :value="item?.description"
-          ></QItemLabelValue> -->
+          ></isQItemLabelSimpleValueNoDense> -->
 
-          <!-- <QItemLabelValue label="customerId" :value="item?.customerId"></QItemLabelValue> -->
-          <QItemLabelValue label="condition" :value="item?.condition"></QItemLabelValue>
-          <!-- <QItemLabelValue label="customer" :value="item?.customer"></QItemLabelValue> -->
+          <!-- <isQItemLabelSimpleValueNoDense label="customerId" :value="item?.customerId"></isQItemLabelSimpleValueNoDense> -->
+          <isQItemLabelSimpleValueNoDense
+            label="condition"
+            :value="item?.condition"
+          ></isQItemLabelSimpleValueNoDense>
+          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
 
-          <!-- <QItemLabelValue label="createdAt" :value="item?.createdAt"></QItemLabelValue>
-          <QItemLabelValue label="updatedAt" :value="item?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.deletedAt"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
+          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
+          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -210,10 +213,7 @@
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -266,24 +266,28 @@
   </div>
 </template>
 
+<script setup>
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+const dialog_payload = ref(null);
+const dialog_value = ref(false);
+</script>
+
 <script>
 import { ref } from "vue";
-import QItemLabelValue from "./QItemLabelValue";
-import ImageSlideCarousel from "./ImageSlideCarousel";
+// import isQItemLabelValue from "./isQItemLabelValue";
+// import ImageSlideCarousel from "./ImageSlideCarousel";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
-    QItemLabelValue,
-    ImageSlideCarousel,
+    // isQItemLabelValue,
+    // ImageSlideCarousel,
   },
   setup() {
-    const lightbox = useGlobalEasyLightbox();
-    const { showMultiple } = lightbox;
-
     return {
-      showMultiple,
       expanded: ref(false),
     };
   },

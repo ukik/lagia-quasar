@@ -1,4 +1,26 @@
 <template>
+  <q-no-ssr>
+    <q-dialog v-model="dialog_value">
+      <q-card style="min-width: 400px">
+        <q-toolbar>
+          <q-toolbar-title
+            ><span class="text-capitalize">{{
+              dialog_payload?.label
+            }}</span></q-toolbar-title
+          >
+
+          <q-btn flat round dense icon="close" v-close-popup />
+        </q-toolbar>
+
+        <q-separator></q-separator>
+
+        <q-card-section>
+          {{ dialog_payload?.value }}
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </q-no-ssr>
+
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
       <!-- {{ item?.transportVehicle?.image }} -->
@@ -52,7 +74,7 @@
 
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
-            Cannot load image 
+            Cannot load image
           </div>
         </template>
       </q-img>
@@ -134,30 +156,50 @@
           <q-card>
             <q-card-section class="custom q-pa-none">
               <q-list class="row flex items-start text-caption text-dark q-pl-md">
-                <QItemLabelValue
+                <isQItemLabelValue
                   label="Skill"
                   :value="item?.talentSkill?.name"
-                ></QItemLabelValue>
-                <QItemLabelValue
+                ></isQItemLabelValue>
+                <isQItemLabelValue
                   label="Category"
                   :value="item?.talentSkill?.category"
-                ></QItemLabelValue>
-                <QItemLabelValue
+                ></isQItemLabelValue>
+                <isQItemLabelValue
                   label="Lainnya"
                   :value="item?.talentSkill?.others"
-                ></QItemLabelValue>
-                <QItemLabelValue
+                ></isQItemLabelValue>
+                <isQItemLabelValue
                   label="Sejak"
                   :value="$formatDate(item?.talentSkill?.yearExp)"
-                ></QItemLabelValue>
-                <QItemLabelValue
+                ></isQItemLabelValue>
+
+                <isQItemLabelSimpleValueNoDense
+                  @onBubbleEvent="
+                    dialog_value = true;
+                    dialog_payload = {
+                      value: item?.talentSkill?.description,
+                      label: 'description',
+                    };
+                  "
+                  :clickable="true"
                   label="Deskripsi"
                   :value="item?.talentSkill?.description"
-                ></QItemLabelValue>
-                <QItemLabelValue
+                  textcolor="text-primary"
+                ></isQItemLabelSimpleValueNoDense>
+
+                <isQItemLabelSimpleValueNoDense
+                  @onBubbleEvent="
+                    dialog_value = true;
+                    dialog_payload = {
+                      value: item?.talentSkill?.policy,
+                      label: 'policy',
+                    };
+                  "
+                  :clickable="true"
                   label="Kebijakan"
                   :value="item?.talentSkill?.policy"
-                ></QItemLabelValue>
+                  textcolor="text-primary"
+                ></isQItemLabelSimpleValueNoDense>
               </q-list>
             </q-card-section>
           </q-card>
@@ -169,35 +211,35 @@
 
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <QItemLabelValue label="id" :value="item?.id"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="rentalId" :value="item?.rentalId"></QItemLabelValue>
-          <QItemLabelValue label="vehicleId" :value="item?.vehicleId"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="name" :value="item?.name"></QItemLabelValue> -->
-          <QItemLabelValue
+          <!-- <isQItemLabelValue label="id" :value="item?.id"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="uuid" :value="item?.uuid"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="rentalId" :value="item?.rentalId"></isQItemLabelValue>
+          <isQItemLabelValue label="vehicleId" :value="item?.vehicleId"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue> -->
+          <isQItemLabelValue
             label="generalPrice"
             :value="$currency(item?.generalPrice)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          ></isQItemLabelValue>
+          <isQItemLabelValue
             label="discountPrice"
             :value="$percent(item?.discountPrice)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          ></isQItemLabelValue>
+          <isQItemLabelValue
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
-          ></QItemLabelValue>
-          <!-- <QItemLabelValue
+          ></isQItemLabelValue>
+          <!-- <isQItemLabelValue
             label="description"
             :value="item?.description"
-          ></QItemLabelValue> -->
+          ></isQItemLabelValue> -->
 
-          <!-- <QItemLabelValue label="customerId" :value="item?.customerId"></QItemLabelValue> -->
-          <QItemLabelValue label="condition" :value="item?.condition"></QItemLabelValue>
-          <!-- <QItemLabelValue label="customer" :value="item?.customer"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="customerId" :value="item?.customerId"></isQItemLabelValue> -->
+          <isQItemLabelValue label="condition" :value="item?.condition"></isQItemLabelValue>
+          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
 
-          <!-- <QItemLabelValue label="createdAt" :value="item?.createdAt"></QItemLabelValue>
-          <QItemLabelValue label="updatedAt" :value="item?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.deletedAt"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
+          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
+          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -210,10 +252,7 @@
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -268,23 +307,30 @@
 
 <script>
 import { ref } from "vue";
-import QItemLabelValue from "./QItemLabelValue";
-import ImageSlideCarousel from "./ImageSlideCarousel";
+// import isQItemLabelValue from "./isQItemLabelValue";
+// import ImageSlideCarousel from "./ImageSlideCarousel";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
-    QItemLabelValue,
-    ImageSlideCarousel,
+    // isQItemLabelValue,
+    // ImageSlideCarousel,
   },
   setup() {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;
 
+    const dialog_payload = ref(null);
+    const dialog_value = ref(false);
+
     return {
       showMultiple,
       expanded: ref(false),
+      ratingZero: 0.00,
+
+      dialog_payload,
+      dialog_value,
     };
   },
   methods: {

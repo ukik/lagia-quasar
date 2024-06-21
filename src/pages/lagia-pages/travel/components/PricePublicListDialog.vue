@@ -1,11 +1,7 @@
 <template>
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <q-img
-        style="height: 300px"
-        :src="item?.image"
-        :error-src="$defaultErrorImage"
-      >
+      <q-img style="height: 300px" :src="item?.image" :error-src="$defaultErrorImage">
         <q-badge
           :color="item?.ticketStatus == 'bisnis' ? 'pink' : 'positive'"
           class="q-mr-lg rounded-borders-2"
@@ -27,14 +23,15 @@
             }}</span></q-badge
           >
         </template>
-        <div class="absolute-top-left bg-transparent" style="padding:5px;">
+        <div class="absolute-top-left bg-transparent" style="padding: 5px">
           <q-btn
             push
-            dense label="zoom"
+            dense
+            label="zoom"
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.image,0)"
+            @click="showMultiple(item?.image, 0)"
           />
         </div>
       </q-img>
@@ -129,12 +126,7 @@
         <q-item-label header>Rute Perjalanan</q-item-label>
         <q-item class="col-12 q-pt-none">
           <q-item-section>
-            <q-item-label
-              >{{ item?.route }} Follow the instructions to embed the icon font in your
-              site and learn how to style your icons using CSS. Follow the instructions to
-              embed the icon font in your site and learn how to style your icons using
-              CSS.</q-item-label
-            >
+            <q-item-label>{{ item?.route }} </q-item-label>
           </q-item-section>
         </q-item>
       </q-card-section>

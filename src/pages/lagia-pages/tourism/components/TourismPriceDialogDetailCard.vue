@@ -124,7 +124,7 @@
           <!-- <q-separator></q-separator> -->
 
           <q-card>
-            <q-card-section class="custom q-pa-none">
+            <q-card-section class="custom q-pa-none q-mb-sm">
               <q-list class="row flex items-start text-caption text-dark q-pl-md">
                 <!-- <isQItemLabelSimpleValueNoDense
                   label="id"
@@ -278,11 +278,11 @@
             label="condition"
             :value="item?.condition"
           ></isQItemLabelSimpleValueNoDense>
-          <!-- <QItemLabelValue label="customer" :value="item?.customer"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
 
-          <!-- <QItemLabelValue label="createdAt" :value="item?.createdAt"></QItemLabelValue>
-          <QItemLabelValue label="updatedAt" :value="item?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.deletedAt"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
+          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
+          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -295,10 +295,7 @@
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -352,28 +349,27 @@
 </template>
 
 <script setup>
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
 const dialog_payload = ref(null);
 const dialog_value = ref(false);
 </script>
 
 <script>
 import { ref } from "vue";
-import QItemLabelValue from "./QItemLabelValue";
-import ImageSlideCarousel from "./ImageSlideCarousel";
+// import isQItemLabelValue from "./isQItemLabelValue";
+// import ImageSlideCarousel from "./ImageSlideCarousel";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
-    QItemLabelValue,
-    ImageSlideCarousel,
+    // isQItemLabelValue,
+    // ImageSlideCarousel,
   },
   setup() {
-    const lightbox = useGlobalEasyLightbox();
-    const { showMultiple } = lightbox;
-
     return {
-      showMultiple,
       expanded: ref(false),
     };
   },

@@ -3,65 +3,7 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <!-- TALENT SKILL -->
-    <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="talent_skills"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card>
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Skill List</div>
-            <q-space></q-space>
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px - 60px)" class="scroll">
-          <SouvenirProductDialog :item="record"></SouvenirProductDialog>
-        </q-card-section>
-
-        <q-separator />
-        <q-card-section style="height: 60px"> </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <!-- TALENT PRICE -->
-    <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="talent_prices"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card>
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Price List</div>
-            <q-space></q-space>
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px - 60px)" class="scroll">
-          <SouvenirPriceDialog :item="record"></SouvenirPriceDialog>
-        </q-card-section>
-
-        <q-separator />
-        <q-card-section style="height: 60px"> </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <!-- SELENGKAPNYA -->
+    <!-- DETAIL -->
     <q-dialog
       full-width
       full-height
@@ -71,15 +13,21 @@
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none bg-primary text-white">
+        <!-- <q-card-section class="q-py-none bg-primary text-white">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Price</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section> -->
+        <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6 text-capitalize">Detail Price</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
-
-        <!-- <q-separator /> -->
+        <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <SouvenirPriceDialogDetailCard :item="record"></SouvenirPriceDialogDetailCard>
@@ -87,63 +35,57 @@
       </q-card>
     </q-dialog>
 
-    <!-- PROFILE -->
+    <!-- STORE -->
     <q-dialog
       full-width
       full-height
       :maximized="$q.screen.width <= 768"
-      v-model="talent_profile"
+      v-model="souvenir_store"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none bg-primary text-white">
+        <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">Profile Talent</div>
+            <div class="text-h6 text-capitalize">Detail Store</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
         </q-card-section>
 
-        <!-- <q-separator /> -->
+        <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <div class="row flex flex-center">
-            <q-btn-group
-              spread
-              outline
-              unelevated
-              rounded
-              class="bg-white q-mb-md col-xl-8 col-lg-8 col-md-8 col-sm-8 col-auto"
-            >
-              <q-btn
-                @click="talent_skills = true"
-                unelevated
-                color="cyan"
-                :label="$q.screen.width > 425 ? 'skill list' : ''"
-                icon="emoji_events"
-              >
-                <!-- <q-icon size="3em" name="emoji_events" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">skill list</div> -->
-              </q-btn>
-
-              <q-btn
-                @click="talent_prices = true"
-                unelevated
-                color="teal"
-                :label="$q.screen.width > 425 ? 'price list' : ''"
-                icon="add_shopping_cart"
-              >
-                <!-- <q-icon size="3em" name="add_shopping_cart" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">price list</div> -->
-              </q-btn>
-            </q-btn-group>
-          </div>
-
-          <SouvenirStoreDialogCard :item="record"></SouvenirStoreDialogCard>
+          <SouvenirDialogCard :item="record"></SouvenirDialogCard>
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <!-- PRODUCT -->
+    <!-- <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="souvenir_product"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Souvenir</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <SouvenirDialogCard :item="record"></SouvenirDialogCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog> -->
   </q-no-ssr>
 
   <!-- ***Inner Banner html end here*** -->
@@ -219,23 +161,18 @@
 
 <script async setup>
 import PriceListCard from "./components/PriceListCard";
-import SouvenirStoreDialogCard from "./components/SouvenirStoreDialogCard";
+import SouvenirDialogCard from "./components/SouvenirDialogCard";
 import SouvenirPriceDialogDetailCard from "./components/SouvenirPriceDialogDetailCard";
-import SouvenirProductDialog from "./components/SouvenirProductDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
-
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
-import { useTalentPriceListStore } from "stores/lagia-stores/talent/TalentPriceListStore";
+import { useSouvenirPriceListStore } from "stores/lagia-stores/souvenir/SouvenirPriceListStore";
 import { useRouter, onBeforeRouteLeave } from "vue-router";
-import SouvenirPriceDialog from "./components/SouvenirPriceDialog.vue";
-const store = useTalentPriceListStore();
+
+const store = useSouvenirPriceListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -270,7 +207,7 @@ defineOptions({
       if (!currentRoute?.query?.page)
         redirect({ name: currentRoute.name, query: { page: 1 } });
 
-      return useTalentPriceListStore(store).onFetch({
+      return useSouvenirPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
     }
@@ -293,151 +230,28 @@ const record = ref(null);
 
 const dialog_selengkapnya = ref(false);
 
-const talent_profile = ref(false);
-const talent_prices = ref(false);
-const talent_skills = ref(false);
+const souvenir_store = ref(false);
+// const souvenir_product = ref(false);
 
 // const dialog_payload = ref(null);
 // const dialog_value = ref(false);
 
 function onBubbleEvent(value) {
   record.value = value?.payload;
-  if (value?.label == "profile") talent_profile.value = true;
+  if (value?.label == "store") souvenir_store.value = true;
   if (value?.label == "detail") dialog_selengkapnya.value = true;
-  if (value?.label == "skill") talent_skills.value = true;
+  // if (value?.label == "produk") souvenir_product.value = true;
 }
 
 function closeDialog() {
   dialog_selengkapnya.value = false;
-  talent_profile.value = false;
-  talent_prices.value = false;
-  talent_skills.value = false;
+  souvenir_store.value = false;
 }
 
 onBeforeRouteLeave((to, from, next) => {
   closeDialog();
   return next();
-
-  let dialog = false;
-  if (dialog_selengkapnya.value) dialog = true;
-  if (talent_profile.value) dialog = true;
-  if (talent_prices.value) dialog = true;
-  if (talent_skills.value) dialog = true;
-
-  if (dialog) {
-    console.log("dialog", dialog, from);
-    const text = "Do you really want to leave? you have unsaved changes!";
-    if (confirm(text) == true) {
-      console.log('"You pressed OK!"');
-      dialog_selengkapnya.value = false;
-      talent_profile.value = false;
-      talent_prices.value = false;
-      talent_skills.value = false;
-      next();
-    } else {
-      console.log('"You canceled!"');
-      next(from.fullPath);
-    }
-
-    // next({ path: from.path, query: from.query });
-  } else {
-    console.log("dialog", dialog);
-    next();
-  }
-
-  // return;
-  // const text = "Do you really want to leave? you have unsaved changes!";
-  // if (confirm(text) == true) {
-  //   console.log('"You pressed OK!"');
-  //   this.dialog_selengkapnya = false;
-  //   this.talent_profile = false;
-  //   this.talent_prices = false;
-  //   this.talent_skills = false;
-  //   next();
-  // } else {
-  //   console.log('"You canceled!"');
-  //   next(from.fullPath);
-  // }
-
-  // if(!isEqual(store.getters['product/getProduct'], initialState)) {
-  //   Swal.fire(/*...*/)
-  //     .then(() => {
-  //       next()
-  //     })
-  // } else {
-  //   next()
-  // }
 });
-</script>
-
-<
-<script>
-export default {
-  // beforeRouteLeave(to, from, next) {
-  //   // called when the route that renders this component is about to
-  //   // be navigated away from.
-  //   // has access to `this` component instance.
-  //   console.log("beforeRouteLeave FROM", from.fullPath);
-
-  //   // window.confirm("Do you really want to leave? you have unsaved changes!");
-
-  //   // if (this.dialog_selengkapnya) return (this.dialog_selengkapnya = false);
-  //   // if (this.talent_profile) return (this.talent_profile = false);
-  //   // if (this.talent_prices) return (this.talent_prices = false);
-  //   // if (this.talent_skills) return (this.talent_skills = false);
-
-  //   if (
-  //     !this.dialog_selengkapnya &&
-  //     !this.talent_profile &&
-  //     !this.talent_prices &&
-  //     !this.talent_skills
-  //   ) {
-  //     console.log(
-  //       this.dialog_selengkapnya,
-  //       this.talent_profile,
-  //       this.talent_prices,
-  //       this.talent_skills
-  //     );
-  //     return next(from.fullPath);
-  //   } else {
-  //     alert(2);
-  //     return next();
-  //   }
-  //   return;
-  //   const text = "Do you really want to leave? you have unsaved changes!";
-  //   if (confirm(text) == true) {
-  //     console.log('"You pressed OK!"');
-  //     this.dialog_selengkapnya = false;
-  //     this.talent_profile = false;
-  //     this.talent_prices = false;
-  //     this.talent_skills = false;
-  //     next();
-  //   } else {
-  //     console.log('"You canceled!"');
-  //     next(from.fullPath);
-  //   }
-  // },
-  mounted() {
-    // window.addEventListener(
-    //   "popstate",
-    //   function (event) {
-    //     // The popstate event is fired each time when the current history entry changes.
-    //     var r = confirm("You pressed a Back button! Are you sure?!");
-    //     if (r == true) {
-    //       // Call Back button programmatically as per user confirmation.
-    //       history.back();
-    //       // Uncomment below line to redirect to the previous page instead.
-    //       // window.location = document.referrer // Note: IE11 is not supporting this.
-    //     } else {
-    //       // Stay on the current page.
-    //       history.pushState(null, null, window.location.pathname);
-    //     }
-    //     history.pushState(null, null, window.location.pathname);
-    //   },
-    //   false
-    // );
-  },
-};
 </script>
 
 <style scoped>

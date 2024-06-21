@@ -278,7 +278,7 @@
 
               <template v-slot:error>
                 <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image 
+                  Cannot load image
                 </div>
               </template>
             </q-img>
@@ -621,7 +621,7 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 
 const layout = ref(false);
 const record = ref(null);

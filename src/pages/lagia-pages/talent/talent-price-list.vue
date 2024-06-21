@@ -71,7 +71,15 @@
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none bg-primary text-white">
+        <!-- <q-card-section class="q-py-none bg-primary text-white">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Price</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section> -->
+
+        <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6 text-capitalize">Detail Price</div>
             <q-space></q-space>
@@ -79,7 +87,7 @@
           </q-toolbar>
         </q-card-section>
 
-        <!-- <q-separator /> -->
+        <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
           <TalentPriceDialogDetailCard :item="record"></TalentPriceDialogDetailCard>
@@ -97,7 +105,15 @@
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none bg-primary text-white">
+        <!-- <q-card-section class="q-py-none bg-primary text-white">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Profile Talent</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section> -->
+
+        <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
             <div class="text-h6 text-capitalize">Profile Talent</div>
             <q-space></q-space>
@@ -105,10 +121,10 @@
           </q-toolbar>
         </q-card-section>
 
-        <!-- <q-separator /> -->
+        <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <div class="row flex flex-center">
+          <!-- <div class="row flex flex-center">
             <q-btn-group
               spread
               outline
@@ -123,8 +139,6 @@
                 :label="$q.screen.width > 425 ? 'skill list' : ''"
                 icon="emoji_events"
               >
-                <!-- <q-icon size="3em" name="emoji_events" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">skill list</div> -->
               </q-btn>
 
               <q-btn
@@ -134,11 +148,9 @@
                 :label="$q.screen.width > 425 ? 'price list' : ''"
                 icon="add_shopping_cart"
               >
-                <!-- <q-icon size="3em" name="add_shopping_cart" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">price list</div> -->
               </q-btn>
             </q-btn-group>
-          </div>
+          </div> -->
 
           <ProfileDialogCard :item="record"></ProfileDialogCard>
         </q-card-section>
@@ -222,10 +234,6 @@ import PriceListCard from "./components/PriceListCard";
 import ProfileDialogCard from "./components/ProfileDialogCard";
 import TalentPriceDialogDetailCard from "./components/TalentPriceDialogDetailCard";
 import TalentSkillDialog from "./components/TalentSkillDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
-
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";

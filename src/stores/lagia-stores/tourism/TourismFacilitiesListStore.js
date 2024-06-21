@@ -98,6 +98,26 @@ export const useTourismFacilitiesListStore = defineStore('TourismFacilitiesListS
       //   element['image'] = JSON.parse(element['image'])
       // });
 
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.image) element['image'] = JSON.parse(element['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.image) element['image'] = [element['image']]
+        });
+      }
+
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.category) element['category'] = JSON.parse(element['category'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.category) element['category'] = [element['category']]
+        });
+      }
+
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage
       this.perPage = response?.data?.data?.perPage

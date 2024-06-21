@@ -32,11 +32,11 @@
       </q-img> -->
 
       <q-img
-        v-if="item?.talentProfile?.image && item?.talentProfile?.image.length > 0"
+        v-if="item?.souvenirProduct?.image && item?.souvenirProduct?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.talentProfile?.image[0]"
+        :src="item?.souvenirProduct?.image[0]"
       >
         <div class="absolute-top-left bg-transparent">
           <q-btn
@@ -46,7 +46,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.talentProfile?.image, 0)"
+            @click="showMultiple(item?.souvenirProduct?.image, 0)"
           />
         </div>
         <q-badge
@@ -60,7 +60,7 @@
         >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
-            Cannot load image 
+            Cannot load image
           </div>
         </template>
       </q-img>
@@ -75,18 +75,18 @@
       <!-- <q-img
         loading="lazy"
         style="height: 300px"
-        v-if="!item?.talentProfile?.image"
+        v-if="!item?.souvenirProduct?.image"
         :src="$defaultErrorImage"
       />
       <ImageSlideCarousel
         v-else
-        :_gallery="item?.talentProfile?.image"
+        :_gallery="item?.souvenirProduct?.image"
       ></ImageSlideCarousel> -->
 
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
         <DestinationRating
-          :rating="item?.talentProfile?.ratingAvg?.avgRating"
+          :rating="item?.souvenirProduct?.ratingAvg?.avgRating"
         ></DestinationRating>
 
         <!-- <q-chip
@@ -132,35 +132,38 @@
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <QItemLabelValue label="id" :value="item?.id"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="rentalId" :value="item?.rentalId"></QItemLabelValue>
-          <QItemLabelValue label="vehicleId" :value="item?.vehicleId"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="name" :value="item?.name"></QItemLabelValue> -->
-          <QItemLabelValue
+          <!-- <isQItemLabelValue label="id" :value="item?.id"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="uuid" :value="item?.uuid"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="rentalId" :value="item?.rentalId"></isQItemLabelValue>
+          <isQItemLabelValue label="vehicleId" :value="item?.vehicleId"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue> -->
+          <isQItemLabelValue
             label="generalPrice"
             :value="$currency(item?.generalPrice)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          ></isQItemLabelValue>
+          <isQItemLabelValue
             label="discountPrice"
             :value="$percent(item?.discountPrice)"
-          ></QItemLabelValue>
-          <QItemLabelValue
+          ></isQItemLabelValue>
+          <isQItemLabelValue
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
-          ></QItemLabelValue>
-          <!-- <QItemLabelValue
+          ></isQItemLabelValue>
+          <!-- <isQItemLabelValue
             label="description"
             :value="item?.description"
-          ></QItemLabelValue> -->
+          ></isQItemLabelValue> -->
 
-          <!-- <QItemLabelValue label="customerId" :value="item?.customerId"></QItemLabelValue> -->
-          <QItemLabelValue label="condition" :value="item?.condition"></QItemLabelValue>
-          <!-- <QItemLabelValue label="customer" :value="item?.customer"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="customerId" :value="item?.customerId"></isQItemLabelValue> -->
+          <isQItemLabelValue
+            label="condition"
+            :value="item?.condition"
+          ></isQItemLabelValue>
+          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
 
-          <!-- <QItemLabelValue label="createdAt" :value="item?.createdAt"></QItemLabelValue>
-          <QItemLabelValue label="updatedAt" :value="item?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.deletedAt"></QItemLabelValue> -->
+          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
+          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
+          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -173,10 +176,7 @@
 
           <q-card>
             <q-card-section>
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -184,7 +184,7 @@
 
       <q-separator></q-separator>
 
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-btn-group spread outline>
           <q-btn
             @click="
@@ -196,16 +196,48 @@
             label="detail"
             icon="visibility"
           />
-          <!-- <q-btn
-            @click="$emit('onBubbleEvent', { label: 'skill', payload: item })"
-            label="skill"
-            icon="emoji_events"
-          /> -->
           <q-btn
-            @click="$emit('onBubbleEvent', { label: 'profile', payload: item })"
-            label="Profile"
-            icon="person"
+            @click="$emit('onBubbleEvent', { label: 'store', payload: item })"
+            label="Store"
+            icon="local_mall"
           />
+        </q-btn-group>
+      </q-card-section> -->
+
+      <q-card-section class="q-pa-none">
+        <q-btn-group spread unelevated>
+          <q-btn
+            @click="
+              $emit('onBubbleEvent', {
+                label: 'detail',
+                payload: item,
+              })
+            "
+            label="detail"
+            icon="visibility"
+          />
+          <q-separator vertical></q-separator>
+          <q-btn
+            @click="
+              $emit('onBubbleEvent', {
+                label: 'store',
+                payload: item,
+              })
+            "
+            label="store"
+            icon="storefront"
+          />
+          <!-- <q-separator vertical></q-separator>
+          <q-btn
+            @click="
+              $emit('onBubbleEvent', {
+                label: 'produk',
+                payload: item,
+              })
+            "
+            label="produk"
+            icon="inventory"
+          /> -->
         </q-btn-group>
       </q-card-section>
 
@@ -236,15 +268,15 @@
 
 <script>
 import { ref } from "vue";
-import QItemLabelValue from "./QItemLabelValue";
-import ImageSlideCarousel from "./ImageSlideCarousel";
+// import isQItemLabelValue from "./isQItemLabelValue";
+// import ImageSlideCarousel from "./ImageSlideCarousel";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
-    QItemLabelValue,
-    ImageSlideCarousel,
+    // isQItemLabelValue,
+    // ImageSlideCarousel,
   },
   setup() {
     const lightbox = useGlobalEasyLightbox();

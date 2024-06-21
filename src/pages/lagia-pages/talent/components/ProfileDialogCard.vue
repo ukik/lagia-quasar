@@ -1,48 +1,7 @@
 <template>
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- {{ item?.transportVehicle?.image }} -->
-      <!-- <q-img
-        class="bg-dark"
-        v-if="!item?.transportVehicle?.image"
-        style="height: 300px"
-        :src="item?.image"
-        :error-src="$defaultErrorImage"
-      >
-        <q-badge
-          :color="badgeCondition(item?.condition)"
-          class="q-mr-lg rounded-borders-2"
-          style="margin-top: -17px"
-          floating
-          ><span class="text-title text-uppercase q-mt-md">{{
-            item?.condition
-          }}</span></q-badge
-        >
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center">Error encountered</div>
-          <q-badge
-            :color="badgeCondition(item?.condition)"
-            class="q-mr-lg rounded-borders-2"
-            style="margin-top: -17px"
-            floating
-            ><span class="text-title text-uppercase q-mt-md">{{
-              item?.condition
-            }}</span></q-badge
-          >
-        </template>
-      </q-img> -->
-
-      <!-- <q-img
-        loading="lazy"
-        style="height: 300px"
-        v-if="!item?.talentProfile?.image"
-        :src="$defaultErrorImage"
-      />
-      <ImageSlideCarousel
-        v-else
-        :_gallery="item?.talentProfile?.image"
-      ></ImageSlideCarousel> -->
-
+      xxxx
       <q-img
         v-if="item?.talentProfile?.image && item?.talentProfile?.image.length > 0"
         loading="lazy"
@@ -192,38 +151,6 @@
         </div> -->
       </q-card-section>
       <q-separator></q-separator>
-      <q-card-section class="custom q-pa-none">
-        <q-list class="row flex items-start text-caption text-dark">
-          <!-- <QItemLabelValue label="id" :value="item?.id"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="userId" :value="item?.userId"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="uuid" :value="item?.uuid"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="name" :value="item?.name"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="image" :value="item?.image"></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="portofolio" :value="item?.portofolio"></QItemLabelValue>
-          <QItemLabelValue label="policy" :value="item?.policy"></QItemLabelValue>
-          <QItemLabelValue
-            label="description"
-            :value="item?.description"
-          ></QItemLabelValue> -->
-          <!-- <QItemLabelValue label="website" :value="item?.website"></QItemLabelValue>
-          <QItemLabelValue label="instagram" :value="item?.instagram"></QItemLabelValue>
-          <QItemLabelValue label="tiktok" :value="item?.tiktok"></QItemLabelValue>
-          <QItemLabelValue label="youtube" :value="item?.youtube"></QItemLabelValue>
-          <QItemLabelValue label="facebook" :value="item?.facebook"></QItemLabelValue>
-          <QItemLabelValue label="twitter" :value="item?.twitter"></QItemLabelValue> -->
-          <!-- <QItemLabelValue
-            label="isAvailable"
-            :value="item?.isAvailable"
-          ></QItemLabelValue>
-          <QItemLabelValue label="createdAt" :value="item?.createdAt"></QItemLabelValue>
-          <QItemLabelValue label="updatedAt" :value="item?.updatedAt"></QItemLabelValue>
-          <QItemLabelValue label="deletedAt" :value="item?.deletedAt"></QItemLabelValue>
-          <QItemLabelValue
-            label="talentSkillsCount"
-            :value="item?.talentSkillsCount"
-          ></QItemLabelValue> -->
-        </q-list>
-      </q-card-section>
       <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
@@ -231,10 +158,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.portofolio }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.portofolio }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -247,10 +171,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.policy }} Follow the instructions to embed the icon font in your
-              site and learn how to style your icons using CSS. Follow the instructions to
-              embed the icon font in your site and learn how to style your icons using
-              CSS.
+              {{ item?.policy }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -263,10 +184,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.description }} Follow the instructions to embed the icon font in
-              your site and learn how to style your icons using CSS. Follow the
-              instructions to embed the icon font in your site and learn how to style your
-              icons using CSS.
+              {{ item?.description }}
             </q-card-section>
           </q-card>
           <!-- <q-separator></q-separator> -->
@@ -323,19 +241,24 @@
 
 <script>
 import { ref } from "vue";
-import QItemLabelValue from "./QItemLabelValue";
-import ImageSlideCarousel from "./ImageSlideCarousel";
+// import isQItemLabelValue from "./isQItemLabelValue";
+// import ImageSlideCarousel from "./ImageSlideCarousel";
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   props: ["item"],
   components: {
-    QItemLabelValue,
-    ImageSlideCarousel,
+    // isQItemLabelValue,
+    // ImageSlideCarousel,
   },
   setup() {
+    const lightbox = useGlobalEasyLightbox();
+    const { showMultiple } = lightbox;
+
     return {
+      showMultiple,
       expanded: ref(false),
-      ratingZero: 4.5,
+      ratingZero: 0.00,
     };
   },
   methods: {

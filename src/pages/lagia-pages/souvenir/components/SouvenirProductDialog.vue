@@ -122,6 +122,11 @@
                   </q-item-section>
                 </q-item>
 
+                <!-- <isQItemLabelSimpleValue
+                  label="Fasilitas"
+                  :value="item?.name"
+                ></isQItemLabelSimpleValue> -->
+
                 <isQItemLabelSimpleValue
                   @onBubbleEvent="
                     dialog_value = true;
@@ -166,22 +171,6 @@
                 </q-item>
 
                 <isAvailable :item="item?.isAvailable"></isAvailable>
-
-                <!-- <q-item dense v-if="item?.category === 'others'">
-                  <q-item-section top>
-                    <q-item-label>category</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.category }}</q-item-label>
-                    <q-item-label class="text-right">
-                      <template v-for="(val, index) in getSplit(item)">
-                        <q-chip class="q-mx-none" color="pink" text-color="white">{{
-                          val
-                        }}</q-chip>
-                      </template>
-                    </q-item-label>
-                  </q-item-section>
-                </q-item> -->
               </div>
             </q-card-section>
 
@@ -358,7 +347,7 @@ const router = useRouter();
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val, currentPage.value, props.item?.id);
   // router.push({ query: { page: val.value } })
-  onPaginate({ currentPage: currentPage.value, profileId: props.item?.profileId });
+  onPaginate({ currentPage: currentPage.value, venueId: props.item?.venueId });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -370,15 +359,19 @@ const isMounted = ref(false);
 onMounted(async () => {
   console.log("Props", props.item);
   init.value = false;
-  await onPaginate({ currentPage: 1, profileId: props.item?.profileId });
+  await onPaginate({ currentPage: 1, venueId: props.item?.venueId });
   isMounted.value = true;
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 
 function getSplit(item) {
   if (!item?.category) return [];
-  return item?.category.split(",");
+  try {
+    return item?.category.split(",");
+  } catch (error) {
+    return item?.category;
+  }
 }
 
 const dialog_payload = ref(null);

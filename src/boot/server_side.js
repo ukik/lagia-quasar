@@ -309,6 +309,20 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.component("isQItemLabelSimpleValueNoDense",
     defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelSimpleValueNoDense.vue'))
   )
+  app.component("isQItemLabelValueIcon",
+    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelValueIcon.vue'))
+  )
 
+
+
+  app.component("isQItemLabelValue",
+    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelValue.vue'))
+  )
+  app.component("isQItemLabelValueMobile",
+    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelValueMobile.vue'))
+  )
+  app.component("isImageSlideCarousel",
+    defineAsyncComponent(() => import('src/components/lagia-components/isImageSlideCarousel.vue'))
+  )
 
 })

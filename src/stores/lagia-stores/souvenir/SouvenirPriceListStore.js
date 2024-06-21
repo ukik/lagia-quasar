@@ -105,6 +105,16 @@ export const useSouvenirPriceListStore = defineStore('SouvenirPriceListStore', {
         });
       }
 
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.souvenirStore?.image) element['souvenirStore']['image'] = JSON.parse(element['souvenirStore']['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.souvenirStore?.image) element['souvenirStore']['image'] = [element['souvenirStore']['image']]
+        });
+      }
+
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage
       this.perPage = response?.data?.data?.perPage

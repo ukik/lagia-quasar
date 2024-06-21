@@ -272,7 +272,7 @@ onMounted(async () => {
   isMounted.value = true;
 });
 
-const ratingZero = 4.5;
+const ratingZero = 0.00;
 
 function getSplit(item) {
   if (!item?.category) return [];
