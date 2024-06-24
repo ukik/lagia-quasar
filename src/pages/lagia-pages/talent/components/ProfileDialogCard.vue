@@ -1,7 +1,8 @@
 <template>
+  <isModalDescription ref="isModal"></isModalDescription>
+
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      xxxx
       <q-img
         v-if="item?.talentProfile?.image && item?.talentProfile?.image.length > 0"
         loading="lazy"
@@ -142,16 +143,59 @@
             <q-item-label caption>{{ item?.badasoUser?.username }}</q-item-label>
           </q-item-section>
         </q-item>
-
-        <!-- <div class="row text-white">
-          <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
-            <q-item-label class="text-white">Start From</q-item-label>
-            <q-item-label class="text-h4">Rp. {{ item?.generalPrice }}</q-item-label>
-          </q-item-section>
-        </div> -->
       </q-card-section>
       <q-separator></q-separator>
-      <q-card-section class="q-pa-none">
+      <q-card-section class="custom q-pa-none">
+        <q-list class="row flex items-start text-caption text-dark">
+          <!-- <isQItemLabelSimpleValueNoDense
+            label="uuid"
+            :value="item?.souvenirStore?.uuid"
+          ></isQItemLabelSimpleValueNoDense> -->
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.portofolio, label: 'portofolio' },
+              })
+            "
+            :clickable="true"
+            label="portofolio"
+            :value="item?.portofolio"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.policy, label: 'policy' },
+              })
+            "
+            :clickable="true"
+            label="policy"
+            :value="item?.policy"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.description, label: 'description' },
+              })
+            "
+            :clickable="true"
+            label="description"
+            :value="item?.description"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
+          <!-- <isAvailable :item="item?.isAvailable"></isAvailable> -->
+        </q-list>
+      </q-card-section>
+
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> portofolio </q-item-section>
@@ -187,9 +231,9 @@
               {{ item?.description }}
             </q-card-section>
           </q-card>
-          <!-- <q-separator></q-separator> -->
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
+
       <!-- <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">
@@ -258,7 +302,7 @@ export default {
     return {
       showMultiple,
       expanded: ref(false),
-      ratingZero: 0.00,
+      ratingZero: 0.0,
     };
   },
   methods: {

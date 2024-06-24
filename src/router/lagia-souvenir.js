@@ -22,5 +22,17 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/souvenir/souvenir-price-list.vue"),
     },
+    {
+      path: "/souvenir/product-list",
+      name: "/souvenir/product-list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Talent',
+      },
+      component: () => import("pages/lagia-pages/souvenir/souvenir-product-list.vue"),
+    },
+
   ]
 }

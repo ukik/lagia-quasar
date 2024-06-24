@@ -30,6 +30,8 @@ export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
 
     loading: false,
     init: false,
+
+    additional: '',
   }),
 
   getters: {
@@ -38,29 +40,31 @@ export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage }) {
+    async onFetch({ currentPage, query }) {
 
       if (this.loading) return false;
 
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/tourism-prices',
-          method: 'get',
-          params: {
-            slug: this.slug,
-            page: this.page,
-            orderField: caseConvert.snake(this.orderField),
-            orderDirection: caseConvert.snake(this.orderDirection),
-            showSoftDelete: this.isShowDataRecycle,
-            isAvailable: this.isAvailable,
-            search: this.search,
-            perPage: this.perPage,
-            page: currentPage, //this.currentPage,
-            payload: [],
-            loading: false
-          }
-        })
+        url: '/trevolia-api/v1/entities/tourism-prices/lagia',
+        method: 'get',
+        params: {
+          slug: this.slug,
+          page: this.page,
+          orderField: caseConvert.snake(this.orderField),
+          orderDirection: caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
+          isAvailable: this.isAvailable,
+          search: this.search,
+          perPage: this.perPage,
+          page: currentPage, //this.currentPage,
+          payload: [],
+          loading: false,
+
+          ...query
+        }
+      })
         .then((response) => {
           // Notify.create({
           //   color: 'positive',
@@ -97,21 +101,21 @@ export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.tourismVenue?.image) element['tourismVenue']['image'] = JSON.parse(element['tourismVenue']['image'])
+          if (element?.tourismVenue?.image) element['tourismVenue']['image'] = JSON.parse(element['tourismVenue']['image'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.tourismVenue?.image) element['tourismVenue']['image'] = [element['tourismVenue']['image']]
+          if (element?.tourismVenue?.image) element['tourismVenue']['image'] = [element['tourismVenue']['image']]
         });
       }
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.tourismVenue?.category) element['tourismVenue']['category'] = JSON.parse(element['tourismVenue']['category'])
+          if (element?.tourismVenue?.category) element['tourismVenue']['category'] = JSON.parse(element['tourismVenue']['category'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.tourismVenue?.category) element['tourismVenue']['category'] = [element['tourismVenue']['category']]
+          if (element?.tourismVenue?.category) element['tourismVenue']['category'] = [element['tourismVenue']['category']]
         });
       }
 
@@ -125,11 +129,16 @@ export const useTourismPriceListStore = defineStore('TourismPriceListStore', {
 
       console.log('stores/lagia-stores/TourismPriceListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+      if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
+      this.additional = response?.data?.additional
+      console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage }) {
-      this.onFetch({ currentPage })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
+
 
     async onClearRegister() {
 

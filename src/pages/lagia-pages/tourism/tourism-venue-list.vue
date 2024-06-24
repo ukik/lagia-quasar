@@ -602,7 +602,7 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 0.00;
+const ratingZero = 0.0;
 
 const layout = ref(false);
 const record = ref(null);

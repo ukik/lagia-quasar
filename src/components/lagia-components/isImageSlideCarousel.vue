@@ -5,7 +5,7 @@
     :autoplay="autoplay"
     swipeable
     animated
-    navigation
+    :navigation="!thumbnails"
     arrows
     v-model="slide"
     v-model:fullscreen="fullscreen"
@@ -14,7 +14,8 @@
     transition-next="slide-left"
     @mouseenter="autoplay = false"
     @mouseleave="autoplay = 4500"
-    height="300px"
+    :height="height"
+    :thumbnails="thumbnails"
   >
     <template v-for="(item, i) in _gallery">
       <q-carousel-slide :name="i" :img-src="item"></q-carousel-slide>
@@ -29,7 +30,7 @@
           color="white"
           text-color="primary"
           :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-          @click="fullscreen = !fullscreen"
+          @click="showMultiple(_gallery, slide)"
         />
       </q-carousel-control>
     </template>
@@ -38,16 +39,32 @@
 
 <script>
 import { ref, defineProps } from "vue";
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
   setup() {
+    const lightbox = useGlobalEasyLightbox();
+    const { showMultiple } = lightbox;
+
     return {
+      showMultiple,
       slide: ref(1),
       fullscreen: ref(false),
       autoplay: ref(4500),
     };
   },
-  props: ["_gallery"],
+  // props: ["_gallery"],
+  props: {
+    _gallery: {
+      default: () => [],
+    },
+    height: {
+      default: "300px",
+    },
+    thumbnails: {
+      default: false,
+    },
+  },
   // mounted() {
   //   console.log('ImageSlideCarousel', this._gallery)
   // },

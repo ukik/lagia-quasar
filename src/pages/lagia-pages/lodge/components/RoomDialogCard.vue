@@ -3,13 +3,13 @@
 
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- {{ item?.image }} -->
+      <!-- {{ record?.image }} -->
       <q-img
-        v-if="item?.image && item?.image.length > 0"
+        v-if="record?.image && record?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.image[0]"
+        :src="record?.image[0]"
         :error-src="$defaultErrorImage"
       >
         <div class="absolute-top-right bg-transparent">
@@ -20,7 +20,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.image, 0)"
+            @click="showMultiple(record?.image, 0)"
           />
         </div>
 
@@ -38,32 +38,32 @@
       <!-- <q-img
         loading="lazy"
         style="height: 300px"
-        v-if="!item?.image"
+        v-if="!record?.image"
         :src="$defaultUser"
       />
       <ImageSlideCarousel
         v-else
-        :_gallery="item?.image"
+        :_gallery="record?.image"
       ></ImageSlideCarousel> -->
 
       <q-card-section>
-        <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
-        <template v-for="(val, index) in item?.category">
-          <q-chip
-            color="blue"
-            text-color="white"
-            class="text-overline text-uppercase q-ml-none"
-            >{{ val }}</q-chip
-          >
-        </template>
+        <!-- <div class="text-overline text-uppercase text-pink">{{ record?.category }}</div> -->
+        <!-- <template v-for="(val, index) in record?.category"> -->
+        <q-chip
+          color="blue"
+          text-color="white"
+          class="text-overline text-uppercase q-ml-none"
+          >{{ record?.category }}</q-chip
+        >
+        <!-- </template> -->
 
-        <div class="text-h6 q-mt-sm q-mb-xs">{{ item?.name }}</div>
-        <q-item-label caption class="q-mb-lg">{{ item?.createdAt }}</q-item-label>
+        <div class="text-h6 q-mt-sm q-mb-xs">{{ record?.name }}</div>
+        <q-item-label caption class="q-mb-lg">{{ record?.createdAt }}</q-item-label>
 
         <q-rating
-          v-if="item?.ratingAvg?.avgRating"
+          v-if="record?.ratingAvg?.avgRating"
           readonly
-          v-model="item.ratingAvg.avgRating"
+          v-model="record.ratingAvg.avgRating"
           size="sm"
           :max="5"
           color="red"
@@ -81,60 +81,69 @@
         <!-- <div class="row text-white">
           <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white">Start From</q-item-label>
-            <q-item-label class="text-h4">Rp. {{ item?.generalPrice }}</q-item-label>
+            <q-item-label class="text-h4">Rp. {{ record?.generalPrice }}</q-item-label>
           </q-item-section>
         </div> -->
       </q-card-section>
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <isQItemLabelValue label="id" :value="item?.id"></isQItemLabelValue>
-          <isQItemLabelValue label="userId" :value="item?.userId"></isQItemLabelValue> -->
-          <isQItemLabelValue label="uuid" :value="item?.uuid"></isQItemLabelValue>
-          <isQItemLabelValue label="dayOpen" :value="item?.dayOpen"></isQItemLabelValue>
-          <isQItemLabelValue label="dayClose" :value="item?.dayClose"></isQItemLabelValue>
+          <isQItemLabelValue label="id" :value="record?.id"></isQItemLabelValue>
+          <isQItemLabelValue label="uuid" :value="record?.uuid"></isQItemLabelValue>
+          <isQItemLabelValue label="name" :value="record?.name"></isQItemLabelValue>
+          <!-- <isQItemLabelValue label="number" :value="record?.number"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="description" :value="record?.description"></isQItemLabelValue> -->
           <isQItemLabelValue
-            label="timeOpen"
-            :value="$formatTime(item?.timeOpen)"
+            label="capacity"
+            :value="record?.capacity"
           ></isQItemLabelValue>
           <isQItemLabelValue
-            label="timeClose"
-            :value="$formatTime(item?.timeClose)"
+            label="category"
+            :value="record?.category"
           ></isQItemLabelValue>
-          <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue>
-          <isQItemLabelValue label="email" :value="item?.email"></isQItemLabelValue>
-          <isQItemLabelValue label="phone" :value="item?.phone"></isQItemLabelValue>
+          <!-- <isQItemLabelValue label="facility" :value="record?.facility"></isQItemLabelValue> -->
+          <isQItemLabelValue label="quota" :value="record?.quota"></isQItemLabelValue>
 
           <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
                 dialog_payload: {
-                  value: item?.location,
-                  label: 'location',
+                  value: record?.description,
+                  label: 'description',
                 },
               })
             "
             :clickable="true"
-            label="location"
-            :value="item?.location"
+            label="description"
+            :value="record?.description"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
-          <isQItemLabelValue label="codepos" :value="item?.codepos"></isQItemLabelValue>
-          <isQItemLabelValue label="city" :value="item?.city"></isQItemLabelValue>
-          <isQItemLabelValue label="country" :value="item?.country"></isQItemLabelValue>
-          <isAvailable :item="item?.isAvailable"></isAvailable>
+          <q-item dense>
+            <q-item-section>
+              <q-item-label>facility</q-item-label>
+              <q-item-label class="">
+                <template v-for="(val, index) in getCategory(record?.facility)">
+                  <q-chip color="blue" class="q-ml-none" text-color="white">{{
+                    val
+                  }}</q-chip>
+                </template>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <isAvailable :item="record?.isAvailable"></isAvailable>
         </q-list>
       </q-card-section>
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> Address </q-item-section>
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.address }}
+              {{ record?.address }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -147,7 +156,7 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.policy }}
+              {{ record?.policy }}
             </q-card-section>
           </q-card>
           <q-separator></q-separator>
@@ -160,19 +169,19 @@
           </template>
           <q-card>
             <q-card-section class="q-pt-xs">
-              {{ item?.description }}
+              {{ record?.description }}
             </q-card-section>
           </q-card>
-          <!-- <q-separator></q-separator> -->
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
+
       <!-- <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">
         <q-btn-group spread outline>
           <q-btn
             @click="
-              $emit('onBubbleEvent', { label: 'vendor', payload: item?.transportRental })
+              $emit('onBubbleEvent', { label: 'vendor', payload: record?.transportRental })
             "
             label="Vendor"
             icon="storefront"
@@ -181,7 +190,7 @@
             @click="
               $emit('onBubbleEvent', {
                 label: 'vehicle',
-                payload: item?.transportVehicle,
+                payload: record?.transportVehicle,
               })
             "
             label="Kendaraan"
@@ -207,7 +216,7 @@
         <div v-show="expanded">
           <q-separator />
           <q-card-section class="text-body">
-            {{ item?.description }}
+            {{ record?.description }}
           </q-card-section>
         </div>
       </q-slide-transition> -->
@@ -222,11 +231,16 @@ import { ref } from "vue";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
-  props: ["item"],
+  props: ["record"],
   components: {
     // QItemLabelValue,
     // ImageSlideCarousel,
   },
+  // computed: {
+  //   record() {
+  //     return this.item;
+  //   },
+  // },
   setup() {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;
@@ -255,8 +269,8 @@ export default {
       }
     },
     getCategory(item) {
-      if (!item?.category) return [];
-      return item?.category.split(",");
+      if (!item) return [];
+      return item.split(",");
     },
   },
 };

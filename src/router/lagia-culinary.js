@@ -22,5 +22,17 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/culinary/culinary-price-list.vue"),
     },
+
+    {
+      path: "/culinary/product-list",
+      name: "/culinary/product-list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga product',
+      },
+      component: () => import("pages/lagia-pages/culinary/culinary-product-list.vue"),
+    },
   ]
 }

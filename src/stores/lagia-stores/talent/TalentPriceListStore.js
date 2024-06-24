@@ -31,6 +31,8 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
 
     loading: false,
     init: false,
+
+    additional: '',
   }),
 
   getters: {
@@ -39,7 +41,7 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage, profileId }) {
+    async onFetch({ currentPage, profileId, query }) {
 
       if (this.loading) return false;
 
@@ -49,23 +51,25 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/talent-prices',
-          method: 'get',
-          params: {
-            slug: this.slug,
-            page: this.page,
-            orderField: caseConvert.snake(this.orderField),
-            orderDirection: caseConvert.snake(this.orderDirection),
-            showSoftDelete: this.isShowDataRecycle,
-            isAvailable: this.isAvailable,
-            profileId: profileId,
-            search: this.search,
-            perPage: this.perPage,
-            page: currentPage, //this.currentPage,
-            payload: [],
-            loading: false
-          }
-        })
+        url: '/trevolia-api/v1/entities/talent-prices/lagia',
+        method: 'get',
+        params: {
+          slug: this.slug,
+          page: this.page,
+          orderField: caseConvert.snake(this.orderField),
+          orderDirection: caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
+          isAvailable: this.isAvailable,
+          profileId: profileId,
+          search: this.search,
+          perPage: this.perPage,
+          page: currentPage, //this.currentPage,
+          payload: [],
+          loading: false,
+
+          ...query
+        }
+      })
         .then((response) => {
           // Notify.create({
           //   color: 'positive',
@@ -96,11 +100,11 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.talentProfile?.image) element['talentProfile']['image'] = JSON.parse(element['talentProfile']['image'])
+          if (element?.talentProfile?.image) element['talentProfile']['image'] = JSON.parse(element['talentProfile']['image'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.talentProfile?.image) element['talentProfile']['image'] = [element['talentProfile']['image']]
+          if (element?.talentProfile?.image) element['talentProfile']['image'] = [element['talentProfile']['image']]
         });
       }
 
@@ -113,10 +117,16 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
 
       console.log('stores/lagia-stores/TalentPriceListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+      if (response?.data?.additional?.talentProfile?.image) response.data.additional['talentProfile']['image'] = JSON.parse(response.data.additional['talentProfile']['image'])
+      this.additional = response?.data?.additional
+      console.log('additional', this.additional)
+
     },
 
-    onPaginate: debounce(async function ({ currentPage, profileId }) {
-      this.onFetch({ currentPage, profileId })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

@@ -179,6 +179,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div class="col-12 q-mb-lg">
+        <PriceReference :item="additional"></PriceReference>
+      </div>
       <div
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
@@ -246,6 +249,7 @@ import PriceListCard from "./components/PriceListCard";
 import PriceProfileDialogCard from "./components/PriceProfileDialogCard";
 import LodgePriceDialogDetailCard from "./components/LodgePriceDialogDetailCard";
 import PriceRoomDialogCard from "./components/PriceRoomDialogCard";
+import PriceReference from "./components/PriceReference";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -274,6 +278,8 @@ const {
 
   loading,
   init,
+
+  additional,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -288,10 +294,11 @@ defineOptions({
       publicPath,
     }) => {
       if (!currentRoute?.query?.page)
-        redirect({ name: currentRoute.name, query: { page: 1 } });
+        redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
 
       return useLodgePriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
+        query: currentRoute?.query,
       });
     }
   ),
@@ -300,9 +307,10 @@ defineOptions({
 const router = useRouter();
 
 const onCurrentPage = async (val) => {
-  console.log("onCurrentPage", val);
-  router.push({ query: { page: val.value } });
-  onPaginate({ currentPage: val.value });
+  console.log("onCurrentPage", router.currentRoute.value);
+  const currentRoute = router.currentRoute.value;
+  router.push({ query: { ...currentRoute.query, page: val.value } });
+  onPaginate({ currentPage: val.value, query: currentRoute?.query });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,

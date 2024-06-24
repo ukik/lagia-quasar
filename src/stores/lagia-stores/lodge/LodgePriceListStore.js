@@ -30,6 +30,9 @@ export const useLodgePriceListStore = defineStore('LodgePriceListStore', {
 
     loading: false,
     init: false,
+
+
+    additional: '',
   }),
 
   getters: {
@@ -38,29 +41,31 @@ export const useLodgePriceListStore = defineStore('LodgePriceListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage }) {
+    async onFetch({ currentPage, query }) {
 
       if (this.loading) return false;
 
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/lodge-prices',
-          method: 'get',
-          params: {
-            slug: this.slug,
-            page: this.page,
-            orderField: caseConvert.snake(this.orderField),
-            orderDirection: caseConvert.snake(this.orderDirection),
-            showSoftDelete: this.isShowDataRecycle,
-            isAvailable: this.isAvailable,
-            search: this.search,
-            perPage: this.perPage,
-            page: currentPage, //this.currentPage,
-            payload: [],
-            loading: false
-          }
-        })
+        url: '/trevolia-api/v1/entities/lodge-prices/lagia',
+        method: 'get',
+        params: {
+          slug: this.slug,
+          page: this.page,
+          orderField: caseConvert.snake(this.orderField),
+          orderDirection: caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
+          isAvailable: this.isAvailable,
+          search: this.search,
+          perPage: this.perPage,
+          page: currentPage, //this.currentPage,
+          payload: [],
+          loading: false,
+
+          ...query
+        }
+      })
         .then((response) => {
           // Notify.create({
           //   color: 'positive',
@@ -97,31 +102,31 @@ export const useLodgePriceListStore = defineStore('LodgePriceListStore', {
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.lodgeProfile?.image) element['lodgeProfile']['image'] = JSON.parse(element['lodgeProfile']['image'])
+          if (element?.lodgeProfile?.image) element['lodgeProfile']['image'] = JSON.parse(element['lodgeProfile']['image'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.lodgeProfile?.image) element['lodgeProfile']['image'] = [element['lodgeProfile']['image']]
+          if (element?.lodgeProfile?.image) element['lodgeProfile']['image'] = [element['lodgeProfile']['image']]
         });
       }
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.lodgeProfile?.category) element['lodgeProfile']['category'] = JSON.parse(element['lodgeProfile']['category'])
+          if (element?.lodgeProfile?.category) element['lodgeProfile']['category'] = JSON.parse(element['lodgeProfile']['category'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.lodgeProfile?.category) element['lodgeProfile']['category'] = [element['lodgeProfile']['category']]
+          if (element?.lodgeProfile?.category) element['lodgeProfile']['category'] = [element['lodgeProfile']['category']]
         });
       }
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.lodgeRoom?.image) element['lodgeRoom']['image'] = JSON.parse(element['lodgeRoom']['image'])
+          if (element?.lodgeRoom?.image) element['lodgeRoom']['image'] = JSON.parse(element['lodgeRoom']['image'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.lodgeRoom?.image) element['lodgeRoom']['image'] = [element['lodgeRoom']['image']]
+          if (element?.lodgeRoom?.image) element['lodgeRoom']['image'] = [element['lodgeRoom']['image']]
         });
       }
 
@@ -134,10 +139,15 @@ export const useLodgePriceListStore = defineStore('LodgePriceListStore', {
 
       console.log('stores/lagia-stores/LodgePriceListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+      if (response?.data?.additional?.lodgeProfile?.image) response.data.additional['lodgeProfile']['image'] = JSON.parse(response.data.additional['lodgeProfile']['image'])
+      this.additional = response?.data?.additional
+      console.log('additional', this.additional)
+
     },
 
-    onPaginate: debounce(async function ({ currentPage }) {
-      this.onFetch({ currentPage })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

@@ -105,15 +105,15 @@ export const useLodgeRoomListStore = defineStore('LodgeRoomListStore', {
         });
       }
 
-      // try {
-      //   response?.data?.data?.data.forEach(element => {
-      //     if(element?.category) element['category'] = JSON.parse(element['category'])
-      //   });
-      // } catch (error) {
-      //   response?.data?.data?.data.forEach(element => {
-      //     if(element?.category) element['category'] = [element['category']]
-      //   });
-      // }
+      try {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.lodgeProfile?.image) element['lodgeProfile']['image'] = JSON.parse(element['lodgeProfile']['image'])
+        });
+      } catch (error) {
+        response?.data?.data?.data.forEach(element => {
+          if(element?.lodgeProfile?.image) element['lodgeProfile']['image'] = [element['lodgeProfile']['image']]
+        });
+      }
 
 
       this.lastPage = response?.data?.data?.lastPage

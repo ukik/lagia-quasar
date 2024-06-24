@@ -3,82 +3,21 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <!-- DESCRIPTION -->
     <isModalDescription ref="isModal"></isModalDescription>
 
-    <!-- PRODUCT -->
-    <q-dialog
+    <!-- PROFILE -->
+    <!-- <q-dialog
       full-width
       full-height
       :maximized="$q.screen.width <= 768"
-      v-model="culinary_products"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card>
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Product List</div>
-            <q-space></q-space>
-            <!-- <q-btn dense flat icon="list" @click="rental_vehicle_modal = true"></q-btn> -->
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px - 60px)" class="scroll">
-          <CulinaryProductDialog :item="record"></CulinaryProductDialog>
-        </q-card-section>
-
-        <q-separator />
-        <q-card-section style="height: 60px"> </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <!-- PRICE -->
-    <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="culinary_prices"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card>
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Price List</div>
-            <q-space></q-space>
-            <!-- <q-btn dense flat icon="list" @click="rental_vehicle_modal = true"></q-btn> -->
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px - 60px)" class="scroll">
-          <CulinaryPriceDialog :item="record"></CulinaryPriceDialog>
-        </q-card-section>
-
-        <q-separator />
-        <q-card-section style="height: 60px"> </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <!-- SELENGKAPNYA -->
-    <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="dialog_selengkapnya"
+      v-model="lodge_profiles"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">Detail Vendor</div>
+            <div class="text-h6">Detail Hotel</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -87,42 +26,60 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <div class="row flex flex-center">
-            <q-btn-group
-              spread
-              outline
-              unelevated
-              rounded
-              class="bg-white q-mb-md col-xl-8 col-lg-8 col-md-8 col-sm-8 col-auto"
-            >
-              <q-btn
-                @click="culinary_products = true"
-                unelevated
-                color="cyan"
-                :label="$q.screen.width > 425 ? 'product list' : ''"
-                icon="inventory"
-              >
-                <!-- <q-icon size="3em" name="emoji_events" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">skill list</div> -->
-              </q-btn>
-
-              <q-btn
-                @click="culinary_prices = true"
-                unelevated
-                color="teal"
-                :label="$q.screen.width > 425 ? 'price list' : ''"
-                icon="add_shopping_cart"
-              >
-                <!-- <q-icon size="3em" name="add_shopping_cart" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">price list</div> -->
-              </q-btn>
-            </q-btn-group>
-          </div>
-
-          <CulinaryStoreDialogCard :item="record"></CulinaryStoreDialogCard>
+          <ProductProfileDialogCard :item="record"></ProductProfileDialogCard>
         </q-card-section>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
+
+    <!-- FASILITAS -->
+    <!-- <q-dialog
+      full-width
+      v-model="lodge_facility"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6">Fasilitas Umum</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <PopProduct :record="record?.lodgeProfile?.lodgeFacility"></PopProduct>
+        </q-card-section>
+      </q-card>
+    </q-dialog> -->
+
+    <!-- DETAIL -->
+    <!-- <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="modal_detail"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Kamar</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <ProductDialogCard :record="record"></ProductDialogCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog> -->
   </q-no-ssr>
 
   <!-- ***Inner Banner html end here*** -->
@@ -134,16 +91,18 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div v-for="(item, index) in records" class="col-12">
+      <div
+        v-for="(item, index) in records"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+      >
         <q-card flat bordered class="rounded-borders-2">
-          <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
+          <q-card-section class="row q-pa-none">
             <q-img
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
-              :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              :ratio="1"
+              class="col-12"
               :src="item?.image[0]"
-              :error-src="$defaultErrorImage"
             >
               <div class="absolute-top-right bg-transparent">
                 <q-btn
@@ -163,75 +122,61 @@
                 </div>
               </template>
             </q-img>
-            <q-img
-              loading="lazy"
-              :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-              v-else
-              :src="$defaultErrorImage"
-            />
+            <q-img loading="lazy" :ratio="1" class="col-12" v-else :src="$defaultUser" />
 
-            <q-card-section class="bg-grey-2 row col flex items-start">
-              <div class="text-box full-width q-px-sm col-12 text-capitalize">
-                <h3>{{ item?.name }}</h3>
+            <q-card-section
+              class="bg-grey-2 row col-12 flex items-start q-pa-none q-my-md"
+            >
+              <div class="text-box full-width col-12 text-capitalize">
+                <q-expansion-item class="bg-white" default-opened>
+                  <template v-slot:header>
+                    <q-item-section class="text-h6 q-px-none">
+                      <q-item-label lines="1">
+                        {{ item?.name }} {{ item?.name }} {{ item?.name }}
+                        {{ item?.name }}
+                      </q-item-label>
+                    </q-item-section>
+                  </template>
+                  <q-card>
+                    <isQItemLabelSimpleValue
+                      label="uuid"
+                      :value="item?.uuid"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="name"
+                      :value="item?.name"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="category"
+                      :value="item?.category"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="lainnya"
+                      :value="item?.others"
+                    ></isQItemLabelSimpleValue>
 
-                <isQItemLabelSimpleValue
-                  label="codepos"
-                  :value="item?.codepos"
-                ></isQItemLabelSimpleValue>
-                <isQItemLabelSimpleValue
-                  label="city"
-                  :value="item?.city"
-                ></isQItemLabelSimpleValue>
-                <isQItemLabelSimpleValue
-                  label="country"
-                  :value="item?.country"
-                ></isQItemLabelSimpleValue>
-
-                <isQItemLabelSimpleValue
-                  @onBubbleEvent="
-                    $refs.isModal.onOpen({
-                      dialog_value: true,
-                      dialog_payload: { value: item?.policy, label: 'policy' },
-                    })
-                  "
-                  :clickable="true"
-                  label="policy"
-                  :value="item?.policy"
-                  textcolor="text-primary"
-                ></isQItemLabelSimpleValue>
-
-                <isQItemLabelSimpleValue
-                  @onBubbleEvent="
-                    $refs.isModal.onOpen({
-                      dialog_value: true,
-                      dialog_payload: { value: item?.description, label: 'description' },
-                    })
-                  "
-                  :clickable="true"
-                  label="description"
-                  :value="item?.description"
-                  textcolor="text-primary"
-                ></isQItemLabelSimpleValue>
-
-                <isQItemLabelSimpleValue
-                  @onBubbleEvent="
-                    $refs.isModal.onOpen({
-                      dialog_value: true,
-                      dialog_payload: { value: item?.location, label: 'location' },
-                    })
-                  "
-                  :clickable="true"
-                  label="location"
-                  :value="item?.location"
-                  textcolor="text-primary"
-                ></isQItemLabelSimpleValue>
-                <isAvailable :item="item?.isAvailable"></isAvailable>
+                    <isQItemLabelSimpleValue
+                      @onBubbleEvent="
+                        $refs.isModal.onOpen({
+                          dialog_value: true,
+                          dialog_payload: {
+                            value: item?.description,
+                            label: 'description',
+                          },
+                        })
+                      "
+                      :clickable="true"
+                      label="description"
+                      :value="item?.description"
+                      textcolor="text-primary"
+                    ></isQItemLabelSimpleValue>
+                  </q-card>
+                </q-expansion-item>
               </div>
             </q-card-section>
 
             <q-card-section
-              class="bg-cyan-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
+              class="bg-form col-12 row flex flex-center text-white q-pt-lg"
             >
               <!-- <q-badge
                 color="pink"
@@ -264,17 +209,17 @@
               </div>
               <div class="package-price col-12 text-center row q-mt-md">
                 <h6 class="col-12">
-                  {{ item?.culinaryProductsCount }}
-                  <small class="text-weight-light"> produk</small>
+                  {{ item?.souvenirPricesCount }}
+                  <small class="text-weight-light"> Harga</small>
                 </h6>
-                <!-- <small class="col-12 text-center">( wahana ready )</small> -->
+                <small class="col-12 text-center text-caption">( available )</small>
               </div>
 
-              <div class="row col-12 justify-center">
-                <q-btn-group outline rounded class="">
+              <div class="row col-12 justify-center q-mt-lg">
+                <!-- <q-btn-group outline rounded class="">
                   <q-btn
                     @click="
-                      dialog_selengkapnya = true;
+                      modal_detail = true;
                       record = item;
                     "
                     outline
@@ -286,28 +231,36 @@
                   <q-separator vertical></q-separator>
                   <q-btn
                     @click="
-                      culinary_products = true;
+                      lodge_facility = true;
                       record = item;
                     "
                     outline
                     class="text-weight-normal"
                     color="form"
                     text-color="white"
-                    label="Produk"
+                    label="Fasilitas"
                   />
                   <q-separator vertical></q-separator>
                   <q-btn
                     @click="
-                      culinary_prices = true;
+                      lodge_profiles = true;
                       record = item;
                     "
                     outline
                     class="text-weight-normal"
                     color="form"
                     text-color="white"
-                    label="Harga"
+                    label="hotel"
                   />
-                </q-btn-group>
+                </q-btn-group> -->
+
+                <q-btn
+                  outline
+                  class="text-weight-normal rounded-borders-2"
+                  color="form"
+                  text-color="white"
+                  label="selengkapnya"
+                />
               </div>
             </q-card-section>
           </q-card-section>
@@ -317,27 +270,27 @@
             </q-card-action> -->
         </q-card>
       </div>
-
-      <div class="col-12 flex justify-center">
-        <q-pagination
-          :disable="loading"
-          class="q-mt-lg"
-          size="lg"
-          v-model="currentPage"
-          :max="lastPage"
-          :max-pages="6"
-          :input="$q.screen.width < 768"
-          direction-links
-          outline
-          color="blue"
-          active-design="unelevated"
-          active-color="primary"
-          active-text-color="white"
-        />
-      </div>
+    </div>
+    <div class="col-12 flex flex-center q-mt-lg">
+      <q-pagination
+        :disable="loading"
+        class="q-mt-lg"
+        size="lg"
+        v-model="currentPage"
+        :max="lastPage"
+        :max-pages="6"
+        :input="$q.screen.width < 768"
+        direction-links
+        outline
+        color="blue"
+        active-design="unelevated"
+        active-color="primary"
+        active-text-color="white"
+      />
     </div>
   </div>
   <!-- Call To Action -->
+  <CallActionOffer></CallActionOffer>
   <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5>CALL TO ACTION</h5>
@@ -380,15 +333,10 @@
 //     page: currentRoute.params.page
 //   });
 // }),
-// import PriceListCard from "./components/PriceListCard";
-import CulinaryStoreDialogCard from "./components/CulinaryStoreDialogCard";
-import CulinaryPriceDialog from "./components/CulinaryPriceDialog";
-// import QItemLabelSimpleValue from "./components/QItemLabelSimpleValue";
-import CulinaryProductDialog from "./components/CulinaryProductDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
 
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
+// import PopProduct from "./components/PopProduct";
+// import ProductDialogCard from "./components/ProductDialogCard";
+// import ProductProfileDialogCard from "./components/ProductProfileDialogCard";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -396,9 +344,9 @@ import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
-import { useCulinaryStoreListStore } from "stores/lagia-stores/culinary/CulinaryStoreListStore";
+import { useSouvenirProductListStore } from "stores/lagia-stores/souvenir/SouvenirProductListStore";
 import { useRouter, onBeforeRouteLeave } from "vue-router";
-const store = useCulinaryStoreListStore();
+const store = useSouvenirProductListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -433,7 +381,7 @@ defineOptions({
       if (!currentRoute?.query?.page)
         redirect({ name: currentRoute.name, query: { page: 1 } });
 
-      return useCulinaryStoreListStore(store).onFetch({
+      return useSouvenirProductListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
       });
     }
@@ -455,22 +403,34 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 0.00;
+const ratingZero = 0.0;
 
-const dialog_selengkapnya = ref(false);
 const record = ref(null);
 
-const culinary_prices = ref(false);
-const culinary_products = ref(false);
+const modal_detail = ref(false);
+const lodge_profiles = ref(false);
+const lodge_facility = ref(false);
 
 // const dialog_payload = ref(null);
 // const dialog_value = ref(false);
 
+function onBubbleEvent(value) {
+  record.value = value?.payload;
+  // if (value?.label == "venue") {
+  //   label.value = value?.label;
+  //   modal_detail.value = true;
+  // } else if (value?.label == "fasilitas") {
+  //   lodge_profiless.value = true;
+  // }
+}
+
 function closeDialog() {
-  dialog_selengkapnya.value = false;
   record.value = null;
-  culinary_prices.value = false;
-  culinary_products.value = false;
+
+  modal_detail.value = false;
+  lodge_profiles.value = false;
+  lodge_facility.value = false;
+
   // dialog_payload.value = null;
   // dialog_value.value = false;
 }
@@ -479,16 +439,20 @@ onBeforeRouteLeave((to, from, next) => {
   closeDialog();
   return next();
 });
-</script>
 
-<script>
-export default {
-  // beforeRouteEnter(to, from, next) {
-  //   // called before the route that renders this component is confirmed.
-  //   // does NOT have access to `this` component instance,
-  //   // because it has not been created yet when this guard is called!
-  // },
-};
+function getCategory(item) {
+  if (!item) return [];
+  return item.split(",");
+}
+
+function getSplit(item) {
+  if (!item) return [];
+  try {
+    return item.split(",");
+  } catch (error) {
+    return item;
+  }
+}
 </script>
 
 <style scoped>

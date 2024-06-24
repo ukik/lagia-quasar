@@ -105,7 +105,7 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <div class="row flex flex-center">
+          <!-- <div class="row flex flex-center">
             <q-btn-group
               spread
               outline
@@ -120,8 +120,6 @@
                 :label="$q.screen.width > 425 ? 'skill list' : ''"
                 icon="emoji_events"
               >
-                <!-- <q-icon size="3em" name="emoji_events" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">skill list</div> -->
               </q-btn>
 
               <q-btn
@@ -131,11 +129,9 @@
                 :label="$q.screen.width > 425 ? 'price list' : ''"
                 icon="add_shopping_cart"
               >
-                <!-- <q-icon size="3em" name="add_shopping_cart" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">price list</div> -->
               </q-btn>
             </q-btn-group>
-          </div>
+          </div> -->
 
           <ProfileDialogCard :item="record"></ProfileDialogCard>
         </q-card-section>
@@ -449,7 +445,7 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 0.00;
+const ratingZero = 0.0;
 
 const dialog_selengkapnya = ref(false);
 const record = ref(null);
