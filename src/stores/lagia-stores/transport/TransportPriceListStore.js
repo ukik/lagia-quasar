@@ -30,6 +30,8 @@ export const useTransportPriceListStore = defineStore('TransportPriceListStore',
 
     loading: false,
     init: false,
+
+    additional: '',
   }),
 
   getters: {
@@ -38,29 +40,31 @@ export const useTransportPriceListStore = defineStore('TransportPriceListStore',
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage }) {
+    async onFetch({ currentPage, query }) {
 
       if (this.loading) return false;
 
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/transport-prices',
-          method: 'get',
-          params: {
-            slug: this.slug,
-            page: this.page,
-            orderField: caseConvert.snake(this.orderField),
-            orderDirection: caseConvert.snake(this.orderDirection),
-            showSoftDelete: this.isShowDataRecycle,
-            isAvailable: this.isAvailable,
-            search: this.search,
-            perPage: this.perPage,
-            page: currentPage, //this.currentPage,
-            payload: [],
-            loading: false
-          }
-        })
+        url: '/trevolia-api/v1/entities/transport-prices/lagia',
+        method: 'get',
+        params: {
+          slug: this.slug,
+          page: this.page,
+          orderField: caseConvert.snake(this.orderField),
+          orderDirection: caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
+          isAvailable: this.isAvailable,
+          search: this.search,
+          perPage: this.perPage,
+          page: currentPage, //this.currentPage,
+          payload: [],
+          loading: false,
+
+          ...query
+        }
+      })
         .then((response) => {
           // Notify.create({
           //   color: 'positive',
@@ -97,21 +101,21 @@ export const useTransportPriceListStore = defineStore('TransportPriceListStore',
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.transportRental?.image) element['transportRental']['image'] = JSON.parse(element['transportRental']['image'])
+          if (element?.transportRental?.image) element['transportRental']['image'] = JSON.parse(element['transportRental']['image'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.transportRental?.image) element['transportRental']['image'] = [element['transportRental']['image']]
+          if (element?.transportRental?.image) element['transportRental']['image'] = [element['transportRental']['image']]
         });
       }
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.transportVehicle?.image) element['transportVehicle']['image'] = JSON.parse(element['transportVehicle']['image'])
+          if (element?.transportVehicle?.image) element['transportVehicle']['image'] = JSON.parse(element['transportVehicle']['image'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.transportVehicle?.image) element['transportVehicle']['image'] = [element['transportVehicle']['image']]
+          if (element?.transportVehicle?.image) element['transportVehicle']['image'] = [element['transportVehicle']['image']]
         });
       }
 
@@ -124,10 +128,15 @@ export const useTransportPriceListStore = defineStore('TransportPriceListStore',
 
       console.log('stores/lagia-stores/TransportPriceListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+      if (response?.data?.additional?.transportRental?.image) response.data.additional['transportRental']['image'] = JSON.parse(response?.data?.additional?.transportRental?.image)
+      // if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
+      this.additional = response?.data?.additional
+      console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage }) {
-      this.onFetch({ currentPage })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

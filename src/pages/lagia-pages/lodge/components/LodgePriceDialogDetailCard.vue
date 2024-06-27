@@ -96,20 +96,18 @@
       <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">
-        <q-expansion-item>
+        <q-expansion-item default-opened>
           <template v-slot:header>
-            <q-item-section> Detail Kamar </q-item-section>
+            <q-item-section> Detail Produk </q-item-section>
           </template>
           <!-- <q-separator></q-separator> -->
 
           <q-card>
             <q-card-section class="custom q-pa-none q-mb-sm">
               <q-list class="row flex items-start text-caption text-dark q-pl-md">
-                <isQItemLabelValue label="id" :value="record?.id"></isQItemLabelValue>
+                <!-- <isQItemLabelValue label="id" :value="record?.id"></isQItemLabelValue> -->
                 <isQItemLabelValue label="uuid" :value="record?.uuid"></isQItemLabelValue>
                 <isQItemLabelValue label="name" :value="record?.name"></isQItemLabelValue>
-                <!-- <isQItemLabelValue label="number" :value="record?.number"></isQItemLabelValue> -->
-                <!-- <isQItemLabelValue label="description" :value="record?.description"></isQItemLabelValue> -->
                 <isQItemLabelValue
                   label="capacity"
                   :value="record?.capacity"
@@ -136,14 +134,16 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="record?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValueNoDense>
 
-                <q-item dense>
+                <q-item class="col-12" dense>
+                  <q-item-section top>
+                    <q-item-label class="text-capitalize">facility</q-item-label>
+                  </q-item-section>
                   <q-item-section>
-                    <q-item-label>facility</q-item-label>
-                    <q-item-label class="">
+                    <q-item-label class="text-right">
                       <template v-for="(val, index) in getCategory(record?.facility)">
                         <q-chip color="blue" class="q-ml-none" text-color="white">{{
                           val
@@ -182,21 +182,6 @@
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelSimpleValueNoDense>
-          <!-- <isQItemLabelSimpleValueNoDense
-            label="description"
-            :value="item?.description"
-          ></isQItemLabelSimpleValueNoDense> -->
-
-          <!-- <isQItemLabelSimpleValueNoDense label="customerId" :value="item?.customerId"></isQItemLabelSimpleValueNoDense> -->
-          <isQItemLabelSimpleValueNoDense
-            label="condition"
-            :value="item?.condition"
-          ></isQItemLabelSimpleValueNoDense>
-          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
-          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
-          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -302,7 +287,11 @@ export default {
     },
     getCategory(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };

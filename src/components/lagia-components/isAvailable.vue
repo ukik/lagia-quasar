@@ -1,5 +1,5 @@
 <template>
-  <q-item class="col-12" dense>
+  <q-item v-if="false" class="col-12" dense>
     <q-item-section>
       <q-item-label>Available</q-item-label>
     </q-item-section>

@@ -120,19 +120,6 @@
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
-          <!-- <isQItemLabelValue
-            label="description"
-            :value="item?.description"
-          ></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="customerId" :value="item?.customerId"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
-
-          <isQItemLabelValue label="condition" :value="item?.condition"></isQItemLabelValue>
-
-          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
-          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
-          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -151,7 +138,7 @@
         </q-expansion-item>
       </q-card-section>
 
-      <q-separator></q-separator>
+      <!-- <q-separator></q-separator>
       <q-card-section class="q-pa-none">
         <q-btn-group spread outline>
           <q-btn
@@ -165,7 +152,7 @@
             icon="person"
           />
         </q-btn-group>
-      </q-card-section>
+      </q-card-section> -->
 
       <q-separator></q-separator>
       <q-card-actions align="center">

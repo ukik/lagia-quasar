@@ -7,7 +7,7 @@
     :class="[$q.screen.width > 768 ? 'rounded-borders-2' : '']"
   >
     <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-      <q-img
+      <!-- <q-img
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
@@ -17,7 +17,7 @@
         <template v-slot:error>
           <div class="absolute-full flex flex-center text-white">Cannot load image</div>
         </template>
-      </q-img>
+      </q-img> -->
 
       <q-card-section class="bg-grey-2 row col flex items-start">
         <div class="text-box full-width q-px-sm col-12 text-capitalize">
@@ -49,13 +49,6 @@
             </q-item-section>
           </q-item> -->
 
-          <!-- "name": "dddd",
-        "category": "others",
-        "others": "sss",
-        "description": "sss",
-        "policy": "df",
-        "yearExp": "2024-02-17T00:00:00.000Z",           -->
-
           <isQItemLabelSimpleValue
             @onBubbleEvent="
               $refs.isModal.onOpen({
@@ -65,7 +58,7 @@
             "
             :clickable="true"
             label="description"
-            :value="item?.description"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
@@ -78,7 +71,7 @@
             "
             :clickable="true"
             label="policy"
-            :value="item?.policy"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
@@ -89,7 +82,7 @@
             <q-item-section class="text-right">
               <q-item-label class="">
                 <template v-for="(val, index) in getSplit(item?.category)">
-                  <q-chip class="q-ml-none" color="pink" text-color="white">{{
+                  <q-chip class="q-ml-none" color="blue" text-color="white">{{
                     val
                   }}</q-chip>
                 </template>
@@ -163,7 +156,11 @@ export default {
     },
     getSplit(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };

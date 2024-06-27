@@ -139,7 +139,7 @@
                   "
                   :clickable="true"
                   label="policy"
-                  :value="item?.policy"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
@@ -150,16 +150,16 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="item?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
-                <q-item dense>
-                  <q-item-section>
+                <q-item class="col-12" dense>
+                  <q-item-section top>
                     <q-item-label>category</q-item-label>
-                    <q-item-label class="">
+                    <q-item-label class="text-left" lines="1">
                       <template v-for="(val, index) in getSplit(item)">
-                        <q-chip class="q-ml-none" color="pink" text-color="white">{{
+                        <q-chip class="q-ml-none" color="blue" text-color="white">{{
                           val
                         }}</q-chip>
                       </template>
@@ -358,7 +358,7 @@ onMounted(async () => {
   isMounted.value = true;
 });
 
-const ratingZero = 0.00;
+const ratingZero = 0.0;
 
 function getSplit(item) {
   if (!item?.category) return [];

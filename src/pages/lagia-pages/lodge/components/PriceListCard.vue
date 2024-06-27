@@ -148,21 +148,6 @@
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
-          <!-- <isQItemLabelValue
-            label="description"
-            :value="item?.description"
-          ></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="customerId" :value="item?.customerId"></isQItemLabelValue> -->
-          <isQItemLabelValue
-            label="condition"
-            :value="item?.condition"
-          ></isQItemLabelValue>
-          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
-          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
-          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -171,7 +156,7 @@
           <template v-slot:header>
             <q-item-section> Description </q-item-section>
           </template>
-          <!-- <q-separator></q-separator> -->
+          <q-separator></q-separator>
 
           <q-card>
             <q-card-section>

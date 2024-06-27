@@ -2,118 +2,243 @@
   <!-- <main> -->
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
+  <q-no-ssr>
+    <isModalDescription ref="isModal"></isModalDescription>
+
+    <!-- PROFILE -->
+    <!-- <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="lodge_profiles"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6">Detail Hotel</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <ProductProfileDialogCard :item="record"></ProductProfileDialogCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog> -->
+
+    <!-- FASILITAS -->
+    <!-- <q-dialog
+      full-width
+      v-model="lodge_facility"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6">Fasilitas Umum</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <PopProduct :record="record?.lodgeProfile?.lodgeFacility"></PopProduct>
+        </q-card-section>
+      </q-card>
+    </q-dialog> -->
+
+    <!-- DETAIL -->
+    <!-- <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="modal_detail"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Kamar</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <ProductDialogCard :record="record"></ProductDialogCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog> -->
+  </q-no-ssr>
+
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
     <div
-      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+      class="row justify-start col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div v-for="(item, index) in records" class="col-12">
-        <q-card flat bordered class="rounded-borders-2">
-          <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
+      <div v-if="additional" class="col-12 q-mb-lg">
+        <q-list bordered>
+          <q-expansion-item group="somegroup" header-class="bg-grey-1" default-opened>
+            <template v-slot:header>
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white">
+                  <q-icon name="restaurant"></q-icon>
+                </q-avatar>
+              </q-item-section>
+
+              <q-item-section class="text-h6 text-dark"> PROFILE VENDOR </q-item-section>
+            </template>
+            <q-separator />
+
+            <q-card>
+              <q-card-section>
+                <PriceReferenceStore :item="additional"></PriceReferenceStore>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
+      </div>
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+      <div
+        v-else
+        v-for="(item, index) in records"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+      >
+        <q-card flat bordered square>
+          <q-card-section class="row q-pa-none">
             <q-img
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              class="col-12 q-border-bottom"
               :src="item?.image[0]"
             >
+              <div class="absolute-top-right bg-transparent">
+                <q-btn
+                  size="16px"
+                  rounded
+                  dense
+                  color="white"
+                  text-color="primary"
+                  icon="fullscreen"
+                  @click="showMultiple(item?.image, 0)"
+                />
+              </div>
+
               <template v-slot:error>
-                <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image 
+                <div class="absolute-full flex flex-center text-white">
+                  Cannot load image
                 </div>
               </template>
             </q-img>
             <q-img
               loading="lazy"
-              :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              :ratio="1"
+              class="col-12 q-border-bottom"
               v-else
               :src="$defaultUser"
             />
 
-            <q-card-section class="bg-grey-2 row col flex items-start">
-              <div class="text-box full-width q-px-sm col-12 text-capitalize">
-                <h3>{{ item?.model }}</h3>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">uuid</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.uuid }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <!-- <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">model</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.model }}</q-item-label>
-                  </q-item-section>
-                </q-item> -->
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">brand</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.brand }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">category </q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1"
-                      ><q-chip text-color="white" color="pink">{{
-                        item?.category
-                      }}</q-chip></q-item-label
-                    >
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">bahan bakar</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.fuelType }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">color</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.color }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">stnk</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.codeStnk }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">slot kursi</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1"
-                      >{{ item?.slotPassanger }}
-                      <q-icon style="margin-top: -3px" size="18px" name="person"></q-icon
-                    ></q-item-label>
-                  </q-item-section>
-                </q-item>
+            <q-card-section
+              class="bg-grey-2 row col-12 flex items-start q-pa-none q-my-md"
+            >
+              <div class="text-box full-width col-12 text-capitalize">
+                <q-expansion-item class="bg-white" default-opened>
+                  <template v-slot:header>
+                    <q-item-section class="text-h6 q-px-none">
+                      <q-item-label lines="1">
+                        {{ item?.model }}
+                      </q-item-label>
+                    </q-item-section>
+                  </template>
+                  <q-card>
+                    <isQItemLabelSimpleValue
+                      label="model"
+                      :value="item?.model"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="brand"
+                      :value="item?.brand"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="fuelType"
+                      :value="item?.fuelType"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="color"
+                      :value="item?.color"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="slotPassanger"
+                      :value="item?.slotPassanger"
+                    ></isQItemLabelSimpleValue>
+
+                    <!-- <isQItemLabelSimpleValue
+                  @onBubbleEvent="
+                    dialog_value = true;
+                    dialog_payload = { value: item?.description, label: 'description' };
+                  "
+                  :clickable="true"
+                  label="description"
+                  :value="item?.description"
+                  textcolor="text-primary"
+                ></isQItemLabelSimpleValue> -->
+
+                    <q-item dense>
+                      <q-item-section>
+                        <q-item-label>category</q-item-label>
+                      </q-item-section>
+                      <q-item-section side v-if="item?.category !== 'others'">
+                        <q-item-label lines="1"
+                          ><q-chip class="q-mx-none" color="pink" text-color="white">{{
+                            item?.category
+                          }}</q-chip></q-item-label
+                        >
+                      </q-item-section>
+                      <q-item-section side v-else>
+                        <q-item-label lines="1">{{ item?.category }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <!-- <isQItemLabelSimpleValue
+                      @onBubbleEvent="
+                        $refs.isModal.onOpen({
+                          dialog_value: true,
+                          dialog_payload: {
+                            value: item?.description,
+                            label: 'description',
+                          },
+                        })
+                      "
+                      :clickable="true"
+                      label="description"
+                      :value="item?.description"
+                      textcolor="text-primary"
+                    ></isQItemLabelSimpleValue> -->
+                  </q-card>
+                </q-expansion-item>
               </div>
             </q-card-section>
 
             <q-card-section
-              class="bg-cyan-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
+              class="bg-form col-12 row flex flex-center text-white q-pt-lg"
             >
               <!-- <q-badge
                 color="pink"
@@ -146,32 +271,57 @@
               </div>
               <div class="package-price col-12 text-center row q-mt-md">
                 <h6 class="col-12">
-                  {{ item?.slotPassanger }}
-                  <small class="text-weight-light">seat</small>
+                  {{ item?.transportPricesCount }}
+                  <small class="text-weight-light"> Harga</small>
                 </h6>
-                <small class="col-12 text-center">( maximum slot )</small>
+                <small class="col-12 text-center text-caption">( available )</small>
               </div>
 
-              <div class="row col-12 justify-center">
-                <!-- <q-btn
-                  unelevated
-                  outline
-                  rounded
-                  dense
-                  class="q-px-lg q-py-sm q-mb-sm q-mt-md rounded-borders-3 text-weight-light"
-                  color="white"
-                  label="Price List"
-                />
-                <div class="col-1"></div> -->
+              <div class="row col-12 justify-center q-mt-lg">
+                <!-- <q-btn-group outline rounded class="">
+                  <q-btn
+                    @click="
+                      modal_detail = true;
+                      record = item;
+                    "
+                    outline
+                    class="text-weight-normal"
+                    color="form"
+                    text-color="white"
+                    label="Detail"
+                  />
+                  <q-separator vertical></q-separator>
+                  <q-btn
+                    @click="
+                      lodge_facility = true;
+                      record = item;
+                    "
+                    outline
+                    class="text-weight-normal"
+                    color="form"
+                    text-color="white"
+                    label="Fasilitas"
+                  />
+                  <q-separator vertical></q-separator>
+                  <q-btn
+                    @click="
+                      lodge_profiles = true;
+                      record = item;
+                    "
+                    outline
+                    class="text-weight-normal"
+                    color="form"
+                    text-color="white"
+                    label="hotel"
+                  />
+                </q-btn-group> -->
+
                 <q-btn
-                  @click="showMultiple(item?.image, 0)"
-                  unelevated
                   outline
-                  rounded
-                  dense
-                  class="q-px-lg q-py-sm q-mb-sm q-mt-md rounded-borders-3 text-weight-light"
-                  color="white"
-                  label="Visit Detail"
+                  class="text-weight-normal rounded-borders-2"
+                  color="form"
+                  text-color="white"
+                  label="selengkapnya"
                 />
               </div>
             </q-card-section>
@@ -182,6 +332,8 @@
             </q-card-action> -->
         </q-card>
       </div>
+    </div>
+    <div class="col-12 flex flex-center q-mt-lg">
       <q-pagination
         :disable="loading"
         class="q-mt-lg"
@@ -244,6 +396,10 @@
 //   });
 // }),
 
+import PriceReferenceStore from "./components/PriceReferenceStore";
+// import ProductDialogCard from "./components/ProductDialogCard";
+// import ProductProfileDialogCard from "./components/ProductProfileDialogCard";
+
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
@@ -271,6 +427,8 @@ const {
 
   loading,
   init,
+
+  additional,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -285,10 +443,11 @@ defineOptions({
       publicPath,
     }) => {
       if (!currentRoute?.query?.page)
-        redirect({ name: currentRoute.name, query: { page: 1 } });
+        redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
 
       return useTransportVehicleListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
+        query: currentRoute?.query,
       });
     }
   ),
@@ -300,17 +459,72 @@ const { showMultiple } = lightbox;
 const router = useRouter();
 
 const onCurrentPage = async (val) => {
-  console.log("onCurrentPage", val);
-  router.push({ query: { page: val.value } });
-  onPaginate({ currentPage: val.value });
+  console.log("onCurrentPage", router.currentRoute.value);
+  const currentRoute = router.currentRoute.value;
+  router.push({ query: { ...currentRoute.query, page: val.value } });
+  onPaginate({ currentPage: val.value, query: currentRoute?.query });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
   // immediate: true,
 });
 
-const ratingZero = 0;
+const ratingZero = 0.0;
+
+const record = ref(null);
+
+const modal_detail = ref(false);
+const lodge_profiles = ref(false);
+const lodge_facility = ref(false);
+
+// const dialog_payload = ref(null);
+// const dialog_value = ref(false);
+
+function onBubbleEvent(value) {
+  record.value = value?.payload;
+  // if (value?.label == "venue") {
+  //   label.value = value?.label;
+  //   modal_detail.value = true;
+  // } else if (value?.label == "fasilitas") {
+  //   lodge_profiless.value = true;
+  // }
+}
+
+function closeDialog() {
+  record.value = null;
+
+  modal_detail.value = false;
+  lodge_profiles.value = false;
+  lodge_facility.value = false;
+
+  // dialog_payload.value = null;
+  // dialog_value.value = false;
+}
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
+
+function getCategory(item) {
+  if (!item) return [];
+  try {
+    return item.split(",");
+  } catch (error) {
+    return item;
+  }
+}
+
+function getSplit(item) {
+  if (!item) return [];
+  try {
+    return item.split(",");
+  } catch (error) {
+    return item;
+  }
+}
 </script>
+
 <style scoped>
 .content-page-section {
   padding-bottom: 80px;

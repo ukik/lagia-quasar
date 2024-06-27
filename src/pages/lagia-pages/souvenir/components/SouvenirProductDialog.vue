@@ -134,7 +134,7 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="item?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
@@ -363,7 +363,7 @@ onMounted(async () => {
   isMounted.value = true;
 });
 
-const ratingZero = 0.00;
+const ratingZero = 0.0;
 
 function getSplit(item) {
   if (!item?.category) return [];

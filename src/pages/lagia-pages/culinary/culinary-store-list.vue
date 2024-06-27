@@ -87,7 +87,7 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <div class="row flex flex-center">
+          <!-- <div class="row flex flex-center">
             <q-btn-group
               spread
               outline
@@ -102,8 +102,6 @@
                 :label="$q.screen.width > 425 ? 'product list' : ''"
                 icon="inventory"
               >
-                <!-- <q-icon size="3em" name="emoji_events" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">skill list</div> -->
               </q-btn>
 
               <q-btn
@@ -113,11 +111,9 @@
                 :label="$q.screen.width > 425 ? 'price list' : ''"
                 icon="add_shopping_cart"
               >
-                <!-- <q-icon size="3em" name="add_shopping_cart" />
-              <div class="q-ml-md" v-if="$q.screen.width > 425">price list</div> -->
               </q-btn>
             </q-btn-group>
-          </div>
+          </div> -->
 
           <CulinaryStoreDialogCard :item="record"></CulinaryStoreDialogCard>
         </q-card-section>
@@ -134,7 +130,10 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div v-for="(item, index) in records" class="col-12">
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+      <div v-else v-for="(item, index) in records" class="col-12">
         <q-card flat bordered class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
@@ -197,7 +196,7 @@
                   "
                   :clickable="true"
                   label="policy"
-                  :value="item?.policy"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
@@ -210,7 +209,7 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="item?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
@@ -223,7 +222,7 @@
                   "
                   :clickable="true"
                   label="location"
-                  :value="item?.location"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
                 <isAvailable :item="item?.isAvailable"></isAvailable>
@@ -455,7 +454,7 @@ watch(() => currentPage, onCurrentPage, {
   // immediate: true,
 });
 
-const ratingZero = 0.00;
+const ratingZero = 0.0;
 
 const dialog_selengkapnya = ref(false);
 const record = ref(null);

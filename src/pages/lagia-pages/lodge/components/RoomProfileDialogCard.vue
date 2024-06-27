@@ -97,10 +97,7 @@
           <isQItemLabelValue label="codepos" :value="record?.codepos"></isQItemLabelValue>
           <isQItemLabelValue label="city" :value="record?.city"></isQItemLabelValue>
           <isQItemLabelValue label="country" :value="record?.country"></isQItemLabelValue>
-          <!-- <isQItemLabelValue label="policy" :value="record?.policy"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="description" :value="record?.description"></isQItemLabelValue> -->
           <isQItemLabelValue label="kelas" :value="record?.rating"></isQItemLabelValue>
-          <!-- <isQItemLabelValue label="types" :value="record?.types"></isQItemLabelValue> -->
 
           <isQItemLabelValue
             label="services"
@@ -148,7 +145,7 @@
             "
             :clickable="true"
             label="location"
-            :value="record?.location"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
@@ -164,7 +161,7 @@
             "
             :clickable="true"
             label="address"
-            :value="record?.address"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
@@ -180,7 +177,7 @@
             "
             :clickable="true"
             label="policy"
-            :value="record?.policy"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
@@ -196,7 +193,7 @@
             "
             :clickable="true"
             label="policy tambahan"
-            :value="record?.additionalPolicy"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
@@ -212,14 +209,16 @@
             "
             :clickable="true"
             label="description"
-            :value="record?.description"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
-          <q-item dense>
-            <q-item-section>
+          <q-item class="col-12" dense>
+            <q-item-section top>
               <q-item-label>types</q-item-label>
-              <q-item-label class="">
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-right">
                 <template v-for="(val, index) in getCategory(record?.types)">
                   <q-chip color="blue" class="q-ml-none" text-color="white">{{
                     val
@@ -366,7 +365,11 @@ export default {
     },
     getCategory(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };

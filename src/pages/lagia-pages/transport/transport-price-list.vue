@@ -3,19 +3,51 @@
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <q-no-ssr>
-    <!-- DETAIL VENDOR -->
+    <!-- DETAIL -->
     <q-dialog
       full-width
       full-height
       :maximized="$q.screen.width <= 768"
-      v-model="rental_vehicle_modal"
+      v-model="dialog_selengkapnya"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
+        <!-- <q-card-section class="q-py-none bg-primary text-white">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Price</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section> -->
+        <q-card-section class="q-py-none">
+          <q-toolbar style="height: 50px" class="q-pa-none">
+            <div class="text-h6 text-capitalize">Detail Price</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup></q-btn>
+          </q-toolbar>
+        </q-card-section>
+        <q-separator />
+
+        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
+          <TransportPriceDialogDetailCard :item="record"></TransportPriceDialogDetailCard>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <!-- STORE -->
+    <q-dialog
+      full-width
+      full-height
+      :maximized="$q.screen.width <= 768"
+      v-model="culinary_store"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Detail Vendor</div>
+            <div class="text-h6 text-capitalize">Detail Store</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -24,50 +56,24 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <RentalDetailCard :item="record"></RentalDetailCard>
+          <TransportDialogCard :item="record?.transportRental"></TransportDialogCard>
         </q-card-section>
       </q-card>
     </q-dialog>
 
-    <!-- DETAIL VEHICLE -->
-    <q-dialog
+    <!-- PRODUCT -->
+    <!-- <q-dialog
       full-width
       full-height
       :maximized="$q.screen.width <= 768"
-      v-model="rental_modal"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card :style="myWidth">
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">List Vehicle</div>
-            <q-space></q-space>
-            <!-- <q-btn dense flat icon="list" @click="rental_vehicle_modal = true"></q-btn> -->
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <RentalVehicleDialog :item="rental_record"></RentalVehicleDialog>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="layout"
+      v-model="culinary_product"
       transition-show="slide-up"
       transition-hide="slide-down"
     >
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">{{ label }}</div>
+            <div class="text-h6 text-capitalize">Detail Culinary</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
@@ -76,18 +82,10 @@
         <q-separator />
 
         <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <RentalListCard
-            v-if="label === 'vendor'"
-            @onBubbleEvent="onBubbleEventRental"
-            :item="record"
-          ></RentalListCard>
-          <PriceVehicleDialog
-            v-if="label === 'vehicle'"
-            :item="record"
-          ></PriceVehicleDialog>
+          <TransportDialogCard :item="record"></TransportDialogCard>
         </q-card-section>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
   </q-no-ssr>
 
   <!-- ***Inner Banner html end here*** -->
@@ -99,7 +97,14 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="additional" class="col-12 q-mb-lg">
+        <PriceReference :item="additional"></PriceReference>
+      </div>
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
       <div
+        v-else
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
@@ -163,10 +168,15 @@
 
 <script async setup>
 import PriceListCard from "./components/PriceListCard";
-import RentalListCard from "./components/RentalListCard";
-import RentalVehicleDialog from "./components/RentalVehicleDialog";
-import PriceVehicleDialog from "./components/PriceVehicleDialog";
-import RentalDetailCard from "./components/RentalDetailCard";
+import TransportDialogCard from "./components/TransportDialogCard";
+import TransportPriceDialogDetailCard from "./components/TransportPriceDialogDetailCard";
+import PriceReference from "./components/PriceReference";
+
+// import CulinaryProductDialog from "./components/CulinaryProductDialog";
+// import PriceVehicleDialog from "./components/PriceVehicleDialog";
+// import RentalDetailCard from "./components/RentalDetailCard";
+
+// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -175,6 +185,7 @@ import { preFetch } from "quasar/wrappers";
 
 import { useTransportPriceListStore } from "stores/lagia-stores/transport/TransportPriceListStore";
 import { useRouter, onBeforeRouteLeave } from "vue-router";
+
 const store = useTransportPriceListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
@@ -194,6 +205,8 @@ const {
 
   loading,
   init,
+
+  additional,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -208,10 +221,11 @@ defineOptions({
       publicPath,
     }) => {
       if (!currentRoute?.query?.page)
-        redirect({ name: currentRoute.name, query: { page: 1 } });
+        redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
 
       return useTransportPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
+        query: currentRoute?.query,
       });
     }
   ),
@@ -220,33 +234,42 @@ defineOptions({
 const router = useRouter();
 
 const onCurrentPage = async (val) => {
-  console.log("onCurrentPage", val);
-  router.push({ query: { page: val.value } });
-  onPaginate({ currentPage: val.value });
+  console.log("onCurrentPage", router.currentRoute.value);
+  const currentRoute = router.currentRoute.value;
+  router.push({ query: { ...currentRoute.query, page: val.value } });
+  onPaginate({ currentPage: val.value, query: currentRoute?.query });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
   // immediate: true,
 });
 
-const layout = ref(false);
 const record = ref(null);
-const label = ref("");
+
+const dialog_selengkapnya = ref(false);
+
+const culinary_store = ref(false);
+// const culinary_product = ref(false);
+
+// const dialog_payload = ref(null);
+// const dialog_value = ref(false);
 
 function onBubbleEvent(value) {
   record.value = value?.payload;
-  label.value = value?.label;
-  layout.value = true;
+  if (value?.label == "store") culinary_store.value = true;
+  if (value?.label == "detail") dialog_selengkapnya.value = true;
+  // if (value?.label == "produk") culinary_product.value = true;
 }
 
-const rental_modal = ref(false);
-const rental_vehicle_modal = ref(false);
-const rental_record = ref(false);
-
-function onBubbleEventRental(value) {
-  rental_record.value = value?.payload;
-  rental_modal.value = true;
+function closeDialog() {
+  dialog_selengkapnya.value = false;
+  culinary_store.value = false;
 }
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
 
 <style scoped>

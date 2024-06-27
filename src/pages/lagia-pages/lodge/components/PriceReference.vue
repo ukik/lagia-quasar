@@ -15,7 +15,7 @@
 
       <q-card>
         <q-card-section>
-          <PriceReferenceProfile :item="item?.lodgeProfile"></PriceReferenceProfile>
+          <PriceReferenceStore :item="item?.lodgeProfile"></PriceReferenceStore>
         </q-card-section>
       </q-card>
     </q-expansion-item>
@@ -35,13 +35,13 @@
       <q-separator />
       <q-card>
         <q-card-section>
-          <PriceReferenceRoom :item="item"></PriceReferenceRoom>
-          <isImageSlideCarousel
+          <PriceReferenceProduct :item="item"></PriceReferenceProduct>
+          <!-- <isImageSlideCarousel
             class="q-mt-md"
             :_gallery="item?.image"
             height="600px"
             :thumbnails="false"
-          ></isImageSlideCarousel>
+          ></isImageSlideCarousel> -->
         </q-card-section>
       </q-card>
     </q-expansion-item>
@@ -50,14 +50,14 @@
 </template>
 
 <script>
-import PriceReferenceProfile from "./PriceReferenceProfile";
-import PriceReferenceRoom from "./PriceReferenceRoom";
+import PriceReferenceStore from "./PriceReferenceStore";
+import PriceReferenceProduct from "./PriceReferenceProduct";
 
 export default {
   props: ["item"],
   components: {
-    PriceReferenceProfile,
-    PriceReferenceRoom,
+    PriceReferenceStore,
+    PriceReferenceProduct,
   },
 };
 </script>

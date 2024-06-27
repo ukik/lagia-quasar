@@ -82,14 +82,14 @@
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
-          <q-item dense>
-            <q-item-section avatar>
+          <q-item class="col-12" dense>
+            <q-item-section>
               <q-item-label>category</q-item-label>
-            </q-item-section>
-            <q-item-section class="text-right">
-              <q-item-label class="">
+              <!-- </q-item-section>
+            <q-item-section> -->
+              <q-item-label class="text-left">
                 <template v-for="(val, index) in getSplit(item?.category)">
-                  <q-chip class="q-ml-none" color="pink" text-color="white">{{
+                  <q-chip class="q-ml-none" color="blue" text-color="white">{{
                     val
                   }}</q-chip>
                 </template>
@@ -148,7 +148,11 @@ export default {
     },
     getSplit(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };

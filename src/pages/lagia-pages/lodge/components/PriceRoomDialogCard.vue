@@ -88,11 +88,9 @@
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <isQItemLabelValue label="id" :value="record?.id"></isQItemLabelValue>
+          <!-- <isQItemLabelValue label="id" :value="record?.id"></isQItemLabelValue> -->
           <isQItemLabelValue label="uuid" :value="record?.uuid"></isQItemLabelValue>
           <isQItemLabelValue label="name" :value="record?.name"></isQItemLabelValue>
-          <!-- <isQItemLabelValue label="number" :value="record?.number"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="description" :value="record?.description"></isQItemLabelValue> -->
           <isQItemLabelValue
             label="capacity"
             :value="record?.capacity"
@@ -116,14 +114,16 @@
             "
             :clickable="true"
             label="description"
-            :value="record?.description"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
-          <q-item dense>
+          <q-item class="col-12" dense>
+            <q-item-section top>
+              <q-item-label class="text-capitalize">facility</q-item-label>
+            </q-item-section>
             <q-item-section>
-              <q-item-label>facility</q-item-label>
-              <q-item-label class="">
+              <q-item-label class="text-right">
                 <template v-for="(val, index) in getCategory(record?.facility)">
                   <q-chip color="blue" class="q-ml-none" text-color="white">{{
                     val
@@ -270,7 +270,11 @@ export default {
     },
     getCategory(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };

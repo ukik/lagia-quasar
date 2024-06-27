@@ -1,5 +1,6 @@
 <template>
   <q-chip
+    v-if="false"
     class="q-mx-none"
     :color="getText ? 'positive' : 'negative'"
     text-color="white"

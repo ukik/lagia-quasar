@@ -104,6 +104,9 @@
           <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue>
           <isQItemLabelValue label="email" :value="item?.email"></isQItemLabelValue>
           <isQItemLabelValue label="phone" :value="item?.phone"></isQItemLabelValue>
+          <isQItemLabelValue label="codepos" :value="item?.codepos"></isQItemLabelValue>
+          <isQItemLabelValue label="city" :value="item?.city"></isQItemLabelValue>
+          <isQItemLabelValue label="country" :value="item?.country"></isQItemLabelValue>
 
           <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
@@ -117,17 +120,51 @@
             "
             :clickable="true"
             label="location"
-            :value="item?.location"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
-          <isQItemLabelValue label="codepos" :value="item?.codepos"></isQItemLabelValue>
-          <isQItemLabelValue label="city" :value="item?.city"></isQItemLabelValue>
-          <isQItemLabelValue label="country" :value="item?.country"></isQItemLabelValue>
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.address, label: 'address' },
+              })
+            "
+            :clickable="true"
+            label="address"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.policy, label: 'policy' },
+              })
+            "
+            :clickable="true"
+            label="policy"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.description, label: 'description' },
+              })
+            "
+            :clickable="true"
+            label="description"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
           <isAvailable :item="item?.isAvailable"></isAvailable>
         </q-list>
       </q-card-section>
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> Address </q-item-section>
@@ -163,9 +200,8 @@
               {{ item?.description }}
             </q-card-section>
           </q-card>
-          <!-- <q-separator></q-separator> -->
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
       <!-- <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">

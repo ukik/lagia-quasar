@@ -12,6 +12,17 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/tourism/tourism-venue-list.vue"),
     },
     {
+      path: "/tourism/facilities-list",
+      name: "/tourism/facilities-list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'List Fasilitas',
+      },
+      component: () => import("pages/lagia-pages/tourism/tourism-facilities-list.vue"),
+    },
+    {
       path: "/tourism/price-list",
       name: "/tourism/price-list",
       meta: {

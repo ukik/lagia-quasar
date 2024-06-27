@@ -138,7 +138,7 @@
             :value="item?.souvenirStore?.country"
           ></isQItemLabelSimpleValueNoDense>
 
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
               dialog_value = true;
               dialog_payload = {
@@ -148,9 +148,9 @@
             "
             :clickable="true"
             label="address"
-            :value="item?.souvenirStore?.address"
+            value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense> -->
+          ></isQItemLabelSimpleValueNoDense>
 
           <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
@@ -162,11 +162,11 @@
             "
             :clickable="true"
             label="location"
-            :value="item?.souvenirStore?.location"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
               dialog_value = true;
               dialog_payload = {
@@ -176,11 +176,11 @@
             "
             :clickable="true"
             label="policy"
-            :value="item?.souvenirStore?.policy"
+            value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense> -->
+          ></isQItemLabelSimpleValueNoDense>
 
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
               dialog_value = true;
               dialog_payload = {
@@ -190,14 +190,14 @@
             "
             :clickable="true"
             label="description"
-            :value="item?.souvenirStore?.description"
+            value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense> -->
+          ></isQItemLabelSimpleValueNoDense>
 
           <isAvailable :item="item?.souvenirStore?.isAvailable"></isAvailable>
         </q-list>
       </q-card-section>
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> Address </q-item-section>
@@ -233,9 +233,8 @@
               {{ item?.souvenirStore?.description }}
             </q-card-section>
           </q-card>
-          <!-- <q-separator></q-separator> -->
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
       <!-- <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">

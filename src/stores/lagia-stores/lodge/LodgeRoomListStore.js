@@ -30,6 +30,8 @@ export const useLodgeRoomListStore = defineStore('LodgeRoomListStore', {
 
     loading: false,
     init: false,
+
+    additional:'',
   }),
 
   getters: {
@@ -38,7 +40,7 @@ export const useLodgeRoomListStore = defineStore('LodgeRoomListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage }) {
+    async onFetch ({ currentPage, query }) {
 
       if (this.loading) return false;
 
@@ -58,7 +60,9 @@ export const useLodgeRoomListStore = defineStore('LodgeRoomListStore', {
             perPage: this.perPage,
             page: currentPage, //this.currentPage,
             payload: [],
-            loading: false
+            loading: false,
+
+            ...query
           }
         })
         .then((response) => {
@@ -125,10 +129,14 @@ export const useLodgeRoomListStore = defineStore('LodgeRoomListStore', {
 
       console.log('stores/lagia-stores/LodgeRoomListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+        // if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
+        this.additional = response?.data?.additional
+        console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage }) {
-      this.onFetch({ currentPage })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

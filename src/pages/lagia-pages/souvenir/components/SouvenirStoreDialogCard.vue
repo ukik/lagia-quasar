@@ -1,4 +1,6 @@
 <template>
+  <isModalDescription ref="isModal"></isModalDescription>
+
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
       <q-img
@@ -159,9 +161,57 @@
           <isQItemLabelValue label="codepos" :value="item?.codepos"></isQItemLabelValue>
           <isQItemLabelValue label="city" :value="item?.city"></isQItemLabelValue>
           <isQItemLabelValue label="country" :value="item?.country"></isQItemLabelValue>
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: {
+                  value: item?.location,
+                  label: 'location',
+                },
+              })
+            "
+            :clickable="true"
+            label="location"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: {
+                  value: item?.policy,
+                  label: 'policy',
+                },
+              })
+            "
+            :clickable="true"
+            label="policy"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
+
+          <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: {
+                  value: item?.description,
+                  label: 'description',
+                },
+              })
+            "
+            :clickable="true"
+            label="description"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense>
         </q-list>
       </q-card-section>
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> Lokasi </q-item-section>
@@ -210,9 +260,8 @@
               {{ item?.description }}
             </q-card-section>
           </q-card>
-          <!-- <q-separator></q-separator> -->
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
       <!-- <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">

@@ -66,7 +66,7 @@
                 "
                 :clickable="true"
                 label="description"
-                :value="item?.talentSkill?.description"
+                value="Detail"
                 textcolor="text-primary"
               ></isQItemLabelSimpleValue>
               <isQItemLabelSimpleValue
@@ -76,7 +76,7 @@
                 "
                 :clickable="true"
                 label="policy"
-                :value="item?.talentSkill?.policy"
+                value="Detail"
                 textcolor="text-primary"
               ></isQItemLabelSimpleValue>
 

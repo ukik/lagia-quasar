@@ -22,17 +22,17 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/transport/transport-rental-list.vue"),
     },
-    {
-      path: "/transport/driver-list",
-      name: "/transport/driver-list",
-      meta: {
-        ssr: true,
-        logged: false,
-        role: '',
-        title: 'Driver Rental',
-      },
-      component: () => import("pages/lagia-pages/transport/transport-driver-list.vue"),
-    },
+    // {
+    //   path: "/transport/driver-list",
+    //   name: "/transport/driver-list",
+    //   meta: {
+    //     ssr: true,
+    //     logged: false,
+    //     role: '',
+    //     title: 'Driver Rental',
+    //   },
+    //   component: () => import("pages/lagia-pages/transport/transport-driver-list.vue"),
+    // },
     {
       path: "/transport/price-list",
       name: "/transport/price-list",

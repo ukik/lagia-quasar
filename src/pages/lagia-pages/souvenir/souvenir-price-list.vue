@@ -97,10 +97,14 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div class="col-12 q-mb-lg">
+      <div v-if="additional" class="col-12 q-mb-lg">
         <PriceReference :item="additional"></PriceReference>
       </div>
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
       <div
+        v-else
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >

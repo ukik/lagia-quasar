@@ -149,7 +149,7 @@
       <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
-            <q-item-section> Detail Skill </q-item-section>
+            <q-item-section> Detail Produk </q-item-section>
           </template>
           <!-- <q-separator></q-separator> -->
 
@@ -183,7 +183,7 @@
                   "
                   :clickable="true"
                   label="Deskripsi"
-                  :value="item?.talentSkill?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValueNoDense>
 
@@ -197,7 +197,7 @@
                   "
                   :clickable="true"
                   label="Kebijakan"
-                  :value="item?.talentSkill?.policy"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValueNoDense>
               </q-list>
@@ -228,18 +228,6 @@
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
-          <!-- <isQItemLabelValue
-            label="description"
-            :value="item?.description"
-          ></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="customerId" :value="item?.customerId"></isQItemLabelValue> -->
-          <isQItemLabelValue label="condition" :value="item?.condition"></isQItemLabelValue>
-          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
-          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
-          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 
@@ -327,7 +315,7 @@ export default {
     return {
       showMultiple,
       expanded: ref(false),
-      ratingZero: 0.00,
+      ratingZero: 0.0,
 
       dialog_payload,
       dialog_value,

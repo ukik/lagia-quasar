@@ -1,25 +1,5 @@
 <template>
-  <q-no-ssr>
-    <q-dialog v-model="dialog_value">
-      <q-card style="min-width: 400px">
-        <q-toolbar>
-          <q-toolbar-title
-            ><span class="text-capitalize">{{
-              dialog_payload?.label
-            }}</span></q-toolbar-title
-          >
-
-          <q-btn flat round dense icon="close" v-close-popup />
-        </q-toolbar>
-
-        <q-separator></q-separator>
-
-        <q-card-section>
-          {{ dialog_payload?.value }}
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-  </q-no-ssr>
+  <isModalDescription ref="isModal"></isModalDescription>
 
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
@@ -138,66 +118,52 @@
             :value="item?.culinaryStore?.country"
           ></isQItemLabelSimpleValueNoDense>
 
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
-              dialog_value = true;
-              dialog_payload = {
-                value: item?.culinaryStore?.address,
-                label: 'address',
-              };
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.culinaryStore?.address, label: 'address' },
+              })
             "
             :clickable="true"
             label="address"
-            :value="item?.culinaryStore?.address"
-            textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense> -->
-
-          <isQItemLabelSimpleValueNoDense
-            @onBubbleEvent="
-              dialog_value = true;
-              dialog_payload = {
-                value: item?.culinaryStore?.location,
-                label: 'location',
-              };
-            "
-            :clickable="true"
-            label="location"
-            :value="item?.culinaryStore?.location"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
-              dialog_value = true;
-              dialog_payload = {
-                value: item?.culinaryStore?.policy,
-                label: 'policy',
-              };
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.culinaryStore?.policy, label: 'policy' },
+              })
             "
             :clickable="true"
             label="policy"
-            :value="item?.culinaryStore?.policy"
+            value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense> -->
+          ></isQItemLabelSimpleValueNoDense>
 
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
-              dialog_value = true;
-              dialog_payload = {
-                value: item?.culinaryStore?.description,
-                label: 'description',
-              };
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: {
+                  value: item?.culinaryStore?.description,
+                  label: 'description',
+                },
+              })
             "
             :clickable="true"
             label="description"
-            :value="item?.culinaryStore?.description"
+            value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense> -->
+          ></isQItemLabelSimpleValueNoDense>
 
           <isAvailable :item="item?.culinaryStore?.isAvailable"></isAvailable>
         </q-list>
       </q-card-section>
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> Address </q-item-section>
@@ -233,9 +199,9 @@
               {{ item?.culinaryStore?.description }}
             </q-card-section>
           </q-card>
-          <!-- <q-separator></q-separator> -->
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
+
       <!-- <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">
@@ -301,16 +267,16 @@ export default {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;
 
-    const dialog_payload = ref(null);
-    const dialog_value = ref(false);
+    // const dialog_payload = ref(null);
+    // const dialog_value = ref(false);
 
     return {
       showMultiple,
       expanded: ref(false),
       ratingZero: 0.0,
 
-      dialog_payload,
-      dialog_value,
+      // dialog_payload,
+      // dialog_value,
     };
   },
   methods: {

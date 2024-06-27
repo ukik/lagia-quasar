@@ -7,7 +7,7 @@
     :class="[$q.screen.width > 768 ? 'rounded-borders-2' : '']"
   >
     <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-      <!-- <q-img
+      <q-img
         v-if="item?.image && item?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
@@ -37,7 +37,7 @@
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
         v-else
         :src="$defaultErrorImage"
-      /> -->
+      />
 
       <q-card-section class="bg-grey-2 row col flex items-start">
         <div class="text-box full-width q-px-sm col-12 text-capitalize">
@@ -83,7 +83,7 @@
             "
             :clickable="true"
             label="policy"
-            :value="item?.policy"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
@@ -96,7 +96,7 @@
             "
             :clickable="true"
             label="description"
-            :value="item?.description"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
@@ -109,11 +109,25 @@
             "
             :clickable="true"
             label="location"
-            :value="item?.location"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
-          <q-item dense>
+          <q-item class="col-12" dense>
+            <q-item-section>
+              <q-item-label>category</q-item-label>
+              <!-- </q-item-section>
+            <q-item-section> -->
+              <q-item-label class="text-left">
+                <template v-for="(val, index) in getSplit(item?.category)">
+                  <q-chip class="q-ml-none" color="blue" text-color="white">{{
+                    val
+                  }}</q-chip>
+                </template>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <!-- <q-item dense>
             <q-item-section top>
               <q-item-label>category</q-item-label>
             </q-item-section>
@@ -126,7 +140,7 @@
                 </template>
               </q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
           <!-- <isAvailable :item="item?.isAvailable"></isAvailable> -->
         </div>
       </q-card-section>
@@ -180,7 +194,11 @@ export default {
     },
     getSplit(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };

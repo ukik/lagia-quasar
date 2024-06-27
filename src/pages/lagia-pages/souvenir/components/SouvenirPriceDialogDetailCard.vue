@@ -117,7 +117,7 @@
       <q-separator></q-separator>
 
       <q-card-section class="q-pa-none">
-        <q-expansion-item>
+        <q-expansion-item default-opened>
           <template v-slot:header>
             <q-item-section> Detail Produk </q-item-section>
           </template>
@@ -153,7 +153,7 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="item?.souvenirProduct?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValueNoDense>
 
@@ -186,21 +186,6 @@
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelSimpleValueNoDense>
-          <!-- <isQItemLabelSimpleValueNoDense
-            label="description"
-            :value="item?.description"
-          ></isQItemLabelSimpleValueNoDense> -->
-
-          <!-- <isQItemLabelSimpleValueNoDense label="customerId" :value="item?.customerId"></isQItemLabelSimpleValueNoDense> -->
-          <isQItemLabelSimpleValueNoDense
-            label="condition"
-            :value="item?.condition"
-          ></isQItemLabelSimpleValueNoDense>
-          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
-
-          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
-          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
-          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
         </q-list>
       </q-card-section>
 

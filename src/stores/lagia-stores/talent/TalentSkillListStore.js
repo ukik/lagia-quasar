@@ -31,6 +31,8 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
 
     loading: false,
     init: false,
+
+    additional: '',
   }),
 
   getters: {
@@ -39,7 +41,7 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage, profileId }) {
+    async onFetch({ currentPage, profileId, query }) {
 
       if (this.loading) return false;
 
@@ -49,23 +51,25 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/talent-skills',
-          method: 'get',
-          params: {
-            slug: this.slug,
-            page: this.page,
-            orderField: caseConvert.snake(this.orderField),
-            orderDirection: caseConvert.snake(this.orderDirection),
-            showSoftDelete: this.isShowDataRecycle,
-            isAvailable: this.isAvailable,
-            profileId: profileId,
-            search: this.search,
-            perPage: this.perPage,
-            page: currentPage, //this.currentPage,
-            payload: [],
-            // loading: false
-          }
-        })
+        url: '/trevolia-api/v1/entities/talent-skills',
+        method: 'get',
+        params: {
+          slug: this.slug,
+          page: this.page,
+          orderField: caseConvert.snake(this.orderField),
+          orderDirection: caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
+          isAvailable: this.isAvailable,
+          profileId: profileId,
+          search: this.search,
+          perPage: this.perPage,
+          page: currentPage, //this.currentPage,
+          payload: [],
+          loading: false,
+
+          ...query,
+        }
+      })
         .then((response) => {
           // Notify.create({
           //   color: 'positive',
@@ -107,10 +111,14 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
 
       console.log('stores/lagia-stores/TalentSkillListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+      // if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
+      this.additional = response?.data?.additional
+      console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage, profileId }) {
-      this.onFetch({ currentPage, profileId })
+    onPaginate: debounce(async function ({ currentPage, profileId, query }) {
+      this.onFetch({ currentPage, profileId, query })
     }, 500),
 
     async onClearRegister() {

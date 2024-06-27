@@ -254,7 +254,10 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div v-for="(item, index) in records" class="col-12">
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+      <div v-else v-for="(item, index) in records" class="col-12">
         <q-card flat bordered class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
@@ -314,7 +317,7 @@
                   "
                   :clickable="true"
                   label="policy"
-                  :value="item?.policy"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
@@ -325,7 +328,7 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="item?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
@@ -336,7 +339,7 @@
                   "
                   :clickable="true"
                   label="location"
-                  :value="item?.location"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 

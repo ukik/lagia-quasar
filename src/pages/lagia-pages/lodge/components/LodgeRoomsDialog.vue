@@ -144,16 +144,18 @@
                   "
                   :clickable="true"
                   label="description"
-                  :value="item?.description"
+                  value="Detail"
                   textcolor="text-primary"
                 ></isQItemLabelSimpleValue>
 
-                <q-item dense>
-                  <q-item-section>
+                <q-item class="col-12" dense>
+                  <q-item-section top>
                     <q-item-label>facility</q-item-label>
-                    <q-item-label class="">
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-right">
                       <template v-for="(val, index) in getSplit(item?.facility)">
-                        <q-chip class="q-ml-none" color="pink" text-color="white">{{
+                        <q-chip class="q-ml-none" color="blue" text-color="white">{{
                           val
                         }}</q-chip>
                       </template>

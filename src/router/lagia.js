@@ -7,6 +7,7 @@ import lagia_talent from './lagia-talent';
 import lagia_souvenir from './lagia-souvenir';
 import lagia_culinary from './lagia-culinary';
 import lagia_lodge from './lagia-lodge';
+import lagia_transport_1 from './lagia-transport-1';
 
 export default function (store, cookies, ssrContext) {
   return [
@@ -17,6 +18,7 @@ export default function (store, cookies, ssrContext) {
         ...lagia_auth(store, cookies, ssrContext),
         ...lagia_travel(store, cookies, ssrContext),
         ...lagia_transport(store, cookies, ssrContext),
+        ...lagia_transport_1(store, cookies, ssrContext),
         ...lagia_pages(store, cookies, ssrContext),
         ...lagia_tourism(store, cookies, ssrContext),
         ...lagia_talent(store, cookies, ssrContext),

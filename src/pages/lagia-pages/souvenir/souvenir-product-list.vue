@@ -91,7 +91,33 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="additional" class="col-12 q-mb-lg">
+        <q-list bordered>
+          <q-expansion-item group="somegroup" header-class="bg-grey-1" default-opened>
+            <template v-slot:header>
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white">
+                  <q-icon name="restaurant"></q-icon>
+                </q-avatar>
+              </q-item-section>
+
+              <q-item-section class="text-h6 text-dark"> PROFILE VENDOR </q-item-section>
+            </template>
+            <q-separator />
+
+            <q-card>
+              <q-card-section>
+                <PriceReferenceStore :item="additional"></PriceReferenceStore>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </q-list>
+      </div>
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
       <div
+        v-else
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
@@ -100,8 +126,8 @@
             <q-img
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
-              :ratio="1"
-              class="col-12"
+              :ratio="16 / 9"
+              class="col-12 q-border-bottom"
               :src="item?.image[0]"
             >
               <div class="absolute-top-right bg-transparent">
@@ -122,7 +148,13 @@
                 </div>
               </template>
             </q-img>
-            <q-img loading="lazy" :ratio="1" class="col-12" v-else :src="$defaultUser" />
+            <q-img
+              loading="lazy"
+              :ratio="1"
+              class="col-12 q-border-bottom"
+              v-else
+              :src="$defaultUser"
+            />
 
             <q-card-section
               class="bg-grey-2 row col-12 flex items-start q-pa-none q-my-md"
@@ -132,7 +164,6 @@
                   <template v-slot:header>
                     <q-item-section class="text-h6 q-px-none">
                       <q-item-label lines="1">
-                        {{ item?.name }} {{ item?.name }} {{ item?.name }}
                         {{ item?.name }}
                       </q-item-label>
                     </q-item-section>
@@ -142,10 +173,10 @@
                       label="uuid"
                       :value="item?.uuid"
                     ></isQItemLabelSimpleValue>
-                    <isQItemLabelSimpleValue
+                    <!-- <isQItemLabelSimpleValue
                       label="name"
                       :value="item?.name"
-                    ></isQItemLabelSimpleValue>
+                    ></isQItemLabelSimpleValue> -->
                     <isQItemLabelSimpleValue
                       label="category"
                       :value="item?.category"
@@ -167,7 +198,7 @@
                       "
                       :clickable="true"
                       label="description"
-                      :value="item?.description"
+                      value="Detail"
                       textcolor="text-primary"
                     ></isQItemLabelSimpleValue>
                   </q-card>
@@ -337,6 +368,7 @@
 // import PopProduct from "./components/PopProduct";
 // import ProductDialogCard from "./components/ProductDialogCard";
 // import ProductProfileDialogCard from "./components/ProductProfileDialogCard";
+import PriceReferenceStore from "./components/PriceReferenceStore";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -365,6 +397,8 @@ const {
 
   loading,
   init,
+
+  additional,
 } = storeToRefs(store); // have all reactive states here
 
 defineOptions({
@@ -379,10 +413,11 @@ defineOptions({
       publicPath,
     }) => {
       if (!currentRoute?.query?.page)
-        redirect({ name: currentRoute.name, query: { page: 1 } });
+        redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
 
       return useSouvenirProductListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
+        query: currentRoute?.query,
       });
     }
   ),
@@ -394,9 +429,10 @@ const { showMultiple } = lightbox;
 const router = useRouter();
 
 const onCurrentPage = async (val) => {
-  console.log("onCurrentPage", val);
-  router.push({ query: { page: val.value } });
-  onPaginate({ currentPage: val.value });
+  console.log("onCurrentPage", router.currentRoute.value);
+  const currentRoute = router.currentRoute.value;
+  router.push({ query: { ...currentRoute.query, page: val.value } });
+  onPaginate({ currentPage: val.value, query: currentRoute?.query });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -442,7 +478,11 @@ onBeforeRouteLeave((to, from, next) => {
 
 function getCategory(item) {
   if (!item) return [];
-  return item.split(",");
+  try {
+    return item.split(",");
+  } catch (error) {
+    return item;
+  }
 }
 
 function getSplit(item) {

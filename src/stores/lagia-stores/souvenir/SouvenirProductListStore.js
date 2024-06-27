@@ -31,6 +31,8 @@ export const useSouvenirProductListStore = defineStore('SouvenirProductListStore
 
     loading: false,
     init: false,
+
+    additional:'',
   }),
 
   getters: {
@@ -39,7 +41,7 @@ export const useSouvenirProductListStore = defineStore('SouvenirProductListStore
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage, venueId }) {
+    async onFetch ({ currentPage, venueId, query }) {
 
       if (this.loading) return false;
 
@@ -63,7 +65,9 @@ export const useSouvenirProductListStore = defineStore('SouvenirProductListStore
             perPage: this.perPage,
             page: currentPage, //this.currentPage,
             payload: [],
-            // loading: false
+            loading: false,
+
+            ...query
           }
         })
         .then((response) => {
@@ -115,10 +119,14 @@ export const useSouvenirProductListStore = defineStore('SouvenirProductListStore
 
       console.log('stores/lagia-stores/SouvenirProductListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
+      if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
+        // if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
+        this.additional = response?.data?.additional
+        console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage, venueId }) {
-      this.onFetch({ currentPage, venueId })
+    onPaginate: debounce(async function ({ currentPage, venueId, query }) {
+      this.onFetch({ currentPage, venueId, query })
     }, 500),
 
     async onClearRegister() {

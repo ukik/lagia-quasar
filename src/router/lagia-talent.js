@@ -11,6 +11,19 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/talent/talent-profile-list.vue"),
     },
+
+    {
+      path: "/talent/skill-list",
+      name: "/talent/skill-list",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Talent List',
+      },
+      component: () => import("pages/lagia-pages/talent/talent-skill-list.vue"),
+    },
+
     {
       path: "/talent/price-list",
       name: "/talent/price-list",

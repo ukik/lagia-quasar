@@ -4,11 +4,11 @@
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
       <q-img
-        v-if="item?.talentProfile?.image && item?.talentProfile?.image.length > 0"
+        v-if="item?.image && item?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.talentProfile?.image[0]"
+        :src="item?.image[0]"
       >
         <div class="absolute-top-right bg-transparent">
           <q-btn
@@ -18,7 +18,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.talentProfile?.image, 0)"
+            @click="showMultiple(item?.image, 0)"
           />
         </div>
 
@@ -110,7 +110,7 @@
         ></q-rating>
 
         <q-rating
-          v-else-if="item?.talentProfile?.ratingAvg?.avgRating"
+          v-else-if="item?.ratingAvg?.avgRating"
           readonly
           v-model="item.talentProfile.ratingAvg.avgRating"
           size="sm"
@@ -147,10 +147,42 @@
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <isQItemLabelSimpleValueNoDense
+          <isQItemLabelSimpleValueNoDense
             label="uuid"
-            :value="item?.souvenirStore?.uuid"
-          ></isQItemLabelSimpleValueNoDense> -->
+            :value="item?.uuid"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="name"
+            :value="item?.name"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="portofolio"
+            :value="item?.portofolio"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="website"
+            :value="item?.website"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="instagram"
+            :value="item?.instagram"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="tiktok"
+            :value="item?.tiktok"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="youtube"
+            :value="item?.youtube"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="facebook"
+            :value="item?.facebook"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="twitter"
+            :value="item?.twitter"
+          ></isQItemLabelSimpleValueNoDense>
 
           <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
@@ -161,7 +193,7 @@
             "
             :clickable="true"
             label="portofolio"
-            :value="item?.portofolio"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
@@ -174,7 +206,7 @@
             "
             :clickable="true"
             label="policy"
-            :value="item?.policy"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 
@@ -187,7 +219,7 @@
             "
             :clickable="true"
             label="description"
-            :value="item?.description"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValueNoDense>
 

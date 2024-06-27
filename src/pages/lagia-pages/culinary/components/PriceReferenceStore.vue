@@ -91,7 +91,7 @@
             "
             :clickable="true"
             label="policy"
-            :value="item?.policy"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
@@ -104,7 +104,7 @@
             "
             :clickable="true"
             label="description"
-            :value="item?.description"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
@@ -117,7 +117,7 @@
             "
             :clickable="true"
             label="location"
-            :value="item?.location"
+            value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
         </div>
@@ -172,7 +172,11 @@ export default {
     },
     getSplit(item) {
       if (!item) return [];
-      return item.split(",");
+      try {
+        return item.split(",");
+      } catch (error) {
+        return item;
+      }
     },
   },
 };
