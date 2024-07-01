@@ -40,8 +40,11 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
   axios.defaults.baseURL = host
 
+  axios.defaults.params = {} // wajib ada
+  axios.defaults.params['mode'] = 'human' // digunakan untuk merubah createdAt & updatedAt ke diffForHumans
+
   axios.interceptors.request.use(function (config) {
-    // console.log('axios', config.headers)
+    // console.log('axios', config.headers)mode
 
     cookies = process.env.SERVER
       ? Cookies.parseSSR(ssrContext)

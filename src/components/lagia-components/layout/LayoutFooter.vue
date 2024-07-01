@@ -146,19 +146,58 @@
       </div>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <q-card-actions class="q-pa-none" align="right">
-          <q-btn icon="fa-brands fa-instagram" round outline color="white" size="14px" :dense="false" class="q-mr-sm">
+          <q-btn
+            icon="fa-brands fa-instagram"
+            round
+            outline
+            color="white"
+            size="14px"
+            :dense="false"
+            class="q-mr-sm"
+          >
             <!-- <font-awesome :icon="['fab', 'fa-instagram']" /> -->
           </q-btn>
-          <q-btn icon="fa-brands fa-whatsapp" round outline color="white" size="14px" :dense="false" class="q-mr-sm">
+          <q-btn
+            icon="fa-brands fa-whatsapp"
+            round
+            outline
+            color="white"
+            size="14px"
+            :dense="false"
+            class="q-mr-sm"
+          >
             <!-- <font-awesome :icon="['fab', 'fa-whatsapp']" /> -->
           </q-btn>
-          <q-btn icon="fa-brands fa-facebook-f" round outline color="white" size="14px" :dense="false" class="q-mr-sm">
+          <q-btn
+            icon="fa-brands fa-facebook-f"
+            round
+            outline
+            color="white"
+            size="14px"
+            :dense="false"
+            class="q-mr-sm"
+          >
             <!-- <font-awesome :icon="['fab', 'fa-facebook-f']" /> -->
           </q-btn>
-          <q-btn icon="fa-brands fa-x-twitter" round outline color="white" size="14px" :dense="false" class="q-mr-sm">
+          <q-btn
+            icon="fa-brands fa-x-twitter"
+            round
+            outline
+            color="white"
+            size="14px"
+            :dense="false"
+            class="q-mr-sm"
+          >
             <!-- <font-awesome :icon="['fab', 'fa-x-twitter']" /> -->
           </q-btn>
-          <q-btn icon="fa-brands fa-tiktok" round outline color="white" size="14px" :dense="false">
+          <q-btn
+            icon="fa-brands fa-tiktok"
+            round
+            outline
+            color="white"
+            size="14px"
+            :dense="false"
+          >
             <!-- <font-awesome :icon="['fab', 'fa-tiktok']" /> -->
           </q-btn>
         </q-card-actions>
@@ -175,8 +214,8 @@
 </template>
 
 <script setup>
-import EasyLightbox from "./EasyLightbox";
-import { ref, defineProps } from "vue"
+// import EasyLightbox from "./EasyLightbox";
+import { ref, defineProps } from "vue";
 
 const loading = false;
 const text = ref(null);

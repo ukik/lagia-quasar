@@ -34,5 +34,16 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/souvenir/souvenir-product-list.vue"),
     },
 
+    {
+      path: "/souvenir/store-detail/:slug?",
+      name: "/souvenir/store-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/souvenir/souvenir-store-detail.vue"),
+    },
   ]
 }

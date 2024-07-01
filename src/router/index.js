@@ -22,6 +22,25 @@ import lagia from './lagia';
  */
 // import { useAuthStore } from 'src/stores/auth/auth';
 
+function isNullOrUndefined(obj) {
+  return typeof obj === "undefined" || obj === null;
+}
+
+function isNotNullOrUndefined(obj) {
+  return typeof obj !== "undefined" || obj !== null;
+}
+
+function backTop(to) {
+  if (isNotNullOrUndefined(to.query.lockY)) {
+    if (to.query.lockY) {
+      return isNaN(to.query.lockY) ? to.meta.savedPositionY : to.query.lockY
+    }
+    return 0
+  }
+}
+
+
+
 export default route(function ({ store, ssrContext }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
@@ -32,7 +51,51 @@ export default route(function ({ store, ssrContext }) {
     : Cookies // otherwise we're on client
 
   const Router = createRouter({
-    scrollBehavior: () => ({ left: 0, top: 0 }),
+    // scrollBehavior: () => ({ left: 0, top: 0 }),
+    // scrollBehavior: () => ({ x: 0, y: 0 }),
+    scrollBehavior(to, from, savedPosition) {
+      console.log('scrollBehavior', to)
+      if (to.name == 'artikel') {
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0
+          });
+        }, 250)
+        return
+      }
+      // else if (to.name == 'kategori_list' ) {
+
+      // }
+      if (to.query.footerY) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0
+          });
+        }, 250)
+        return
+      }
+
+      // console.log('scrollBehavior', from.meta.savedPositionY, to.meta.savedPosition, savedPosition, from.meta.keepAlive, document.body.scrollTop)
+      if (savedPosition) {
+        return savedPosition;
+      } else {
+        if (from.meta.keepAlive) {
+          from.meta.savedPosition = document.body.scrollTop;
+        }
+        return {
+          x: 0,
+          y: backTop(to), //to.meta.savedPosition || 0
+        };
+      }
+      // console.log('savedPositionY from', from.name, from.meta.savedPositionY)
+      // console.log('savedPositionY to', to.name, to.meta.savedPositionY)
+      // console.log('scrollY', isNullOrUndefined(to.query.scrollY))
+      // return {
+      //   x: 0,
+      //   y: isNullOrUndefined(to.query.scrollY) ? to.meta.savedPositionY : to.query.scrollY
+      // };
+    },
+
     // routes,
     routes: [
       ...routes(store, cookies, ssrContext),

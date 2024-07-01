@@ -35,5 +35,19 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/talent/talent-price-list.vue"),
     },
+
+    {
+      path: "/talent/profile-detail/:slug?",
+      name: "/talent/profile-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/talent/talent-profile-detail.vue"),
+    },
+
+
   ]
 }

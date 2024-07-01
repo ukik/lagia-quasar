@@ -8,7 +8,7 @@
               <li class="menu-active">
                 <router-link to="/">Home</router-link>
               </li>
-              
+
               <!-- <li>
                 <router-link to="consult">Konsultasi</router-link>
               </li> -->
@@ -41,11 +41,11 @@
                     <router-link to="package-detail">Tour Guide</router-link>
                   </li>
                   <li>
-                    <router-link to="cart">Destination</router-link>
+                    <router-link to="/lagia/destination">Destination</router-link>
                   </li>
                 </ul>
               </li>
-              
+
               <li class="menu-item-has-children">
                 <a to="">Produk</a>
                 <ul class="shadow-3">
@@ -89,7 +89,7 @@
                     <router-link to="cart">Testimonial</router-link>
                   </li>
                   <li class="menu-item-has-children">
-                    <!-- <a to="" :class="[ 
+                    <!-- <a to="" :class="[
                       $route.name == 'career' ? 'router-link-exact-active' : '',
                     $route.name == 'career-detail' ? 'router-link-exact-active' : '' ]">Info</a> -->
                     <a>Info</a>
@@ -112,7 +112,7 @@
                 <a to="">Akun</a>
                 <ul class="shadow-3">
                   <li class="menu-item-has-children">
-                    <!-- <a to="" :class="[ 
+                    <!-- <a to="" :class="[
                       $route.name == 'career' ? 'router-link-exact-active' : '',
                     $route.name == 'career-detail' ? 'router-link-exact-active' : '' ]">Info</a> -->
                     <a>Transaksi</a>
@@ -132,7 +132,7 @@
                     </ul>
                   </li>
                   <li class="menu-item-has-children">
-                    <!-- <a to="" :class="[ 
+                    <!-- <a to="" :class="[
                       $route.name == 'career' ? 'router-link-exact-active' : '',
                     $route.name == 'career-detail' ? 'router-link-exact-active' : '' ]">Info</a> -->
                     <a>Biodata</a>
@@ -149,7 +149,7 @@
                     </ul>
                   </li>
                   <li class="menu-item-has-children">
-                    <!-- <a to="" :class="[ 
+                    <!-- <a to="" :class="[
                       $route.name == 'career' ? 'router-link-exact-active' : '',
                     $route.name == 'career-detail' ? 'router-link-exact-active' : '' ]">Info</a> -->
                     <a>Partnership</a>
@@ -178,7 +178,7 @@
                     <router-link to="service">Service</router-link>
                   </li>
                   <li class="menu-item-has-children">
-                    <a to="" :class="[ 
+                    <a to="" :class="[
                       $route.name == 'career' ? 'router-link-exact-active' : '',
                     $route.name == 'career-detail' ? 'router-link-exact-active' : '' ]">Career</a>
                     <ul>

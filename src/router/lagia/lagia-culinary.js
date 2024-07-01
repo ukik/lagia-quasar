@@ -34,5 +34,17 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/culinary/culinary-product-list.vue"),
     },
+
+    {
+      path: "/culinary/store-detail/:slug?",
+      name: "/culinary/store-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/culinary/culinary-store-detail.vue"),
+    },
   ]
 }

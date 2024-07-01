@@ -90,17 +90,18 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.component('MorePackageSide',
     defineAsyncComponent(() => import('src/components/lagia-components/MorePackageSide.vue'))
   )
+
   app.component('LayoutRightDrawerContent',
-    defineAsyncComponent(() => import('src/components/lagia-components/LayoutRightDrawerContent.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/layout/LayoutRightDrawerContent.vue'))
   )
   app.component('LayoutLeftMenu',
-    defineAsyncComponent(() => import('src/components/lagia-components/LayoutLeftMenu.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/layout/LayoutLeftMenu.vue'))
   )
   app.component('LayoutHeaderMenu',
-    defineAsyncComponent(() => import('src/components/lagia-components/LayoutHeaderMenu.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/layout/LayoutHeaderMenu.vue'))
   )
   app.component('LayoutFooter',
-    defineAsyncComponent(() => import('src/components/lagia-components/LayoutFooter.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/layout/LayoutFooter.vue'))
   )
 
 
@@ -324,5 +325,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.component("isImageSlideCarousel",
     defineAsyncComponent(() => import('src/components/lagia-components/isImageSlideCarousel.vue'))
   )
-
+  app.component("isDestinationRatingNoFloat",
+    defineAsyncComponent(() => import('src/components/lagia-components/isDestinationRatingNoFloat.vue'))
+  )
 })

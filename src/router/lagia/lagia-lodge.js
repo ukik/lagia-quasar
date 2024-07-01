@@ -34,5 +34,16 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/lodge/lodge-price-list.vue"),
     },
 
+    {
+      path: "/lodge/profile-detail/:slug?",
+      name: "/lodge/profile-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/lodge/lodge-profile-detail.vue"),
+    },
   ]
 }

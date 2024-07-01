@@ -1,5 +1,5 @@
 <template>
-  <q-item class="col-12" v-if="$q.screen.width > 768">
+  <q-item :class="[col]" v-if="$q.screen.width > 768">
     <q-item-section>
       <q-item-label class="text-capitalize">{{ label }}</q-item-label>
     </q-item-section>
@@ -17,6 +17,19 @@
 
 <script>
 export default {
-  props: ['label','value']
-}
+  props: {
+    label: {
+      default: "",
+    },
+    value: {
+      default: "none",
+    },
+    col: {
+      default: "col-12",
+    },
+    icon: {
+      default: "fa-solid fa-house-medical",
+    },
+  },
+};
 </script>

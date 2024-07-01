@@ -2,8 +2,9 @@
   <q-item
     :clickable="clickable"
     @click="$emit('onBubbleEvent')"
-    dense
-    class="col-12 isQItemLabelSimpleValue"
+    :dense="dense"
+    class="isQItemLabelSimpleValue"
+    :class="[col]"
   >
     <q-item-section avatar>
       <q-item-label class="text-capitalize">{{ label }}</q-item-label>
@@ -16,7 +17,30 @@
 
 <script>
 export default {
-  props: ["label", "value", "clickable", "textcolor"],
+  // props: ["label", "value", "clickable", "textcolor"],
+  props: {
+    label: {
+      default: "",
+    },
+    value: {
+      default: "none",
+    },
+    col: {
+      default: "col-12",
+    },
+    icon: {
+      default: "fa-solid fa-house-medical",
+    },
+    clickable: {
+      default: false,
+    },
+    textcolor: {
+      default: "",
+    },
+    dense: {
+      default: true,
+    },
+  },
 };
 </script>
 
