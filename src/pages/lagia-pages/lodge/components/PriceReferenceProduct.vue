@@ -6,41 +6,24 @@
     :class="[$q.screen.width > 768 ? 'rounded-borders-2' : '']"
   >
     <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-      <!-- <q-img
-        v-if="item?.image && item?.image.length > 0"
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.image[0]"
-        :error-src="$defaultErrorImage"
-      >
-        <div class="absolute-top-right bg-transparent">
-          <q-btn
-            size="16px"
-            rounded
-            dense
-            color="white"
-            text-color="primary"
-            icon="fullscreen"
-            @click="showMultiple(item?.image, 0)"
-          />
-        </div>
-
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center text-white">Cannot load image</div>
-        </template>
-      </q-img>
-      <q-img
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        v-else
-        :src="$defaultErrorImage"
-      /> -->
-
       <q-card-section class="bg-grey-2 row col flex items-start">
         <div class="text-box full-width q-px-sm col-12 text-capitalize">
-          <h6>{{ item?.name }}</h6>
+          <q-item
+            dense
+            clickable
+            class="q-pa-none"
+            :to="{
+              name: '/lodge/price-list',
+              query: {
+                product: item?.id,
+              },
+            }"
+          >
+            <q-item-section class="text-h6">
+              <q-item-label>{{ item?.name }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <q-item dense>
             <q-item-section>
               <q-item-label lines="1">Rating</q-item-label>

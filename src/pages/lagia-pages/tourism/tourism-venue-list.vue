@@ -295,15 +295,22 @@
 
             <q-card-section class="bg-grey-2 row col flex items-start">
               <div class="text-box full-width q-px-sm col-12 text-capitalize">
-                <h3>{{ item?.name }}</h3>
-                <!-- <q-item dense>
-                  <q-item-section>
-                    <q-item-label lines="1">uuid</q-item-label>
+                <!-- <h3>{{ item?.name }}</h3> -->
+                <q-item
+                  dense
+                  clickable
+                  class="q-pa-none"
+                  :to="{
+                    name: '/tourism/facilities-list',
+                    query: {
+                      vendor: item?.id,
+                    },
+                  }"
+                >
+                  <q-item-section class="text-h6">
+                    <q-item-label>{{ item?.name }}</q-item-label>
                   </q-item-section>
-                  <q-item-section side>
-                    <q-item-label lines="1">{{ item?.uuid }}</q-item-label>
-                  </q-item-section>
-                </q-item> -->
+                </q-item>
 
                 <isQItemLabelSimpleValue
                   label="Nama"

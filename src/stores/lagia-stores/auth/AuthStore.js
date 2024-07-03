@@ -1,11 +1,15 @@
 import { defineStore } from 'pinia';
 
 // import domains from 'src/settings/domains'
-import { api } from 'src/settings/axios'
+// import { api } from 'src/settings/axios'
 
 // const { apiDomain } = domains()
 
+// import axios from 'axios'
+
 import axios from 'axios'
+
+const api = axios.create({ baseURL: 'http://127.0.0.1:8000' })
 
 import { Notify, Cookies } from 'quasar'
 

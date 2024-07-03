@@ -37,7 +37,7 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
-      path: "/talent/profile-detail/:slug?",
+      path: "/talent/profile-detail/:slug/:slug_text?",
       name: "/talent/profile-detail",
       meta: {
         ssr: true,
@@ -48,6 +48,17 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/talent/talent-profile-detail.vue"),
     },
 
+    {
+      path: "/talent/price-detail/:slug/:slug_text?",
+      name: "/talent/price-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/talent/talent-price-detail.vue"),
+    },
 
   ]
 }

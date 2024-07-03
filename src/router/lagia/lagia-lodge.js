@@ -35,7 +35,7 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
-      path: "/lodge/profile-detail/:slug?",
+      path: "/lodge/profile-detail/:slug/:slug_text?",
       name: "/lodge/profile-detail",
       meta: {
         ssr: true,
@@ -44,6 +44,19 @@ export default function (store, cookies, ssrContext) {
         title: 'Harga Rental',
       },
       component: () => import("pages/lagia-pages/lodge/lodge-profile-detail.vue"),
+    },
+
+
+    {
+      path: "/lodge/price-detail/:slug/:slug_text?",
+      name: "/lodge/price-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/lodge/lodge-price-detail.vue"),
     },
   ]
 }

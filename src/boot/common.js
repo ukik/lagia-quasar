@@ -121,7 +121,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$formatTime = formatTime;
   app.config.globalProperties.$formatDate = formatDate;
   app.config.globalProperties.$stringToBoolean = stringToBoolean;
-  app.config.globalProperties.$defaultUser = "http://localhost:8000/storage/photos/shares/default-user.png";
+  app.config.globalProperties.$defaultUser = "assets/default-user.png";
   app.config.globalProperties.$defaultErrorImage = "https://cdn.quasar.dev/logo-v2/header.png";
 
   app.config.globalProperties.$finalPrice = finalPrice;

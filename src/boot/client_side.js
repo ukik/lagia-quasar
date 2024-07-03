@@ -203,10 +203,12 @@ export default boot( async ({ app, ssrContext, router, store }) => {
 		defineAsyncComponent(() => import('src/components/ReplayChip.vue'))
 	)
 
+
+
   app.component("isModalDescription",
-    defineAsyncComponent(() => import('src/components/lagia-components/isModalDescription.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isModalDescription.vue'))
   )
-  
+
 
   // app.component('EasyLightbox',
   //   defineAsyncComponent(() => import('src/components/lagia-components/EasyLightbox.vue'))

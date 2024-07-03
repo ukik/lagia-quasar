@@ -322,6 +322,12 @@
                   color="form"
                   text-color="white"
                   label="selengkapnya"
+                  :to="{
+                    name: '/transport/price-list',
+                    query: {
+                      product: item?.id,
+                    },
+                  }"
                 />
               </div>
             </q-card-section>

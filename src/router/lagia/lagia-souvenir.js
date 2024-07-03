@@ -35,7 +35,7 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
-      path: "/souvenir/store-detail/:slug?",
+      path: "/souvenir/store-detail/:slug/:slug_text?",
       name: "/souvenir/store-detail",
       meta: {
         ssr: true,
@@ -44,6 +44,18 @@ export default function (store, cookies, ssrContext) {
         title: 'Harga Rental',
       },
       component: () => import("pages/lagia-pages/souvenir/souvenir-store-detail.vue"),
+    },
+
+    {
+      path: "/souvenir/price-detail/:slug/:slug_text?",
+      name: "/souvenir/price-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/souvenir/souvenir-price-detail.vue"),
     },
   ]
 }

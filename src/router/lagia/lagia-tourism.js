@@ -34,7 +34,7 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/tourism/tourism-price-list.vue"),
     },
     {
-      path: "/tourism/venue-detail/:slug?",
+      path: "/tourism/venue-detail/:slug/:slug_text?",
       name: "/tourism/venue-detail",
       meta: {
         ssr: true,
@@ -43,6 +43,18 @@ export default function (store, cookies, ssrContext) {
         title: 'Harga Rental',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-venue-detail.vue"),
+    },
+
+    {
+      path: "/tourism/price-detail/:slug/:slug_text?",
+      name: "/tourism/price-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/tourism/tourism-price-detail.vue"),
     },
 
 

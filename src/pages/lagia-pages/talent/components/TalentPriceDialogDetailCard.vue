@@ -270,7 +270,7 @@
 
       <q-separator></q-separator>
 
-      <q-card-actions align="center">
+      <!-- <q-card-actions align="center">
         <q-btn
           outline
           flat
@@ -279,7 +279,35 @@
           size="md"
           label="Add To Cart"
         />
-      </q-card-actions>
+      </q-card-actions> -->
+
+      <q-card-section class="q-pa-none">
+        <slot :scoped="item" name="buttongroup">
+          <q-btn-group spread unelevated>
+            <q-btn
+              @click="
+                $emit('onBubbleEvent', {
+                  label: 'detail',
+                  payload: item,
+                })
+              "
+              label="Add To Cart"
+              icon="shopping_cart_checkout"
+            />
+            <!-- <q-separator vertical></q-separator>
+            <q-btn
+              @click="
+                $emit('onBubbleEvent', {
+                  label: 'store',
+                  payload: item,
+                })
+              "
+              label="store"
+              icon="storefront"
+            /> -->
+          </q-btn-group>
+        </slot>
+      </q-card-section>
 
       <!-- <q-slide-transition>
         <div v-show="expanded">

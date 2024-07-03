@@ -1,7 +1,7 @@
 <template>
   <!-- <div class="q-mt-lg q-py-none col-12"> -->
   <q-list bordered v-if="item">
-    <q-expansion-item group="somegroup" header-class="bg-grey-1" default-opened>
+    <q-expansion-item group="somegroup1" header-class="bg-grey-1" default-opened>
       <template v-slot:header>
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
@@ -50,13 +50,13 @@
 </template>
 
 <script>
-import PriceReferenceStore from "./PriceReferenceStore";
+// import PriceReferenceStore from "./PriceReferenceStore";
 import PriceReferenceProduct from "./PriceReferenceProduct";
 
 export default {
   props: ["item"],
   components: {
-    PriceReferenceStore,
+    // PriceReferenceStore,
     PriceReferenceProduct,
   },
 };

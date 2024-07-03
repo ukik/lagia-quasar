@@ -30,7 +30,7 @@
           <img v-if="record?.badasoUser?.avatar" :src="record?.badasoUser?.avatar" />
           <img
             v-else
-            src="http://localhost:8000/storage/photos/shares/default-user.png"
+            :src="$defaultUser"
           />
         </q-avatar>
       </q-item-section>

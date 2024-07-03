@@ -13,7 +13,12 @@
                 <router-link to="consult">Konsultasi</router-link>
               </li> -->
               <li>
-                <router-link to="destination">Contact Us</router-link>
+                <router-link
+                  :to="{
+                    name: '/lagia/contact-us',
+                  }"
+                  >Contact Us</router-link
+                >
               </li>
 
               <!-- <li class="menu-item-has-children">

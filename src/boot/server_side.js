@@ -298,34 +298,34 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     defineAsyncComponent(() => import('src/components/lagia-components/NoData.vue'))
   )
 
+
+
+
   app.component("isAvailable",
-    defineAsyncComponent(() => import('src/components/lagia-components/isAvailable.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isAvailable.vue'))
   )
   app.component("isAvailableChip",
-    defineAsyncComponent(() => import('src/components/lagia-components/isAvailableChip.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isAvailableChip.vue'))
   )
   app.component("isQItemLabelSimpleValue",
-    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelSimpleValue.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isQItemLabelSimpleValue.vue'))
   )
   app.component("isQItemLabelSimpleValueNoDense",
-    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelSimpleValueNoDense.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isQItemLabelSimpleValueNoDense.vue'))
   )
   app.component("isQItemLabelValueIcon",
-    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelValueIcon.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isQItemLabelValueIcon.vue'))
   )
-
-
-
   app.component("isQItemLabelValue",
-    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelValue.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isQItemLabelValue.vue'))
   )
   app.component("isQItemLabelValueMobile",
-    defineAsyncComponent(() => import('src/components/lagia-components/isQItemLabelValueMobile.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isQItemLabelValueMobile.vue'))
   )
   app.component("isImageSlideCarousel",
-    defineAsyncComponent(() => import('src/components/lagia-components/isImageSlideCarousel.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isImageSlideCarousel.vue'))
   )
   app.component("isDestinationRatingNoFloat",
-    defineAsyncComponent(() => import('src/components/lagia-components/isDestinationRatingNoFloat.vue'))
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isDestinationRatingNoFloat.vue'))
   )
 })

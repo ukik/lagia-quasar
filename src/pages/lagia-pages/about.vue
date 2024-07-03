@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import globalMixin from "@/plugins/mixins/globalMixin";
+import globalMixin from "src/plugins/mixins/globalMixin";
 export default {
   mixins: [globalMixin],
 };

@@ -291,6 +291,12 @@
                   color="form"
                   text-color="white"
                   label="selengkapnya"
+                  :to="{
+                    name: '/souvenir/price-list',
+                    query: {
+                      product: item?.id,
+                    },
+                  }"
                 />
               </div>
             </q-card-section>

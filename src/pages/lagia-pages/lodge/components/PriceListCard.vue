@@ -1,36 +1,6 @@
 <template>
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- {{ item?.transportVehicle?.image }} -->
-      <!-- <q-img
-        v-if="!item?.transportVehicle?.image"
-        style="height: 300px"
-        :src="item?.transportVehicle?.image"
-        :error-src="$defaultErrorImage"
-      >
-        <q-badge
-          :color="badgeCondition(item?.condition)"
-          class="q-mr-lg rounded-borders-2"
-          style="margin-top: -17px"
-          floating
-          ><span class="text-title text-uppercase q-mt-md">{{
-            item?.condition
-          }}</span></q-badge
-        >
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center">Error encountered</div>
-          <q-badge
-            :color="badgeCondition(item?.condition)"
-            class="q-mr-lg rounded-borders-2"
-            style="margin-top: -17px"
-            floating
-            ><span class="text-title text-uppercase q-mt-md">{{
-              item?.condition
-            }}</span></q-badge
-          >
-        </template>
-      </q-img> -->
-
       <q-img
         v-if="item?.lodgeRoom?.image && item?.lodgeRoom?.image.length > 0"
         loading="lazy"
@@ -71,17 +41,6 @@
         :src="$defaultErrorImage"
       />
 
-      <!-- <q-img
-        loading="lazy"
-        style="height: 300px"
-        v-if="!item?.lodgeRoom?.image"
-        :src="$defaultErrorImage"
-      />
-      <ImageSlideCarousel
-        v-else
-        :_gallery="item?.lodgeRoom?.image"
-      ></ImageSlideCarousel> -->
-
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
         <DestinationRating
@@ -96,7 +55,22 @@
           >{{ item?.typePrice }}</q-chip
         > -->
 
-        <div class="text-h6 q-mb-xs">{{ item?.name }}</div>
+        <q-item
+          dense
+          clickable
+          class="q-pa-none"
+          :to="{
+            name: '/lodge/price-detail',
+            params: {
+              slug: item?.id,
+              slug_text: item?.name,
+            },
+          }"
+        >
+          <q-item-section class="text-h6 q-mb-xs">
+            <q-item-label>{{ item?.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item-label caption>{{ item?.createdAt }}</q-item-label>
 
         <div class="row text-white">

@@ -45,7 +45,7 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/transport/transport-price-list.vue"),
     },
     {
-      path: "/transport/rental-detail/:slug?",
+      path: "/transport/rental-detail/:slug/:slug_text?",
       name: "/transport/rental-detail",
       meta: {
         ssr: true,
@@ -54,6 +54,17 @@ export default function (store, cookies, ssrContext) {
         title: 'Harga Rental',
       },
       component: () => import("pages/lagia-pages/transport/transport-rental-detail.vue"),
+    },
+    {
+      path: "/transport/price-detail/:slug/:slug_text?",
+      name: "/transport/price-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/transport/transport-price-detail.vue"),
     },
 
 

@@ -7,47 +7,23 @@
     :class="[$q.screen.width > 768 ? 'rounded-borders-2' : '']"
   >
     <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-      <!-- <q-img
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="$getImage(item?.category)"
-        :error-src="$defaultErrorImage"
-      >
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center text-white">Cannot load image</div>
-        </template>
-      </q-img> -->
-
       <q-card-section class="bg-grey-2 row col flex items-start">
         <div class="text-box full-width q-px-sm col-12 text-capitalize">
-          <h6>{{ item?.name }}</h6>
-          <!-- <q-item dense>
-            <q-item-section>
-              <q-item-label lines="1">Rating</q-item-label>
+          <q-item
+            dense
+            clickable
+            class="q-pa-none"
+            :to="{
+              name: '/talent/price-list',
+              query: {
+                product: item?.id,
+              },
+            }"
+          >
+            <q-item-section class="text-h6">
+              <q-item-label>{{ item?.name }}</q-item-label>
             </q-item-section>
-            <q-item-section side>
-              <q-item-label lines="1">
-                <q-rating
-                  v-if="item?.ratingAvg?.avgRating"
-                  readonly
-                  v-model="item.ratingAvg.avgRating"
-                  size="xs"
-                  :max="5"
-                  color="red"
-                ></q-rating>
-
-                <q-rating
-                  v-else
-                  readonly
-                  v-model="ratingZero"
-                  size="xs"
-                  :max="5"
-                  color="red"
-                ></q-rating>
-              </q-item-label>
-            </q-item-section>
-          </q-item> -->
+          </q-item>
 
           <isQItemLabelSimpleValue
             @onBubbleEvent="

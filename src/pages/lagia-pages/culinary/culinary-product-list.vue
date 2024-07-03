@@ -4,82 +4,6 @@
 
   <q-no-ssr>
     <isModalDescription ref="isModal"></isModalDescription>
-
-    <!-- PROFILE -->
-    <!-- <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="lodge_profiles"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Detail Hotel</div>
-            <q-space></q-space>
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <ProductProfileDialogCard :item="record"></ProductProfileDialogCard>
-        </q-card-section>
-      </q-card>
-    </q-dialog> -->
-
-    <!-- FASILITAS -->
-    <!-- <q-dialog
-      full-width
-      v-model="lodge_facility"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6">Fasilitas Umum</div>
-            <q-space></q-space>
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <PopProduct :record="record?.lodgeProfile?.lodgeFacility"></PopProduct>
-        </q-card-section>
-      </q-card>
-    </q-dialog> -->
-
-    <!-- DETAIL -->
-    <!-- <q-dialog
-      full-width
-      full-height
-      :maximized="$q.screen.width <= 768"
-      v-model="modal_detail"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-        <q-card-section class="q-py-none">
-          <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">Detail Kamar</div>
-            <q-space></q-space>
-            <q-btn dense flat icon="close" v-close-popup></q-btn>
-          </q-toolbar>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="height: calc(99.5% - 50px)" class="scroll">
-          <ProductDialogCard :record="record"></ProductDialogCard>
-        </q-card-section>
-      </q-card>
-    </q-dialog> -->
   </q-no-ssr>
 
   <!-- ***Inner Banner html end here*** -->
@@ -291,6 +215,12 @@
                   color="form"
                   text-color="white"
                   label="selengkapnya"
+                  :to="{
+                    name: '/culinary/price-list',
+                    query: {
+                      product: item?.id,
+                    },
+                  }"
                 />
               </div>
             </q-card-section>

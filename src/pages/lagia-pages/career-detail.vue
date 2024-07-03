@@ -48,9 +48,9 @@
 
       <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12">
         <div class="full-width">
-          <q-btn to="#tab_1"
+          <q-btn
+            to="#tab_1"
             @click="tab = 1"
-            
             unelevated
             rounded
             :outline="!(tab == 1)"
@@ -58,9 +58,9 @@
             color="primary"
             label="JOB DESCRIPTION"
           />
-          <q-btn to="#tab_2"
+          <q-btn
+            to="#tab_2"
             @click="tab = 2"
-            
             unelevated
             rounded
             :outline="!(tab == 2)"
@@ -68,13 +68,13 @@
             color="primary"
             label="EXPERIENCE"
           />
-          <q-btn to="#tab_3"
+          <q-btn
+            to="#tab_3"
             @click="tab = 3"
-            
             unelevated
             rounded
             :outline="!(tab == 3)"
-            class=" q-mb-md rounded-borders-4"
+            class="q-mb-md rounded-borders-4"
             color="primary"
             label="REQUIREMENT"
           />
@@ -128,10 +128,8 @@
               Quasi natoque dicta a fuga dapibus dolore molestie sociis erat, convallis
               quibusdam possimus semper nonummy mattis, quasi.
             </p>
-
           </q-card-section>
         </q-card>
-
       </div>
     </div>
   </div>
@@ -144,21 +142,22 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-          <CareerDetailHow></CareerDetailHow>
-        </div>
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-          <CareerDetailSummary></CareerDetailSummary>
-        </div>
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-          <CareerDetailSend></CareerDetailSend>
-        </div>
-      
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+        <CareerDetailHow></CareerDetailHow>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+        <CareerDetailSummary></CareerDetailSummary>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+        <CareerDetailSend></CareerDetailSend>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
+
 const tab = ref(1);
 
 const content = {

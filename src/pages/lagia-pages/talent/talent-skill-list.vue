@@ -307,6 +307,12 @@
                   color="form"
                   text-color="white"
                   label="selengkapnya"
+                  :to="{
+                    name: '/talent/price-list',
+                    query: {
+                      product: item?.id,
+                    },
+                  }"
                 />
               </div>
             </q-card-section>

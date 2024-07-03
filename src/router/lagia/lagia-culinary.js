@@ -36,7 +36,7 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
-      path: "/culinary/store-detail/:slug?",
+      path: "/culinary/store-detail/:slug/:slug_text?",
       name: "/culinary/store-detail",
       meta: {
         ssr: true,
@@ -45,6 +45,18 @@ export default function (store, cookies, ssrContext) {
         title: 'Harga Rental',
       },
       component: () => import("pages/lagia-pages/culinary/culinary-store-detail.vue"),
+    },
+
+    {
+      path: "/culinary/price-detail/:slug/:slug_text?",
+      name: "/culinary/price-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'Harga Rental',
+      },
+      component: () => import("pages/lagia-pages/culinary/culinary-price-detail.vue"),
     },
   ]
 }

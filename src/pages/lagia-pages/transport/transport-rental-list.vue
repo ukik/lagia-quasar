@@ -172,7 +172,22 @@
 
             <q-card-section class="bg-grey-2 row col flex items-start">
               <div class="text-box full-width q-px-sm col-12 text-capitalize">
-                <h3>{{ item?.name }}</h3>
+                <!-- <h3>{{ item?.name }}</h3> -->
+                <q-item
+                  dense
+                  clickable
+                  class="q-pa-none"
+                  :to="{
+                    name: '/transport/vehicle-list',
+                    query: {
+                      vendor: item?.id,
+                    },
+                  }"
+                >
+                  <q-item-section class="text-h6">
+                    <q-item-label>{{ item?.name }}</q-item-label>
+                  </q-item-section>
+                </q-item>
 
                 <isQItemLabelSimpleValue
                   label="codepos"

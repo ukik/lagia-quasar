@@ -227,7 +227,23 @@
                 </q-card-section>
                 <q-separator />
                 <q-card-section class="bg-white">
-                  <h3>{{ item?.name }}</h3>
+                  <!-- <h3>{{ item?.name }}</h3> -->
+                  <q-item
+                    dense
+                    clickable
+                    class="q-pa-none"
+                    :to="{
+                      name: '/talent/skill-list',
+                      query: {
+                        vendor: item?.id,
+                      },
+                    }"
+                  >
+                    <q-item-section class="text-h6">
+                      <q-item-label>{{ item?.name }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
                   <q-btn
                     @click="
                       talent_skills = true;

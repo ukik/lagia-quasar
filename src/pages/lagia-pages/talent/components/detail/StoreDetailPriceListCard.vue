@@ -49,6 +49,28 @@
           color="grey"
         ></q-rating> -->
       </q-card-section>
+
+      <q-separator></q-separator>
+      <q-card-section>
+        <q-item
+          dense
+          clickable
+          class="q-pa-none"
+          :to="{
+            name: '/talent/price-detail',
+            params: {
+              slug: item?.id,
+              slug_text: item?.name,
+            },
+          }"
+        >
+          <q-item-section class="text-h6 q-mb-xs">
+            <q-item-label>{{ item?.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item-label caption>{{ item?.createdAt }}</q-item-label>
+      </q-card-section>
+
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
