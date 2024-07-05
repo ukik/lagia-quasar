@@ -69,28 +69,33 @@
         </q-tabs>
       </q-card>
 
-      <q-tab-panels class="col-12 " :class="[$q.screen.width > 425 ? 'q-mt-xl' : '']" v-model="tab" animated>
-        <q-tab-panel name="hotel" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']" >
+      <q-tab-panels
+        class="col-12"
+        :class="[$q.screen.width > 425 ? 'q-mt-xl' : '']"
+        v-model="tab"
+        animated
+      >
+        <q-tab-panel name="hotel" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']">
           <TransactionHistoryProduct></TransactionHistoryProduct>
         </q-tab-panel>
 
-        <q-tab-panel name="kuliner" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']" >
+        <q-tab-panel name="kuliner" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']">
           <TransactionHistoryProduct></TransactionHistoryProduct>
         </q-tab-panel>
 
-        <q-tab-panel name="rental" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']" >
+        <q-tab-panel name="rental" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']">
           <TransactionHistoryProduct></TransactionHistoryProduct>
         </q-tab-panel>
 
-        <q-tab-panel name="suvenir" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']" >
+        <q-tab-panel name="suvenir" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']">
           <TransactionHistoryProduct></TransactionHistoryProduct>
         </q-tab-panel>
 
-        <q-tab-panel name="talent" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']" >
+        <q-tab-panel name="talent" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']">
           <TransactionHistoryProduct></TransactionHistoryProduct>
         </q-tab-panel>
 
-        <q-tab-panel name="travel" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']" >
+        <q-tab-panel name="travel" :class="[$q.screen.width > 425 ? '' : 'q-pa-none']">
           <TransactionHistoryProduct></TransactionHistoryProduct>
         </q-tab-panel>
       </q-tab-panels>
@@ -101,16 +106,29 @@
 </template>
 
 <script setup>
-const route = useRoute();
-const router = useRouter()
+// import { useRoute } from "src/stores/lagia-stores/RouterStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+import { ref, onMounted } from "vue";
+// const route = useRoute();
+
+const router = useRouter();
 const tab = ref("");
-tab.value = route.query?.tab;
+
+tab.value = router.currentRoute.value?.query?.tab;
+
 onMounted(() => {
-  if(tab.value != 'hotel' || tab.value != 'kuliner'  || tab.value != 'rental'  || tab.value != 'suvenir'  || tab.value != 'talent'  || tab.value != 'travel' ) {
-    router.replace({ query: { tab: 'hotel' } })
-    tab.value = 'hotel';
+  if (
+    tab.value != "hotel" ||
+    tab.value != "kuliner" ||
+    tab.value != "rental" ||
+    tab.value != "suvenir" ||
+    tab.value != "talent" ||
+    tab.value != "travel"
+  ) {
+    router.replace({ query: { tab: "hotel" } });
+    tab.value = "hotel";
   }
-})
+});
 
 const content = `<p>
             Assumenda mattis condimentum morbi ipsam felis orci, urna placeat blandit

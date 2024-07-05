@@ -11,52 +11,88 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <!--  -->
-      <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12 q-gutter-y-lg">
-        <q-banner class="bg-grey-2 rounded-borders-2">
-          <!-- <template v-slot:avatar>
-            <q-icon name="signal_wifi_off" color="primary" />
-          </template> -->
-          <div class="head q-pa-lg">
-            <h4 class="title">PENDAPAT MEREKA TENTANG LAGIA</h4>
-            <div class="subtitle">
-              LAGIA telah melayani liburan banyak orang, dan inilah pendapat mereka
-            </div>
-          </div>
+      <div
+        v-for="(item, index) in content?.cards"
+        class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"
+      >
+        <q-card flat bordered class="rounded-borders-2 q-pa-md">
+          <q-card-actions>
+            <q-rating
+              flat
+              readonly
+              v-model="rating"
+              size="sm"
+              :max="5"
+              color="primary"
+            ></q-rating>
+          </q-card-actions>
+          <q-card-actions>
+            <q-item-label
+              :style="$q.screen.width > 768 ? 'height:72px;' : 'height:auto;'"
+              :lines="$q.screen.width > 768 ? 3 : 100"
+              >{{ item?.subtitle }}</q-item-label
+            >
+          </q-card-actions>
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar size="70px">
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label lines="1">WILLIAM WRIGHT</q-item-label>
+              <q-item-label caption class="text-primary" lines="1"
+                >TRAVELLERS</q-item-label
+              >
+            </q-item-section>
+          </q-item>
+          <!-- <q-img loading="lazy" :ratio="16 / 9" class="card-box" :src="item?.image">
+            <template v-slot:error>
+              <div class="absolute-full flex flex-center bg-negative text-white">
+                Cannot load image
+              </div>
+            </template>
 
-          <!-- <template v-slot:action>
-            <q-btn flat color="primary" label="Turn on Wifi" />
-          </template> -->
-        </q-banner>
-
-        <template v-for="(item, index) in content?.cards">
-          <q-card flat bordered class="rounded-borders-2">
-            <q-card-actions class="q-pa-md q-mb-none">
-              <q-item-label class="q-mb-md">{{ item?.subtitle }}</q-item-label>
-              <q-rating
+            <div class="absolute-full bg-transparent flex justify-center items-end">
+              <q-card
                 flat
-                readonly
-                v-model="rating"
-                size="sm"
-                :max="5"
-                color="primary"
-              ></q-rating>
-            </q-card-actions>
-
-            <ImageCard :image="item?.image"></ImageCard>
-          </q-card>
-        </template>
-      </div>
-      <div class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
-        <q-no-ssr>
-          <FormBookingPackageSide
-            class="col-12"
-            :class="[$q.screen.width > 768 ? '' : 'q-mt-xl order-last']"
-          ></FormBookingPackageSide>
-        </q-no-ssr>
-        <!-- <MorePackageSide class="col-12"></MorePackageSide>
-        <RelatedImageSlide class="col-12"></RelatedImageSlide>
-        <GoogleMapPackageSide class="col-12"></GoogleMapPackageSide> -->
+                class="text-box text-center text-dark q-mt-lg full-width rounded-borders-2"
+              >
+                <q-card-section>
+                  <q-btn-group spread flat rounded unelevated class="q-px-xl">
+                    <q-btn color="primary" size="16px" dense class="q-pl-lg q-pr-md"
+                      ><font-awesome :icon="['fab', 'instagram']"
+                    /></q-btn>
+                    <q-btn color="primary" size="16px" dense class="q-px-md"
+                      ><font-awesome :icon="['fab', 'whatsapp']"
+                    /></q-btn>
+                    <q-btn color="primary" size="16px" dense class="q-px-md"
+                      ><font-awesome :icon="['fab', 'facebook-f']"
+                    /></q-btn>
+                    <q-btn color="primary" size="16px" dense class="q-px-md"
+                      ><font-awesome :icon="['fab', 'x-twitter']"
+                    /></q-btn>
+                    <q-btn color="primary" size="16px" dense class="q-pr-lg q-pl-md"
+                      ><font-awesome :icon="['fab', 'tiktok']"
+                    /></q-btn>
+                  </q-btn-group>
+                </q-card-section>
+                <q-separator />
+                <q-card-section>
+                  <h3>{{ item?.title }}</h3>
+                  <q-btn
+                    size="md"
+                    color="primary"
+                    class="text-weight-light"
+                    flat
+                    label="Travel Agent"
+                  ></q-btn>
+                  <q-item-label lines="2">{{ item?.subtitle }}</q-item-label>
+                </q-card-section>
+              </q-card>
+            </div>
+          </q-img> -->
+        </q-card>
       </div>
     </div>
   </div>
@@ -97,8 +133,6 @@
 </template>
 
 <script setup>
-import ImageCard from "./testimonial-components/image-card";
-
 const rating = 4;
 const content = {
   title: "Service",
@@ -174,26 +208,5 @@ h2 {
 }
 .bg-light-grey {
   background-color: #f8f8f8;
-}
-
-.head .title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 24px;
-  margin: 0;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-
-.head .subtitle {
-  text-align: center;
-  font-size: 16px;
-  /* color: #949494; */
-  font-weight: 400;
-  margin-top: 10px;
-}
-
-.head {
-  /* margin-bottom: 50px; */
 }
 </style>

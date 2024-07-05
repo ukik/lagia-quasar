@@ -183,39 +183,39 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/gallery.vue"),
         },
-        {
-          path: "/lagia/masonry",
-          name: "/lagia/masonry",
-          meta: {
-            ssr: true,
-            logged: false,
-            role: '',
-            title: 'lagia masonry',
-          },
-          component: () => import("pages/lagia-pages/masonry.vue"),
-        },
-        {
-          path: "/lagia/package-common",
-          name: "/lagia/package-common",
-          meta: {
-            ssr: true,
-            logged: false,
-            role: '',
-            title: 'lagia package common',
-          },
-          component: () => import("pages/lagia-pages/package-common.vue"),
-        },
-        {
-          path: "/lagia/package-detail",
-          name: "/lagia/package-detail",
-          meta: {
-            ssr: true,
-            logged: false,
-            role: '',
-            title: 'lagia package detail',
-          },
-          component: () => import("pages/lagia-pages/package-detail.vue"),
-        },
+        // {
+        //   path: "/lagia/masonry",
+        //   name: "/lagia/masonry",
+        //   meta: {
+        //     ssr: true,
+        //     logged: false,
+        //     role: '',
+        //     title: 'lagia masonry',
+        //   },
+        //   component: () => import("pages/lagia-pages/masonry.vue"),
+        // },
+        // {
+        //   path: "/lagia/package-common",
+        //   name: "/lagia/package-common",
+        //   meta: {
+        //     ssr: true,
+        //     logged: false,
+        //     role: '',
+        //     title: 'lagia package common',
+        //   },
+        //   component: () => import("pages/lagia-pages/package-common.vue"),
+        // },
+        // {
+        //   path: "/lagia/package-detail",
+        //   name: "/lagia/package-detail",
+        //   meta: {
+        //     ssr: true,
+        //     logged: false,
+        //     role: '',
+        //     title: 'lagia package detail',
+        //   },
+        //   component: () => import("pages/lagia-pages/package-detail.vue"),
+        // },
         {
           path: "/lagia/package-promo",
           name: "/lagia/package-promo",
@@ -249,17 +249,17 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/profile.vue"),
         },
-        {
-          path: "/lagia/routes",
-          name: "/lagia/routes",
-          meta: {
-            ssr: true,
-            logged: false,
-            role: '',
-            title: 'lagia routes',
-          },
-          component: () => import("pages/lagia-pages/routes.vue"),
-        },
+        // {
+        //   path: "/lagia/routes",
+        //   name: "/lagia/routes",
+        //   meta: {
+        //     ssr: true,
+        //     logged: false,
+        //     role: '',
+        //     title: 'lagia routes',
+        //   },
+        //   component: () => import("pages/lagia-pages/routes.vue"),
+        // },
         {
           path: "/lagia/service",
           name: "/lagia/service",
@@ -271,17 +271,17 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/service.vue"),
         },
-        {
-          path: "/lagia/single-page",
-          name: "/lagia/single-page",
-          meta: {
-            ssr: true,
-            logged: false,
-            role: '',
-            title: 'lagia single page',
-          },
-          component: () => import("pages/lagia-pages/single-page.vue"),
-        },
+        // {
+        //   path: "/lagia/single-page",
+        //   name: "/lagia/single-page",
+        //   meta: {
+        //     ssr: true,
+        //     logged: false,
+        //     role: '',
+        //     title: 'lagia single page',
+        //   },
+        //   component: () => import("pages/lagia-pages/single-page.vue"),
+        // },
         {
           path: "/lagia/team",
           name: "/lagia/team",
