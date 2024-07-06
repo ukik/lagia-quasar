@@ -1,5 +1,5 @@
 <template>
-  <InnerBanner :_title="content?.title"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div
@@ -15,14 +15,16 @@
     >
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 q-mb-lg">
         <q-card flat class="rounded-borders-2">
-          <q-img style="min-height:600px"
+          <q-img
+            style="min-height: 600px"
             loading="lazy"
             :ratio="16 / 9"
             class="card-box"
-            src="assets/images/img30.jpg"
+            :src="additional?.image"
+            :error-src="$defaultErrorImage"
           >
             <template v-slot:error>
-              <div class="absolute-full flex flex-center bg-negative text-white">
+              <div class="absolute-full flex flex-center text-white">
                 Cannot load image
               </div>
             </template>
@@ -31,13 +33,12 @@
               <q-banner class="rounded-borders-2 text-dark q-pa-lg">
                 <template v-slot:avatar>
                   <h2>
-                    <font-awesome class="text-grey-5" :icon="['fas', 'quote-left']" />
+                    <!-- <font-awesome class="text-grey-5" :icon="['fas', 'quote-left']" /> -->
+                    <q-icon name="fa-solid fa-quote-left"></q-icon>
                   </h2>
                 </template>
                 <q-item-label lines="3">
-                  Natoque consequat sodales autem nihil nec. Fusce molestias? Reiciendis
-                  voluptas, harum officia ante aliquet blanditiis scelerisque donec illo
-                  aperiam commodi hymenaeos.
+                  {{ additional?.label }}
                 </q-item-label>
               </q-banner>
             </div>
@@ -47,34 +48,33 @@
 
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="section-head q-mb-xl">
-          <div class="sub-title">QUESTIONS / ANSWERS</div>
-          <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+          <div class="sub-title">{{ additional?.title1 }}</div>
+          <h2 class="section-title">{{ additional?.headline1 }}</h2>
           <p>
-            Aperiam sociosqu urna praesent, tristique, corrupti condimentum asperiores
-            platea ipsum ad arcu. Nostrud. Esse? Aut nostrum, ornare quas provident
-            laoreet nesciunt odio voluptates etiam, omnis.
+            {{ additional?.description1 }}
           </p>
         </div>
 
-        <q-expansion-item
-          class="shadow-0 overflow-hidden q-mb-lg"
-          style="border-radius: 30px"
-          label="HOW CAN I PAY FOR MY BOOKING?"
-          header-class="bg-primary text-white "
-          expand-icon-class="text-white"
-        >
-          <q-card flat class="bg-grey-1">
-            <q-card-section>
-              <q-item-label lines="3">
-                Natoque consequat sodales autem nihil nec. Fusce molestias? Reiciendis
-                voluptas, harum officia ante aliquet blanditiis scelerisque donec illo
-                aperiam commodi hymenaeos.
-              </q-item-label>
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
+        <template v-for="(first, index) in getFirstFaq">
+          <q-expansion-item
+            default-opened
+            class="shadow-0 overflow-hidden q-mb-lg"
+            style="border-radius: 30px"
+            :label="first?.title"
+            header-class="bg-primary text-white "
+            expand-icon-class="text-white"
+          >
+            <q-card flat class="bg-grey-1">
+              <q-card-section>
+                <q-item-label lines="3">
+                  {{ first?.description }}
+                </q-item-label>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </template>
 
-        <q-expansion-item
+        <!-- <q-expansion-item
           class="shadow-0 overflow-hidden q-mb-lg"
           style="border-radius: 30px"
           label="WHAT ARE ACCEPTABLE PAYMENT METHOD?"
@@ -108,7 +108,7 @@
               </q-item-label>
             </q-card-section>
           </q-card>
-        </q-expansion-item>
+        </q-expansion-item> -->
       </div>
     </div>
   </div>
@@ -122,30 +122,30 @@
       ]"
     >
       <div class="section-heading col-12 text-center q-mt-xl">
-        <h5 class="sub-title q-mt-lg">BENEFITS &amp; AIM</h5>
-        <h2 class="section-title">BENEFITS AND WHAT WE DO?</h2>
+        <h5 class="sub-title q-mt-lg">{{ additional?.title2 }}</h5>
+        <h2 class="section-title">{{ additional?.headline2 }}</h2>
         <p>
-          Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
-          Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
+          {{ additional?.description2 }}
         </p>
       </div>
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
 
-      <template v-for="(item, index) in content?.faq2">
+      <template v-for="(second, index) in getSecondFaq">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
           <q-expansion-item
             default-opened
             class="shadow-0 overflow-hidden"
             style="border-radius: 30px"
-            :label="item?.title"
+            :label="second?.title"
             header-class="bg-primary text-white "
             expand-icon-class="text-white"
           >
             <q-card flat>
               <q-card-section>
                 <q-item-label lines="3">
-                  Natoque consequat sodales autem nihil nec. Fusce molestias? Reiciendis
-                  voluptas, harum officia ante aliquet blanditiis scelerisque donec illo
-                  aperiam commodi hymenaeos.
+                  {{ second?.description }}
                 </q-item-label>
               </q-card-section>
             </q-card>
@@ -154,51 +154,88 @@
       </template>
     </div>
   </div>
-
 </template>
 
-<script setup>
-const content = {
-  title: "FAQ",
-  faq2: [
-    {
-      id: "1",
-      title: "WHAT OUR TERMS AND CONDITION?",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "How do we manage to fund charity ?",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "DO I HAVE TO MAKE RESERVATION?",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "How did we manage your fund raised ?",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "WHAT BENEFITS YOU GET FRIM BOOKING?",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "How to donate your money for charity ?",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-  ],
+<script async setup>
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
+
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useFaqStore } from "stores/lagia-stores/page/FaqStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+
+const store = useFaqStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
+const {
+  errors,
+  data,
+  paginate,
+  records,
+  totalItem,
+  page,
+  orderField,
+  orderDirection,
+  isShowDataRecycle,
+  search,
+  lastPage,
+  currentPage,
+  perPage,
+
+  loading,
+  init,
+
+  additional,
+
+  getFirstFaq,
+  getSecondFaq,
+} = storeToRefs(store); // have all reactive states here
+
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
+      return useFaqStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
+
+const onCurrentPage = async (val) => {
+  console.log("onCurrentPage", val);
+  router.push({ query: { page: val.value } });
+  onPaginate({ currentPage: val.value });
 };
+watch(() => currentPage, onCurrentPage, {
+  deep: true,
+  // immediate: true,
+});
+
+const rating = 0.0;
+
+function closeDialog() {}
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
 
 <style scoped>

@@ -66,6 +66,34 @@ function getImage(key) {
   }
 }
 
+function getRatingTestimonial(key) {
+  switch (key) {
+    case "1":
+    case 1:
+      return "/assets/rating/rating_1.png";
+    case "2":
+    case 2:
+      return "/assets/rating/rating_2.png";
+    case "3":
+    case 3:
+      return "/assets/rating/rating_3.png";
+    case "4":
+    case 4:
+      return "/assets/rating/rating_4.png";
+    case "5":
+    case 5:
+      return "/assets/rating/in-love.png";
+  }
+}
+
+function getSplit(item) {
+  if (!item) return [];
+  try {
+    return item.split(",");
+  } catch (error) {
+    return item;
+  }
+}
 // function finalPrice({ general, discount, cashback }) {
 //   console.log('getTotalAmount', { general, discount, cashback })
 //   const total =  (Number(general) - ((Number(general) * Number(discount)/100)) - Number(cashback))
@@ -129,6 +157,8 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$currency = currency;
   app.config.globalProperties.$percent = percent;
 
+  app.config.globalProperties.$getRatingTestimonial = getRatingTestimonial;
+  app.config.globalProperties.$getSplit = getSplit;
 
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;

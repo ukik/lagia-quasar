@@ -1,6 +1,6 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="content?.title"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -9,10 +9,14 @@
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
-      ]"      
+      ]"
     >
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+
       <div
-        v-for="(item, index) in content?.cards"
+        v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
         <q-card flat class="rounded-borders-2">
@@ -28,7 +32,7 @@
                 flat
                 class="text-box text-center text-dark q-mt-lg full-width rounded-borders-2"
               >
-                <q-card-section>
+                <!-- <q-card-section>
                   <q-btn-group spread flat rounded unelevated class="q-px-xl">
                     <q-btn color="primary" size="16px" dense class="q-pl-lg q-pr-md"
                       ><font-awesome :icon="['fab', 'instagram']"
@@ -46,18 +50,68 @@
                       ><font-awesome :icon="['fab', 'tiktok']"
                     /></q-btn>
                   </q-btn-group>
+                </q-card-section> -->
+
+                <q-card-section>
+                  <q-btn-group outline rounded unelevated class="q-mx-xl bg-white">
+                    <q-btn
+                      outline
+                      color="primary"
+                      bg-color="white"
+                      size="16px"
+                      dense
+                      class="q-px-md"
+                      ><i class="text-h6 fa-brands fa-instagram"></i
+                    ></q-btn>
+                    <q-btn
+                      outline
+                      color="primary"
+                      bg-color="white"
+                      size="16px"
+                      dense
+                      class="q-px-md"
+                      ><i class="text-h6 fa-brands fa-whatsapp"></i
+                    ></q-btn>
+                    <q-btn
+                      outline
+                      color="primary"
+                      bg-color="white"
+                      size="16px"
+                      dense
+                      class="q-px-md"
+                      ><i class="text-h6 fa-brands fa-facebook-f"></i
+                    ></q-btn>
+                    <q-btn
+                      outline
+                      color="primary"
+                      bg-color="white"
+                      size="16px"
+                      dense
+                      class="q-px-md"
+                      ><i class="text-h6 fa-brands fa-x-twitter"></i
+                    ></q-btn>
+                    <q-btn
+                      outline
+                      color="primary"
+                      bg-color="white"
+                      size="16px"
+                      dense
+                      class="q-px-md"
+                      ><i class="text-h6 fa-brands fa-tiktok"></i
+                    ></q-btn>
+                  </q-btn-group>
                 </q-card-section>
                 <q-separator />
                 <q-card-section>
-                  <h3>{{ item?.title }}</h3>
+                  <h3>{{ item?.name }}</h3>
                   <q-btn
                     size="md"
                     color="primary"
                     class="text-weight-light"
                     flat
-                    label="Travel Agent"
+                    :label="item?.position"
                   ></q-btn>
-                  <q-item-label lines="2">{{ item?.subtitle }}</q-item-label>
+                  <q-item-label lines="3">{{ item?.description }}</q-item-label>
                 </q-card-section>
               </q-card>
             </div>
@@ -102,55 +156,83 @@
   <!-- </main> -->
 </template>
 
-<script setup>
-const content = {
-  title: "Service",
-  cards: [
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img30.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img31.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img32.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img13.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img10.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-  ],
+<script async setup>
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
+
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useTeamStore } from "stores/lagia-stores/page/TeamStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+
+const store = useTeamStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
+const {
+  errors,
+  data,
+  paginate,
+  records,
+  totalItem,
+  page,
+  orderField,
+  orderDirection,
+  isShowDataRecycle,
+  search,
+  lastPage,
+  currentPage,
+  perPage,
+
+  loading,
+  init,
+} = storeToRefs(store); // have all reactive states here
+
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
+      return useTeamStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
+
+const onCurrentPage = async (val) => {
+  console.log("onCurrentPage", val);
+  router.push({ query: { page: val.value } });
+  onPaginate({ currentPage: val.value });
 };
+watch(() => currentPage, onCurrentPage, {
+  deep: true,
+  // immediate: true,
+});
+
+const rating = 0.0;
+
+function closeDialog() {}
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
+
 <style scoped>
 .content-page-section {
   padding-bottom: 80px;

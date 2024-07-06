@@ -1,6 +1,6 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="content?.title"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -11,44 +11,53 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+
       <div
-        v-for="(item, index) in content?.cards"
+        v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
         <q-card flat class="rounded-borders-2">
-          <q-img loading="lazy" :ratio="16 / 9" class="card-box" :src="item?.image">
+          <q-img
+            loading="lazy"
+            :ratio="16 / 9"
+            class="card-box"
+            :src="item?.image"
+            :error-src="$defaultUser"
+          >
             <template v-slot:error>
-              <div class="absolute-full flex flex-center bg-negative text-white">
+              <div class="absolute-full flex flex-center text-white">
                 Cannot load image
               </div>
             </template>
-            <div class="absolute-full flex justify-center flex-center">
-              <div class="full-width text-center q-mt-sm">
-                <q-avatar
-                  size="100px"
-                  font-size="45px"
-                  color="blue"
-                  text-color="white"
-                  :icon="item?.icon"
-                />
-              </div>
-              <div class="text-box text-center q-mt-lg full-width q-px-sm">
-                <h3>{{ item?.title }}</h3>
-                <q-item-label lines="4">{{ item?.subtitle }}</q-item-label>
-              </div>
-              <q-btn
+            <div class="absolute-full row flex flex-center">
+              <div class="row flex flex-center">
+                <div class="col-12 text-center q-mt-sm">
+                  <q-avatar
+                    size="100px"
+                    font-size="45px"
+                    color="blue"
+                    text-color="white"
+                    :icon="item?.icon"
+                  />
+                </div>
+                <div class="text-box text-center col-12 q-px-md q-mt-xl">
+                  <h3>{{ item?.title }}</h3>
+                  <q-item-label lines="4">{{ item?.description }}</q-item-label>
+                </div>
+                <!-- <q-btn
                 unelevated
                 rounded
                 dense
                 class="q-px-lg q-py-sm q-mb-sm rounded-borders-3 text-weight-light"
                 color="primary"
                 label="Learn More"
-              />
+              /> -->
+              </div>
             </div>
           </q-img>
-          <!-- <q-card-action>
-            <q-item-label class="text-black text-center" lines="3">{{ item?.subtitle }}</q-item-label>
-          </q-card-action> -->
         </q-card>
       </div>
     </div>
@@ -89,111 +98,83 @@
   <!-- </main> -->
 </template>
 
-<script setup>
-const content = {
-  title: "Service",
-  cards: [
-    {
-      id: "1",
-      icon: "hotel",
-      title: "BEST AKOMODASI",
-      image: "assets/images/img4.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "flight_takeoff",
-      title: "TRAVEL INSURANCE",
-      image: "assets/images/img28.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "store_mall_directory",
-      title: "ACCESSIBILITY",
-      image: "assets/images/img12.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "sticky_note_2",
-      title: "ONLINE BOOKING",
-      image: "assets/images/img13.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "directions_bus",
-      title: "BEST MANAGEMENT",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "support_agent",
-      title: "FAST SUPPORT",
-      image: "assets/images/img10.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
+<script async setup>
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
 
-    {
-      id: "1",
-      icon: "directions_bike",
-      image: "assets/images/img4.jpg",
-      title: "AFFORDABLE TOURS",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "sailing",
-      title: "BEST TOUR GUIDES",
-      image: "assets/images/img13.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "volunteer_activism",
-      title: "PERSONAL TOUCH",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "face",
-      title: "FRIENDLY SERVICE",
-      image: "assets/images/img28.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useServiceStore } from "stores/lagia-stores/page/ServiceStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
 
-    {
-      id: "1",
-      icon: "verified",
-      title: "REAL EXPERIENCED",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      icon: "event",
-      title: "FLEXIBLE SCHEDULE",
-      image: "assets/images/img28.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },    
-  ],
+const store = useServiceStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
+const {
+  errors,
+  data,
+  paginate,
+  records,
+  totalItem,
+  page,
+  orderField,
+  orderDirection,
+  isShowDataRecycle,
+  search,
+  lastPage,
+  currentPage,
+  perPage,
+
+  loading,
+  init,
+} = storeToRefs(store); // have all reactive states here
+
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
+      return useServiceStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
+
+const onCurrentPage = async (val) => {
+  console.log("onCurrentPage", val);
+  router.push({ query: { page: val.value } });
+  onPaginate({ currentPage: val.value });
 };
+watch(() => currentPage, onCurrentPage, {
+  deep: true,
+  // immediate: true,
+});
+
+const rating = 0.0;
+
+function closeDialog() {}
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
+
 <style scoped>
 .content-page-section {
   padding-bottom: 80px;

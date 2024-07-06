@@ -1,6 +1,6 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="content?.title"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -20,7 +20,7 @@
           <div class="head q-pa-lg">
             <h4 class="title">PENDAPAT MEREKA TENTANG LAGIA</h4>
             <div class="subtitle">
-              LAGIA telah melayani liburan banyak orang, dan inilah pendapat mereka
+              LAGIA telah melayani keinginan banyak orang, dan inilah pendapat mereka
             </div>
           </div>
 
@@ -29,23 +29,58 @@
           </template> -->
         </q-banner>
 
-        <template v-for="(item, index) in content?.cards">
+        <div class="col-12" v-if="records.length <= 0 && !loading">
+          <NoData></NoData>
+        </div>
+
+        <template v-for="(item, index) in records">
           <q-card flat bordered class="rounded-borders-2">
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar>
+                  <img :src="$getRatingTestimonial(item?.rating)" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label v-html="item?.emoticon"></q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
             <q-card-actions class="q-pa-md q-mb-none">
-              <q-item-label class="q-mb-md">{{ item?.subtitle }}</q-item-label>
+              <q-item-label class="q-mb-md">{{ item?.description }}</q-item-label>
               <q-rating
                 flat
                 readonly
-                v-model="rating"
+                v-model="item.rating"
                 size="sm"
                 :max="5"
                 color="primary"
               ></q-rating>
             </q-card-actions>
 
-            <ImageCard :image="item?.image"></ImageCard>
+            <ImageCard :item="item"></ImageCard>
           </q-card>
         </template>
+
+        <div class="col-12 flex justify-center">
+          <q-pagination
+            :disable="loading"
+            class="q-mt-lg"
+            size="lg"
+            v-model="currentPage"
+            :max="lastPage"
+            :max-pages="6"
+            :input="$q.screen.width < 768"
+            direction-links
+            outline
+            color="blue"
+            active-design="unelevated"
+            active-color="primary"
+            active-text-color="white"
+          />
+        </div>
       </div>
       <div class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
         <q-no-ssr>
@@ -96,45 +131,99 @@
   <!-- </main> -->
 </template>
 
-<script setup>
-import ImageCard from "./testimonial-components/image-card";
+<script async setup>
+import ImageCard from "./components/testimonial-image-card";
 
-const rating = 4;
-const content = {
-  title: "Service",
-  cards: [
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img30.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img31.jpg",
-      subtitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.`,
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img32.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img13.jpg",
-      subtitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.`,
-    },
-  ],
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
+
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useTestimonialStore } from "stores/lagia-stores/page/TestimonialStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+
+const store = useTestimonialStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
+const {
+  errors,
+  data,
+  paginate,
+  records,
+  totalItem,
+  page,
+  orderField,
+  orderDirection,
+  isShowDataRecycle,
+  search,
+  lastPage,
+  currentPage,
+  perPage,
+
+  loading,
+  init,
+} = storeToRefs(store); // have all reactive states here
+
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
+      return useTestimonialStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
+
+const onCurrentPage = async (val) => {
+  console.log("onCurrentPage", val);
+  router.push({ query: { page: val.value } });
+  onPaginate({ currentPage: val.value });
 };
+watch(() => currentPage, onCurrentPage, {
+  deep: true,
+  // immediate: true,
+});
+
+const rating = 0.0;
+
+// const dialog_selengkapnya = ref(false);
+// const record = ref(null);
+
+// const culinary_prices = ref(false);
+// const culinary_products = ref(false);
+
+// // const dialog_payload = ref(null);
+// // const dialog_value = ref(false);
+
+function closeDialog() {
+  // dialog_selengkapnya.value = false;
+  // record.value = null;
+  // culinary_prices.value = false;
+  // culinary_products.value = false;
+  // // dialog_payload.value = null;
+  // // dialog_value.value = false;
+}
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
 <style scoped>
 .content-page-section {

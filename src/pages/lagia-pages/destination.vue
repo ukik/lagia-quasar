@@ -1,6 +1,6 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="content?.title"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -9,16 +9,26 @@
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
-      ]"      
+      ]"
     >
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+
       <div
-        v-for="(item, index) in content?.cards"
+        v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
         <q-card flat class="rounded-borders-2">
-          <q-img loading="lazy" :ratio="16 / 9" class="card-box" :src="item?.image">
+          <q-img
+            loading="lazy"
+            :ratio="16 / 9"
+            class="card-box"
+            :src="item?.image[0]"
+            :error-src="$defaultErrorImage"
+          >
             <template v-slot:error>
-              <div class="absolute-full flex flex-center bg-negative text-white">
+              <div class="absolute-full flex flex-center text-white">
                 Cannot load image
               </div>
             </template>
@@ -28,26 +38,44 @@
                 flat
                 class="text-box text-left text-dark q-mt-lg full-width rounded-borders-2"
               >
-                <!-- <q-card-section>
-                </q-card-section> -->
-                <!-- <q-separator /> -->
                 <q-card-section>
-                  <DestinationRating :rating="4"></DestinationRating>
+                  <DestinationRating :rating="item?.rating"></DestinationRating>
 
-                  <q-btn dense
+                  <q-btn
+                    dense
                     size="md"
                     color="primary"
                     class="text-weight-light"
                     flat
-                    label="Travel Agent"
+                    :label="item?.countVenue + ' DESTINASI'"
                   ></q-btn>
-                  <h3 class="q-pb-md q-pt-xs">{{ item?.title }}</h3>
-                  <q-item-label lines="2">{{ item?.subtitle }}</q-item-label>
+                  <q-item-label class="text-h5" lines="1">{{ item?.city }}</q-item-label>
+                  <q-item-label caption class="text-capitalize" lines="3"
+                    >{{ item?.name }}
+                  </q-item-label>
                 </q-card-section>
               </q-card>
             </div>
           </q-img>
         </q-card>
+      </div>
+
+      <div class="col-12 flex justify-center">
+        <q-pagination
+          :disable="loading"
+          class="q-mt-lg"
+          size="lg"
+          v-model="currentPage"
+          :max="lastPage"
+          :max-pages="6"
+          :input="$q.screen.width < 768"
+          direction-links
+          outline
+          color="blue"
+          active-design="unelevated"
+          active-color="primary"
+          active-text-color="white"
+        />
       </div>
     </div>
   </div>
@@ -62,7 +90,7 @@
       </p>
       <div class="q-mt-xl">
         <q-btn
-        text-color="primary"
+          text-color="primary"
           icon="phone"
           dense
           unelevated
@@ -88,55 +116,99 @@
   <!-- </main> -->
 </template>
 
-<script setup>
-const content = {
-  title: "DESTINATION",
-  cards: [
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img30.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img31.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img32.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img13.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img17.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img10.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-  ],
+<script async setup>
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
+
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useDestinationStore } from "stores/lagia-stores/page/DestinationStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+
+const store = useDestinationStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
+const {
+  errors,
+  data,
+  paginate,
+  records,
+  totalItem,
+  page,
+  orderField,
+  orderDirection,
+  isShowDataRecycle,
+  search,
+  lastPage,
+  currentPage,
+  perPage,
+
+  loading,
+  init,
+} = storeToRefs(store); // have all reactive states here
+
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { page: 1 } });
+
+      return useDestinationStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
+
+const onCurrentPage = async (val) => {
+  console.log("onCurrentPage", val);
+  router.push({ query: { page: val.value } });
+  onPaginate({ currentPage: val.value });
 };
+watch(() => currentPage, onCurrentPage, {
+  deep: true,
+  // immediate: true,
+});
+
+const rating = 0.0;
+
+// const dialog_selengkapnya = ref(false);
+// const record = ref(null);
+
+// const culinary_prices = ref(false);
+// const culinary_products = ref(false);
+
+// // const dialog_payload = ref(null);
+// // const dialog_value = ref(false);
+
+function closeDialog() {
+  // dialog_selengkapnya.value = false;
+  // record.value = null;
+  // culinary_prices.value = false;
+  // culinary_products.value = false;
+  // // dialog_payload.value = null;
+  // // dialog_value.value = false;
+}
+
+onBeforeRouteLeave((to, from, next) => {
+  closeDialog();
+  return next();
+});
 </script>
+
 <style scoped>
 .content-page-section {
   padding-bottom: 80px;

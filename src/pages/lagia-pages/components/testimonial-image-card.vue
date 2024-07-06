@@ -3,14 +3,16 @@
     <q-item dense class="q-pa-none">
       <q-item-section avatar>
         <q-avatar size="50px">
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          <q-img :src="item?.avatar" :error-src="$defaultUser" />
         </q-avatar>
       </q-item-section>
       <q-item-section>
-        <q-item-label lines="1">WILLIAM WRIGHT</q-item-label>
-        <q-item-label caption class="text-primary" lines="1">TRAVELLERS</q-item-label>
+        <q-item-label lines="1">{{ item?.name }}</q-item-label>
+        <q-item-label caption class="text-primary" lines="1">{{
+          item?.institusi
+        }}</q-item-label>
       </q-item-section>
-      <div v-if="image" class="row items-end">
+      <div v-if="item?.image" class="row items-end">
         <div>
           <q-btn
             class=""
@@ -29,15 +31,15 @@
 
     <!-- <q-space /> -->
   </q-card-section>
-  <q-slide-transition>
+  <q-slide-transition v-if="item?.image">
     <div v-show="expanded">
       <q-img
-        @click="showMultiple(image, 0)"
-        v-if="image"
+        @click="showMultiple(item?.image, 0)"
+        v-if="item?.image"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 rounded-borders-2-bottom"
-        :src="image"
+        :src="item?.image"
         :error-src="$defaultErrorImage"
       >
         <!-- <div class="absolute-top-right bg-transparent">
@@ -73,7 +75,7 @@ import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbo
 import { ref } from "vue";
 
 export default {
-  props: ["image"],
+  props: ["item"],
   setup() {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;

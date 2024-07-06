@@ -8,6 +8,9 @@
       size="xs"
       :max="5"
       color="white"
+      icon="star_border"
+      icon-selected="star"
+      icon-half="star_half"
     ></q-rating>
     <q-rating
       v-else
@@ -17,6 +20,9 @@
       size="xs"
       :max="5"
       color="white"
+      icon="star_border"
+      icon-selected="star"
+      icon-half="star_half"
     ></q-rating>
   </q-badge>
 </template>
