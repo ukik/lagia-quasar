@@ -2,11 +2,10 @@
   <!-- Call To Action -->
   <div class="call-action-box bg-color-callback bg-form text-white row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
-      <h5 class="text-white">CALL TO ACTION</h5>
-      <h2 class="q-pa-lg text-white">READY FOR UNFORGATABLE TRAVEL. REMEMBER US!</h2>
+      <h5 class="text-white">{{ records?.title }}</h5>
+      <h2 class="q-pa-lg text-white">{{ records?.headline }}</h2>
       <p>
-        Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
-        Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
+        {{ records?.subtitle }}
       </p>
       <div class="q-mt-xl">
         <q-btn
@@ -33,6 +32,12 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["records"],
+};
+</script>
 
 <style scoped>
 .call-action-box p {

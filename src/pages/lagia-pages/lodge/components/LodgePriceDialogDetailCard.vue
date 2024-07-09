@@ -141,9 +141,9 @@
                 <q-item class="col-12" dense>
                   <q-item-section top>
                     <q-item-label class="text-capitalize">facility</q-item-label>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label class="text-right">
+                    <!-- </q-item-section>
+                  <q-item-section> -->
+                    <q-item-label class="text-left">
                       <template v-for="(val, index) in getCategory(record?.facility)">
                         <q-chip color="blue" class="q-ml-none" text-color="white">{{
                           val

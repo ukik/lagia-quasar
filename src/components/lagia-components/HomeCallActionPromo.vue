@@ -1,12 +1,19 @@
 <template>
   <q-dialog v-model="modal" full-height full-width>
     <q-card flat class="row justify-center bg-transparent">
-        <q-video
-            class="col"
-            src="https://www.youtube.com/embed/2OYar8OHEOU?si=AgoLISOxBUCDtTnk&autoplay=1"
-          />
-      <div class="q-pt-md full-width text-center" :class="[$q.screen.width > 425 ? 'absolute' : 'absolute-bottom q-mb-xl q-pb-lg']">
-        <q-btn v-close-popup color="red" class="rounded-borders-2" rounded icon="close" label="Close"  ></q-btn>
+      <q-video class="col" :src="video" />
+      <div
+        class="q-pt-md full-width text-center"
+        :class="[$q.screen.width > 425 ? 'absolute' : 'absolute-bottom q-mb-xl q-pb-lg']"
+      >
+        <q-btn
+          v-close-popup
+          color="red"
+          class="rounded-borders-2"
+          rounded
+          icon="close"
+          label="Close"
+        ></q-btn>
       </div>
     </q-card>
   </q-dialog>
@@ -19,7 +26,7 @@
   </q-carousel> -->
 
   <q-carousel
-    class="bg-dark"
+    class="bg-dark margin"
     infinite
     swipeable
     animated
@@ -30,13 +37,21 @@
     v-model="slide"
     :height="$q.screen.width > 425 ? '650px' : '750px'"
   >
-    <template v-for="(item, index) in options">
-      <q-carousel-slide :name="item?.value" img-src="/assets/images/img16.jpg">
+    <template v-for="(item, index) in records">
+      <q-carousel-slide
+        :name="item?.id"
+        :img-src="item?.image"
+        :error-src="$defaultErrorImage"
+      >
         <div class="absolute-full dimmed"></div>
         <div class="absolute-full dimmed"></div>
         <div class="absolute-full flex flex-center">
           <div class="text-center row flex justify-center">
-            <q-btn @click="modal = true"
+            <q-btn
+              @click="
+                modal = true;
+                video = item?.video;
+              "
               class="q-mb-lg"
               icon="play_circle"
               color="white"
@@ -46,15 +61,13 @@
               size="50px"
             ></q-btn>
 
-            <h5 class="text-white text-h6 text-white col-12">ENJOY YOUR LIFE</h5>
+            <h5 class="text-white text-h6 text-white col-12">{{ item?.title }}</h5>
             <h2 class="text-white text-white col-xl-11 col-lg-11 col-11">
-              ARE YOU READY TO TRAVEL? <br />
-              REMEMBER US !!
+              {{ item?.headline }}
             </h2>
 
             <q-item-label lines="2" class="text-white col-xl-11 col-lg-11 col-11">
-              Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo,
-              rutrum. Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
+              {{ item?.subtitle }}
             </q-item-label>
 
             <div class="q-mt-xl col-12">
@@ -85,23 +98,14 @@
   </q-carousel>
 </template>
 
-<script setup>
-import { ref, defineProps } from "vue"
-const slide = ref("style");
-const modal = ref(false);
-const options = [
-  { label: 1, value: "style" },
-  { label: 2, value: "tv" },
-  { label: 3, value: "layers" },
-  { label: 4, value: "map" },
-];
-</script>
-
 <script>
 export default {
+  props: ["records"],
   data() {
     return {
-      slide2: 1,
+      slide: 1,
+      modal: false,
+      video: "", // https://www.youtube.com/embed/2OYar8OHEOU?si=AgoLISOxBUCDtTnk&autoplay=1
     };
   },
 };
@@ -124,6 +128,11 @@ h2 {
 
 .q-item__label {
   line-height: 1.6 !important;
+}
+
+.margin {
+  /* margin-top: 85px; */
+  /* margin-bottom: 85px; */
 }
 
 .bg-color-callback {

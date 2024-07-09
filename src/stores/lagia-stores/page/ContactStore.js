@@ -30,10 +30,10 @@ export const useContactStore = defineStore('ContactStore', {
       this.loading = true;
 
       const response = await axios({
-        url: '/trevolia-api/v1/entities/page-contact/read',
+        url: '/trevolia-api/v1/entities/page-contact-setup/read',
         method: 'get',
         params: {
-          slug: 'page-contact',
+          slug: 'page-contact-setup',
           id: id,
         }
       })

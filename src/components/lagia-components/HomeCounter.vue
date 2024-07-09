@@ -1,5 +1,6 @@
 <template>
   <!-- Call To Action -->
+
   <div class="call-action-box bg-color-callback row justify-center">
     <div
       class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 text-left q-px-md row justify-center items-center q-col-gutter-xl"
@@ -8,7 +9,7 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">72K+</h2>
+              <h2 class="counter-no text-bold">{{ records?.satisfiedCustomer }}+</h2>
               <div class="counter-desc text-primary">SATISFIED CUSTOMER</div>
             </q-card-section>
           </q-card-section>
@@ -18,7 +19,7 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">72K+</h2>
+              <h2 class="counter-no text-bold">{{ records?.activePartner }}+</h2>
               <div class="counter-desc text-primary">ACTIVE PARTNERS</div>
             </q-card-section>
           </q-card-section>
@@ -28,7 +29,7 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">72K+</h2>
+              <h2 class="counter-no text-bold">{{ records?.tourDestination }}+</h2>
               <div class="counter-desc text-primary">TOUR DESTINATION</div>
             </q-card-section>
           </q-card-section>
@@ -38,20 +39,20 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">72K+</h2>
+              <h2 class="counter-no text-bold">{{ records?.travelGruide }}+</h2>
               <div class="counter-desc text-primary">TRAVEL GUIDES</div>
             </q-card-section>
           </q-card-section>
         </q-card>
       </div>
-
-
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, defineProps } from "vue"
+<script>
+export default {
+  props: ["records"],
+};
 </script>
 
 <style scoped>
@@ -84,8 +85,8 @@ h2 {
 }
 
 .bg-color-callback {
-  /* padding-top: 50px; */
-  padding-bottom: 85px;
+  padding-top: 85px;
+  /* padding-bottom: 85px; */
 }
 
 .image-mobile-radius {

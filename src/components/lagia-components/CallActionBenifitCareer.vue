@@ -1,16 +1,14 @@
 <template>
-
-<div class="call-action-box bg-color-callback bg-light-grey row justify-center">
+  <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-lg-8 text-center q-px-md row justify-center">
-      <h5 class="col-12">BENEFITS FROM US</h5>
-      <h2 class="q-py-lg col-12">WHY JOIN US !</h2>
+      <h5 class="col-12">{{ items?.setup?.title }}</h5>
+      <h2 class="q-py-lg col-12">{{ items?.setup?.subtitle }}</h2>
       <p class="col-xl-9 col-lg-9 col-md-9 col-sm-11 col-12">
-        Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
-        Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
+        {{ items?.setup?.headline }}
       </p>
 
       <div class="q-mt-xl col-12 row justify-center q-col-gutter-lg">
-        <template v-for="(item, index) in career_reasons">
+        <template v-for="(item, index) in items?.benefit">
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
             <q-card flat bordered class="rounded-borders-3">
               <q-card-section>
@@ -25,7 +23,7 @@
                 </div>
                 <div class="text-box text-center q-my-lg full-width q-px-sm">
                   <h3>{{ item?.title }}</h3>
-                  <q-item-label lines="4">{{ item?.subtitle }}</q-item-label>
+                  <q-item-label lines="4">{{ item?.description }}</q-item-label>
                 </div>
               </q-card-section>
             </q-card>
@@ -34,17 +32,15 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue"
-const { _career_reasons } = defineProps(['_career_reasons'])
-const career_reasons = _career_reasons
+import { ref, defineProps } from "vue";
+const { item } = defineProps(["item"]);
+const items = item;
 </script>
 
 <style scoped>
-
 .text-box h3 {
   font-size: 22px;
   font-weight: 700;

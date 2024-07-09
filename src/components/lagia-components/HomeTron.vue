@@ -12,9 +12,12 @@
     arrows
     v-model="slide"
   >
-    <template v-for="(item, index) in options">
-      <q-carousel-slide :name="item?.value" img-src="/assets/images/img16.jpg">
-
+    <template v-for="(item, index) in records">
+      <q-carousel-slide
+        :name="item?.id"
+        :img-src="item?.image"
+        :error-src="$defaultErrorImage"
+      >
         <div class="absolute-full dimmed"></div>
         <div class="absolute-full dimmed"></div>
         <div class="absolute-full row flex-center">
@@ -22,13 +25,11 @@
             class="row flex flex-center text-center col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12"
           >
             <div class="comming-soon-content col-12 q-mt-xl text-white">
-              <div class="text-h5">YOUR DREAM COMES TRUE !</div>
-              <h2 class="q-my-lg text-white">JOURNEY TO EXPLORE WORLD</h2>
+              <div class="text-h5">{{ item?.title }}</div>
+              <h2 class="q-my-lg text-white">{{ item?.headline }}</h2>
               <q-item-label lines="3">
                 <p>
-                  Ac mi duis mollis. Sapiente? Scelerisque quae, penatibus? Suscipit class
-                  corporis nostra rem quos voluptatibus habitant? Fames, vivamus minim
-                  nemo enim, gravida lobortis quasi, eum.
+                  {{ item?.subtitle }}
                 </p>
               </q-item-label>
             </div>
@@ -56,7 +57,6 @@
             </div>
           </div>
         </div>
-
       </q-carousel-slide>
     </template>
   </q-carousel>
@@ -64,15 +64,15 @@
   <!-- </main> -->
 </template>
 
-<script setup>
-import { ref, defineProps } from "vue"
-const slide = ref("style");
-const options = [
-  { label: 1, value: "style" },
-  { label: 2, value: "tv" },
-  { label: 3, value: "layers" },
-  { label: 4, value: "map" },
-];
+<script>
+export default {
+  props: ["records"],
+  data() {
+    return {
+      slide: 1,
+    };
+  },
+};
 </script>
 
 <style scoped>

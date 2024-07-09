@@ -23,7 +23,7 @@ export const useAboutStore = defineStore('AboutStore', {
   },
 
   actions: {
-    async onFetch(id) {
+    async onFetch(id = 1) {
 
       if (this.loading) return false;
 
@@ -47,6 +47,12 @@ export const useAboutStore = defineStore('AboutStore', {
       this.loading = false
 
       if (!response?.data) return this.loading = false
+
+      try {
+        if (response?.data?.data['featuredImage']) response.data.data['featuredImage'] = JSON.parse(response?.data?.data['featuredImage'])
+      } catch (error) {
+        if (response?.data?.data['featuredImage']) response.data.data['featuredImage'] = [response?.data?.data['featuredImage']]
+      }
 
       try {
         if (response?.data?.data['image']) response.data.data['image'] = JSON.parse(response?.data?.data['image'])

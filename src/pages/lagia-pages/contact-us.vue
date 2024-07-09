@@ -1,6 +1,6 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="content?.title"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -13,15 +13,14 @@
     >
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="section-heading">
-          <h5 class="text-primary">GET IN TOUCH</h5>
-          <h2 class="section-title">REACH &amp; CONTACT US!</h2>
+          <h5 class="text-primary">{{ record?.title1 }}</h5>
+          <h2 class="section-title">{{ record?.headline1 }}</h2>
           <p>
-            Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
-            Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent. Eget
-            feugiat error necessitatibus taciti..
+            {{ record?.description1 }}
           </p>
         </div>
-        <q-btn round color="primary" size="16px" dense class="q-mr-sm"
+
+        <!-- <q-btn round color="primary" size="16px" dense class="q-mr-sm"
           ><font-awesome :icon="['fab', 'instagram']"
         /></q-btn>
         <q-btn round color="primary" size="16px" dense class="q-mr-sm"
@@ -35,8 +34,74 @@
         /></q-btn>
         <q-btn round color="primary" size="16px" dense class="q-mr-sm"
           ><font-awesome :icon="['fab', 'tiktok']"
-        /></q-btn>
-        <ContactUsGoogleMap />
+        /></q-btn> -->
+
+        <q-card-section class="q-pa-none">
+          <!-- <q-btn-group outline rounded unelevated class="q-mx-xl bg-white"> -->
+          <q-btn
+            :href="record?.instagram"
+            target="_blank"
+            outline
+            color="primary"
+            bg-color="white"
+            size="16px"
+            dense
+            round
+            class="q-mr-sm"
+            ><i class="text-h6 fa-brands fa-instagram"></i
+          ></q-btn>
+          <q-btn
+            :href="record?.whatsapp"
+            target="_blank"
+            outline
+            color="primary"
+            bg-color="white"
+            size="16px"
+            dense
+            round
+            class="q-mr-sm"
+            ><i class="text-h6 fa-brands fa-whatsapp"></i
+          ></q-btn>
+          <q-btn
+            :href="record?.facebook"
+            target="_blank"
+            outline
+            color="primary"
+            bg-color="white"
+            size="16px"
+            dense
+            round
+            class="q-mr-sm"
+            ><i class="text-h6 fa-brands fa-facebook-f"></i
+          ></q-btn>
+          <q-btn
+            :href="record?.twitter"
+            target="_blank"
+            outline
+            color="primary"
+            bg-color="white"
+            size="16px"
+            dense
+            round
+            class="q-mr-sm"
+            ><i class="text-h6 fa-brands fa-x-twitter"></i
+          ></q-btn>
+          <q-btn
+            :href="record?.tiktok"
+            target="_blank"
+            outline
+            color="primary"
+            bg-color="white"
+            size="16px"
+            dense
+            round
+            class="q-mr-sm"
+            ><i class="text-h6 fa-brands fa-tiktok"></i
+          ></q-btn>
+          <!-- </q-btn-group> -->
+        </q-card-section>
+
+        <ContactUsGoogleMap :item="record?.map" />
       </div>
 
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -52,15 +117,12 @@
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
-      ]"      
+      ]"
     >
       <div class="section-heading col-12 text-center q-mt-xl">
-        <h5 class="sub-title q-mt-lg">CONSULT WITH US</h5>
-        <h2 class="section-title">NEED TO KNOW MORE</h2>
-        <p>
-          Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
-          Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
-        </p>
+        <h5 class="sub-title q-mt-lg">{{ record?.title2 }}</h5>
+        <h2 class="section-title">{{ record?.headline2 }}</h2>
+        <p>{{ record?.description2 }}</p>
       </div>
 
       <!-- <template v-for="i in 3"> -->
@@ -73,18 +135,18 @@
               font-size="45px"
               color="blue"
               text-color="white"
-              icon="email"
+              :icon="record?.grid1Icon"
             />
           </q-card-section>
           <q-card-section class="text-center q-mt-sm">
-            <h6>PHONE NUMBER</h6>
+            <h6>{{ record?.grid1Title }}</h6>
             <div style="height: 48px">
               <q-btn
                 dense
                 capitalize
                 flat
-                href="mailto:support@gmail.com"
-                label="support@gmail.com"
+                :href="`mailto:${record?.grid1Value}`"
+                :label="record?.grid1Value"
                 push
                 color="dark"
               />
@@ -100,18 +162,18 @@
               font-size="45px"
               color="blue"
               text-color="white"
-              icon="phone"
+              :icon="record?.grid2Icon"
             />
           </q-card-section>
           <q-card-section class="text-center q-mt-sm">
-            <h6>EMAIL ADDRESS</h6>
+            <h6>{{ record?.grid2Title }}</h6>
             <div style="height: 48px">
               <q-btn
                 dense
                 capitalize
                 flat
-                href="mailto:support@gmail.com"
-                label="support@gmail.com"
+                :href="`tel:${record?.grid2Value}`"
+                :label="record?.grid2Value"
                 push
                 color="dark"
               />
@@ -127,15 +189,14 @@
               font-size="45px"
               color="blue"
               text-color="white"
-              icon="location_on"
+              :icon="record?.grid3Icon"
             />
           </q-card-section>
           <q-card-section class="text-center q-mt-sm">
-            <h6>ADDRESS LOCATION</h6>
-            <q-item-label style="height: 48px" class="q-px-md"
-              >Jl. Raya Sitirejo No. 9 Sitirejo, Wagir, Malang, Jawa Timur
-              65158</q-item-label
-            >
+            <h6>{{ record?.grid3Title }}</h6>
+            <q-item-label style="height: 48px" class="q-px-md">{{
+              record?.grid3Value
+            }}</q-item-label>
           </q-card-section>
         </q-card>
       </div>
@@ -148,43 +209,60 @@
 </template>
 
 <script setup>
-const rating = 4;
-const content = {
-  title: "Service",
-  cards: [
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img30.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img31.jpg",
-      subtitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.`,
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img32.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img13.jpg",
-      subtitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.`,
-    },
-  ],
-};
+import { useContactStore } from "stores/lagia-stores/page/ContactStore";
+import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
+
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
+
+// import { useRoute } from "vue-router";
+// const route = useRoute();
+
+defineOptions({
+  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+  //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+  //   return useContactStore(store).onFetch(currentRoute?.params?.slug);
+  // }
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      console.log("running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+      return useContactStore(store).onFetch();
+    }
+  ),
+});
+
+const $auth = useAuthStore();
+const { auth } = storeToRefs($auth);
+
+const $store = useContactStore();
+const {
+  dataType,
+  record,
+  isMaintenance,
+
+  loading,
+} = storeToRefs($store); // have all reactive states here
+
+// const onCurrentPage = async (val) => {
+//   console.log("onCurrentPage", val);
+//   onFetch();
+// };
+// watch(() => currentPage, onCurrentPage, {
+//   deep: true,
+//   immediate: true,
+// });
 </script>
+
 <style scoped>
 .content-page-section {
   padding-bottom: 80px;

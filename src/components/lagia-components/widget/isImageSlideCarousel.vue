@@ -1,7 +1,6 @@
 <template>
   <q-carousel
     id="ImageSlideCarousel"
-    class="bg-dark"
     :autoplay="autoplay"
     swipeable
     animated

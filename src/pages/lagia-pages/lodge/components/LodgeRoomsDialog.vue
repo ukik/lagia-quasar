@@ -151,9 +151,9 @@
                 <q-item class="col-12" dense>
                   <q-item-section top>
                     <q-item-label>facility</q-item-label>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label class="text-right">
+                    <!-- </q-item-section>
+                  <q-item-section> -->
+                    <q-item-label class="text-left">
                       <template v-for="(val, index) in getSplit(item?.facility)">
                         <q-chip class="q-ml-none" color="blue" text-color="white">{{
                           val

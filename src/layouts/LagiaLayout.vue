@@ -7,11 +7,13 @@ import { ref, nextTick, watch, onMounted } from "vue";
 
 import { useRoute } from "vue-router";
 
+import { useInitStore } from "stores/lagia-stores/page/InitStore";
+
 import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
 const store = useAuthStore();
 const {
   // fetchLoginAuth,
-  fetchInitAuth
+  fetchInitAuth,
 } = store; // have all reactive states here
 const { auth } = storeToRefs(store); // have all reactive states here
 // await fetchInitAuth() // pindah ke plugins
@@ -75,7 +77,7 @@ onMounted(async () => {
   // await fetchInitAuth()
   // const token = useCookie("XSRF-TOKEN");
   // await fetchLoginAuth();
-  console.log("layout/default.vue onMounted", auth, Cookies.getAll());
+  console.log("layout/default.vue onMounted", useInitStore().onFetch());
 
   if ($q.screen.width > 1024) {
     leftDrawerMini.value = true; // aslinya true
@@ -197,7 +199,6 @@ export default {
           />
         </q-toolbar>
 
-
         <q-toolbar v-else class="bg-primary text-white">
           <q-btn flat round dense icon="menu" class="q-mr-sm" />
           <q-avatar>
@@ -206,9 +207,7 @@ export default {
 
           <q-toolbar-title>DASHBOARD</q-toolbar-title>
 
-          <LayoutHeaderMenu
-            v-if="$q.screen.width > 768"
-          ></LayoutHeaderMenu>
+          <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
 
           <q-btn
             flat
@@ -218,7 +217,6 @@ export default {
             aria-label="Menu"
             @click="rightDrawerOpen = !rightDrawerOpen"
           />
-
         </q-toolbar>
       </q-header>
     </q-no-ssr>
@@ -277,11 +275,16 @@ export default {
           v-if="hideNav()"
           id="thing_to_stick"
           class="absolute-top bg-redX q-py-none row justify-center"
-          :style="$q.screen.width > 768 ?
-          'z-index: 9; margin-top: 60px;' : 'z-index: 9; margin-top: 10px;'"
+          :style="
+            $q.screen.width > 768
+              ? 'z-index: 9; margin-top: 60px;'
+              : 'z-index: 9; margin-top: 10px;'
+          "
         >
-          <q-toolbar class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
-            style="padding-left: 0px; padding-right: 0px;">
+          <q-toolbar
+            class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+            style="padding-left: 0px; padding-right: 0px"
+          >
             <!-- <q-toolbar-title> Travel & Tour </q-toolbar-title> -->
 
             <!-- <LayoutHeaderMenu

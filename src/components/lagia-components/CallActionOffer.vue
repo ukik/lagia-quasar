@@ -1,7 +1,11 @@
 <template>
-  <q-parallax id="call-action-offer"
+  <q-parallax
+    v-if="records"
+    id="call-action-offer"
+    class="margin"
     :height="$q.screen.width > 768 ? 500 : 850"
-    src="/assets/images/banner-img1.jpg"
+    :src="records?.image"
+    :error-src="$defaultErrorImage"
   >
     <div class="absolute-full dimmed"></div>
     <div class="absolute-full dimmed"></div>
@@ -17,11 +21,10 @@
       >
         <q-card-section :horizontal="$q.screen.width > 768">
           <div class="q-mt-lg q-pr-lg">
-            <h5 class="text-white text-h6">OFFER FROM US</h5>
-            <h2 class="text-white">GET SPECIAL BENEFIT ON SIGN UP !</h2>
+            <h5 class="text-white text-h6">{{ records?.title }}</h5>
+            <h2 class="text-white">{{ records?.headline }}</h2>
             <q-item-label lines="2" class="text-white">
-              Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo,
-              rutrum. Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
+              {{ records?.subtitle }}
             </q-item-label>
             <q-btn
               icon="phone"
@@ -34,31 +37,49 @@
             />
           </div>
           <div class="row col-6 q-py-xl client-section">
-            <!-- <img class="col-4" src="/assets/images/client-img1.png" />
-            <img class="col-4" src="/assets/images/client-img1.png" />
-            <img class="col-4" src="/assets/images/client-img1.png" />
-            <img class="col-4" src="/assets/images/client-img1.png" />
-            <img class="col-4" src="/assets/images/client-img1.png" />
-            <img class="col-4" src="/assets/images/client-img1.png" /> -->
             <div class="client-logo">
               <ul class="row">
                 <li>
-                  <img src="assets/images/client-img1.png" alt="" />
+                  <img
+                    :src="records?.image1"
+                    :error-src="$defaultErrorImage"
+                    :alt="records?.title"
+                  />
                 </li>
                 <li>
-                  <img src="assets/images/client-img2.png" alt="" />
+                  <img
+                    :src="records?.image2"
+                    :error-src="$defaultErrorImage"
+                    :alt="records?.title"
+                  />
                 </li>
                 <li>
-                  <img src="assets/images/client-img3.png" alt="" />
+                  <img
+                    :src="records?.image3"
+                    :error-src="$defaultErrorImage"
+                    :alt="records?.title"
+                  />
                 </li>
                 <li>
-                  <img src="assets/images/client-img4.png" alt="" />
+                  <img
+                    :src="records?.image4"
+                    :error-src="$defaultErrorImage"
+                    :alt="records?.title"
+                  />
                 </li>
                 <li>
-                  <img src="assets/images/client-img5.png" alt="" />
+                  <img
+                    :src="records?.image5"
+                    :error-src="$defaultErrorImage"
+                    :alt="records?.title"
+                  />
                 </li>
                 <li>
-                  <img src="assets/images/client-img6.png" alt="" />
+                  <img
+                    :src="records?.image6"
+                    :error-src="$defaultErrorImage"
+                    :alt="records?.title"
+                  />
                 </li>
               </ul>
             </div>
@@ -67,12 +88,34 @@
       </q-card>
     </div>
   </q-parallax>
-
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue"
-const slide = "first";
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+
+import { useInitStore } from "stores/lagia-stores/page/InitStore";
+
+const store = useInitStore();
+const {
+  footer_transport,
+  footer_about,
+  footer_contact,
+  footer_gallery,
+
+  page_widget_call,
+  page_widget_counter,
+  page_widget_offer,
+  page_widget_promo,
+  page_widget_tron,
+
+  loading,
+
+  init,
+} = storeToRefs(store); // have all reactive states here
+
+const records = page_widget_offer;
 </script>
 
 <style scoped>
@@ -104,23 +147,23 @@ h2 {
 
 /* IMAGE */
 .client-section .client-logo ul {
-    margin: 0;
-    padding: 0;
-    font-size: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
-    border-left: 1px solid rgba(255, 255, 255, 0.4);
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
 }
 /* ul {
     list-style: disc;
 } */
 .client-section .client-logo ul li {
-    display: inline-block;
-    list-style: none;
-    /* padding: 15px; */
-    width: 33.33%;
-    text-align: center;
-    border-right: 1px solid rgba(255, 255, 255, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  list-style: none;
+  /* padding: 15px; */
+  width: 33.33%;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .client-section .client-logo ul li img {
@@ -129,20 +172,21 @@ h2 {
 }
 
 .client-section {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 .client-section {
-    /* padding: 115px 0; */
-    position: relative;
-    z-index: 1;
+  /* padding: 115px 0; */
+  position: relative;
+  z-index: 1;
 }
 </style>
 
 <style>
-#call-action-offer .q-parallax__media > img, .q-parallax__media > video {
-    left: 50% !important;
+#call-action-offer .q-parallax__media > img,
+.q-parallax__media > video {
+  left: 50% !important;
 }
 </style>

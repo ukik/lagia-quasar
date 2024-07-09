@@ -298,6 +298,9 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     defineAsyncComponent(() => import('src/components/lagia-components/NoData.vue'))
   )
 
+  app.component("CallAction",
+    defineAsyncComponent(() => import('src/components/lagia-components/CallAction.vue'))
+  )
 
 
 

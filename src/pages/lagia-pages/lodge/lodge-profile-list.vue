@@ -335,7 +335,7 @@
                   {{ item?.lodgeRoomsCount }}
                   <small class="text-weight-light"> Kamar</small>
                 </h6>
-                <small class="col-12 text-center text-caption">( unit ready )</small>
+                <small class="col-12 text-center text-caption">( Tipe Ready )</small>
               </div>
 
               <div class="row col-12 justify-center">
@@ -439,7 +439,8 @@
   </div>
   <!-- Call To Action -->
   <CallActionOffer></CallActionOffer>
-  <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
+  <CallAction></CallAction>
+  <!-- <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5>CALL TO ACTION</h5>
       <h2 class="q-py-lg">READY FOR UNFORGATABLE TRAVEL. REMEMBER US!</h2>
@@ -469,7 +470,7 @@
         />
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- </main> -->
 </template>

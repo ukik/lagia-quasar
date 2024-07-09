@@ -351,37 +351,7 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
-    <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
-      <h5>CALL TO ACTION</h5>
-      <h2 class="q-py-lg">READY FOR UNFORGATABLE TRAVEL. REMEMBER US!</h2>
-      <p>
-        Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
-        Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
-      </p>
-      <div class="q-mt-xl">
-        <q-btn
-          icon="phone"
-          dense
-          unelevated
-          rounded
-          class="q-py-md q-px-lg q-ma-sm rounded-borders-4"
-          color="primary"
-          label="Contact Us!"
-        />
-        <q-btn
-          icon-right="chevron_right"
-          dense
-          unelevated
-          rounded
-          outline
-          class="q-py-md q-px-lg q-ma-sm rounded-borders-4"
-          color="primary"
-          label="Learn More"
-        />
-      </div>
-    </div>
-  </div>
+  <CallAction></CallAction>
 
   <!-- </main> -->
 </template>
