@@ -1,14 +1,16 @@
 <template>
   <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
-    <div class="col-lg-8 text-center q-px-md row justify-center">
-      <h5 class="col-12">{{ items?.setup?.title }}</h5>
-      <h2 class="q-py-lg col-12">{{ items?.setup?.subtitle }}</h2>
+    <div
+      class="text-center q-px-md row justify-center row justify-start col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+    >
+      <h5 class="col-12">{{ item?.setup?.title }}</h5>
+      <h2 class="q-py-lg col-12">{{ item?.setup?.subtitle }}</h2>
       <p class="col-xl-9 col-lg-9 col-md-9 col-sm-11 col-12">
-        {{ items?.setup?.headline }}
+        {{ item?.setup?.headline }}
       </p>
 
       <div class="q-mt-xl col-12 row justify-center q-col-gutter-lg">
-        <template v-for="(item, index) in items?.benefit">
+        <template v-for="(item, index) in item?.benefit">
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
             <q-card flat bordered class="rounded-borders-3">
               <q-card-section>
@@ -37,7 +39,6 @@
 <script setup>
 import { ref, defineProps } from "vue";
 const { item } = defineProps(["item"]);
-const items = item;
 </script>
 
 <style scoped>

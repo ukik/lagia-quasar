@@ -11,6 +11,13 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
+      <div class="col-12" v-if="records.length <= 0 && !loading">
+        <NoData></NoData>
+      </div>
+
       <div
         v-for="(item, index) in records"
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"

@@ -52,25 +52,25 @@
               </li>
 
               <li class="menu-item-has-children">
-                <a to="">Produk</a>
+                <a to="">Etalase</a>
                 <ul class="shadow-3">
-                  <li>
+                  <!-- <li>
                     <router-link to="package-common">Travel</router-link>
+                  </li> -->
+                  <li>
+                    <router-link to="/transport/rental-list">Rental</router-link>
                   </li>
                   <li>
-                    <router-link to="package-promo">Rental</router-link>
+                    <router-link to="/lodge/profile-list">Hotel</router-link>
                   </li>
                   <li>
-                    <router-link to="package-detail">Hotel</router-link>
+                    <router-link to="/souvenir/store-list">Souvenir</router-link>
                   </li>
                   <li>
-                    <router-link to="cart">Souvenir</router-link>
+                    <router-link to="/culinary/store-list">Kuliner</router-link>
                   </li>
                   <li>
-                    <router-link to="cart">Kuliner</router-link>
-                  </li>
-                  <li>
-                    <router-link to="confirmation">Talent</router-link>
+                    <router-link to="/talent/profile-list">Talent</router-link>
                   </li>
                 </ul>
               </li>
@@ -79,19 +79,19 @@
                 <a to="">Page</a>
                 <ul class="shadow-3">
                   <li>
-                    <router-link to="package-common">About Us</router-link>
+                    <router-link to="/lagia/about">About Us</router-link>
                   </li>
                   <li>
-                    <router-link to="package-promo">Service</router-link>
+                    <router-link to="/lagia/service">Service</router-link>
                   </li>
                   <li>
-                    <router-link to="package-detail">Career</router-link>
+                    <router-link to="/lagia/career">Career</router-link>
                   </li>
                   <li>
-                    <router-link to="cart">Gallery</router-link>
+                    <router-link to="/lagia/gallery">Gallery</router-link>
                   </li>
                   <li>
-                    <router-link to="cart">Testimonial</router-link>
+                    <router-link to="/lagia/testimonial">Testimonial</router-link>
                   </li>
                   <li class="menu-item-has-children">
                     <!-- <a to="" :class="[
@@ -100,13 +100,31 @@
                     <a>Info</a>
                     <ul class="shadow-3">
                       <li>
-                        <router-link to="career">Faq</router-link>
+                        <router-link to="/lagia/faq">Faq</router-link>
                       </li>
                       <li>
-                        <router-link to="career-detail">Term & Condition</router-link>
+                        <router-link
+                          :to="{
+                            name: '/info/single-page',
+                            params: {
+                              slug: getInfoSyarat?.slug,
+                              id: getInfoSyarat?.id,
+                            },
+                          }"
+                          >{{ getInfoSyarat?.title }}</router-link
+                        >
                       </li>
                       <li>
-                        <router-link to="career">Privacy Policy</router-link>
+                        <router-link
+                          :to="{
+                            name: '/info/single-page',
+                            params: {
+                              slug: getInfoPrivasi?.slug,
+                              id: getInfoPrivasi?.id,
+                            },
+                          }"
+                          >{{ getInfoPrivasi?.title }}</router-link
+                        >
                       </li>
                     </ul>
                   </li>
@@ -243,6 +261,13 @@
   </div>
 </template>
 
+<script setup>
+import { storeToRefs } from "pinia";
+import { useInitStore } from "stores/lagia-stores/page/InitStore";
+const initStore = useInitStore();
+const { getInfoPrivasi, getInfoSyarat } = storeToRefs(initStore); // have all reactive states here
+</script>
+
 <style scope>
 a {
   text-decoration: none;
@@ -360,6 +385,7 @@ ul {
 .navigation-container ul ul li a:active {
   padding-left: 30px;
   /* color: #3a78c9; */
+  background-color: #174b90;
   color: white;
 }
 .navigation-container ul ul li > ul {

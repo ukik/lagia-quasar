@@ -13,7 +13,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 q-mb-lg">
+      <isInfo></isInfo>
+
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 q-mb-lg q-mt-md">
         <q-card flat class="rounded-borders-2">
           <q-img
             style="min-height: 600px"
@@ -59,12 +61,17 @@
           <q-expansion-item
             default-opened
             class="shadow-0 overflow-hidden q-mb-lg"
-            style="border-radius: 30px"
+            style="border-radius: 20px"
             :label="first?.title"
             header-class="bg-primary text-white "
             expand-icon-class="text-white"
           >
-            <q-card flat class="bg-grey-1">
+            <q-card
+              bordered
+              flat
+              class="bg-grey-0"
+              style="border-radius: 0px 0px 20px 20px"
+            >
               <q-card-section>
                 <q-item-label lines="3">
                   {{ first?.description }}
@@ -121,7 +128,7 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
-      <div class="section-heading col-12 text-center q-mt-xl">
+      <div class="section-heading col-12 text-center q-mt-xl q-mb-lg">
         <h5 class="sub-title q-mt-lg">{{ additional?.title2 }}</h5>
         <h2 class="section-title">{{ additional?.headline2 }}</h2>
         <p>
@@ -137,12 +144,12 @@
           <q-expansion-item
             default-opened
             class="shadow-0 overflow-hidden"
-            style="border-radius: 30px"
+            style="border-radius: 20px"
             :label="second?.title"
             header-class="bg-primary text-white "
             expand-icon-class="text-white"
           >
-            <q-card flat>
+            <q-card flat bordered style="border-radius: 0px 0px 20px 20px">
               <q-card-section>
                 <q-item-label lines="3">
                   {{ second?.description }}

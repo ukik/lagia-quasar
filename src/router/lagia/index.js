@@ -7,6 +7,8 @@ import lagia_talent from './lagia-talent';
 import lagia_souvenir from './lagia-souvenir';
 import lagia_culinary from './lagia-culinary';
 import lagia_lodge from './lagia-lodge';
+import lagia_info from './lagia-info';
+
 import lagia_transport_1 from './lagia-transport-1';
 
 export default function (store, cookies, ssrContext) {
@@ -25,6 +27,7 @@ export default function (store, cookies, ssrContext) {
         ...lagia_souvenir(store, cookies, ssrContext),
         ...lagia_culinary(store, cookies, ssrContext),
         ...lagia_lodge(store, cookies, ssrContext),
+        ...lagia_info(store, cookies, ssrContext),
 
         {
           path: "", // /lagia/index
@@ -271,17 +274,17 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/service.vue"),
         },
-        // {
-        //   path: "/lagia/single-page",
-        //   name: "/lagia/single-page",
-        //   meta: {
-        //     ssr: true,
-        //     logged: false,
-        //     role: '',
-        //     title: 'lagia single page',
-        //   },
-        //   component: () => import("pages/lagia-pages/single-page.vue"),
-        // },
+        {
+          path: "/lagia/single-page",
+          name: "/lagia/single-page",
+          meta: {
+            ssr: true,
+            logged: false,
+            role: '',
+            title: 'lagia single page',
+          },
+          component: () => import("pages/lagia-pages/single-page.vue"),
+        },
         {
           path: "/lagia/team",
           name: "/lagia/team",

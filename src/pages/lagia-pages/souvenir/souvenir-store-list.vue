@@ -148,6 +148,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -500,16 +503,6 @@ onBeforeRouteLeave((to, from, next) => {
   closeDialog();
   return next();
 });
-</script>
-
-<script>
-export default {
-  // beforeRouteEnter(to, from, next) {
-  //   // called before the route that renders this component is confirmed.
-  //   // does NOT have access to `this` component instance,
-  //   // because it has not been created yet when this guard is called!
-  // },
-};
 </script>
 
 <style scoped>

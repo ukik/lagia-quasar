@@ -100,6 +100,11 @@
       <div v-if="additional" class="col-12 q-mb-lg">
         <PriceReference :item="additional"></PriceReference>
       </div>
+
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
+
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -130,8 +135,8 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <CallActionOffer></CallActionOffer>
-  <CallAction></CallAction>
+  <!-- <CallActionOffer></CallActionOffer> -->
+  <!-- <CallAction></CallAction> -->
   <!-- </main> -->
 </template>
 
@@ -214,23 +219,17 @@ watch(() => currentPage, onCurrentPage, {
 });
 
 const record = ref(null);
-
 const dialog_selengkapnya = ref(false);
-
 const culinary_store = ref(false);
-// const culinary_product = ref(false);
-
-// const dialog_payload = ref(null);
-// const dialog_value = ref(false);
 
 function onBubbleEvent(value) {
   record.value = value?.payload;
   if (value?.label == "store") culinary_store.value = true;
   if (value?.label == "detail") dialog_selengkapnya.value = true;
-  // if (value?.label == "produk") culinary_product.value = true;
 }
 
 function closeDialog() {
+  record.value = null;
   dialog_selengkapnya.value = false;
   culinary_store.value = false;
 }

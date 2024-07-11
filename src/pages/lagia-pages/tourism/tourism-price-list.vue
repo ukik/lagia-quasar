@@ -261,6 +261,9 @@
       <div v-if="additional" class="col-12 q-mb-lg">
         <PriceReference :item="additional"></PriceReference>
       </div>
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -291,8 +294,8 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <CallActionOffer></CallActionOffer>
-  <CallAction></CallAction>
+  <!-- <CallActionOffer></CallActionOffer> -->
+  <!-- <CallAction></CallAction> -->
   <!-- <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5>CALL TO ACTION</h5>
@@ -409,9 +412,6 @@ const tourism_venue = ref(false);
 const tourism_facilities = ref(false);
 const tourism_services = ref(false);
 
-// const dialog_payload = ref(null);
-// const dialog_value = ref(false);
-
 function onBubbleEvent(value) {
   record.value = value?.payload;
   if (value?.label == "venue") tourism_venue.value = true;
@@ -421,6 +421,7 @@ function onBubbleEvent(value) {
 }
 
 function closeDialog() {
+  record.value = null;
   dialog_selengkapnya.value = false;
   tourism_venue.value = false;
   tourism_facilities.value = false;

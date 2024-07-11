@@ -19,6 +19,7 @@ export const useInitStore = defineStore('InitStore', {
     footer_about: null,
     footer_contact: null,
     footer_gallery: null,
+    footer_info: null,
 
     page_widget_call: null,
     page_widget_counter: null,
@@ -33,6 +34,24 @@ export const useInitStore = defineStore('InitStore', {
 
   getters: {
     getRecord: state => state.record,
+    getInfoPrivasi: state => {
+      let temp = null
+      state.footer_info?.forEach(element => {
+        if(element['type'] === 'kebijakan-privasi') {
+          temp = element
+        }
+      });
+      return temp
+    },
+    getInfoSyarat: state => {
+      let temp = null
+      state.footer_info?.forEach(element => {
+        if(element['type'] === 'syarat-ketentuan') {
+          temp = element
+        }
+      });
+      return temp
+    }
   },
 
   actions: {
@@ -86,6 +105,7 @@ export const useInitStore = defineStore('InitStore', {
 
       this.footer_about = response?.data?.data?.footerAbout
       this.footer_contact = response?.data?.data?.footerContact
+      this.footer_info = response?.data?.data?.footerInfo
 
 
       this.page_widget_call = response?.data?.data?.pageWidgetCall

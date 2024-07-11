@@ -254,6 +254,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -500,8 +503,8 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <CallActionOffer></CallActionOffer>
-  <CallAction></CallAction>
+  <!-- <CallActionOffer></CallActionOffer> -->
+  <!-- <CallAction></CallAction> -->
   <!-- <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5>CALL TO ACTION</h5>

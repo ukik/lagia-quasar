@@ -7,6 +7,9 @@
       class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md"
       :class="[$q.screen.width > 425 ? '' : '', $q.screen.width > 768 ? '' : '']"
     >
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>

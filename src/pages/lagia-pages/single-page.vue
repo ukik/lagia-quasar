@@ -1,53 +1,75 @@
 <template>
-    <InnerBanner _title="Single Page"></InnerBanner>
+  <InnerBanner _title="Single Page"></InnerBanner>
 
-    <!-- ***Inner Banner html end here*** -->
-    <div class="content-page-section row justify-center">
-      <div
+  <!-- ***Inner Banner html end here*** -->
+  <div class="content-page-section row justify-center">
+    <div
       class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
-      ]">
-        <div class="col-12">
-          <q-img
+      ]"
+    >
+      <div class="col-12">
+        <q-img
           class="rounded-borders-2 q-mb-lg"
           src="assets/images/img16.jpg"
-          :ratio="16/9"
+          :ratio="16 / 9"
         />
-        </div>
-        <h2 class="q-mb-lg">Let's build the better world together</h2>
-        <div class="page-content-1" v-html="content"></div>
-        <div class="page-content-2 q-mb-xl">
+      </div>
+      <h2 class="q-mb-lg">Let's build the better world together</h2>
+      <div class="page-content-1" v-html="content"></div>
 
-          <h3>Placerat quaerat curae reiciendis commodi. X</h3>
+      <div class="col-12 q-mb-xl">
+        <h3>Placerat quaerat curae reiciendis commodi. X</h3>
 
-          <div class="row col-gutters q-col-gutter-sm q-mb-lg">
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <q-img :ratio="1" src="assets/images/img4.jpg" alt="" class="rounded-borders-2" />
-            </div>
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <q-img :ratio="1" src="assets/images/img5.jpg" alt="" class="rounded-borders-2" />
-            </div>
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-              <q-img :ratio="1" src="assets/images/img6.jpg" alt="" class="rounded-borders-2" />
-            </div>
+        <div class="row col-gutters q-col-gutter-sm q-mb-lg">
+          <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+            <q-img
+              :ratio="1"
+              src="assets/images/img4.jpg"
+              alt=""
+              class="rounded-borders-2"
+            />
           </div>
-
-          <q-banner dense :class="[ $q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2' ]" class="rounded-borders-2">
-            <template v-slot:avatar>
-              <q-icon size="xl" name="format_quote" color="black" />
-            </template>
-            <h6 class="q-my-lg q-pr-md">Sagittis perferendis? Leo nobis irure egestas excepturi ipsam nascetur
-              elementum, montes. Torquent, soluta, ac nihil.</h6>
-          </q-banner>
+          <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+            <q-img
+              :ratio="1"
+              src="assets/images/img5.jpg"
+              alt=""
+              class="rounded-borders-2"
+            />
+          </div>
+          <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+            <q-img
+              :ratio="1"
+              src="assets/images/img6.jpg"
+              alt=""
+              class="rounded-borders-2"
+            />
+          </div>
         </div>
+
+        <q-banner
+          dense
+          :class="[$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2']"
+          class="rounded-borders-2"
+        >
+          <template v-slot:avatar>
+            <q-icon size="xl" name="format_quote" color="black" />
+          </template>
+          <h6 class="q-my-lg q-pr-md">
+            Sagittis perferendis? Leo nobis irure egestas excepturi ipsam nascetur
+            elementum, montes. Torquent, soluta, ac nihil.
+          </h6>
+        </q-banner>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup>
-const content=`<p>
+const content = `<p>
             Assumenda mattis condimentum morbi ipsam felis orci, urna placeat blandit
             dictum amet? Leo magni magna sint erat tenetur! Parturient. Explicabo,
             hendrerit distinctio fugit excepteur consectetur diamlorem? Possimus magnis
@@ -123,5 +145,4 @@ h3 {
   font-size: 22px;
   font-weight: 700;
 }
-
 </style>

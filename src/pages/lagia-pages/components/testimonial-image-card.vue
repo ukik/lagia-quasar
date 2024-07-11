@@ -39,7 +39,7 @@
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 rounded-borders-2-bottom"
-        :src="item?.image"
+        :src="item?.image[0]"
         :error-src="$defaultErrorImage"
       >
         <!-- <div class="absolute-top-right bg-transparent">

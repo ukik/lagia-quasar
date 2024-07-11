@@ -324,6 +324,7 @@ export default {
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
           <component :is="Component" :key="$route.name"> </component>
         </router-view>
+
         <q-no-ssr v-else>
           <router-view v-slot="{ Component }">
             <keep-alive>
@@ -331,6 +332,9 @@ export default {
             </keep-alive>
           </router-view>
         </q-no-ssr>
+
+        <CallActionOffer></CallActionOffer>
+        <CallAction></CallAction>
 
         <q-no-ssr>
           <LayoutFooter v-if="hideNav()"></LayoutFooter>

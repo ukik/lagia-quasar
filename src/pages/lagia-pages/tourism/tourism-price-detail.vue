@@ -10,6 +10,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="!record && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
         <!-- {{ record }} -->
         <StoreDetailContent :record="record"></StoreDetailContent>
@@ -86,52 +89,6 @@ const {
 //   deep: true,
 //   immediate: true,
 // });
-</script>
-
-<script>
-// import { storeToRefs } from "pinia";
-// import { useQuasar, Cookies } from "quasar";
-// import { ref, nextTick, watch, onMounted } from "vue";
-
-// import { useTourismPriceDetailStore } from "stores/lagia-stores/travel/TourismPriceDetailStore";
-// import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
-
-// export default {
-//   // our hook here
-//   preFetch({
-//     store,
-//     currentRoute,
-//     previousRoute,
-//     redirect,
-//     ssrContext,
-//     urlPath,
-//     publicPath,
-//   }) {
-//     // fetch data, validate route and optionally redirect to some other route...
-//     const $store = useTourismPriceDetailStore(store);
-//     // return $store.onFetch(currentRoute.params?.slug)
-//   },
-//   data() {
-//     return {
-//       _record: null,
-//       _auth: null,
-//     };
-//   },
-//   // SOLUSI SSR via OPTION
-//   // SOLUSI transfer data dari Pinia ke Component
-//   // WAJIB pakai created()
-//   created() {
-//     const store = useTourismPriceDetailStore();
-//     const { record, isMaintenance, loading } = storeToRefs(store); // have all reactive states here
-//     console.log("xxxxxxxxxxxxxxxx", record);
-
-//     this._record = record;
-
-//     const $auth = useAuthStore();
-//     const { auth } = storeToRefs($auth); // have all reactive states here
-//     this._auth = auth;
-//   },
-// };
 </script>
 
 <style scoped>

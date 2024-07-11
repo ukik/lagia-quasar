@@ -1,9 +1,9 @@
 <template>
-  <q-no-ssr>
+  <!-- <q-no-ssr>
     <EasyLightbox :_gallery="gallery" ref="EasyLightboxRef"></EasyLightbox>
-  </q-no-ssr>
+  </q-no-ssr> -->
 
-  <div class="site-footer row justify-center">
+  <div id="footer" class="site-footer row justify-center">
     <div
       class="row justify-start col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
@@ -15,34 +15,61 @@
         <div class="footer-logo q-mb-lg">
           <a href="index.html"><img src="assets/images/site-logo.png" alt="" /></a>
         </div>
-        <q-item-label class="text-white">
-          Urna ratione ante harum provident, eleifend, vulputate molestiae proin
-          fringilla, praesentium magna conubia at perferendis, pretium, aenean aut
-          ultrices.
-        </q-item-label>
+        <q-item-label
+          class="text-white q-mb-sm"
+          lines="6"
+          v-html="footer_about?.description"
+        />
+
+        <!-- <q-item-label>
+          <q-btn dense flat color="white" icon-right="keyboard_arrow_right"
+            >Selengkapnya</q-btn
+          >
+        </q-item-label> -->
+        <router-link class="text-white" to="/lagia/about"
+          >selengkapnya <q-icon name="keyboard_arrow_right"></q-icon
+        ></router-link>
       </div>
       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
         <q-list class="text-white footer-primary">
           <q-item-label class="text-white q-px-none widget-title" header
-            >RECENT POST</q-item-label
+            >RECENT RENTAL</q-item-label
           >
 
-          <q-item v-for="i in 2" clickable v-ripple>
+          <q-item v-for="(item, index) in footer_transport" clickable v-ripple>
             <q-item-section top thumbnail>
               <img
                 class="rounded-borders-1"
                 style="height: 75px; width: 75px"
-                src="https://cdn.quasar.dev/img/mountains.jpg"
+                :src="item?.image[0]"
+                :error-src="$defaultErrorImage"
               />
             </q-item-section>
 
             <q-item-section top>
               <q-item-label class="text-uppercase" lines="2"
-                >Apa JOURNEY TO PEACEFUL PLACES</q-item-label
+                >{{ item?.brand }} - {{ item?.model }} -
+                {{ item?.category }}</q-item-label
               >
-              <q-item-label class="text-white q-mt-md" caption
-                >February 17, 2022</q-item-label
-              >
+              <q-item-label class="text-white q-mt-md" caption>
+                <!-- ({{ item?.transportPricesCount }} Price) -->
+                <q-rating
+                  v-if="item?.ratingAvg?.avgRating"
+                  readonly
+                  v-model="item.ratingAvg.avgRating"
+                  size="xs"
+                  :max="5"
+                  color="white"
+                ></q-rating>
+                <q-rating
+                  v-else
+                  readonly
+                  v-model="rating"
+                  size="xs"
+                  :max="5"
+                  color="white"
+                ></q-rating>
+              </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -56,29 +83,36 @@
             >Feel free to contact and reach us !!</q-item-label
           >
 
-          <q-item class="q-px-xs" clickable v-ripple>
+          <q-item
+            :href="`tel:${footer_contact?.grid1Value}`"
+            class="q-px-xs"
+            clickable
+            v-ripple
+          >
             <q-item-section side>
               <q-icon color="white" name="phone" />
             </q-item-section>
-            <q-item-section>+01(988) 256 203</q-item-section>
+            <q-item-section>{{ footer_contact?.grid1Value }}</q-item-section>
           </q-item>
 
-          <q-item class="q-px-xs" clickable v-ripple>
+          <q-item
+            :href="`mailto:${footer_contact?.grid2Value}`"
+            class="q-px-xs"
+            clickable
+            v-ripple
+          >
             <q-item-section side>
               <q-icon color="white" name="email" />
             </q-item-section>
-            <q-item-section>info@domain.com</q-item-section>
+            <q-item-section>{{ footer_contact?.grid2Value }}</q-item-section>
           </q-item>
 
-          <q-item class="q-px-xs" clickable v-ripple>
+          <q-item @click="onMap" class="q-px-xs" clickable v-ripple>
             <q-item-section side>
               <q-icon color="white" name="location_on" />
             </q-item-section>
             <q-item-section>
-              <q-item-label lines="2"
-                >3146 Koontz, California 3146 Koontz, California 3146 Koontz,
-                California</q-item-label
-              >
+              <q-item-label lines="2">{{ footer_contact?.grid3Value }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -95,14 +129,16 @@
         </q-list>
 
         <div class="row q-col-gutter-sm">
-          <div v-for="(item, index) in gallery" class="col-4">
-            <q-img
-              @click="openLightBox(index)"
-              ratio="1"
-              class="rounded-borders-1"
-              :src="item"
-            />
-          </div>
+          <template v-for="(item, index) in $shuffleArray(footer_gallery?.image)">
+            <div class="col-4" v-if="index < 6">
+              <q-img
+                @click="showMultiple(footer_gallery?.image, index)"
+                ratio="1"
+                class="rounded-borders-1"
+                :src="item"
+              />
+            </div>
+          </template>
         </div>
       </div>
 
@@ -147,6 +183,8 @@
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <q-card-actions class="q-pa-none" align="right">
           <q-btn
+            type="_blank"
+            :href="footer_contact?.instagram"
             icon="fa-brands fa-instagram"
             round
             outline
@@ -158,6 +196,8 @@
             <!-- <font-awesome :icon="['fab', 'fa-instagram']" /> -->
           </q-btn>
           <q-btn
+            type="_blank"
+            :href="footer_contact?.whatsapp"
             icon="fa-brands fa-whatsapp"
             round
             outline
@@ -169,6 +209,8 @@
             <!-- <font-awesome :icon="['fab', 'fa-whatsapp']" /> -->
           </q-btn>
           <q-btn
+            type="_blank"
+            :href="footer_contact?.facebook"
             icon="fa-brands fa-facebook-f"
             round
             outline
@@ -180,6 +222,8 @@
             <!-- <font-awesome :icon="['fab', 'fa-facebook-f']" /> -->
           </q-btn>
           <q-btn
+            type="_blank"
+            :href="footer_contact?.twitter"
             icon="fa-brands fa-x-twitter"
             round
             outline
@@ -191,6 +235,8 @@
             <!-- <font-awesome :icon="['fab', 'fa-x-twitter']" /> -->
           </q-btn>
           <q-btn
+            type="_blank"
+            :href="footer_contact?.tiktok"
             icon="fa-brands fa-tiktok"
             round
             outline
@@ -201,12 +247,32 @@
             <!-- <font-awesome :icon="['fab', 'fa-tiktok']" /> -->
           </q-btn>
         </q-card-actions>
-        <q-card-actions class="q-pa-none q-mt-sm" align="right">
-          <router-link to="/">Privacy Policy</router-link>
+        <q-card-actions class="q-pa-none q-mt-sm text-white" align="right">
+          <router-link
+            v-if="getInfoPrivasi"
+            :to="{
+              name: '/info/single-page',
+              params: {
+                slug: getInfoPrivasi?.slug,
+                id: getInfoPrivasi?.id,
+              },
+            }"
+            >{{ getInfoPrivasi?.title }}</router-link
+          >
           <q-separator class="q-mx-sm q-my-xs" vertical color="white"></q-separator>
-          <router-link to="/">Term & Condition</router-link>
+          <router-link
+            v-if="getInfoSyarat"
+            :to="{
+              name: '/info/single-page',
+              params: {
+                slug: getInfoSyarat?.slug,
+                id: getInfoSyarat?.id,
+              },
+            }"
+            >{{ getInfoSyarat?.title }}</router-link
+          >
           <q-separator class="q-mx-sm q-my-xs" vertical color="white"></q-separator>
-          <router-link to="/">FAQ</router-link>
+          <router-link to="/lagia/faq">FAQ</router-link>
         </q-card-actions>
       </div>
     </div>
@@ -214,28 +280,74 @@
 </template>
 
 <script setup>
-// import EasyLightbox from "./EasyLightbox";
-import { ref, defineProps } from "vue";
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
 
-const loading = false;
+import { useInitStore } from "stores/lagia-stores/page/InitStore";
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+
+const store = useInitStore();
+const {
+  footer_transport,
+  footer_about,
+  footer_contact,
+  footer_gallery,
+  footer_info,
+
+  page_widget_call,
+  page_widget_counter,
+  page_widget_offer,
+  page_widget_promo,
+  page_widget_tron,
+
+  loading,
+
+  getInfoPrivasi,
+  getInfoSyarat,
+
+  init,
+} = storeToRefs(store); // have all reactive states here
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
 const text = ref(null);
+const rating = 0;
 
-const EasyLightboxRef = ref(null);
-const gallery = [
-  "https://picsum.photos/500/300",
-  "https://picsum.photos/500/400",
-  "https://picsum.photos/500/300",
-  "https://picsum.photos/500/400",
-  "https://picsum.photos/500/300",
-  "https://picsum.photos/500/400",
-];
+function onMap() {
+  window.open(footer_contact.value?.map, "_blank");
+}
 
-const openLightBox = (index = 0) => {
-  EasyLightboxRef.value?.showImage(index);
-  // EasyLightboxRef.value?.showMultiple(gallery, 0)
-  // console.log(EasyLightboxRef)
-};
+// // import EasyLightbox from "./EasyLightbox";
+// import { ref, defineProps } from "vue";
+
+// const loading = false;
+// const text = ref(null);
+
+// const EasyLightboxRef = ref(null);
+// const gallery = [
+//   "https://picsum.photos/500/300",
+//   "https://picsum.photos/500/400",
+//   "https://picsum.photos/500/300",
+//   "https://picsum.photos/500/400",
+//   "https://picsum.photos/500/300",
+//   "https://picsum.photos/500/400",
+// ];
+
+// const openLightBox = (index = 0) => {
+//   EasyLightboxRef.value?.showImage(index);
+//   // EasyLightboxRef.value?.showMultiple(gallery, 0)
+//   // console.log(EasyLightboxRef)
+// };
 </script>
+
+<style>
+#footer .q-item__label.text-white p {
+  color: white !important;
+}
+</style>
+
 <style scoped>
 .site-footer {
   background-color: rgba(34, 54, 69, 0.98);

@@ -26,21 +26,21 @@ import { mapState, mapWritableState, mapActions } from 'pinia'
 import formatTime from "src/utils/formatTime"
 import formatDate from "src/utils/formatDate"
 const stringToBoolean = (stringValue) => {
-  switch(stringValue?.toLowerCase()?.trim()){
-      case "true":
-      case "yes":
-      case "1":
-        return true;
+  switch (stringValue?.toLowerCase()?.trim()) {
+    case "true":
+    case "yes":
+    case "1":
+      return true;
 
-      case "false":
-      case "no":
-      case "0":
-      case null:
-      case undefined:
-        return false;
+    case "false":
+    case "no":
+    case "0":
+    case null:
+    case undefined:
+      return false;
 
-      default:
-        return JSON.parse(stringValue);
+    default:
+      return JSON.parse(stringValue);
   }
 }
 
@@ -110,9 +110,16 @@ function finalPrice(item) {
   const discount = item?.discountPrice
   const cashback = item?.cashbackPrice
 
-  const total =  (Number(general) - ((Number(general) * Number(discount)/100)) - Number(cashback))
+  const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
   // console.log('getTotalAmount', total)
   return total;
+}
+
+function shuffleArray(arr) {
+  if(!arr) return []
+  return arr.map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
 }
 
 export default boot(async ({ app, ssrContext, router, store }) => {
@@ -159,6 +166,9 @@ export default boot(async ({ app, ssrContext, router, store }) => {
 
   app.config.globalProperties.$getRatingTestimonial = getRatingTestimonial;
   app.config.globalProperties.$getSplit = getSplit;
+
+  app.config.globalProperties.$shuffleArray = shuffleArray;
+
 
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;
@@ -322,7 +332,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     },
     methods: {
       underconstruction() {
-        if(!this.is_logged) {
+        if (!this.is_logged) {
           this.$q.notify({
             message: 'Under Construction',
             // caption: 'wajib login',
@@ -331,7 +341,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
         }
       },
       authCheck() {
-        if(!this.is_logged) {
+        if (!this.is_logged) {
           this.$q.notify({
             // message: 'Wajib masuk akun Anda',
             // caption: 'wajib login',
@@ -339,13 +349,14 @@ export default boot(async ({ app, ssrContext, router, store }) => {
             icon: 'login',
             position: 'bottom',
             actions: [
-              { label: 'Click Here To Login', color: 'white', handler: () => {
+              {
+                label: 'Click Here To Login', color: 'white', handler: () => {
 
-                this.$router.push({
-                  name:'auth_login'
-                })
+                  this.$router.push({
+                    name: 'auth_login'
+                  })
 
-               }
+                }
               }
             ]
           })
@@ -358,18 +369,18 @@ export default boot(async ({ app, ssrContext, router, store }) => {
       },
       imageSync(val) {
         return val
-        console.log('imageSync', (val?.toString().includes('http') || val?.toString().includes('https')) ? val : host+val)
+        console.log('imageSync', (val?.toString().includes('http') || val?.toString().includes('https')) ? val : host + val)
         // const n = val?.toString() ? val?.toString() : null
         // if(!n) return default_avatar
-        return (val?.toString().includes('http') || val?.toString().includes('https')) ? val : host+val
+        return (val?.toString().includes('http') || val?.toString().includes('https')) ? val : host + val
       },
-      getLightbox (state, value) {
+      getLightbox(state, value) {
         let imgs = []
         state.forEach(element => {
-          if(element[value].includes("http") || element[value].includes("https")) {
+          if (element[value].includes("http") || element[value].includes("https")) {
             imgs.push(element[value])
           } else {
-            imgs.push(host+element[value])
+            imgs.push(host + element[value])
           }
         })
         return imgs

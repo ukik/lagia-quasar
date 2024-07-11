@@ -209,6 +209,12 @@ export default boot( async ({ app, ssrContext, router, store }) => {
     defineAsyncComponent(() => import('src/components/lagia-components/widget/isModalDescription.vue'))
   )
 
+  app.component("isInfo",
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isInfo.vue'))
+  )
+
+
+
 
   // app.component('EasyLightbox',
   //   defineAsyncComponent(() => import('src/components/lagia-components/EasyLightbox.vue'))

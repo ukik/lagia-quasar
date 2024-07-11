@@ -1,5 +1,5 @@
 <template>
-  <InnerBanner _title="ABOUT US"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">

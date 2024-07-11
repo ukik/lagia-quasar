@@ -20,7 +20,7 @@ export default boot(async ({ router, store }) => {
     // the router is installed and pinia will be installed too
 
     // jika disini akan dihitung CLIENT
-    if(!getLoading.value?.init) await onInit()
+    // if(!getLoading.value?.init) await onInit() // matikan saja
 
     // console.log('beforeEach boot/lagia-.js', auth, getLoading.value, getIsLogin.value, getIsLogin.value && to.name == '/login')
 

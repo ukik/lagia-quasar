@@ -11,6 +11,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -80,23 +83,24 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <div class="call-action-box bg-color-callback bg-form text-white row justify-center">
+  <!-- <CallActionOffer></CallActionOffer>
+  <CallAction></CallAction>
+  <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
-      <h5 class="text-white">CALL TO ACTION</h5>
-      <h2 class="q-py-lg text-white">READY FOR UNFORGATABLE TRAVEL. REMEMBER US!</h2>
+      <h5>CALL TO ACTION</h5>
+      <h2 class="q-py-lg">READY FOR UNFORGATABLE TRAVEL. REMEMBER US!</h2>
       <p>
         Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
         Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
       </p>
       <div class="q-mt-xl">
         <q-btn
-          text-color="primary"
           icon="phone"
           dense
           unelevated
           rounded
           class="q-py-md q-px-lg q-ma-sm rounded-borders-4"
-          color="white"
+          color="primary"
           label="Contact Us!"
         />
         <q-btn
@@ -106,13 +110,12 @@
           rounded
           outline
           class="q-py-md q-px-lg q-ma-sm rounded-borders-4"
-          color="white"
+          color="primary"
           label="Learn More"
         />
       </div>
     </div>
-  </div>
-
+  </div> -->
   <!-- </main> -->
 </template>
 

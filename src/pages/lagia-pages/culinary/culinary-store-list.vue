@@ -130,6 +130,9 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -351,7 +354,7 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <CallAction></CallAction>
+  <!-- <CallAction></CallAction> -->
 
   <!-- </main> -->
 </template>
@@ -363,15 +366,10 @@
 //     page: currentRoute.params.page
 //   });
 // }),
-// import PriceListCard from "./components/PriceListCard";
+
 import CulinaryStoreDialogCard from "./components/CulinaryStoreDialogCard";
 import CulinaryPriceDialog from "./components/CulinaryPriceDialog";
-// import QItemLabelSimpleValue from "./components/QItemLabelSimpleValue";
 import CulinaryProductDialog from "./components/CulinaryProductDialog";
-// import PriceVehicleDialog from "./components/PriceVehicleDialog";
-// import RentalDetailCard from "./components/RentalDetailCard";
-
-// import QItemLabelValueMobile from "./components/QItemLabelValueMobile";
 
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
@@ -442,20 +440,14 @@ const ratingZero = 0.0;
 
 const dialog_selengkapnya = ref(false);
 const record = ref(null);
-
 const culinary_prices = ref(false);
 const culinary_products = ref(false);
-
-// const dialog_payload = ref(null);
-// const dialog_value = ref(false);
 
 function closeDialog() {
   dialog_selengkapnya.value = false;
   record.value = null;
   culinary_prices.value = false;
   culinary_products.value = false;
-  // dialog_payload.value = null;
-  // dialog_value.value = false;
 }
 
 onBeforeRouteLeave((to, from, next) => {

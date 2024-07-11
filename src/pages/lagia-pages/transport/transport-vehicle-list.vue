@@ -113,6 +113,9 @@
           </q-expansion-item>
         </q-list>
       </div>
+      <div v-if="records.length <= 0 && loading" class="col-12 text-center">
+        <q-spinner color="primary" size="3em" />
+      </div>
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>
       </div>
@@ -358,8 +361,8 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <CallActionOffer></CallActionOffer>
-  <CallAction></CallAction>
+  <!-- <CallActionOffer></CallActionOffer> -->
+  <!-- <CallAction></CallAction> -->
   <!-- <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5>CALL TO ACTION</h5>
@@ -484,17 +487,8 @@ const modal_detail = ref(false);
 const lodge_profiles = ref(false);
 const lodge_facility = ref(false);
 
-// const dialog_payload = ref(null);
-// const dialog_value = ref(false);
-
 function onBubbleEvent(value) {
   record.value = value?.payload;
-  // if (value?.label == "venue") {
-  //   label.value = value?.label;
-  //   modal_detail.value = true;
-  // } else if (value?.label == "fasilitas") {
-  //   lodge_profiless.value = true;
-  // }
 }
 
 function closeDialog() {
@@ -503,9 +497,6 @@ function closeDialog() {
   modal_detail.value = false;
   lodge_profiles.value = false;
   lodge_facility.value = false;
-
-  // dialog_payload.value = null;
-  // dialog_value.value = false;
 }
 
 onBeforeRouteLeave((to, from, next) => {
