@@ -17,7 +17,22 @@ export default function (store, cookies, ssrContext) {
     // but you can also remove it
     {
       path: '/:catchAll(.*)*',
-      component: () => import('pages/ErrorNotFound.vue')
+      component: () => import('pages/ErrorNotFound.vue'),
+      // redirect: '/not-found',
+      beforeEnter: (to, from, next) => {
+        next({ name: '/not-found'})
+      }
     }
+
+    // {
+    //   path: '/:catchAll(.*)*',
+    //   component: () => import('layouts/LagiaLayout.vue'),
+    //   children: [
+    //     {
+    //       path: '',
+    //       component: () => import("pages/lagia-pages/404.vue"),
+    //     }
+    //   ]
+    // }
   ]
 }

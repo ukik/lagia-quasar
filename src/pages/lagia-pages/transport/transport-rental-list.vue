@@ -355,7 +355,7 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
+  <!-- <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5>CALL TO ACTION</h5>
       <h2 class="q-py-lg">READY FOR UNFORGATABLE TRAVEL. REMEMBER US!</h2>
@@ -385,7 +385,7 @@
         />
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- </main> -->
 </template>

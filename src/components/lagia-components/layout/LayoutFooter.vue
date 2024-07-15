@@ -247,9 +247,10 @@
             <!-- <font-awesome :icon="['fab', 'fa-tiktok']" /> -->
           </q-btn>
         </q-card-actions>
+
         <q-card-actions class="q-pa-none q-mt-sm text-white" align="right">
           <router-link
-            v-if="getInfoPrivasi"
+            v-if="getInfoPrivasi?.slug"
             :to="{
               name: '/info/single-page',
               params: {
@@ -261,7 +262,7 @@
           >
           <q-separator class="q-mx-sm q-my-xs" vertical color="white"></q-separator>
           <router-link
-            v-if="getInfoSyarat"
+            v-if="getInfoSyarat?.slug"
             :to="{
               name: '/info/single-page',
               params: {

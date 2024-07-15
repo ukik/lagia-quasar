@@ -8,7 +8,7 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Package Common',
+        title: 'service',
       },
       component: () => import("pages/lagia-pages/service.vue"),
     },

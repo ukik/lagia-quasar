@@ -5,14 +5,14 @@
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
     <div
-      class="row justify-center col-xl-8 col-lg-10 col-md-9 col-sm-12 col-11"
+      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md"
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg q-px-md' : 'q-gutter-y-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
       <!--  -->
-      <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12 q-gutter-y-lg">
+      <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-xs-12 col-12 q-gutter-y-lg">
         <q-banner class="bg-grey-2 rounded-borders-2">
           <!-- <template v-slot:avatar>
             <q-icon name="signal_wifi_off" color="primary" />
@@ -85,7 +85,10 @@
           />
         </div>
       </div>
-      <div class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
+      <div
+        class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12 col-12"
+        :class="[$q.screen.width > 768 ? '' : 'row']"
+      >
         <q-no-ssr>
           <FormBookingPackageSide
             class="col-12"

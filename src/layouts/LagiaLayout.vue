@@ -10,6 +10,10 @@ import { useRoute } from "vue-router";
 import { useInitStore } from "stores/lagia-stores/page/InitStore";
 
 import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
+
+const initStore = useInitStore();
+const { footer_contact, getInfoPrivasi, getInfoSyarat } = storeToRefs(initStore); // have all reactive states here
+
 const store = useAuthStore();
 const {
   // fetchLoginAuth,
@@ -77,7 +81,7 @@ onMounted(async () => {
   // await fetchInitAuth()
   // const token = useCookie("XSRF-TOKEN");
   // await fetchLoginAuth();
-  console.log("layout/default.vue onMounted", useInitStore().onFetch());
+  useInitStore().onFetch();
 
   if ($q.screen.width > 1024) {
     leftDrawerMini.value = true; // aslinya true
@@ -189,6 +193,18 @@ export default {
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
           ></LayoutHeaderMenu>
 
+          <!-- <q-btn
+            v-if="scroll_triggered === 'bg-down'"
+            style="height: 46px"
+            dense
+            icon="fa-brands fa-whatsapp"
+            unelevated
+            rounded
+            class="q-px-lg rounded-borders-4 shadow-1"
+            color="positive"
+            label="Konsultasi"
+          /> -->
+
           <q-btn
             flat
             size="17px"
@@ -291,16 +307,24 @@ export default {
               v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
             ></LayoutHeaderMenu> -->
 
-            <q-item class="q-pa-none" dense clickable v-ripple>
+            <q-item
+              :href="'tel:' + footer_contact?.grid2Value"
+              class="q-pa-none"
+              dense
+              clickable
+              v-ripple
+            >
               <q-item-section avatar>
                 <q-avatar size="xl" color="primary" text-color="white" icon="phone" />
               </q-item-section>
 
-              <q-item-section class="text-white">
+              <q-item-section class="text-white" style="margin-top: 5px">
                 <q-item-label class="text-white" caption
-                  >For Further Inquires :</q-item-label
+                  >RESERVASI & BANTUAN</q-item-label
                 >
-                <q-item-label>+01 (977) 2599 12</q-item-label>
+                <q-item-label class="text-h5">{{
+                  footer_contact?.grid2Value
+                }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-space></q-space>
@@ -308,13 +332,15 @@ export default {
             <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
 
             <q-space></q-space>
+
             <q-btn
               style="height: 46px"
               dense
+              icon="fa-brands fa-whatsapp"
               unelevated
               rounded
               class="q-px-lg rounded-borders-4 shadow-1"
-              color="form"
+              color="positive"
               label="Konsultasi"
             />
           </q-toolbar>
@@ -333,8 +359,9 @@ export default {
           </router-view>
         </q-no-ssr>
 
-        <CallActionOffer></CallActionOffer>
-        <CallAction></CallAction>
+        <CallActionPromo v-if="$route.name !== '/lagia/index'"></CallActionPromo>
+        <CallAction v-if="$route.name !== '/lagia/index'"></CallAction>
+        <CallActionOffer v-if="$route.name !== '/lagia/index'"></CallActionOffer>
 
         <q-no-ssr>
           <LayoutFooter v-if="hideNav()"></LayoutFooter>

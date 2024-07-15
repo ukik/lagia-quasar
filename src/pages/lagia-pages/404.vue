@@ -1,20 +1,23 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="content?.title" style="padding-bottom: 0px"></InnerBanner>
+  <InnerBanner _title="Not Found" style="padding-bottom: 0px"></InnerBanner>
 
   <!-- Call To Action -->
   <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
-    <div class="row justify-center col-xl-9 col-lg-9 col-md-8 col-sm-11 col-12 text-center q-px-md">
+    <div
+      class="row justify-center col-xl-9 col-lg-9 col-md-8 col-sm-11 col-12 text-center q-px-md"
+    >
       <div class="col-12">
         <span class="extra-big">404</span>
         <h2 class="q-py-lg">SORRY ! THAT PAGE CAN'T BE FOUND</h2>
         <p>
-          It looks like nothing was found at this location. Maybe try one of the links below
-          or a search?
+          It looks like nothing was found at this location. Maybe try one of the links
+          below or a search?
         </p>
       </div>
       <q-form class="q-mt-xl col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
-        <q-input class="q-mb-lg"
+        <q-input
+          class="q-mb-lg"
           :loading="loading"
           outlined
           bottom-slots
@@ -31,7 +34,6 @@
           <template v-slot:after>
             <q-btn
               :loading="loading"
-              @click="onCoupon"
               class="full-height"
               icon-right="send"
               color="form"
@@ -43,7 +45,7 @@
         </q-input>
 
         <!-- <q-btn class="rounded-borders-4"
-          style="height:56px;" 
+          style="height:56px;"
           :loading="loading"
           @click="onCoupon"
           icon-right="send"
@@ -77,6 +79,7 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 const content = {
   title: "Service",
 };

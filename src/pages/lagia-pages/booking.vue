@@ -1,5 +1,5 @@
 <template>
-  <InnerBanner _title="PACKAGE DETAIL"></InnerBanner>
+  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -13,14 +13,18 @@
       <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
         <BookingProfileForm></BookingProfileForm>
         <BookingPaymentForm class="q-mt-xl"></BookingPaymentForm>
-        <BookingAddressForm  class="q-mt-xl"></BookingAddressForm>
+        <BookingAddressForm class="q-mt-xl"></BookingAddressForm>
         <!-- <SinglePageContent></SinglePageContent> -->
       </div>
       <div class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
         <BookingSummary></BookingSummary>
-        <q-card flat bordered class="booking-section q-py-xl rounded-borders-2 bg-grey-1 q-mt-xl">
+        <q-card
+          flat
+          bordered
+          class="booking-section q-py-xl rounded-borders-2 bg-grey-1 q-mt-xl"
+        >
           <q-card-actions align="center">
-              <q-icon size="80px" name="phone_forwarded"></q-icon>
+            <q-icon size="80px" name="phone_forwarded"></q-icon>
           </q-card-actions>
           <q-card-actions align="center">
             <div class="support-content text-center">

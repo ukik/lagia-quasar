@@ -15,6 +15,7 @@
         label="SUMMARY"
       ></q-chip>
     </q-card-actions>
+
     <q-separator color="white"></q-separator>
     <q-list class="text-white">
       <q-item>
@@ -22,7 +23,9 @@
           <q-item-label>Position: </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label class="text-white">TRAVEL GUIDE </q-item-label>
+          <q-item-label class="text-white text-uppercase">{{
+            item?.position
+          }}</q-item-label>
         </q-item-section>
       </q-item>
 
@@ -31,16 +34,20 @@
           <q-item-label>Status: </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label class="text-white">INTERSHIP / TRIAL / EXPERT </q-item-label>
+          <q-item-label class="text-white text-uppercase"
+            >{{ item?.status }}
+          </q-item-label>
         </q-item-section>
       </q-item>
 
       <q-item>
         <q-item-section>
-          <q-item-label>Time: </q-item-label>
+          <q-item-label>Condition: </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label class="text-white">FULL TIME / PART TIME </q-item-label>
+          <q-item-label class="text-white text-uppercase"
+            >{{ item?.condition }}
+          </q-item-label>
         </q-item-section>
       </q-item>
       <q-item>
@@ -48,7 +55,9 @@
           <q-item-label>Salary: </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label class="text-white">AVAILABLE </q-item-label>
+          <q-item-label class="text-white text-uppercase"
+            >{{ item?.salary }}
+          </q-item-label>
         </q-item-section>
       </q-item>
 
@@ -57,7 +66,9 @@
           <q-item-label>Code: </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label class="text-white">#42562 </q-item-label>
+          <q-item-label class="text-white text-uppercase"
+            >#{{ item?.code }}
+          </q-item-label>
         </q-item-section>
       </q-item>
 
@@ -65,3 +76,8 @@
     </q-list>
   </q-card>
 </template>
+
+<script setup>
+import { ref, defineProps } from "vue";
+const { item } = defineProps(["item"]);
+</script>

@@ -7,7 +7,7 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Profile Talent',
+        title: 'single page',
       },
       component: () => import("pages/lagia-pages/info/single-page.vue"),
     },

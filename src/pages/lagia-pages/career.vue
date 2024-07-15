@@ -41,25 +41,51 @@
                 flat
                 class="text-box text-center text-dark q-mt-lg full-width rounded-borders-2 q-py-sm"
               >
-                <q-card-section>
-                  <h3>{{ item?.position }}</h3>
-                  <q-btn
+                <q-card-actions align="center">
+                  <q-item
+                    :to="{
+                      name: '/lagia/career-detail',
+                      params: {
+                        slug: item?.slug,
+                        id: item?.id,
+                      },
+                    }"
+                    dense
+                    v-ripple
+                    clickable
+                  >
+                    <q-item-section>
+                      <q-item-label lines="1" class="text-h6">{{
+                        item?.position
+                      }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <div class="text-title text-primary text-uppercase q-py-sm col-12">
+                    {{ item?.condition }}
+                  </div>
+                  <!-- <q-btn
                     size="md"
                     color="primary"
                     class="text-weight-light"
                     flat
                     :label="item?.condition"
-                  ></q-btn>
+                  ></q-btn> -->
                   <q-item-label lines="2">{{ item?.description }}</q-item-label>
-                </q-card-section>
+                </q-card-actions>
                 <q-card-section class="q-pt-none">
                   <q-btn
                     unelevated
-                    :disabled="item?.status == 'tutup' ? false : true"
-                    :color="item?.status == 'tutup' ? 'primary' : 'red'"
+                    :color="item?.status === 'buka' ? 'primary' : 'red'"
                     size="18px"
                     class="rounded-borders-4"
-                    :label="item?.status == 'tutup' ? 'Apply Now' : 'No Job'"
+                    :label="item?.status === 'buka' ? 'OPENED' : 'CLOSED'"
+                    :to="{
+                      name: '/lagia/career-detail',
+                      params: {
+                        slug: item?.slug,
+                        id: item?.id,
+                      },
+                    }"
                   ></q-btn>
                 </q-card-section>
               </q-card>

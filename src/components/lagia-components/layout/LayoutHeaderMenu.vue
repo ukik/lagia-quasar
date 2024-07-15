@@ -5,21 +5,32 @@
         <div class="navigation-container d-none d-lg-block">
           <nav id="navigation" class="navigation">
             <ul>
-              <li class="menu-active">
-                <router-link to="/">Home</router-link>
+              <!--  class="menu-active" -->
+              <li>
+                <router-link
+                  :to="{
+                    name: '/lagia/index',
+                  }"
+                  ><q-icon
+                    name="home"
+                    size="24px"
+                    style="margin-bottom: 2px; margin-right: 2px"
+                  ></q-icon>
+                  Home</router-link
+                >
               </li>
 
               <!-- <li>
                 <router-link to="consult">Konsultasi</router-link>
               </li> -->
-              <li>
+              <!-- <li>
                 <router-link
                   :to="{
                     name: '/lagia/contact-us',
                   }"
                   >Contact Us</router-link
                 >
-              </li>
+              </li> -->
 
               <!-- <li class="menu-item-has-children">
                 <a to="">Booking</a>
@@ -33,7 +44,35 @@
                 </ul>
               </li> -->
 
-              <li class="menu-item-has-children">
+              <li>
+                <router-link
+                  :to="{
+                    name: '/lagia/gallery',
+                  }"
+                  ><q-icon
+                    name="groups"
+                    size="24px"
+                    style="margin-bottom: 2px; margin-right: 2px"
+                  ></q-icon>
+                  Gallery</router-link
+                >
+              </li>
+
+              <li>
+                <router-link
+                  :to="{
+                    name: '/lagia/testimonial',
+                  }"
+                  ><q-icon
+                    name="forum"
+                    size="23px"
+                    style="margin-bottom: 2px; margin-right: 2px"
+                  ></q-icon>
+                  Testimoni</router-link
+                >
+              </li>
+
+              <li v-if="false" class="menu-item-has-children">
                 <a to="">Tour</a>
                 <ul class="shadow-3">
                   <li>
@@ -52,7 +91,14 @@
               </li>
 
               <li class="menu-item-has-children">
-                <a to="">Etalase</a>
+                <a to=""
+                  ><q-icon
+                    name="store"
+                    size="24px"
+                    style="margin-bottom: 2px; margin-right: 2px"
+                  ></q-icon
+                  >Etalase</a
+                >
                 <ul class="shadow-3">
                   <!-- <li>
                     <router-link to="package-common">Travel</router-link>
@@ -76,11 +122,22 @@
               </li>
 
               <li class="menu-item-has-children">
-                <a to="">Page</a>
+                <a to=""
+                  ><q-icon
+                    name="description"
+                    size="22px"
+                    style="margin-bottom: 2px; margin-right: 2px"
+                  ></q-icon
+                  >Halaman</a
+                >
                 <ul class="shadow-3">
                   <li>
-                    <router-link to="/lagia/about">About Us</router-link>
+                    <router-link to="/lagia/about">About</router-link>
                   </li>
+                  <li>
+                    <router-link to="/lagia/contact-us">Contact</router-link>
+                  </li>
+
                   <li>
                     <router-link to="/lagia/service">Service</router-link>
                   </li>
@@ -89,6 +146,9 @@
                   </li>
                   <li>
                     <router-link to="/lagia/gallery">Gallery</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/lagia/destination">Destination</router-link>
                   </li>
                   <li>
                     <router-link to="/lagia/testimonial">Testimonial</router-link>
@@ -104,6 +164,7 @@
                       </li>
                       <li>
                         <router-link
+                          v-if="getInfoSyarat?.slug"
                           :to="{
                             name: '/info/single-page',
                             params: {
@@ -116,6 +177,7 @@
                       </li>
                       <li>
                         <router-link
+                          v-if="getInfoPrivasi?.slug"
                           :to="{
                             name: '/info/single-page',
                             params: {
@@ -131,8 +193,15 @@
                 </ul>
               </li>
 
-              <li class="menu-item-has-children">
-                <a to="">Akun</a>
+              <li v-if="false" class="menu-item-has-children">
+                <a to=""
+                  ><q-icon
+                    name="settings"
+                    size="23px"
+                    style="margin-bottom: 2px; margin-right: 2px"
+                  ></q-icon
+                  >Akun</a
+                >
                 <ul class="shadow-3">
                   <li class="menu-item-has-children">
                     <!-- <a to="" :class="[

@@ -93,7 +93,7 @@
     </div>
   </div>
   <!-- Call To Action -->
-  <CallActionPromo></CallActionPromo>
+  <!-- <CallActionPromo></CallActionPromo> -->
 </template>
 
 <script>

@@ -7,7 +7,7 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Destinasi Wisata',
+        title: 'vendor wisata',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-venue-list.vue"),
     },
@@ -18,7 +18,7 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'List Fasilitas',
+        title: 'list fasilitas',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-facilities-list.vue"),
     },
@@ -29,7 +29,7 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Harga Ticket Wisata',
+        title: 'list harga',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-price-list.vue"),
     },
@@ -40,11 +40,10 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Harga Rental',
+        title: 'detail venue',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-venue-detail.vue"),
     },
-
     {
       path: "/tourism/price-detail/:slug/:slug_text?",
       name: "/tourism/price-detail",
@@ -52,12 +51,10 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Harga Rental',
+        title: 'detail harga',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-price-detail.vue"),
     },
-
-
 
     {
       path: "/tourism/price-list-2",
@@ -66,7 +63,7 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Harga Ticket Wisata',
+        title: 'list harga 2',
       },
       component: () => import("pages/lagia-pages/tourism/tourism-price-list-2.vue"),
     },
