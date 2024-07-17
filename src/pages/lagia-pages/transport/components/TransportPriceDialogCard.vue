@@ -2,11 +2,11 @@
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
       <q-img
-        v-if="item?.culinaryProduct?.image && item?.culinaryProduct?.image.length > 0"
+        v-if="item?.transportVehicle?.image && item?.transportVehicle?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.culinaryProduct?.image[0]"
+        :src="item?.transportVehicle?.image[0]"
       >
         <div class="absolute-top-right bg-transparent">
           <q-btn
@@ -16,7 +16,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.culinaryProduct?.image, 0)"
+            @click="showMultiple(item?.transportVehicle?.image, 0)"
           />
         </div>
 
@@ -37,12 +37,12 @@
       <!-- <q-img
         loading="lazy"
         style="height: 300px"
-        v-if="!item?.culinaryProduct?.image"
+        v-if="!item?.transportVehicle?.image"
         :src="$defaultErrorImage"
       />
       <ImageSlideCarousel
         v-else
-        :_gallery="item?.culinaryProduct?.image"
+        :_gallery="item?.transportVehicle?.image"
       ></ImageSlideCarousel> -->
 
       <q-card-section>

@@ -16,7 +16,7 @@
                     size="24px"
                     style="margin-bottom: 2px; margin-right: 2px"
                   ></q-icon>
-                  Home</router-link
+                  Beranda</router-link
                 >
               </li>
 
@@ -103,20 +103,192 @@
                   <!-- <li>
                     <router-link to="package-common">Travel</router-link>
                   </li> -->
-                  <li>
+                  <!-- <li>
                     <router-link to="/transport/rental-list">Rental</router-link>
+                  </li> -->
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/transport/rental-list"
+                      :class="[
+                        $route.name == '/transport/vehicle-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/transport/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Rental</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/transport/rental-list"
+                          >Vendor Rental</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/transport/vehicle-list"
+                          >Armada Rental</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/transport/price-list">Harga Rental</router-link>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <router-link to="/lodge/profile-list">Hotel</router-link>
-                  </li>
-                  <li>
+                  <!-- <li>
                     <router-link to="/souvenir/store-list">Souvenir</router-link>
+                  </li> -->
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/souvenir/store-list"
+                      :class="[
+                        $route.name == '/souvenir/product-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/souvenir/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Souvenir</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/souvenir/store-list"
+                          >Vendor Souvenir</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/souvenir/product-list"
+                          >Produk Souvenir</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/souvenir/price-list"
+                          >Harga Souvenir</router-link
+                        >
+                      </li>
+                    </ul>
                   </li>
-                  <li>
+                  <!-- <li>
+                    <router-link to="/lodge/profile-list">Hotel</router-link>
+                  </li> -->
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/lodge/profile-list"
+                      :class="[
+                        $route.name == '/lodge/room-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/lodge/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Hotel</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/lodge/profile-list">Vendor Hotel</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/lodge/room-list">Kamar Hotel</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/lodge/price-list">Harga Hotel</router-link>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <!-- <li>
                     <router-link to="/culinary/store-list">Kuliner</router-link>
+                  </li> -->
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/culinary/store-list"
+                      :class="[
+                        $route.name == '/culinary/product-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/culinary/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Kuliner</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/culinary/store-list"
+                          >Vendor Kuliner</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/culinary/product-list"
+                          >Produk Kuliner</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/culinary/price-list">Harga Kuliner</router-link>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
+
+                  <!-- <li>
                     <router-link to="/talent/profile-list">Talent</router-link>
+                  </li> -->
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/talent/profile-list"
+                      :class="[
+                        $route.name == '/talent/skill-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/talent/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Talent</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/talent/profile-list">Vendor Talent</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/talent/skill-list">Skill Talent</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/talent/price-list">Harga Talent</router-link>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <!-- <li>
+                    <router-link to="/tourism/venue-list">Wisata</router-link>
+                  </li> -->
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/tourism/venue-list"
+                      :class="[
+                        $route.name == '/tourism/facilities-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/tourism/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Wisata</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/tourism/venue-list">Vendor Wisata</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/tourism/facilities-list"
+                          >Wahana Wisata</router-link
+                        >
+                      </li>
+                      <li>
+                        <router-link to="/tourism/price-list">Harga Wisata</router-link>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </li>
@@ -132,26 +304,26 @@
                 >
                 <ul class="shadow-3">
                   <li>
-                    <router-link to="/lagia/about">About</router-link>
+                    <router-link to="/lagia/about">Tentang</router-link>
                   </li>
                   <li>
-                    <router-link to="/lagia/contact-us">Contact</router-link>
+                    <router-link to="/lagia/contact-us">Kontak</router-link>
                   </li>
 
                   <li>
-                    <router-link to="/lagia/service">Service</router-link>
+                    <router-link to="/lagia/service">Layanan</router-link>
                   </li>
                   <li>
-                    <router-link to="/lagia/career">Career</router-link>
+                    <router-link to="/lagia/career">Karir</router-link>
                   </li>
                   <li>
                     <router-link to="/lagia/gallery">Gallery</router-link>
                   </li>
                   <li>
-                    <router-link to="/lagia/destination">Destination</router-link>
+                    <router-link to="/lagia/destination">Destinasi</router-link>
                   </li>
                   <li>
-                    <router-link to="/lagia/testimonial">Testimonial</router-link>
+                    <router-link to="/lagia/testimonial">Testimoni</router-link>
                   </li>
                   <li class="menu-item-has-children">
                     <!-- <a to="" :class="[
@@ -166,7 +338,7 @@
                         <router-link
                           v-if="getInfoSyarat?.slug"
                           :to="{
-                            name: '/info/single-page',
+                            name: '/info/terms-condition',
                             params: {
                               slug: getInfoSyarat?.slug,
                               id: getInfoSyarat?.id,
@@ -179,7 +351,7 @@
                         <router-link
                           v-if="getInfoPrivasi?.slug"
                           :to="{
-                            name: '/info/single-page',
+                            name: '/info/privacy-policy',
                             params: {
                               slug: getInfoPrivasi?.slug,
                               id: getInfoPrivasi?.id,
@@ -393,6 +565,8 @@ ul {
   position: relative;
   text-transform: uppercase;
   height: 60px;
+
+  font-weight: 500 !important;
 }
 .navigation-container ul > li:hover > ul,
 .navigation-container ul > li:focus > ul,

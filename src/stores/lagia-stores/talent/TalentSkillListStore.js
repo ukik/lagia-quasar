@@ -41,12 +41,9 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch({ currentPage, profileId, query }) {
+    async onFetch({ currentPage, query }) {
 
       if (this.loading) return false;
-
-      // untuk filter data berdasarkan id
-      this.profileId = profileId
 
       this.loading = true;
 
@@ -60,7 +57,6 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
           orderDirection: caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
           isAvailable: this.isAvailable,
-          profileId: profileId,
           search: this.search,
           perPage: this.perPage,
           page: currentPage, //this.currentPage,
@@ -117,8 +113,8 @@ export const useTalentSkillListStore = defineStore('TalentSkillListStore', {
       console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage, profileId, query }) {
-      this.onFetch({ currentPage, profileId, query })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

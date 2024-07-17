@@ -231,7 +231,7 @@
                   clickable
                   class="q-pa-none"
                   :to="{
-                    name: '/profile/room-list',
+                    name: '/lodge/room-list',
                     query: {
                       vendor: item?.id,
                     },
@@ -334,13 +334,29 @@
               <div v-if="false" class="full-width text-body text-center q-mx-sm">
                 Review (34)
               </div>
-              <div class="package-price col-12 text-center row q-mt-md">
+              <!-- <div class="package-price col-12 text-center row q-mt-md">
                 <h6 class="col-12">
                   {{ item?.lodgeRoomsCount }}
                   <small class="text-weight-light"> Kamar</small>
                 </h6>
                 <small class="col-12 text-center text-caption">( Tipe Ready )</small>
-              </div>
+              </div> -->
+
+              <router-link
+                :to="{
+                  name: '/lodge/room-list',
+                  query: {
+                    vendor: item?.id,
+                  },
+                }"
+                class="package-price col-12 text-center row q-mt-md text-white"
+              >
+                <h6 class="col-12">
+                  {{ item?.lodgeRoomsCount }}
+                  <small class="text-weight-light"> Kamar</small>
+                </h6>
+                <small class="col-12 text-center">( Available )</small>
+              </router-link>
 
               <div class="row col-12 justify-center">
                 <q-btn-group outline rounded class="">

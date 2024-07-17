@@ -122,6 +122,16 @@ function shuffleArray(arr) {
     .map(({ value }) => value)
 }
 
+function onMap(url) {
+  window.open(url, '_blank');
+}
+
+
+
+
+
+
+
 export default boot(async ({ app, ssrContext, router, store }) => {
 
   const routerStore = useRouterStore()
@@ -168,6 +178,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$getSplit = getSplit;
 
   app.config.globalProperties.$shuffleArray = shuffleArray;
+  app.config.globalProperties.$onMap = onMap;
 
 
 

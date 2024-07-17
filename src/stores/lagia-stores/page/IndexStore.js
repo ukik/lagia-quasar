@@ -33,6 +33,7 @@ export const useIndexStore = defineStore('IndexStore', {
     page_widget_tron: null,
 
     loading: false,
+    init: false,
   }),
 
   getters: {
@@ -40,8 +41,9 @@ export const useIndexStore = defineStore('IndexStore', {
   },
 
   actions: {
-    async onFetch(id = 1) {
+    async onFetch() {
 
+      if (this.init) return false;
       if (this.loading) return false;
 
       this.loading = true;
@@ -49,10 +51,10 @@ export const useIndexStore = defineStore('IndexStore', {
       const response = await axios({
         url: '/trevolia-api/v1/entities/index',
         method: 'get',
-        params: {
-          slug: 'index',
-          id: id,
-        }
+        // params: {
+        //   slug: 'index',
+        //   id: id,
+        // }
       })
         .then((response) => {
           return response
@@ -64,6 +66,8 @@ export const useIndexStore = defineStore('IndexStore', {
       this.loading = false
 
       if (!response?.data) return this.loading = false
+
+      this.init = true
 
       // try {
       //   if (response?.data?.data['featuredImage']) response.data.data['featuredImage'] = JSON.parse(response?.data?.data['featuredImage'])

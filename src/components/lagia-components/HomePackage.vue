@@ -14,7 +14,7 @@
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
     <div
-    class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
@@ -71,7 +71,7 @@
                 dense
                 class="q-px-lg q-py-sm q-mb-sm q-mt-md rounded-borders-3 text-weight-light"
                 color="white"
-                label="Book Now"
+                label="Learn More"
               />
             </q-card-section>
           </q-card-section>
@@ -88,7 +88,7 @@
     <q-btn
       icon="explore"
       size="18px"
-      style="height:50px;"
+      style="height: 50px"
       unelevated
       rounded
       class="rounded-borders-4"
@@ -99,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue"
+import { ref, defineProps } from "vue";
 const content = {
   title: "TOUR PACKAGES",
   cards: [

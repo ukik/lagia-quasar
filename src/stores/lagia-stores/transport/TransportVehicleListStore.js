@@ -41,12 +41,12 @@ export const useTransportVehicleListStore = defineStore('TransportVehicleListSto
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch({ currentPage, rentalId, query }) {
+    async onFetch({ currentPage, query }) {
 
       if (this.loading) return false;
 
       // untuk filter data berdasarkan rental id
-      this.rentalId = rentalId
+      // this.rentalId = rentalId
 
       this.loading = true;
 
@@ -60,7 +60,6 @@ export const useTransportVehicleListStore = defineStore('TransportVehicleListSto
           orderDirection: caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
           isAvailable: this.isAvailable,
-          rentalId: rentalId,
           search: this.search,
           perPage: this.perPage,
           page: currentPage, //this.currentPage,
@@ -127,8 +126,8 @@ export const useTransportVehicleListStore = defineStore('TransportVehicleListSto
       console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage, rentalId, query }) {
-      this.onFetch({ currentPage, rentalId, query })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

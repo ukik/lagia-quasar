@@ -328,23 +328,23 @@ const {
   init,
 } = storeToRefs(store); // have all reactive states here
 
-defineOptions({
-  preFetch: preFetch(
-    ({
-      store,
-      currentRoute,
-      previousRoute,
-      redirect,
-      ssrContext,
-      urlPath,
-      publicPath,
-    }) => {
-      return useTransportVehicleListStore(store).onFetch({
-        currentPage: currentRoute?.query?.page,
-      });
-    }
-  ),
-});
+// defineOptions({
+//   preFetch: preFetch(
+//     ({
+//       store,
+//       currentRoute,
+//       previousRoute,
+//       redirect,
+//       ssrContext,
+//       urlPath,
+//       publicPath,
+//     }) => {
+//       return useTransportVehicleListStore(store).onFetch({
+//         currentPage: currentRoute?.query?.page,
+//       });
+//     }
+//   ),
+// });
 
 const lightbox = useGlobalEasyLightbox();
 const { showMultiple } = lightbox;
@@ -356,7 +356,7 @@ const router = useRouter();
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val, currentPage.value, props.item?.id);
   // router.push({ query: { page: val.value } })
-  onPaginate({ currentPage: currentPage.value, venueId: props.item?.venueId });
+  onPaginate({ currentPage: currentPage.value, query: { parentId: props.item?.id } });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -368,7 +368,7 @@ const isMounted = ref(false);
 onMounted(async () => {
   console.log("Props", props.item);
   init.value = false;
-  await onPaginate({ currentPage: 1, venueId: props.item?.venueId });
+  await onPaginate({ currentPage: 1, query: { parentId: props.item?.id } });
   isMounted.value = true;
 });
 

@@ -329,23 +329,23 @@ const {
   init,
 } = storeToRefs(store); // have all reactive states here
 
-defineOptions({
-  preFetch: preFetch(
-    ({
-      store,
-      currentRoute,
-      previousRoute,
-      redirect,
-      ssrContext,
-      urlPath,
-      publicPath,
-    }) => {
-      return useTalentSkillListStore(store).onFetch({
-        currentPage: currentRoute?.query?.page,
-      });
-    }
-  ),
-});
+// defineOptions({
+//   preFetch: preFetch(
+//     ({
+//       store,
+//       currentRoute,
+//       previousRoute,
+//       redirect,
+//       ssrContext,
+//       urlPath,
+//       publicPath,
+//     }) => {
+//       return useTalentSkillListStore(store).onFetch({
+//         currentPage: currentRoute?.query?.page,
+//       });
+//     }
+//   ),
+// });
 
 const lightbox = useGlobalEasyLightbox();
 const { showMultiple } = lightbox;
@@ -357,7 +357,7 @@ const router = useRouter();
 const onCurrentPage = async (val) => {
   console.log("onCurrentPage", val, currentPage.value, props.item?.id);
   // router.push({ query: { page: val.value } })
-  onPaginate({ currentPage: currentPage.value, profileId: props.item?.profileId });
+  onPaginate({ currentPage: currentPage.value, query: { parentId: props.item?.id } });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -367,9 +367,9 @@ watch(() => currentPage, onCurrentPage, {
 const isMounted = ref(false);
 
 onMounted(async () => {
-  console.log("Props", props.item);
+  console.log("Props", props.item?.id);
   init.value = false;
-  await onPaginate({ currentPage: 1, profileId: props.item?.profileId });
+  await onPaginate({ currentPage: 1, query: { parentId: props.item?.id } });
   isMounted.value = true;
 });
 

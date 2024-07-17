@@ -41,21 +41,23 @@
 
       <q-card-section class="bg-grey-2 row col flex items-start">
         <div class="text-box full-width q-px-sm col-12 text-capitalize">
-          <q-item
-                  dense
-                  clickable
-                  class="q-pa-none"
-                  :to="{
-                    name: '/souvenir/product-list',
-                    query: {
-                      vendor: item?.id,
-                    },
-                  }"
-                >
-                  <q-item-section class="text-h6">
-                    <q-item-label>{{ item?.name }}</q-item-label>
-                  </q-item-section>
-                </q-item>
+          <slot name="name" :data="item">
+            <q-item
+              dense
+              clickable
+              class="q-pa-none"
+              :to="{
+                name: '/souvenir/product-list',
+                query: {
+                  vendor: item?.id,
+                },
+              }"
+            >
+              <q-item-section class="text-h6">
+                <q-item-label>{{ item?.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </slot>
 
           <q-item dense>
             <q-item-section>

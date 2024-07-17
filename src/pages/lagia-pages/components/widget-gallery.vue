@@ -48,8 +48,18 @@
 </template>
 
 <script>
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+
 export default {
   props: ["records"],
+  setup() {
+    const lightbox = useGlobalEasyLightbox();
+    const { showMultiple } = lightbox;
+
+    return {
+      showMultiple,
+    };
+  },
 };
 </script>
 

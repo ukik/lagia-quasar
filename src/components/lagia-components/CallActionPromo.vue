@@ -58,7 +58,7 @@
             </q-item-label>
 
             <div class="q-mt-xl col-12">
-              <q-btn
+              <q-btn :href="$onCall()"
                 icon="phone"
                 dense
                 unelevated

@@ -288,6 +288,7 @@ import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbo
 
 export default {
   props: ["item"],
+  emits: ["onBubbleEvent"],
   components: {
     // isQItemLabelValue,
     // ImageSlideCarousel,

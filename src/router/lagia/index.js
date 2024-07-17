@@ -224,9 +224,10 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/service.vue"),
         },
+
         {
-          path: "/lagia/single-page",
-          name: "/lagia/single-page",
+          path: "/lagia/privacy-policy",
+          name: "/lagia/privacy-policy",
           meta: {
             ssr: true,
             logged: false,
@@ -235,6 +236,10 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/single-page.vue"),
         },
+
+
+
+
         {
           path: "/lagia/team",
           name: "/lagia/team",

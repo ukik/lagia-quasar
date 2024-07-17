@@ -42,6 +42,10 @@ module.exports = configure(function (ctx) {
       // 'config',
       {
         server: false,
+        path: 'whatsapp',
+      },
+      {
+        server: false,
         path: 'client_side',
       },
       {

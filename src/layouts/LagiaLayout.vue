@@ -11,6 +11,8 @@ import { useInitStore } from "stores/lagia-stores/page/InitStore";
 
 import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
 
+import Konsultasi from "./components/konsultasi.vue";
+
 const initStore = useInitStore();
 const { footer_contact, getInfoPrivasi, getInfoSyarat } = storeToRefs(initStore); // have all reactive states here
 
@@ -119,16 +121,16 @@ function scrollHandler(info) {
 // const layoutKey = ref(Math.random());
 function onMouseOver() {
   console.log("onMouseOver");
-  if ($q.screen.width > 1024) {
-    leftDrawerMini.value = false;
-  }
+  // if ($q.screen.width > 1024) {
+  //   leftDrawerMini.value = false;
+  // }
 }
 
 function onMouseLeave() {
   console.log("onMouseLeave");
-  if ($q.screen.width > 1024) {
-    leftDrawerMini.value = true;
-  }
+  // if ($q.screen.width > 1024) {
+  //   leftDrawerMini.value = true;
+  // }
 }
 </script>
 
@@ -285,6 +287,7 @@ export default {
       <q-page>
         <q-no-ssr>
           <GlobalEasyLightbox></GlobalEasyLightbox>
+          <Konsultasi ref="konsultasi"></Konsultasi>
         </q-no-ssr>
 
         <q-card-section
@@ -334,6 +337,8 @@ export default {
             <q-space></q-space>
 
             <q-btn
+              v-if="$q.screen.width > 425"
+              @click="$refs.konsultasi?.onOpen()"
               style="height: 46px"
               dense
               icon="fa-brands fa-whatsapp"
@@ -342,6 +347,16 @@ export default {
               class="q-px-lg rounded-borders-4 shadow-1"
               color="positive"
               label="Konsultasi"
+            />
+            <q-btn
+              v-else
+              @click="$refs.konsultasi?.onOpen()"
+              icon="fa-brands fa-whatsapp"
+              unelevated
+              round
+              size="md"
+              class="shadow-1"
+              color="positive"
             />
           </q-toolbar>
         </q-card-section>

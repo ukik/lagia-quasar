@@ -41,12 +41,9 @@ export const useCulinaryProductListStore = defineStore('CulinaryProductListStore
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch ({ currentPage, venueId, query }) {
+    async onFetch ({ currentPage, query }) {
 
       if (this.loading) return false;
-
-      // untuk filter data berdasarkan rental id
-      this.venueId = venueId
 
       this.loading = true;
 
@@ -60,7 +57,6 @@ export const useCulinaryProductListStore = defineStore('CulinaryProductListStore
             orderDirection: caseConvert.snake(this.orderDirection),
             showSoftDelete: this.isShowDataRecycle,
             isAvailable: this.isAvailable,
-            venueId: venueId,
             search: this.search,
             perPage: this.perPage,
             page: currentPage, //this.currentPage,
@@ -125,8 +121,8 @@ export const useCulinaryProductListStore = defineStore('CulinaryProductListStore
       console.log('additional', this.additional)
     },
 
-    onPaginate: debounce(async function ({ currentPage, venueId, query }) {
-      this.onFetch({ currentPage, venueId, query })
+    onPaginate: debounce(async function ({ currentPage, query }) {
+      this.onFetch({ currentPage, query })
     }, 500),
 
     async onClearRegister() {

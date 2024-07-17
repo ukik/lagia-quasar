@@ -14,7 +14,7 @@
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
     <div
-    class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
@@ -32,7 +32,11 @@
               </div>
             </template>
 
-            <q-chip label="UPTO 25% off" color="primary" class="absolute-top-right q-ma-md"></q-chip>
+            <q-chip
+              label="UPTO 25% off"
+              color="primary"
+              class="absolute-top-right q-ma-md"
+            ></q-chip>
 
             <div class="absolute-bottom bg-transparent row justify-start">
               <q-card
@@ -64,20 +68,22 @@
                 <q-separator />
                 <q-card-section class="text-left">
                   <h3>{{ item?.title }}</h3>
-                  <q-item-label class="q-mb-sm" lines="2">{{ item?.subtitle }}</q-item-label>
+                  <q-item-label class="q-mb-sm" lines="2">{{
+                    item?.subtitle
+                  }}</q-item-label>
                   <!-- <q-item dense> -->
-                    <q-item-label lines="1">
-                      <!-- <q-badge color="orange" align="top" class="absolute-top-right">22</q-badge> -->
-                      <span class="text-h5 q-mr-sm text-grey text-strike">Rp. 500</span>
-                      <span class="text-h5 text-positive text-bold">Rp. 500</span>
-                    </q-item-label>
+                  <q-item-label lines="1">
+                    <!-- <q-badge color="orange" align="top" class="absolute-top-right">22</q-badge> -->
+                    <span class="text-h5 q-mr-sm text-grey text-strike">Rp. 500</span>
+                    <span class="text-h5 text-positive text-bold">Rp. 500</span>
+                  </q-item-label>
                   <!-- </q-item> -->
 
                   <q-btn
                     color="primary"
                     size="16px"
                     class="rounded-borders-4 q-mt-lg"
-                    label="Book Now"
+                    label="Learn More"
                   ></q-btn>
                 </q-card-section>
               </q-card>
@@ -92,7 +98,7 @@
     <q-btn
       icon="location_on"
       size="18px"
-      style="height:50px;"
+      style="height: 50px"
       unelevated
       rounded
       class="rounded-borders-4"
@@ -103,7 +109,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue"
+import { ref, defineProps } from "vue";
 const content = {
   title: "PACKAGE PROMO",
   cards: [

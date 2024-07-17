@@ -252,7 +252,7 @@
           <router-link
             v-if="getInfoPrivasi?.slug"
             :to="{
-              name: '/info/single-page',
+              name: '/info/privacy-policy',
               params: {
                 slug: getInfoPrivasi?.slug,
                 id: getInfoPrivasi?.id,
@@ -264,7 +264,7 @@
           <router-link
             v-if="getInfoSyarat?.slug"
             :to="{
-              name: '/info/single-page',
+              name: '/info/terms-condition',
               params: {
                 slug: getInfoSyarat?.slug,
                 id: getInfoSyarat?.id,

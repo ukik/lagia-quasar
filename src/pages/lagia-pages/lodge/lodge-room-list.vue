@@ -97,7 +97,7 @@
             <template v-slot:header>
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
-                  <q-icon name="restaurant"></q-icon>
+                  <q-icon name="storefront"></q-icon>
                 </q-avatar>
               </q-item-section>
 
@@ -107,7 +107,27 @@
 
             <q-card>
               <q-card-section>
-                <PriceReferenceStore :item="additional"></PriceReferenceStore>
+                <PriceReferenceStore :item="additional">
+                  <template v-slot:name="{ data }">
+                    <!-- {{ data }} -->
+                    <q-item
+                      dense
+                      clickable
+                      class="q-pa-none"
+                      :to="{
+                        name: '/lodge/profile-detail',
+                        params: {
+                          slug: data?.id,
+                          slug_text: data?.name,
+                        },
+                      }"
+                    >
+                      <q-item-section class="text-h6">
+                        <q-item-label>{{ data?.name }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </PriceReferenceStore>
               </q-card-section>
             </q-card>
           </q-expansion-item>
@@ -258,7 +278,7 @@
                   {{ item?.lodgePricesCount }}
                   <small class="text-weight-light"> Harga</small>
                 </h6>
-                <small class="col-12 text-center text-caption">( available )</small>
+                <small class="col-12 text-center text-caption">( Available )</small>
               </div>
 
               <div class="row col-12 justify-center q-mt-lg">

@@ -21,7 +21,7 @@
             <template v-slot:header>
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
-                  <q-icon name="restaurant"></q-icon>
+                  <q-icon name="storefront"></q-icon>
                 </q-avatar>
               </q-item-section>
 

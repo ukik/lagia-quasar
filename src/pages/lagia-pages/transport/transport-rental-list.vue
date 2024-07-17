@@ -279,13 +279,21 @@
               <div v-if="false" class="full-width text-body text-center q-mx-sm">
                 Review (34)
               </div>
-              <div class="package-price col-12 text-center row q-mt-md">
+              <router-link
+                :to="{
+                  name: '/transport/vehicle-list',
+                  query: {
+                    vendor: item?.id,
+                  },
+                }"
+                class="package-price col-12 text-center row q-mt-md text-white"
+              >
                 <h6 class="col-12">
                   {{ item?.transportVehiclesCount }}
                   <small class="text-weight-light"> Armada</small>
                 </h6>
-                <small class="col-12 text-center">( unit ready )</small>
-              </div>
+                <small class="col-12 text-center">( Unit Ready )</small>
+              </router-link>
 
               <div class="row col-12 justify-center">
                 <q-btn-group outline rounded class="">

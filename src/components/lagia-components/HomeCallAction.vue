@@ -8,7 +8,7 @@
         {{ records?.subtitle }}
       </p>
       <div class="q-mt-xl">
-        <q-btn
+        <q-btn :href="$onCall()"
           text-color="primary"
           icon="phone"
           dense

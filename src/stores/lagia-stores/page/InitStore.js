@@ -33,6 +33,7 @@ export const useInitStore = defineStore('InitStore', {
   }),
 
   getters: {
+    getFooterContact: state => state.footer_contact,
     getRecord: state => state.record,
     getInfoPrivasi: state => {
       let temp = null

@@ -25,7 +25,7 @@
             <q-item-label lines="2" class="text-white">
               {{ records?.subtitle }}
             </q-item-label>
-            <q-btn
+            <q-btn :href="$onCall()"
               icon="phone"
               dense
               unelevated

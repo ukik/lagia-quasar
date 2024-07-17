@@ -62,7 +62,7 @@
         <q-rating
           v-if="item?.ratingAvg?.avgRating"
           readonly
-          v-model="item.culinaryStore.ratingAvg.avgRating"
+          v-model="item.transportRental.ratingAvg.avgRating"
           size="sm"
           :max="5"
           color="red"

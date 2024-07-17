@@ -291,13 +291,29 @@
               <div v-if="false" class="full-width text-body text-center q-mx-sm">
                 Review (34)
               </div>
-              <div class="package-price col-12 text-center row q-mt-md">
+              <!-- <div class="package-price col-12 text-center row q-mt-md">
                 <h6 class="col-12">
                   {{ item?.souvenirProductsCount }}
                   <small class="text-weight-light"> produk</small>
                 </h6>
-                <!-- <small class="col-12 text-center">( wahana ready )</small> -->
-              </div>
+                <small class="col-12 text-center">( wahana ready )</small>
+              </div> -->
+
+              <router-link
+                :to="{
+                  name: '/souvenir/product-list',
+                  query: {
+                    vendor: item?.id,
+                  },
+                }"
+                class="package-price col-12 text-center row q-mt-md text-white"
+              >
+                <h6 class="col-12">
+                  {{ item?.souvenirProductsCount }}
+                  <small class="text-weight-light"> Produk</small>
+                </h6>
+                <small class="col-12 text-center">( Item Ready )</small>
+              </router-link>
 
               <div class="row col-12 justify-center">
                 <q-btn-group outline rounded class="">

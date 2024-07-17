@@ -41,12 +41,9 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
 
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
-    async onFetch({ currentPage, profileId, query }) {
+    async onFetch({ currentPage, query }) {
 
       if (this.loading) return false;
-
-      // untuk filter data berdasarkan id
-      this.profileId = profileId
 
       this.loading = true;
 
@@ -60,7 +57,6 @@ export const useTalentPriceListStore = defineStore('TalentPriceListStore', {
           orderDirection: caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
           isAvailable: this.isAvailable,
-          profileId: profileId,
           search: this.search,
           perPage: this.perPage,
           page: currentPage, //this.currentPage,

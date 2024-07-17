@@ -102,9 +102,9 @@ import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
 
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
-import { useCulinaryPriceListStore } from "stores/lagia-stores/culinary/CulinaryPriceListStore";
+import { useTransportPriceListStore } from "stores/lagia-stores/transport/TransportPriceListStore";
 import { useRouter } from "vue-router";
-const store = useCulinaryPriceListStore();
+const store = useTransportPriceListStore();
 const { onFetch, onPaginate } = store; // have all reactive states here
 const {
   errors,
@@ -125,23 +125,23 @@ const {
   init,
 } = storeToRefs(store); // have all reactive states here
 
-defineOptions({
-  preFetch: preFetch(
-    ({
-      store,
-      currentRoute,
-      previousRoute,
-      redirect,
-      ssrContext,
-      urlPath,
-      publicPath,
-    }) => {
-      return useCulinaryPriceListStore(store).onFetch({
-        currentPage: currentRoute?.query?.page,
-      });
-    }
-  ),
-});
+// defineOptions({
+//   preFetch: preFetch(
+//     ({
+//       store,
+//       currentRoute,
+//       previousRoute,
+//       redirect,
+//       ssrContext,
+//       urlPath,
+//       publicPath,
+//     }) => {
+//       return useTransportPriceListStore(store).onFetch({
+//         currentPage: currentRoute?.query?.page,
+//       });
+//     }
+//   ),
+// });
 
 const lightbox = useGlobalEasyLightbox();
 const { showMultiple } = lightbox;
@@ -151,9 +151,9 @@ const props = defineProps(["item"]);
 const router = useRouter();
 
 const onCurrentPage = async (val) => {
-  console.log("onCurrentPage", val, currentPage.value, props.item);
+  console.log("onCurrentPage", val, currentPage.value, props.item?.id);
   // router.push({ query: { page: val.value } })
-  onPaginate({ currentPage: currentPage.value, profileId: props.item?.profileId });
+  onPaginate({ currentPage: currentPage.value, query: { parentId: props.item?.id } });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
@@ -163,9 +163,9 @@ watch(() => currentPage, onCurrentPage, {
 const isMounted = ref(false);
 
 onMounted(async () => {
-  console.log("Props", props.item?.profileId);
+  console.log("Props", props.item);
   init.value = false;
-  await onPaginate({ currentPage: 1, profileId: props.item?.profileId });
+  await onPaginate({ currentPage: 1, query: { parentId: props.item?.id } });
   isMounted.value = true;
 });
 

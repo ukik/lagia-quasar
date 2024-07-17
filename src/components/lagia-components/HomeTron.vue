@@ -36,6 +36,7 @@
 
             <div class="q-mt-xl col-12">
               <q-btn
+                :href="$onCall()"
                 icon="phone"
                 dense
                 unelevated
@@ -52,7 +53,7 @@
                 outline
                 class="q-py-md q-px-lg q-ma-sm rounded-borders-4"
                 color="white"
-                label="Book Now"
+                label="Learn More"
               />
             </div>
           </div>

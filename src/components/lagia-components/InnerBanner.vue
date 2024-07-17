@@ -4,12 +4,9 @@
       class="inner-baner-container"
       style="background-image: url(assets/images/img7.jpg); padding-top: 134.562px"
     >
-      <div
-        class="inner-banner-content text-uppercase"
-        :class="$q.screen.width <= 425 ? 'text-h2' : 'text-h1'"
-      >
-        <!-- <h1 class="page-title">{{ title }}</h1> -->
-        {{ title }}
+      <div class="inner-banner-content text-uppercase">
+        <h5 v-if="$q.screen.width <= 425">{{ title }}</h5>
+        <h1 v-else class="page-title">{{ title }}</h1>
       </div>
     </div>
   </div>

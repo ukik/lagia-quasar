@@ -5,7 +5,7 @@
       activeClass="text-primary "
       class="text-dark"
       :to="{
-        name: '/info/single-page',
+        name: '/info/privacy-policy',
         params: {
           slug: getInfoPrivasi?.slug,
           id: getInfoPrivasi?.id,
@@ -19,7 +19,7 @@
       activeClass="text-primary "
       class="text-dark"
       :to="{
-        name: '/info/single-page',
+        name: '/info/terms-condition',
         params: {
           slug: getInfoSyarat?.slug,
           id: getInfoSyarat?.id,
