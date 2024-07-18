@@ -252,16 +252,30 @@ export default function (store, cookies, ssrContext) {
           component: () => import("pages/lagia-pages/team.vue"),
         },
         {
-          path: "/lagia/testimonial",
-          name: "/lagia/testimonial",
+          path: "/lagia/testimonial", // "/lagia/testimonial-simple"
+          name: "/lagia/testimonial", // "/lagia/testimonial-simple"
           meta: {
             ssr: true,
             logged: false,
             role: '',
             title: 'testimonial',
           },
-          component: () => import("pages/lagia-pages/testimonial.vue"),
+          component: () => import("pages/lagia-pages/testimonial-simple.vue"),
         },
+
+        {
+          path: "/lagia/testimonial-form",
+          name: "/lagia/testimonial-form",
+          meta: {
+            ssr: true,
+            logged: false,
+            role: '',
+            title: 'testimonial',
+          },
+          component: () => import("pages/lagia-pages/testimonial-form.vue"),
+        },
+
+
 
         {
           path: "/lagia/transaction-history",

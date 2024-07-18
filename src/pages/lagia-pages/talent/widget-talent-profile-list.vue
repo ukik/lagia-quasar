@@ -315,6 +315,7 @@
 
     <div class="text-center full-width top-margin-1">
       <q-btn
+        to="/talent/profile-list"
         icon-right="arrow_forward"
         size="18px"
         style="height: 50px"

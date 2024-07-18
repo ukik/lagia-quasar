@@ -51,8 +51,29 @@ export default route(function ({ store, ssrContext }) {
     : Cookies // otherwise we're on client
 
   const Router = createRouter({
+    scrollBehavior(to, from, savedPosition) {
+
+      if (savedPosition) {
+        console.log('savedPosition YES', savedPosition)
+        return savedPosition;
+      } else {
+        console.log('savedPosition NO', savedPosition)
+        const container = document.querySelector('#PriceReference')
+        if(container) {
+          return {
+            // could also be
+            // el: document.getElementById('main'),
+            el: '#PriceReference',
+            // 10px above the element
+            top: 10,
+          }
+        }
+        return { top: 0 };
+      }
+
+    },
     // scrollBehavior: () => ({ left: 0, top: 0 }),
-    scrollBehavior: () => ({ x: 0, y: 0 }),
+    // scrollBehavior: () => ({ x: 0, y: 0 }),
     // scrollBehavior(to, from, savedPosition) {
     //   console.log('scrollBehavior', to)
     //   if (to.name == 'artikel') {

@@ -145,7 +145,7 @@
                   {{ item?.transportPricesCount }}
                   <small class="text-weight-light"> Harga</small>
                 </h6>
-                <small class="col-12 text-center text-caption">( available )</small>
+                <small class="col-12 text-center text-caption">( Available )</small>
               </div>
 
               <div class="row col-12 justify-center q-mt-lg">
@@ -171,6 +171,7 @@
 
     <div class="text-center full-width top-margin-1">
       <q-btn
+        to="/transport/rental-list"
         icon-right="arrow_forward"
         size="18px"
         style="height: 50px"

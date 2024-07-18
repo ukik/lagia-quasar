@@ -64,6 +64,7 @@
 
   <div class="text-center full-width">
     <q-btn
+      to="/lagia/testimonial"
       icon="face"
       size="18px"
       style="height: 50px"

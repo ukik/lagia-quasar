@@ -380,8 +380,10 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
-      if (!currentRoute?.query?.page)
+      if (!currentRoute?.query?.page) {
         redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
+        console.log("tourism-price-list.vue");
+      }
 
       return useTourismPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,

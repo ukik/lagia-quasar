@@ -6,7 +6,7 @@
 
   <widgetLodgeProfileList :records="record_lodge"></widgetLodgeProfileList>
 
-  <HomeCounter :records="page_widget_counter[0]"></HomeCounter>
+  <HomeCounter v-if="page_widget_counter" :records="page_widget_counter[0]"></HomeCounter>
 
   <WidgetTransportVehicleList :records="record_transport"></WidgetTransportVehicleList>
 
@@ -24,15 +24,18 @@
   <HomePromo v-if="false"></HomePromo>
 
   <!-- </q-intersection> -->
-  <div v-if="wait" class="full-width text-center q-mb-xl q-py-xl">
+  <!-- <div v-if="wait" class="full-width text-center q-mb-xl q-py-xl">
     <q-spinner color="primary" size="4em" />
-  </div>
+  </div> -->
+  <!-- <q-intersection @visibility="onVisibility" once> -->
 
-  <q-intersection @visibility="onVisibility" once>
+  <q-intersection once>
     <WidgetGallery :records="record_gallery?.image"></WidgetGallery>
     <HomeCallActionOffer :records="page_widget_offer[0]"></HomeCallActionOffer>
-  </q-intersection>
-  <q-intersection once>
+
+    <!-- </q-intersection>
+  <q-intersection once> -->
+
     <HomeBlog v-if="false"></HomeBlog>
     <HomeTestimonial :records="record_testimonial"></HomeTestimonial>
 

@@ -163,6 +163,7 @@
 
     <div class="text-center full-width top-margin-1">
       <q-btn
+        to="/culinary/store-list"
         icon-right="arrow_forward"
         size="18px"
         style="height: 50px"

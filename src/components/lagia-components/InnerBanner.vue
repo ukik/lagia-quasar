@@ -5,7 +5,7 @@
       style="background-image: url(assets/images/img7.jpg); padding-top: 134.562px"
     >
       <div class="inner-banner-content text-uppercase">
-        <h5 v-if="$q.screen.width <= 425">{{ title }}</h5>
+        <h4 class="text-white" v-if="$q.screen.width <= 425">{{ title }}</h4>
         <h1 v-else class="page-title">{{ title }}</h1>
       </div>
     </div>

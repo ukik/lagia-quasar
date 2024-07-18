@@ -3,9 +3,9 @@
 
   <div class="call-action-box bg-color-callback row justify-center">
     <div
-      class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 text-left q-px-md row justify-center items-center q-col-gutter-xl"
+      class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 text-left row justify-center items-center q-col-gutter-xl"
     >
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-6">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
@@ -15,7 +15,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-6">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
@@ -25,7 +25,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-6">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
@@ -35,7 +35,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-6">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">

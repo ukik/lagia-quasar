@@ -1,5 +1,9 @@
 // app global css in SCSS form
 
+.q-layout {
+  overflow-x: hidden !important;
+}
+
 /* width */
 .q-dialog ::-webkit-scrollbar {
   width: 10px;

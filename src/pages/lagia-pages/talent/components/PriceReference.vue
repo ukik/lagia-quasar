@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="q-mt-lg q-py-none col-12"> -->
-  <q-list bordered v-if="item">
+  <q-list ref="PriceReference" id="PriceReference" bordered v-if="item">
     <q-expansion-item group="somegroup1" header-class="bg-grey-1" default-opened>
       <template v-slot:header>
         <q-item-section avatar>

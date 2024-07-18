@@ -218,8 +218,10 @@ defineOptions({
       urlPath,
       publicPath,
     }) => {
-      if (!currentRoute?.query?.page)
+      if (!currentRoute?.query?.page) {
         redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
+        console.log("tourism-price-list.vue");
+      }
 
       return useTransportPriceListStore(store).onFetch({
         currentPage: currentRoute?.query?.page,
@@ -237,7 +239,19 @@ const onCurrentPage = async (val) => {
   router.push({ query: { ...currentRoute.query, page: val.value } });
   onPaginate({ currentPage: val.value, query: currentRoute?.query });
 };
-watch(() => currentPage, onCurrentPage, {
+// watch(() => currentPage, onCurrentPage, {
+//   deep: true,
+//   // immediate: true,
+// });
+
+const onProductId = async (val) => {
+  console.log("router.currentRoute transport-price-list", val, router.currentRoute.value);
+  const page = currentPage.value;
+  const currentRoute = router.currentRoute.value;
+  router.push({ query: { ...currentRoute.query, page: page } });
+  onPaginate({ currentPage: page, query: currentRoute?.query });
+};
+watch(() => router.currentRoute, onProductId, {
   deep: true,
   // immediate: true,
 });

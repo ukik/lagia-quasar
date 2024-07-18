@@ -52,6 +52,14 @@ export const useInitStore = defineStore('InitStore', {
         }
       });
       return temp
+    },
+    shuffleArray: state => {
+      const arr = state.footer_gallery?.image
+      if (!arr) return [];
+      return arr
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
     }
   },
 

@@ -36,42 +36,54 @@
             >RECENT RENTAL</q-item-label
           >
 
-          <q-item v-for="(item, index) in footer_transport" clickable v-ripple>
-            <q-item-section top thumbnail>
-              <img
-                class="rounded-borders-1"
-                style="height: 75px; width: 75px"
-                :src="item?.image[0]"
-                :error-src="$defaultErrorImage"
-              />
-            </q-item-section>
+          <template v-for="(item, index) in footer_transport">
+            <q-item
+              class="text-white"
+              clickable
+              v-ripple
+              :to="{
+                name: '/transport/price-list',
+                query: {
+                  product: item?.id,
+                },
+              }"
+            >
+              <q-item-section top thumbnail>
+                <img
+                  class="rounded-borders-1"
+                  style="height: 75px; width: 75px"
+                  :src="item?.image[0]"
+                  :error-src="$defaultErrorImage"
+                />
+              </q-item-section>
 
-            <q-item-section top>
-              <q-item-label class="text-uppercase" lines="2"
-                >{{ item?.brand }} - {{ item?.model }} -
-                {{ item?.category }}</q-item-label
-              >
-              <q-item-label class="text-white q-mt-md" caption>
-                <!-- ({{ item?.transportPricesCount }} Price) -->
-                <q-rating
-                  v-if="item?.ratingAvg?.avgRating"
-                  readonly
-                  v-model="item.ratingAvg.avgRating"
-                  size="xs"
-                  :max="5"
-                  color="white"
-                ></q-rating>
-                <q-rating
-                  v-else
-                  readonly
-                  v-model="rating"
-                  size="xs"
-                  :max="5"
-                  color="white"
-                ></q-rating>
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+              <q-item-section top>
+                <q-item-label class="text-uppercase" lines="2"
+                  >{{ item?.brand }} - {{ item?.model }} -
+                  {{ item?.category }}</q-item-label
+                >
+                <q-item-label class="text-white q-mt-md" caption>
+                  <!-- ({{ item?.transportPricesCount }} Price) -->
+                  <q-rating
+                    v-if="item?.ratingAvg?.avgRating"
+                    readonly
+                    v-model="item.ratingAvg.avgRating"
+                    size="xs"
+                    :max="5"
+                    color="white"
+                  ></q-rating>
+                  <q-rating
+                    v-else
+                    readonly
+                    v-model="rating"
+                    size="xs"
+                    :max="5"
+                    color="white"
+                  ></q-rating>
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
         </q-list>
       </div>
       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
@@ -129,7 +141,7 @@
         </q-list>
 
         <div class="row q-col-gutter-sm">
-          <template v-for="(item, index) in $shuffleArray(footer_gallery?.image)">
+          <template v-for="(item, index) in shuffleArray">
             <div class="col-4" v-if="index < 6">
               <q-img
                 @click="showMultiple(footer_gallery?.image, index)"
@@ -170,6 +182,7 @@
                 @click=""
                 class="full-height"
                 color="white"
+                icon="send"
                 :label="$q.screen.width > 425 ? 'Subscribe' : ''"
               ></q-btn>
             </template>
@@ -180,8 +193,12 @@
           </q-input>
         </q-list>
       </div>
+
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-        <q-card-actions class="q-pa-none" align="right">
+        <q-card-actions
+          class="q-pa-none"
+          :align="$q.screen.width > 768 ? 'right' : 'center'"
+        >
           <q-btn
             type="_blank"
             :href="footer_contact?.instagram"
@@ -248,7 +265,10 @@
           </q-btn>
         </q-card-actions>
 
-        <q-card-actions class="q-pa-none q-mt-sm text-white" align="right">
+        <q-card-actions
+          class="q-pa-none q-mt-sm text-white"
+          :align="$q.screen.width > 768 ? 'right' : 'center'"
+        >
           <router-link
             v-if="getInfoPrivasi?.slug"
             :to="{
@@ -276,6 +296,13 @@
           <router-link to="/lagia/faq">FAQ</router-link>
         </q-card-actions>
       </div>
+    </div>
+
+    <div
+      v-if="$q.screen.width <= 768"
+      class="col-12 bottom-footer text-center text-white text-uppercase q-mt-lg"
+    >
+      Copyright © {{ $year }} Lagia. All rights reserved.
     </div>
   </div>
 </template>
@@ -306,6 +333,7 @@ const {
 
   getInfoPrivasi,
   getInfoSyarat,
+  shuffleArray,
 
   init,
 } = storeToRefs(store); // have all reactive states here

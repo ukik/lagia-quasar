@@ -46,6 +46,7 @@
                   <DestinationRating :rating="item?.rating"></DestinationRating>
 
                   <q-btn
+                    to="/tourism/venue-list"
                     dense
                     size="md"
                     color="primary"
@@ -65,9 +66,9 @@
       </div>
     </div>
 
-
     <div class="text-center full-width top-margin-1">
       <q-btn
+        to="/lagia/destination"
         icon-right="arrow_forward"
         size="18px"
         style="height: 50px"

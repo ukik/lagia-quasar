@@ -127,6 +127,9 @@ function onMap(url) {
 }
 
 
+function onTelp (val) {
+  window.open(val);
+}
 
 
 
@@ -180,6 +183,9 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$shuffleArray = shuffleArray;
   app.config.globalProperties.$onMap = onMap;
 
+  app.config.globalProperties.$onTelp = onTelp;
+
+  app.config.globalProperties.$year = new Date().getFullYear();
 
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;

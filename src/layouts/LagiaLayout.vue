@@ -5,7 +5,7 @@ import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 // import type { EssentialLinkProps } from "@/components/EssentialLink.vue";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { useInitStore } from "stores/lagia-stores/page/InitStore";
 
@@ -26,6 +26,7 @@ const { auth } = storeToRefs(store); // have all reactive states here
 // await fetchLoginAuth() // DIRECTLY
 
 const route = useRoute();
+const router = useRouter();
 // const page = ref<any>({})
 
 const fetchPage = async () => {
@@ -48,6 +49,42 @@ watch(() => route, fetchPage, {
 });
 
 const $q = useQuasar();
+
+const tab = ref("1");
+const watchTab = async (val) => {
+  return;
+  console.log("onTabWatch", val);
+  switch (val) {
+    case "1":
+      router.push({
+        name: "/lagia/index",
+      });
+      break;
+    case "2":
+      router.push({
+        name: "/lagia/gallery",
+      });
+      break;
+    case "3":
+      router.push({
+        name: "/lagia/testimonial",
+      });
+      break;
+    case "4":
+      router.push("/lagia/index");
+      break;
+    case "5":
+      router.push("/lagia/index");
+      break;
+    case "6":
+      router.push("/lagia/index");
+      break;
+  }
+};
+watch(() => tab.value, watchTab, {
+  deep: true,
+  // immediate: true,
+});
 
 const behavior = ref("default");
 const leftDrawerVisible = ref(false);
@@ -112,10 +149,14 @@ function toggleLeftDrawer() {
   }
 }
 
+const scrollY = ref(0);
+
 const scroll_triggered = ref("bg-top");
 function scrollHandler(info) {
   // console.log("scrollHandler", info?.position);
   scroll_triggered.value = info.position >= 30 ? "bg-down" : "bg-top";
+
+  scrollY.value = info.position;
 }
 
 // const layoutKey = ref(Math.random());
@@ -134,7 +175,6 @@ function onMouseLeave() {
 }
 </script>
 
-<
 <script>
 export default {
   methods: {
@@ -153,11 +193,42 @@ export default {
       }
     },
   },
+  // "$route.name": function (val) {
+  //   switch (val) {
+  //     case "/lagia/index":
+  //       this.tab = "1";
+  //       break;
+  //     case "/lagia/gallery":
+  //       this.tab = "2";
+  //       break;
+  //       router.push({
+  //         name: "/lagia/gallery",
+  //       });
+  //       break;
+  //     case "3":
+  //       router.push({
+  //         name: "/lagia/testimonial",
+  //       });
+  //       break;
+  //     case "4":
+  //       router.push("/lagia/index");
+  //       break;
+  //     case "5":
+  //       router.push("/lagia/index");
+  //       break;
+  //     case "6":
+  //       router.push("/lagia/index");
+  //       break;
+  //   }
+  // },
 };
 </script>
 
 <template>
-  <q-layout view="lHr LpR lfr" @scroll="scrollHandler">
+  <q-layout
+    :view="$q.screen.width > 768 ? 'lHr LpR lfr' : 'lHr LpR lFr'"
+    @scroll="scrollHandler"
+  >
     <q-no-ssr>
       <q-header
         unlevated
@@ -378,19 +449,116 @@ export default {
         <CallAction v-if="$route.name !== '/lagia/index'"></CallAction>
         <CallActionOffer v-if="$route.name !== '/lagia/index'"></CallActionOffer>
 
-        <q-no-ssr>
+        <q-no-ssr
+          :style="$q.screen.width > 425 ? 'padding-bottom:35px;' : 'padding-bottom:80px;'"
+        >
           <LayoutFooter v-if="hideNav()"></LayoutFooter>
         </q-no-ssr>
+
+        <!-- place QPageScroller at end of page -->
+
+        <q-page-sticky
+          v-if="scrollY >= 100"
+          id="floatHelp"
+          position="bottom-left"
+          :offset="[10, 10]"
+        >
+          <q-fab
+            padding="10px"
+            vertical-actions-align="left"
+            icon="live_help"
+            direction="up"
+            color="pink"
+          >
+            <q-fab-action
+              unevelated
+              @click="$refs.konsultasi?.onOpen()"
+              square
+              color="positive"
+              icon="fa-brands fa-whatsapp"
+              label="Konsultasi"
+            />
+            <q-fab-action
+              @click="$onTelp('tel:' + footer_contact?.grid2Value)"
+              unevelated
+              square
+              color="form"
+              icon="phone"
+              label="Bantuan"
+            />
+          </q-fab>
+        </q-page-sticky>
+
+        <q-page-scroller
+          id="backTop"
+          position="bottom-right"
+          :scroll-offset="150"
+          :offset="[10, 10]"
+        >
+          <q-btn icon="arrow_upward" round color="primary" />
+        </q-page-scroller>
       </q-page>
     </q-page-container>
 
     <q-footer>
-      <div class="bottom-footer text-center text-uppercase">
-        Copyright © 2022 Traveler. All rights reserved.
+      <div v-if="$q.screen.width > 768" class="bottom-footer text-center text-uppercase">
+        Copyright © {{ $year }} Lagia. All rights reserved.
       </div>
+      <q-tabs
+        v-else
+        v-model="tab"
+        inline-label
+        outside-arrows
+        mobile-arrows
+        class="bg-primary text-white shadow-2"
+      >
+        <q-route-tab
+          :to="{
+            name: '/lagia/index',
+          }"
+          name="1"
+          icon="home"
+        />
+        <q-route-tab
+          :to="{
+            name: '/lagia/gallery',
+            query: {
+              page: 1,
+            },
+          }"
+          name="2"
+          icon="groups"
+        />
+        <q-route-tab
+          :to="{
+            name: '/lagia/testimonial',
+            query: {
+              page: 1,
+            },
+          }"
+          name="3"
+          icon="forum"
+        />
+        <q-route-tab name="4" icon="store" />
+        <q-route-tab name="5" icon="description" />
+        <!-- <q-tab name="6" icon="people" /> -->
+      </q-tabs>
     </q-footer>
   </q-layout>
 </template>
+
+<style>
+#backTop .q-page-sticky {
+  z-index: 99 !important;
+}
+#floatHelp {
+  z-index: 99 !important;
+}
+
+#floatHelp .q-fab--form-rounded {
+  border-radius: 50px;
+}
+</style>
 
 <style scoped>
 .bg-top {

@@ -160,6 +160,20 @@
         </q-card>
       </div>
     </div>
+
+    <div class="text-center full-width top-margin-1">
+      <q-btn
+        to="/souvenir/store-list"
+        icon-right="arrow_forward"
+        size="18px"
+        style="height: 50px"
+        unelevated
+        rounded
+        class="rounded-borders-4"
+        color="primary"
+        label="selengkapnya"
+      />
+    </div>
   </div>
 
   <!-- </main> -->

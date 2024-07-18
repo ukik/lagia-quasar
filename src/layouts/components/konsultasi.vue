@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="prompt" persistent>
+  <q-dialog v-model="prompt">
     <q-card :style="$q.screen.width < 425 ? 'width: 350px' : 'width: 450px'">
       <q-card-section>
         <div class="text-h6">Konsultasi</div>

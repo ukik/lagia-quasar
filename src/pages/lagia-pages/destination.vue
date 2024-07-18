@@ -45,6 +45,7 @@
                   <DestinationRating :rating="item?.rating"></DestinationRating>
 
                   <q-btn
+                    to="/tourism/venue-list"
                     dense
                     size="md"
                     color="primary"
