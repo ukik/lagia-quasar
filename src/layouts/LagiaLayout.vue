@@ -252,17 +252,23 @@ export default {
             @click="toggleLeftDrawer"
           />
 
-          <q-toolbar-title> Travel & Tour </q-toolbar-title>
-          <img
+          <q-toolbar-title>
+            <!-- Travel & Tour  -->
+            <q-item-label>
+              <img style="height: 35px" src="/assets/lagia/white-logo.png" />
+            </q-item-label>
+          </q-toolbar-title>
+          <!-- <img
             style="height: 48px"
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-top'"
             src="assets/images/site-logo.png"
-          />
+          /> -->
           <q-space
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-top'"
           ></q-space>
 
           <LayoutHeaderMenu
+            :scroll_triggered="scroll_triggered"
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
           ></LayoutHeaderMenu>
 
@@ -323,7 +329,10 @@ export default {
     >
       <q-no-ssr>
         <q-list>
-          <q-item-label header> Essential Links </q-item-label>
+          <q-item-label header>
+            <img style="height: 50px" src="/assets/lagia/color-logo.png" />
+          </q-item-label>
+
           <LayoutLeftMenu></LayoutLeftMenu>
         </q-list>
       </q-no-ssr>
@@ -407,28 +416,30 @@ export default {
 
             <q-space></q-space>
 
-            <q-btn
-              v-if="$q.screen.width > 425"
-              @click="$refs.konsultasi?.onOpen()"
-              style="height: 46px"
-              dense
-              icon="fa-brands fa-whatsapp"
-              unelevated
-              rounded
-              class="q-px-lg rounded-borders-4 shadow-1"
-              color="positive"
-              label="Konsultasi"
-            />
-            <q-btn
-              v-else
-              @click="$refs.konsultasi?.onOpen()"
-              icon="fa-brands fa-whatsapp"
-              unelevated
-              round
-              size="md"
-              class="shadow-1"
-              color="positive"
-            />
+            <q-no-ssr>
+              <q-btn
+                v-if="$q.screen.width > 425"
+                @click="$refs.konsultasi?.onOpen()"
+                style="height: 46px"
+                dense
+                icon="fa-brands fa-whatsapp"
+                unelevated
+                rounded
+                class="q-px-lg rounded-borders-4 shadow-1"
+                color="positive"
+                label="Konsultasi"
+              />
+              <q-btn
+                v-else
+                @click="$refs.konsultasi?.onOpen()"
+                icon="fa-brands fa-whatsapp"
+                unelevated
+                round
+                size="md"
+                class="shadow-1"
+                color="positive"
+              />
+            </q-no-ssr>
           </q-toolbar>
         </q-card-section>
         <!-- <router-view ></router-view> -->
@@ -521,26 +532,67 @@ export default {
         />
         <q-route-tab
           :to="{
-            name: '/lagia/gallery',
+            name: '/transport/rental-list',
             query: {
               page: 1,
             },
           }"
           name="2"
-          icon="groups"
+          icon="car_rental"
         />
         <q-route-tab
           :to="{
-            name: '/lagia/testimonial',
+            name: '/lodge/profile-list',
             query: {
               page: 1,
             },
           }"
           name="3"
-          icon="forum"
+          icon="apartment"
         />
-        <q-route-tab name="4" icon="store" />
-        <q-route-tab name="5" icon="description" />
+
+        <q-route-tab
+          :to="{
+            name: '/tourism/venue-list',
+            query: {
+              page: 1,
+            },
+          }"
+          name="4"
+          icon="map"
+        />
+        <q-route-tab
+          :to="{
+            name: '/souvenir/store-list',
+            query: {
+              page: 1,
+            },
+          }"
+          name="5"
+          icon="local_mall"
+        />
+
+        <q-route-tab
+          :to="{
+            name: '/culinary/store-list',
+            query: {
+              page: 1,
+            },
+          }"
+          name="6"
+          icon="restaurant"
+        />
+        <q-route-tab
+          :to="{
+            name: '/talent/profile-list',
+            query: {
+              page: 1,
+            },
+          }"
+          name="7"
+          icon="face"
+        />
+
         <!-- <q-tab name="6" icon="people" /> -->
       </q-tabs>
     </q-footer>

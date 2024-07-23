@@ -23,7 +23,13 @@
         class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
       >
         <q-card flat class="rounded-borders-2">
-          <q-img loading="lazy" :ratio="16 / 9" class="card-box" :src="item?.image">
+          <q-img
+            loading="lazy"
+            :ratio="16 / 9"
+            class="card-box"
+            :src="item?.image[0]"
+            :error-src="$defaultErrorImage"
+          >
             <template v-slot:error>
               <div class="absolute-full flex flex-center bg-negative text-white">
                 Cannot load image
@@ -55,9 +61,26 @@
                   </q-btn-group>
                 </q-card-section> -->
 
-                <q-card-section>
-                  <q-btn-group outline rounded unelevated class="q-mx-xl bg-white">
+                <q-card-section class="q-pb-sm">
+                  <h3>{{ item?.name }}</h3>
+                  <q-btn
+                    size="md"
+                    color="primary"
+                    class="text-weight-light"
+                    flat
+                    :label="item?.position"
+                  ></q-btn>
+                  <q-btn-group
+                    v-if="false"
+                    outline
+                    rounded
+                    unelevated
+                    class="q-mx-xl bg-white"
+                  >
                     <q-btn
+                      :disabled="!item?.instagram"
+                      target="_blank"
+                      :href="item?.instagram"
                       outline
                       color="primary"
                       bg-color="white"
@@ -67,6 +90,9 @@
                       ><i class="text-h6 fa-brands fa-instagram"></i
                     ></q-btn>
                     <q-btn
+                      :disabled="!item?.whatsapp"
+                      target="_blank"
+                      :href="item?.whatsapp"
                       outline
                       color="primary"
                       bg-color="white"
@@ -76,6 +102,9 @@
                       ><i class="text-h6 fa-brands fa-whatsapp"></i
                     ></q-btn>
                     <q-btn
+                      :disabled="!item?.facebook"
+                      target="_blank"
+                      :href="item?.facebook"
                       outline
                       color="primary"
                       bg-color="white"
@@ -85,6 +114,9 @@
                       ><i class="text-h6 fa-brands fa-facebook-f"></i
                     ></q-btn>
                     <q-btn
+                      :disabled="!item?.twitter"
+                      target="_blank"
+                      :href="item?.twitter"
                       outline
                       color="primary"
                       bg-color="white"
@@ -94,6 +126,9 @@
                       ><i class="text-h6 fa-brands fa-x-twitter"></i
                     ></q-btn>
                     <q-btn
+                      :disabled="!item?.tiktok"
+                      target="_blank"
+                      :href="item?.tiktok"
                       outline
                       color="primary"
                       bg-color="white"
@@ -106,14 +141,6 @@
                 </q-card-section>
                 <q-separator />
                 <q-card-section>
-                  <h3>{{ item?.name }}</h3>
-                  <q-btn
-                    size="md"
-                    color="primary"
-                    class="text-weight-light"
-                    flat
-                    :label="item?.position"
-                  ></q-btn>
                   <q-item-label lines="3">{{ item?.description }}</q-item-label>
                 </q-card-section>
               </q-card>

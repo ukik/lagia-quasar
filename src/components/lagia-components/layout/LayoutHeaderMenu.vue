@@ -16,8 +16,12 @@
                     size="24px"
                     style="margin-bottom: 2px; margin-right: 2px"
                   ></q-icon>
-                  Beranda</router-link
-                >
+                  {{
+                    $q.screen.width > 1024 || scroll_triggered === "bg-down"
+                      ? "Beranda"
+                      : ""
+                  }}
+                </router-link>
               </li>
 
               <!-- <li>
@@ -53,9 +57,13 @@
                     name="groups"
                     size="24px"
                     style="margin-bottom: 2px; margin-right: 2px"
-                  ></q-icon>
-                  Gallery</router-link
-                >
+                  ></q-icon
+                  >{{
+                    $q.screen.width > 1024 || scroll_triggered === "bg-down"
+                      ? "Gallery"
+                      : ""
+                  }}
+                </router-link>
               </li>
 
               <li>
@@ -67,13 +75,19 @@
                     name="forum"
                     size="23px"
                     style="margin-bottom: 2px; margin-right: 2px"
-                  ></q-icon>
-                  Testimoni</router-link
-                >
+                  ></q-icon
+                  >{{
+                    $q.screen.width > 1024 || scroll_triggered === "bg-down"
+                      ? "Testimoni"
+                      : ""
+                  }}
+                </router-link>
               </li>
 
               <li v-if="false" class="menu-item-has-children">
-                <a to="">Tour</a>
+                <a to="">{{
+                  $q.screen.width > 1024 || scroll_triggered === "bg-down" ? "Tour" : ""
+                }}</a>
                 <ul class="shadow-3">
                   <li>
                     <router-link to="package-common">Regular</router-link>
@@ -97,7 +111,11 @@
                     size="24px"
                     style="margin-bottom: 2px; margin-right: 2px"
                   ></q-icon
-                  >Etalase</a
+                  >{{
+                    $q.screen.width > 1024 || scroll_triggered === "bg-down"
+                      ? "Etalase"
+                      : ""
+                  }}</a
                 >
                 <ul class="shadow-3">
                   <!-- <li>
@@ -300,7 +318,11 @@
                     size="22px"
                     style="margin-bottom: 2px; margin-right: 2px"
                   ></q-icon
-                  >Halaman</a
+                  >{{
+                    $q.screen.width > 1024 || scroll_triggered === "bg-down"
+                      ? "Halaman"
+                      : ""
+                  }}</a
                 >
                 <ul class="shadow-3">
                   <li>
@@ -308,6 +330,9 @@
                   </li>
                   <li>
                     <router-link to="/lagia/contact-us">Kontak</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/lagia/team">Tim</router-link>
                   </li>
 
                   <li>
@@ -501,6 +526,12 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["scroll_triggered"],
+};
+</script>
 
 <script setup>
 import { storeToRefs } from "pinia";

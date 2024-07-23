@@ -13,7 +13,11 @@
     >
       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
         <div class="footer-logo q-mb-lg">
-          <a href="index.html"><img src="assets/images/site-logo.png" alt="" /></a>
+          <!-- <a href="index.html"><img src="assets/images/site-logo.png" alt="" /></a> -->
+
+          <q-item-label>
+            <img style="height: 40px" src="/assets/lagia/white-logo.png" />
+          </q-item-label>
         </div>
         <q-item-label
           class="text-white q-mb-sm"

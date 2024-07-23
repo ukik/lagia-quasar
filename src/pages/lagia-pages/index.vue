@@ -2,21 +2,41 @@
   <!-- {{ getCulinary }} -->
   <HomeTron :records="page_widget_tron"></HomeTron>
 
-  <WidgetDestination :records="record_destination"></WidgetDestination>
+  <WidgetDestination
+    v-if="record_destination"
+    :records="record_destination"
+  ></WidgetDestination>
 
-  <widgetLodgeProfileList :records="record_lodge"></widgetLodgeProfileList>
+  <widgetLodgeProfileList
+    v-if="record_lodge"
+    :records="record_lodge"
+  ></widgetLodgeProfileList>
 
-  <HomeCounter v-if="page_widget_counter" :records="page_widget_counter[0]"></HomeCounter>
+  <q-intersection once>
+    <HomeCounter
+      v-if="page_widget_counter"
+      :records="page_widget_counter[0]"
+    ></HomeCounter>
+  </q-intersection>
 
-  <WidgetTransportVehicleList :records="record_transport"></WidgetTransportVehicleList>
+  <WidgetTransportVehicleList
+    v-if="record_transport"
+    :records="record_transport"
+  ></WidgetTransportVehicleList>
 
-  <WidgetTourismVenueList :records="record_tourism"></WidgetTourismVenueList>
+  <WidgetTourismVenueList
+    v-if="record_tourism"
+    :records="record_tourism"
+  ></WidgetTourismVenueList>
 
   <!-- <HomeDestination></HomeDestination> -->
   <HomePackage v-if="false"></HomePackage>
 
   <!-- <div v-intersection.once="onIntersection"> -->
-  <HomeCallActionPromo :records="page_widget_promo"></HomeCallActionPromo>
+  <HomeCallActionPromo
+    v-if="page_widget_promo"
+    :records="page_widget_promo"
+  ></HomeCallActionPromo>
 
   <!-- </div> -->
   <!-- <q-intersection key="1" @visibility="onVisibility"> -->
@@ -29,22 +49,37 @@
   </div> -->
   <!-- <q-intersection @visibility="onVisibility" once> -->
 
-  <q-intersection once>
-    <WidgetGallery :records="record_gallery?.image"></WidgetGallery>
-    <HomeCallActionOffer :records="page_widget_offer[0]"></HomeCallActionOffer>
+  <!-- <q-intersection once> -->
+  <WidgetGallery v-if="record_gallery" :records="record_gallery?.image"></WidgetGallery>
+  <HomeCallActionOffer
+    v-if="page_widget_offer"
+    :records="page_widget_offer[0]"
+  ></HomeCallActionOffer>
 
-    <!-- </q-intersection>
+  <!-- </q-intersection>
   <q-intersection once> -->
 
-    <HomeBlog v-if="false"></HomeBlog>
-    <HomeTestimonial :records="record_testimonial"></HomeTestimonial>
+  <HomeBlog v-if="false"></HomeBlog>
+  <HomeTestimonial
+    v-if="record_testimonial"
+    :records="record_testimonial"
+  ></HomeTestimonial>
 
-    <widgetCulinaryProductList :records="record_culinary"></widgetCulinaryProductList>
-    <widgetSouvenirProductList :records="record_souvenir"></widgetSouvenirProductList>
-    <WidgetTalentProfileList :records="record_talent"></WidgetTalentProfileList>
+  <widgetCulinaryProductList
+    v-if="record_culinary"
+    :records="record_culinary"
+  ></widgetCulinaryProductList>
+  <widgetSouvenirProductList
+    v-if="record_souvenir"
+    :records="record_souvenir"
+  ></widgetSouvenirProductList>
+  <WidgetTalentProfileList
+    v-if="record_talent"
+    :records="record_talent"
+  ></WidgetTalentProfileList>
 
-    <HomeCallAction :records="page_widget_call[0]"></HomeCallAction>
-  </q-intersection>
+  <HomeCallAction v-if="page_widget_call" :records="page_widget_call[0]"></HomeCallAction>
+  <!-- </q-intersection> -->
 </template>
 
 <script async setup>

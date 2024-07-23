@@ -9,7 +9,12 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">{{ records?.satisfiedCustomer }}+</h2>
+              <h2 class="counter-no text-bold">
+                {{ current_satisfiedCustomer }}
+                <sup
+                  ><span class="text-h6">{{ records?.satisfiedCustomer }}+</span></sup
+                >
+              </h2>
               <div class="counter-desc text-primary">SATISFIED CUSTOMER</div>
             </q-card-section>
           </q-card-section>
@@ -19,7 +24,12 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">{{ records?.activePartner }}+</h2>
+              <h2 class="counter-no text-bold">
+                {{ current_activePartner }}
+                <sup
+                  ><span class="text-h6">{{ records?.activePartner }}+</span></sup
+                >
+              </h2>
               <div class="counter-desc text-primary">ACTIVE PARTNERS</div>
             </q-card-section>
           </q-card-section>
@@ -29,7 +39,12 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">{{ records?.tourDestination }}+</h2>
+              <h2 class="counter-no text-bold">
+                {{ current_tourDestination }}
+                <sup
+                  ><span class="text-h6">{{ records?.tourDestination }}+</span></sup
+                >
+              </h2>
               <div class="counter-desc text-primary">TOUR DESTINATION</div>
             </q-card-section>
           </q-card-section>
@@ -39,7 +54,12 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">{{ records?.travelGruide }}+</h2>
+              <h2 class="counter-no text-bold">
+                {{ current_travelGruide }}
+                <sup
+                  ><span class="text-h6">{{ records?.travelGruide }}+</span></sup
+                >
+              </h2>
               <div class="counter-desc text-primary">TRAVEL GUIDES</div>
             </q-card-section>
           </q-card-section>
@@ -52,6 +72,51 @@
 <script>
 export default {
   props: ["records"],
+  data() {
+    return {
+      current_satisfiedCustomer: 0,
+      current_activePartner: 0,
+      current_tourDestination: 0,
+      current_travelGruide: 0,
+
+      interval_satisfiedCustomer: null,
+      interval_activePartner: null,
+      interval_tourDestination: null,
+      interval_travelGruide: null,
+    };
+  },
+  mounted() {
+    clearInterval(this.interval_satisfiedCustomer);
+    this.interval_satisfiedCustomer = setInterval(() => {
+      this.current_satisfiedCustomer++;
+      if (this.current_satisfiedCustomer >= this.records?.satisfiedCustomer)
+        clearInterval(this.interval_satisfiedCustomer);
+    }, 10);
+
+    clearInterval(this.interval_activePartner);
+    this.interval_activePartner = setInterval(() => {
+      this.current_activePartner++;
+      if (this.current_activePartner >= this.records?.activePartner)
+        clearInterval(this.interval_activePartner);
+    }, 10);
+
+    clearInterval(this.interval_tourDestination);
+    this.interval_tourDestination = setInterval(() => {
+      this.current_tourDestination++;
+      if (this.current_tourDestination >= this.records?.tourDestination)
+        clearInterval(this.interval_tourDestination);
+    }, 10);
+
+    clearInterval(this.interval_travelGruide);
+    this.interval_travelGruide = setInterval(() => {
+      this.current_travelGruide++;
+      if (this.current_travelGruide >= this.records?.travelGruide)
+        clearInterval(this.interval_travelGruide);
+    }, 10);
+  },
+  watch: {
+    "$route.name": function (val) {},
+  },
 };
 </script>
 

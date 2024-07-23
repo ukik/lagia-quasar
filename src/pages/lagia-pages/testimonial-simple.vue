@@ -27,7 +27,7 @@
           </q-banner>
         </div>
         <div
-          class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12"
+          class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"
           v-for="(item, index) in records"
         >
           <q-card flat bordered class="rounded-borders-2">

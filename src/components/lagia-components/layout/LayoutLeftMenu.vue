@@ -427,7 +427,7 @@
         <q-item-section>{{ getInfoPrivasi?.title }}</q-item-section>
       </q-item>
     </q-expansion-item>
-
+    <!--
     <q-item
       clickable
       v-ripple
@@ -440,7 +440,7 @@
       </q-item-section>
 
       <q-item-section>Logout</q-item-section>
-    </q-item>
+    </q-item> -->
   </div>
 </template>
 

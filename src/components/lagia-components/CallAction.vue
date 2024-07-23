@@ -1,5 +1,6 @@
 <template>
   <!-- Call To Action -->
+  <Konsultasi ref="konsultasi"></Konsultasi>
   <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h5 class="">{{ records?.title }}</h5>
@@ -8,7 +9,8 @@
         {{ records?.subtitle }}
       </p>
       <div class="q-mt-xl">
-        <q-btn :href="$onCall()"
+        <q-btn
+          :href="$onCall()"
           icon="phone"
           dense
           unelevated
@@ -18,6 +20,7 @@
           label="Contact Us!"
         />
         <q-btn
+          @click="$refs.konsultasi?.onOpen()"
           icon-right="chevron_right"
           dense
           unelevated
@@ -36,6 +39,8 @@
 import { storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
+
+import Konsultasi from "src/layouts/components/konsultasi.vue";
 
 import { useInitStore } from "stores/lagia-stores/page/InitStore";
 
