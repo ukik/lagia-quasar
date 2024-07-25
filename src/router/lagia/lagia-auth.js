@@ -1,4 +1,12 @@
+// import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useAuthStore } from "src/stores/auth/auth"
+import { storeToRefs } from 'pinia';
+
 export default function (store, cookies, ssrContext) {
+
+  const authStore = useAuthStore(store)
+  // const { auth, getIsLogin, getLoading } = storeToRefs(authStore)
+
   return [
     // EMPTY
     {
@@ -11,6 +19,21 @@ export default function (store, cookies, ssrContext) {
         title: 'Login',
       },
       component: () => import("pages/lagia-pages/dashboard/login.vue"),
+      beforeEnter: (to, from, next) => {
+        console.log('lagia-auth', authStore?.is_logged)
+
+        if (to.meta.logged && authStore?.is_logged) {
+          // console.log('beforeEach boot/lagia-.js 1')
+          next({ name: "/lagia/index" })
+        } else {
+          next()
+        }
+        // if(to?.name == '/lagia/career-detail') {
+        //   next({ name: '/lagia/career' })
+        // } else {
+        //   next()
+        // }
+      }
     },
     {
       path: "/register",

@@ -1,5 +1,5 @@
 <template>
-  <div class="form-box">
+  <div class="form-box q-py-xl">
     <q-card flat class="rounded-borders-2 bg-form">
       <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
@@ -22,7 +22,9 @@
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
           <div class="col-12">
-            <q-input :loading="loading.form_register" :disable="loading.form_register"
+            <q-input
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               clearable
               counter
               maxlength="100"
@@ -51,7 +53,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_register" :disable="loading.form_register"
+            <q-input
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               type="text"
               clearable
               counter
@@ -81,7 +85,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_register" :disable="loading.form_register"
+            <q-input
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               clearable
               maxlength="25"
               mask="+62 #### #### ###########"
@@ -111,7 +117,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_register" :disable="loading.form_register"
+            <q-input
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               type="text"
               clearable
               counter
@@ -141,7 +149,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_register" :disable="loading.form_register"
+            <q-input
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               type="text"
               clearable
               counter
@@ -171,7 +181,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_register" :disable="loading.form_register"
+            <q-input
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               type="password"
               clearable
               counter
@@ -203,7 +215,9 @@
           </div>
 
           <div class="col-12">
-            <q-select :loading="loading.form_register" :disable="loading.form_register"
+            <q-select
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               option-label="label"
               emit-value
               map-options
@@ -246,7 +260,9 @@
               class="rounded-borders-3 row q-pa-none row justify-center"
               style="background: rgba(255, 255, 255, 0.125)"
             >
-              <q-field :loading="loading.form_register" :disable="loading.form_register"
+              <q-field
+                :loading="loading.form_register"
+                :disable="loading.form_register"
                 ref="acceptRef"
                 v-model="accept"
                 dense
@@ -256,7 +272,13 @@
                 :lazy-rules="true"
                 class="q-pa-none q-py-sm q-px-sm row col-auto"
               >
-                <q-toggle :loading="loading.form_register" :disable="loading.form_register" class="col-auto" v-model="accept" color="white">
+                <q-toggle
+                  :loading="loading.form_register"
+                  :disable="loading.form_register"
+                  class="col-auto"
+                  v-model="accept"
+                  color="white"
+                >
                   <div class="text-white q-pr-md">Saya setuju terms & conditions</div>
                 </q-toggle>
                 <template v-slot:error> </template>
@@ -269,7 +291,9 @@
               class="col-auto text-center"
               :class="[$q.screen.width > 425 ? '' : 'q-mb-lg col-12']"
             >
-              <q-btn :loading="loading.form_register" :disable="loading.form_register"
+              <q-btn
+                :loading="loading.form_register"
+                :disable="loading.form_register"
                 outline
                 class="rounded-borders-3"
                 color="white"
@@ -280,17 +304,21 @@
           </div>
 
           <div class="col-12 text-center row justify-center q-mt-lg">
-            <q-btn :loading="loading.form_register" :disable="loading.form_register"
+            <q-btn
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               type="submit"
-              icon-right="login"
+              icon-right="person"
               outline
               color="white"
               size="16px"
               class="rounded-borders-4 q-mx-sm"
-              label="login"
+              label="register"
             ></q-btn>
             <div class="col-1"></div>
-            <q-btn :loading="loading.form_register" :disable="loading.form_register"
+            <q-btn
+              :loading="loading.form_register"
+              :disable="loading.form_register"
               type="reset"
               icon-right="delete"
               outline
@@ -307,16 +335,30 @@
       <q-separator color="white-1"></q-separator>
       <q-card-section>
         <div class="col-12 row items-center justify-center text-white">
-          <div class=" text-left">Do you have an account?</div>
-          <q-btn capitalize
+          <div class="text-left">Do you have an account?</div>
+          <q-btn
+            capitalize
             flat
             :to="{ name: '/login' }"
             outline
-
             color="white"
             size="16px"
             class="rounded-borders-4"
             label="Login"
+          ></q-btn>
+        </div>
+
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">I forget password!</div>
+          <q-btn
+            flat
+            :to="{ name: '/forgot-password' }"
+            capitalize
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Ask password"
           ></q-btn>
         </div>
       </q-card-section>

@@ -18,8 +18,10 @@ export default boot(async ({ router, store }) => {
     // ✅ This will work because the router starts its navigation after
     // the router is installed and pinia will be installed too
 
-    console.log('beforeEach boot/lagia-init-router.js', auth, getIsLogin.value, getIsLogin.value && to.name == '/login')
-    if(!getIsLogin.value && to.meta.logged) await onRelogin()
+    // sepertinya dari Client saja, karena error 401 nanti lambat di server
+    // if(!getIsLogin.value && to.meta.logged) await onRelogin()
+
+    console.log('beforeEach boot/lagia-router', auth, getIsLogin.value)
 
     await routerStore.setRouter(to);
 

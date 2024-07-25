@@ -8,7 +8,7 @@ import { useAuthStore } from 'src/stores/lagia-stores/auth/AuthStore';
 export default boot(async ({ router, store }) => {
   const _store = useAuthStore(store) // inject disini ya
   const { onInit } = _store
-  const { auth, getIsLogin, getLoading } = storeToRefs(_store)
+  const { auth, getIsLogin, getLoadingInit, getLoading } = storeToRefs(_store)
 
   // jika disini akan dihitung SERVER
   // if(!getLoading.value?.init) await onInit()
@@ -20,7 +20,7 @@ export default boot(async ({ router, store }) => {
     // the router is installed and pinia will be installed too
 
     // jika disini akan dihitung CLIENT
-    // if(!getLoading.value?.init) await onInit() // matikan saja
+    if(!getLoadingInit.value && !getIsLogin.value) await onInit() // matikan saja
 
     // console.log('beforeEach boot/lagia-.js', auth, getLoading.value, getIsLogin.value, getIsLogin.value && to.name == '/login')
 

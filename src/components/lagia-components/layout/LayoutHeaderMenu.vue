@@ -118,6 +118,32 @@
                   }}</a
                 >
                 <ul class="shadow-3">
+                  <li class="menu-item-has-children">
+                    <router-link
+                      to="/tour/store-list"
+                      :class="[
+                        $route.name == '/tour/product-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                        $route.name == '/tour/price-list'
+                          ? 'router-link-exact-active'
+                          : '',
+                      ]"
+                      >Tour</router-link
+                    >
+                    <ul class="shadow-3">
+                      <li>
+                        <router-link to="/tour/store-list">Vendor Tour</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/tour/product-list">Paket Tour</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/tour/price-list">Harga Tour</router-link>
+                      </li>
+                    </ul>
+                  </li>
+
                   <!-- <li>
                     <router-link to="package-common">Travel</router-link>
                   </li> -->
@@ -153,6 +179,7 @@
                       </li>
                     </ul>
                   </li>
+
                   <!-- <li>
                     <router-link to="/souvenir/store-list">Souvenir</router-link>
                   </li> -->
@@ -267,7 +294,9 @@
                     >
                     <ul class="shadow-3">
                       <li>
-                        <router-link to="/talent/profile-list">Vendor Talent</router-link>
+                        <router-link to="/talent/profile-list"
+                          >Profile Talent</router-link
+                        >
                       </li>
                       <li>
                         <router-link to="/talent/skill-list">Skill Talent</router-link>

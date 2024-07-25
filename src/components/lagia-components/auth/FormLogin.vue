@@ -22,7 +22,9 @@
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
           <div class="col-12">
-            <q-input :loading="loading.form_login" :disable="loading.form_login"
+            <q-input
+              :loading="loading.form_login"
+              :disable="loading.form_login"
               type="text"
               clearable
               counter
@@ -52,7 +54,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_login" :disable="loading.form_login"
+            <q-input
+              :loading="loading.form_login"
+              :disable="loading.form_login"
               type="text"
               clearable
               counter
@@ -81,27 +85,36 @@
             </q-input>
           </div>
 
-          <div class="col-12 text-center row items-center">
+          <div class="col-12 text-center row items-center" v-if="false">
             <q-item
-              style="background: rgba(255, 255, 255, 0.125)"
+              style=""
               tag="label"
-              class="rounded-borders-3 q-pa-none"
+              class="rounded-borders-3 q-pa-none bg-white"
               v-ripple
             >
               <q-item-section
                 class="bg-white q-px-md rounded-borders-3"
                 style="border-top-right-radius: 0px; border-bottom-right-radius: 0px"
               >
-                <q-checkbox :loading="loading.form_login" :disable="loading.form_login" dense v-model="form_login.remember" size="lg" />
+                <q-checkbox
+                  :loading="loading.form_login"
+                  :disable="loading.form_login"
+                  dense
+                  v-model="form_login.remember"
+                  size="lg"
+                />
               </q-item-section>
-              <q-item-section side>
-                <q-item-label class="text-white q-pr-md">Remember me?</q-item-label>
+              <q-separator vertical></q-separator>
+              <q-item-section side class="">
+                <q-item-label class="text-dark q-pr-md">Remember me?</q-item-label>
               </q-item-section>
             </q-item>
           </div>
 
           <div class="col-12 text-center row justify-center q-mt-lg">
-            <q-btn :loading="loading.form_login" :disable="loading.form_login"
+            <q-btn
+              :loading="loading.form_login"
+              :disable="loading.form_login"
               type="submit"
               icon-right="login"
               outline
@@ -111,7 +124,9 @@
               label="login"
             ></q-btn>
             <div class="col-1"></div>
-            <q-btn :loading="loading.form_login" :disable="loading.form_login"
+            <q-btn
+              :loading="loading.form_login"
+              :disable="loading.form_login"
               type="reset"
               icon-right="delete"
               outline
@@ -138,6 +153,20 @@
             size="16px"
             class="rounded-borders-4"
             label="Create an account"
+          ></q-btn>
+        </div>
+
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">I forget password!</div>
+          <q-btn
+            flat
+            :to="{ name: '/forgot-password' }"
+            capitalize
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Ask password"
           ></q-btn>
         </div>
       </q-card-section>
@@ -174,38 +203,46 @@ export default {
       passwordRef,
       rememberRef,
 
-      async onSubmit() {
-        emailRef.value.validate();
-        passwordRef.value.validate();
-
-        // rememberRef.value.validate();
-
-        if (emailRef.value.hasError || passwordRef.value.hasError) {
-          $q.notify({
-            color: "negative",
-            message: "Peringatan",
-            caption: "Lengkapi form login",
-            position: "top",
-          });
-          return;
-        }
-
-        await onLogin();
-
-        // $q.notify({
-        //   icon: "done",
-        //   color: "positive",
-        //   message: "Submitted",
-        // });
-      },
-
-      onReset() {
-        onClearLogin();
-
-        emailRef.value.resetValidation();
-        passwordRef.value.resetValidation();
-      },
+      onLogin,
+      onClearLogin,
     };
+  },
+  methods: {
+    async onSubmit() {
+      this.$refs.emailRef.validate();
+      this.$refs.passwordRef.validate();
+
+      // rememberRef.value.validate();
+
+      if (this.$refs.emailRef.hasError || this.$refs.passwordRef.hasError) {
+        this.$q.notify({
+          color: "negative",
+          message: "Peringatan",
+          caption: "Lengkapi form login",
+          position: "top",
+        });
+        return;
+      }
+
+      this.$q.loading.show();
+      const resp = await this.onLogin();
+      this.$q.loading.hide();
+
+      if (resp.isLogin) this.$router.push({ name: "/lagia/index" });
+
+      // $q.notify({
+      //   icon: "done",
+      //   color: "positive",
+      //   message: "Submitted",
+      // });
+    },
+
+    onReset() {
+      this.onClearLogin();
+
+      this.$refs.emailRef.resetValidation();
+      this.$refs.passwordRef.resetValidation();
+    },
   },
 };
 </script>

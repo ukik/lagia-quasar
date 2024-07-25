@@ -1,6 +1,6 @@
 <template>
   <div class="row items-start q-gutter-md">
-    <q-card class="my-card" flat bordered>
+    <q-card class="my-card" flat>
       <q-img
         v-if="item?.culinaryProduct?.image && item?.culinaryProduct?.image.length > 0"
         loading="lazy"
@@ -19,7 +19,7 @@
             @click="showMultiple(item?.culinaryProduct?.image, 0)"
           />
         </div>
-        <q-badge
+        <!-- <q-badge
           :color="badgeCondition(item?.condition)"
           class="q-mr-lg rounded-borders-2"
           style="margin-top: -17px"
@@ -27,7 +27,7 @@
           ><span class="text-title text-uppercase q-mt-md">{{
             item?.condition
           }}</span></q-badge
-        >
+        > -->
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
             Cannot load image
@@ -65,18 +65,7 @@
           }"
           ><div></div
         ></router-link> -->
-        <q-item
-          dense
-          clickable
-          class="q-pa-none"
-          :to="{
-            name: '/culinary/price-detail',
-            params: {
-              slug: item?.id,
-              slug_text: item?.name,
-            },
-          }"
-        >
+        <q-item class="q-pa-none">
           <q-item-section class="text-h6 q-mb-xs">
             <q-item-label>{{ item?.name }}</q-item-label>
           </q-item-section>
@@ -135,7 +124,7 @@
         </q-list>
       </q-card-section>
 
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-expansion-item>
           <template v-slot:header>
             <q-item-section> Description </q-item-section>
@@ -148,9 +137,9 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
 
-      <q-separator></q-separator>
+      <!-- <q-separator></q-separator> -->
 
       <!-- <q-card-section class="q-pa-none">
         <q-btn-group spread outline>
@@ -172,7 +161,7 @@
         </q-btn-group>
       </q-card-section> -->
 
-      <q-card-section class="q-pa-none">
+      <!-- <q-card-section class="q-pa-none">
         <q-btn-group spread unelevated>
           <q-btn
             @click="
@@ -195,31 +184,14 @@
             label="store"
             icon="storefront"
           />
-          <!-- <q-separator vertical></q-separator>
-          <q-btn
-            @click="
-              $emit('onBubbleEvent', {
-                label: 'produk',
-                payload: item,
-              })
-            "
-            label="produk"
-            icon="inventory"
-          /> -->
         </q-btn-group>
-      </q-card-section>
+      </q-card-section> -->
 
-      <q-separator></q-separator>
+      <!-- <q-separator></q-separator> -->
 
-      <q-card-actions align="center">
+      <!-- <q-card-actions align="center">
         <q-btn
-          @click="
-            $global.$emit('LagiaLayout', {
-              label: 'addToCart',
-              key: 'culinary',
-              value: item,
-            })
-          "
+          @click="$global.$emit('LagiaLayout', 1111)"
           outline
           flat
           icon="shopping_cart_checkout"
@@ -227,7 +199,7 @@
           size="md"
           label="Add To Cart"
         />
-      </q-card-actions>
+      </q-card-actions> -->
 
       <!-- <q-slide-transition>
         <div v-show="expanded">

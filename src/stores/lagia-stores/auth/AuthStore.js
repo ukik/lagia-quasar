@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia';
 
+import { Loading, Notify, Cookies, Platform, Screen } from 'quasar'
+
 // import domains from 'src/settings/domains'
 // import { api } from 'src/settings/axios'
 
 // const { apiDomain } = domains()
 
-// import axios from 'axios'
+import domains from 'src/settings/domains'
+const { apiDomain } = domains()
+const host = apiDomain
 
 import axios from 'axios'
 
-const api = axios.create({ baseURL: 'http://127.0.0.1:8000' })
-
-import { Notify, Cookies } from 'quasar'
+const api = axios.create({ baseURL: host })
 
 const _id = Math.round(Math.random() * 100000000000000)
 
@@ -87,13 +89,15 @@ export const useAuthStore = defineStore('AuthStore', {
       form_reset_password: false,
       form_forgot_password: false,
       form_verify: false,
+      form_logout: false,
     }
   }),
 
   getters: {
     getAuth: state => state.auth,
     getIsLogin: state => state.auth.isLogin,
-    getAccessToken: state => state.auth.data.accessToken,
+    getLoadingInit: state => state.loading.init,
+    getAccessToken: state => state.auth.data?.accessToken,
     getLoading: state => state.loading,
   },
 
@@ -192,6 +196,8 @@ export const useAuthStore = defineStore('AuthStore', {
 
     async onRelogin() {
 
+      console.log('onRelogin')
+
       if (this.loading.relogin) return false;
 
       this.loading.relogin = true;
@@ -200,9 +206,9 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/init',
         method: 'get',
       })
-      .catch(error => { // wajib ada agar jika error server tidak error UI
-        console.log('store/lagia-stores/auth/AuthStore', error.response)
-      })
+        .catch(error => { // wajib ada agar jika error server tidak error UI
+          console.log('store/lagia-stores/auth/AuthStore', error.response)
+        })
 
       this.loading.relogin = false
 
@@ -224,20 +230,71 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/init',
         method: 'get',
       })
-      .catch(error => { // wajib ada agar jika error server tidak error UI
-        console.log('store/lagia-stores/auth/AuthStore', error.response)
-      })
+        .catch(error => { // wajib ada agar jika error server tidak error UI
+          console.log('store/lagia-stores/auth/AuthStore', error.response)
+        })
 
       // this.loading.init = false
       // console.log('onInit', resp)
 
-      if (!resp?.data) return this.loading.init = false
+      if (!resp?.data) return // this.loading.init = false
 
       resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
 
       this.auth = resp?.data
       console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
     },
+
+    async onLogout() {
+
+      if (this.loading.form_logout) return false;
+
+      this.loading.form_logout = true;
+
+      console.log('formData', this.form_logout)
+
+      Loading.show()
+
+      const resp = await axios({
+        url: '/trevolia-api/v1/auth/logout',
+        method: 'post',
+      })
+        .then((response) => {
+          Notify.create({
+            color: 'positive',
+            position: 'top',
+            message: 'Loading success',
+            caption: 'logout berhasil diproses',
+            icon: 'done'
+          })
+          return true
+        })
+        .catch((err) => {
+          Notify.create({
+            color: 'negative',
+            position: 'top',
+            message: 'Loading failed',
+            caption: "logout gagal",
+            icon: 'report_problem'
+          })
+          return false
+        })
+
+      Loading.hide()
+
+      this.loading.form_logout = false
+
+      console.log('onLogout', resp)
+
+      if(!resp?.data?.isLogin) {
+        await this.onClearAuth()
+        Cookies.remove('accessToken')
+        this.router.push({ name: "/login" })
+       }
+
+      return resp
+    },
+
 
 
     async onLogin() {
@@ -296,8 +353,9 @@ export const useAuthStore = defineStore('AuthStore', {
 
       resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
 
-      this.auth = resp?.data
       console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
+
+      return this.auth = resp?.data
 
     },
 
@@ -490,7 +548,7 @@ export const useAuthStore = defineStore('AuthStore', {
       console.log('formData', this.form_verify)
 
       const resp = await axios({
-        url: '/trevolia-api/v1/auth/'+slug,
+        url: '/trevolia-api/v1/auth/' + slug,
         method: 'post',
         data: formData,
         // headers: {
@@ -538,6 +596,7 @@ export const useAuthStore = defineStore('AuthStore', {
         token: "",
       }
     },
+
     async onClearVerify() {
       this.form_verify = {
         email: "",
@@ -568,6 +627,38 @@ export const useAuthStore = defineStore('AuthStore', {
         password: '',
         confirm: '',
         gender: 'Gender',
+      }
+    },
+
+    async onClearAuth() {
+      this.auth = {
+        "isLogin": null,
+        "message": "",
+        "errors": null,
+        "data": {
+          "accessTokent": "",
+          "tokenType": "",
+          "user": {
+            "id": "",
+            "name": "",
+            "username": "",
+            "email": "",
+            "additionalInfo": "",
+            "gender": null,
+            "avatar": null,
+            "phone": null,
+            "address": null,
+            "emailVerifiedAt": "",
+            "password": "",
+            "rememberToken": null,
+            "lastSentTokenAt": null,
+            "createdAt": "",
+            "updatedAt": "",
+            "deletedAt": null
+          },
+          "roles": null,
+          "expiresIn": 0
+        }
       }
     }
   }

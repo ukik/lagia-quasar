@@ -1,51 +1,13 @@
 <template>
-  <div class="row items-start q-gutter-md">
-    <q-card class="my-card" flat bordered>
-      <q-img
-        v-if="item?.culinaryProduct?.image && item?.culinaryProduct?.image.length > 0"
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.culinaryProduct?.image[0]"
-      >
-        <div class="absolute-top-left bg-transparent">
-          <q-btn
-            size="16px"
-            rounded
-            dense
-            color="white"
-            text-color="primary"
-            icon="fullscreen"
-            @click="showMultiple(item?.culinaryProduct?.image, 0)"
-          />
-        </div>
-        <q-badge
-          :color="badgeCondition(item?.condition)"
-          class="q-mr-lg rounded-borders-2"
-          style="margin-top: -17px"
-          floating
-          ><span class="text-title text-uppercase q-mt-md">{{
-            item?.condition
-          }}</span></q-badge
-        >
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center bg-negative text-white">
-            Cannot load image
-          </div>
-        </template>
-      </q-img>
-      <q-img
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        v-else
-        :src="$defaultErrorImage"
-      />
+  <isModalDescription ref="isModal"></isModalDescription>
 
+  <div class="row items-start q-gutter-md">
+    <q-card class="my-card q-mt-lg" flat bordered>
       <q-card-section>
-        <DestinationRating
-          :rating="item?.culinaryProduct?.ratingAvg?.avgRating"
-        ></DestinationRating>
+        <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
+        <isDestinationRatingNoFloat
+          :rating="item?.transportVehicle?.ratingAvg?.avgRating"
+        ></isDestinationRatingNoFloat>
 
         <!-- <q-chip
           color="pink"
@@ -55,36 +17,8 @@
           >{{ item?.typePrice }}</q-chip
         > -->
 
-        <!-- <router-link
-          :to="{
-            name: '/culinary/price-detail',
-            params: {
-              slug: item?.id,
-              slug_text: item?.name,
-            },
-          }"
-          ><div></div
-        ></router-link> -->
-        <q-item
-          dense
-          clickable
-          class="q-pa-none"
-          :to="{
-            name: '/culinary/price-detail',
-            params: {
-              slug: item?.id,
-              slug_text: item?.name,
-            },
-          }"
-        >
-          <q-item-section class="text-h6 q-mb-xs">
-            <q-item-label>{{ item?.name }}</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item-label caption>{{ item?.createdAt }}</q-item-label>
-
         <div class="row text-white">
-          <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
+          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white text-capitalize"
               >Harga {{ item?.typePrice }}</q-item-label
             >
@@ -112,14 +46,31 @@
           color="grey"
         ></q-rating> -->
       </q-card-section>
+
+      <q-separator></q-separator>
+      <q-card-section>
+        <q-item
+          dense
+          clickable
+          class="q-pa-none"
+          :to="{
+            name: '/tour/price-detail',
+            params: {
+              slug: item?.id,
+              slug_text: item?.name,
+            },
+          }"
+        >
+          <q-item-section class="text-h6 q-mb-xs">
+            <q-item-label>{{ item?.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item-label caption>{{ item?.createdAt }}</q-item-label>
+      </q-card-section>
+
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <isQItemLabelValue label="id" :value="item?.id"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="uuid" :value="item?.uuid"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="rentalId" :value="item?.rentalId"></isQItemLabelValue>
-          <isQItemLabelValue label="vehicleId" :value="item?.vehicleId"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue> -->
           <isQItemLabelValue
             label="generalPrice"
             :value="$currency(item?.generalPrice)"
@@ -132,23 +83,50 @@
             label="cashbackPrice"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
+          <!-- <isQItemLabelValue
+            label="description"
+            :value="item?.description"
+          ></isQItemLabelValue> -->
+
+          <!-- <isQItemLabelValue label="customerId" :value="item?.customerId"></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue
+            label="condition"
+            :value="item?.condition"
+          ></isQItemLabelValue> -->
+          <!-- <isQItemLabelValue label="customer" :value="item?.customer"></isQItemLabelValue> -->
+
+          <!-- <isQItemLabelValue label="createdAt" :value="item?.createdAt"></isQItemLabelValue>
+          <isQItemLabelValue label="updatedAt" :value="item?.updatedAt"></isQItemLabelValue>
+          <isQItemLabelValue label="deletedAt" :value="item?.deletedAt"></isQItemLabelValue> -->
+          <!-- <isQItemLabelSimpleValueNoDense
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.description, label: 'Description' },
+              })
+            "
+            :clickable="true"
+            label="Description"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValueNoDense> -->
         </q-list>
       </q-card-section>
 
-      <q-card-section class="q-pa-none">
-        <q-expansion-item>
+      <!-- <q-card-section class="q-pa-none">
+        <q-expansion-item class="q-px-md">
           <template v-slot:header>
             <q-item-section> Description </q-item-section>
           </template>
           <q-separator></q-separator>
 
           <q-card>
-            <q-card-section>
+            <q-card-section class="q-px-none">
               {{ item?.description }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
-      </q-card-section>
+      </q-card-section> -->
 
       <q-separator></q-separator>
 
@@ -192,8 +170,8 @@
                 payload: item,
               })
             "
-            label="store"
-            icon="storefront"
+            label="Add To Cart"
+            icon="shopping_cart_checkout"
           />
           <!-- <q-separator vertical></q-separator>
           <q-btn
@@ -209,17 +187,10 @@
         </q-btn-group>
       </q-card-section>
 
-      <q-separator></q-separator>
+      <!-- <q-separator></q-separator>
 
       <q-card-actions align="center">
         <q-btn
-          @click="
-            $global.$emit('LagiaLayout', {
-              label: 'addToCart',
-              key: 'culinary',
-              value: item,
-            })
-          "
           outline
           flat
           icon="shopping_cart_checkout"
@@ -227,7 +198,7 @@
           size="md"
           label="Add To Cart"
         />
-      </q-card-actions>
+      </q-card-actions> -->
 
       <!-- <q-slide-transition>
         <div v-show="expanded">
@@ -249,6 +220,7 @@ import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbo
 
 export default {
   props: ["item"],
+  emits: ["onBubbleEvent"], // <--- add this line
   components: {
     // isQItemLabelValue,
     // ImageSlideCarousel,

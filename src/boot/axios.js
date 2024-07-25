@@ -20,6 +20,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   const _store = useAuthStore(store)
   const route = useRouterStore(store)
   const { auth } = storeToRefs(_store)
+  const { onClearAuth } = _store
 
   app.config.globalProperties.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
@@ -94,20 +95,15 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     // console.log('boot/axios.js C', response)
     // console.log('axios.interceptors.response.use', response?.data?.data?.accessToken, response?.data?.isLogin, route?.getName)
 
-    // always update Login status
-    if(response?.data?.isLogin) {
-      auth.isLogin = response?.data?.isLogin
-    }
-
     if (
       route.getName === '/register' ||
       route.getName === '/login'
     ) {
 
-      await cookies.set('imajora_csrf', response?.data?.payload?.csrf, is_cookie_secure)
-      await cookies.set('imajora_cookie', response?.data?.payload?.token, is_cookie_secure)
+      // await cookies.set('imajora_csrf', response?.data?.payload?.csrf, is_cookie_secure)
+      // await cookies.set('imajora_cookie', response?.data?.payload?.token, is_cookie_secure)
 
-      await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
+      if(response?.data?.data?.accessToken) await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
       // await cookies.set('XSRF-TOKEN', response.data.payload.token, is_cookie_secure)
     }
 
@@ -120,14 +116,28 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     }
     */
 
-    switch (response?.data?.payload) {
-      case 'logout':
-        await cookies.remove('imajora_cookie')
-        await cookies.remove('imajora_csrf')
-
-        router.replace({ name: 'home' })
-        break;
+    // always update Login status
+    if(response?.data?.isLogin) {
+      auth.isLogin = response?.data?.isLogin
+    } else {
+      // dipindah ke pinia saat user click logout
+      // await onClearAuth()
+      // await cookies.remove('accessToken')
     }
+
+
+
+    // switch (response?.data?.payload) {
+    //   case 'logout':
+    //     // await cookies.remove('imajora_cookie')
+    //     // await cookies.remove('imajora_csrf')
+    //     await cookies.remove('accessToken')
+
+    //     router.replace({ name: 'home' })
+    //     break;
+    // }
+
+
 
     // if(route.getName != 'auth_login') {
     //   if(response?.data?.init) {

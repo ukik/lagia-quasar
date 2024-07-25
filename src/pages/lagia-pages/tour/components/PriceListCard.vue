@@ -2,11 +2,11 @@
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
       <q-img
-        v-if="item?.culinaryProduct?.image && item?.culinaryProduct?.image.length > 0"
+        v-if="item?.tourProduct?.image && item?.tourProduct?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.culinaryProduct?.image[0]"
+        :src="item?.tourProduct?.image[0]"
       >
         <div class="absolute-top-left bg-transparent">
           <q-btn
@@ -16,7 +16,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.culinaryProduct?.image, 0)"
+            @click="showMultiple(item?.tourProduct?.image, 0)"
           />
         </div>
         <q-badge
@@ -44,7 +44,7 @@
 
       <q-card-section>
         <DestinationRating
-          :rating="item?.culinaryProduct?.ratingAvg?.avgRating"
+          :rating="item?.tourProduct?.ratingAvg?.avgRating"
         ></DestinationRating>
 
         <!-- <q-chip
@@ -57,7 +57,7 @@
 
         <!-- <router-link
           :to="{
-            name: '/culinary/price-detail',
+            name: '/tour/price-detail',
             params: {
               slug: item?.id,
               slug_text: item?.name,
@@ -70,7 +70,7 @@
           clickable
           class="q-pa-none"
           :to="{
-            name: '/culinary/price-detail',
+            name: '/tour/price-detail',
             params: {
               slug: item?.id,
               slug_text: item?.name,
@@ -213,13 +213,6 @@
 
       <q-card-actions align="center">
         <q-btn
-          @click="
-            $global.$emit('LagiaLayout', {
-              label: 'addToCart',
-              key: 'culinary',
-              value: item,
-            })
-          "
           outline
           flat
           icon="shopping_cart_checkout"

@@ -14,7 +14,6 @@
       </q-card-section>
       <q-separator color="white-1"></q-separator>
       <q-card-section class="q-mt-md">
-
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -23,7 +22,9 @@
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
           <div class="col-12">
-            <q-input :loading="loading.form_forgot_password" :disable="loading.form_forgot_password"
+            <q-input
+              :loading="loading.form_forgot_password"
+              :disable="loading.form_forgot_password"
               type="text"
               clearable
               counter
@@ -53,7 +54,9 @@
           </div>
 
           <div class="col-12 text-center row justify-center q-mt-lg">
-            <q-btn :loading="loading.form_forgot_password" :disable="loading.form_forgot_password"
+            <q-btn
+              :loading="loading.form_forgot_password"
+              :disable="loading.form_forgot_password"
               type="submit"
               icon-right="login"
               outline
@@ -63,7 +66,9 @@
               label="login"
             ></q-btn>
             <div class="col-1"></div>
-            <q-btn :loading="loading.form_forgot_password" :disable="loading.form_forgot_password"
+            <q-btn
+              :loading="loading.form_forgot_password"
+              :disable="loading.form_forgot_password"
               type="reset"
               icon-right="delete"
               outline
@@ -75,6 +80,37 @@
             ></q-btn>
           </div>
         </form>
+      </q-card-section>
+      <div class="col-12 q-mt-md"></div>
+      <q-separator color="white-1"></q-separator>
+      <q-card-section>
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">Don't have an account?</div>
+          <q-btn
+            flat
+            :to="{ name: '/register' }"
+            capitalize
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Create an account"
+          ></q-btn>
+        </div>
+
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">Do you have an account?</div>
+          <q-btn
+            capitalize
+            flat
+            :to="{ name: '/login' }"
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Login"
+          ></q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
@@ -107,9 +143,7 @@ export default {
       async onSubmit() {
         emailRef.value.validate();
 
-        if (
-          emailRef.value.hasError
-        ) {
+        if (emailRef.value.hasError) {
           $q.notify({
             color: "negative",
             message: "Peringatan",

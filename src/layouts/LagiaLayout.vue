@@ -12,6 +12,7 @@ import { useInitStore } from "stores/lagia-stores/page/InitStore";
 import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
 
 import Konsultasi from "./components/konsultasi.vue";
+import DialogAddToCart from "./components/DialogAddToCart.vue";
 
 const initStore = useInitStore();
 const { footer_contact, getInfoPrivasi, getInfoSyarat } = storeToRefs(initStore); // have all reactive states here
@@ -193,6 +194,18 @@ export default {
       }
     },
   },
+  mounted() {
+    // how to use
+    const vm = this;
+    this.$global.$on("LagiaLayout", function (val) {
+      if (val?.label == "addToCart") {
+        vm.$refs?.addToCart?.onOpen(val);
+      }
+    });
+    // $global.$once('nama-event', 'arg1 value', 'arg2 value', 'arg3 value');
+    // $global.$off('nama-event', 'arg1 value', 'arg2 value', 'arg3 value');
+    // $global.$emit('nama-event', 'arg1 value', 'arg2 value', 'arg3 value');
+  },
   // "$route.name": function (val) {
   //   switch (val) {
   //     case "/lagia/index":
@@ -295,12 +308,23 @@ export default {
         </q-toolbar>
 
         <q-toolbar v-else class="bg-primary text-white">
-          <q-btn flat round dense icon="menu" class="q-mr-sm" />
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
+          <q-btn
+            flat
+            dense
+            round
+            icon="menu"
+            aria-label="Menu"
+            @click="toggleLeftDrawer"
+          />
 
-          <q-toolbar-title>DASHBOARD</q-toolbar-title>
+          <q-toolbar-title>
+            <!-- Travel & Tour  -->
+            <q-item-label>
+              <img style="height: 35px" src="/assets/lagia/white-logo.png" />
+            </q-item-label>
+          </q-toolbar-title>
+
+          <!-- <q-toolbar-title>DASHBOARD</q-toolbar-title> -->
 
           <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
 
@@ -316,14 +340,15 @@ export default {
       </q-header>
     </q-no-ssr>
 
-    <q-drawer
-      :width="280"
-      v-show="leftDrawerVisible"
+    <!-- v-show="leftDrawerVisible"
       @mouseover="onMouseOver"
       @mouseleave="onMouseLeave"
+      :show-if-above="false" -->
+    <q-drawer
+      persistent
+      :width="280"
       v-model="leftDrawerOpen"
       behavior="mobile"
-      :show-if-above="false"
       side="left"
       bordered
     >
@@ -368,6 +393,7 @@ export default {
         <q-no-ssr>
           <GlobalEasyLightbox></GlobalEasyLightbox>
           <Konsultasi ref="konsultasi"></Konsultasi>
+          <DialogAddToCart ref="addToCart"></DialogAddToCart>
         </q-no-ssr>
 
         <q-card-section

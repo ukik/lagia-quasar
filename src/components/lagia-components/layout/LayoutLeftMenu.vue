@@ -1,4 +1,5 @@
 <template>
+  {{ getAuth }}
   <div>
     <!-- <q-list bordered class="rounded-borders"> -->
     <q-item
@@ -45,6 +46,55 @@
       </q-item-section>
       <q-item-section>Testimoni</q-item-section>
     </q-item>
+
+    <q-expansion-item
+      dense
+      :content-inset-level="0.5"
+      :expand-separator="false"
+      icon=""
+      label=""
+      caption=""
+    >
+      <template v-slot:header>
+        <q-item-section avatar style="height: 48px">
+          <q-icon
+            :class="[
+              $route.name == '/tour/store-list' ? 'text-primary' : '',
+              $route.name == '/tour/product-list' ? 'text-primary' : '',
+              $route.name == '/tour/price-list' ? 'text-primary' : '',
+            ]"
+            name="explore"
+          />
+        </q-item-section>
+        <q-item-section
+          :class="[
+            $route.name == '/tour/store-list' ? 'text-primary' : '',
+            $route.name == '/tour/product-list' ? 'text-primary' : '',
+            $route.name == '/tour/price-list' ? 'text-primary' : '',
+          ]"
+          style="height: 48px"
+        >
+          Tour
+        </q-item-section>
+      </template>
+
+      <template v-for="(item, index) in tours">
+        <q-item
+          :to="{
+            name: item?.name,
+          }"
+          :active="link === item?.name"
+          active-class="text-primary"
+          clickable
+          v-ripple
+        >
+          <q-item-section avatar>
+            <q-icon :name="item?.icon" />
+          </q-item-section>
+          <q-item-section>{{ item?.label }}</q-item-section>
+        </q-item>
+      </template>
+    </q-expansion-item>
 
     <q-expansion-item
       dense
@@ -427,12 +477,12 @@
         <q-item-section>{{ getInfoPrivasi?.title }}</q-item-section>
       </q-item>
     </q-expansion-item>
-    <!--
+
     <q-item
+      v-if="getAuth?.isLogin"
       clickable
       v-ripple
-      :active="link === 'inbox'"
-      @click="link = 'inbox'"
+      @click="onLogout"
       active-class="my-menu-link"
     >
       <q-item-section avatar>
@@ -440,7 +490,7 @@
       </q-item-section>
 
       <q-item-section>Logout</q-item-section>
-    </q-item> -->
+    </q-item>
   </div>
 </template>
 
@@ -448,10 +498,30 @@
 import { storeToRefs } from "pinia";
 import { useInitStore } from "stores/lagia-stores/page/InitStore";
 
+import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
+
 export default {
   data() {
     return {
       link: "",
+      tours: [
+        {
+          label: "Vendor Tour",
+          name: "/tour/store-list",
+          icon: "storefront",
+        },
+        {
+          label: "Paket Tour",
+          name: "/tour/product-list",
+          icon: "drive_eta",
+        },
+        {
+          label: "Harga Tour",
+          name: "/tour/price-list",
+          icon: "add_shopping_cart",
+        },
+      ],
+
       transports: [
         {
           label: "Vendor Rental",
@@ -525,7 +595,7 @@ export default {
 
       talents: [
         {
-          label: "Vendor Talent",
+          label: "Profile Talent",
           name: "/talent/profile-list",
           icon: "storefront",
         },
@@ -611,12 +681,29 @@ export default {
       });
     },
   },
+  methods: {
+    async goLogout() {
+      const resp = await this.onLogout();
+      console.log("goLogout", resp?.data?.isLogin);
+      if (resp?.data?.isLogin) this.$router.push({ name: "/login" });
+    },
+  },
   setup() {
     const initStore = useInitStore();
     const { getInfoPrivasi, getInfoSyarat } = storeToRefs(initStore); // have all reactive states here
+
+    const store = useAuthStore();
+    const { onLogout } = store;
+    const { getAuth } = storeToRefs(store);
+
     return {
       getInfoPrivasi,
       getInfoSyarat,
+      onLogout,
+      // form_login,
+      // auth,
+      // loading,
+      getAuth,
     };
   },
   watch: {
