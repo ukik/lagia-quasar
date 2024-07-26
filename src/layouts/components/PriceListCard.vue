@@ -1,12 +1,12 @@
 <template>
   <div class="row items-start q-gutter-md">
-    <q-card class="my-card" flat>
+    <q-card v-if="vendor" class="my-card" flat>
       <q-img
-        v-if="item?.culinaryProduct?.image && item?.culinaryProduct?.image.length > 0"
+        v-if="item[vendor]?.image && item[vendor]?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="item?.culinaryProduct?.image[0]"
+        :src="item[vendor]?.image[0]"
       >
         <div class="absolute-top-left bg-transparent">
           <q-btn
@@ -16,7 +16,7 @@
             color="white"
             text-color="primary"
             icon="fullscreen"
-            @click="showMultiple(item?.culinaryProduct?.image, 0)"
+            @click="showMultiple(item[vendor]?.image, 0)"
           />
         </div>
         <!-- <q-badge
@@ -44,7 +44,7 @@
 
       <q-card-section>
         <DestinationRating
-          :rating="item?.culinaryProduct?.ratingAvg?.avgRating"
+          :rating="item[vendor]?.ratingAvg?.avgRating"
         ></DestinationRating>
 
         <!-- <q-chip
@@ -220,7 +220,7 @@ import { ref } from "vue";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
-  props: ["item"],
+  props: ["item", "slug", "vendor", "product"],
   components: {
     // isQItemLabelValue,
     // ImageSlideCarousel,

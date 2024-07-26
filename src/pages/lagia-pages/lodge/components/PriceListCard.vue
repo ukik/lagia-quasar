@@ -194,7 +194,7 @@
 
       <q-separator></q-separator>
 
-      <q-card-actions align="center">
+      <!-- <q-card-actions align="center">
         <q-btn
           outline
           flat
@@ -203,7 +203,14 @@
           size="md"
           label="Add To Cart"
         />
-      </q-card-actions>
+      </q-card-actions> -->
+
+      <isCartButton
+        :item="item"
+        slug="lodge"
+        vendor="lodgeProfile"
+        product="lodgeRoom"
+      ></isCartButton>
 
       <!-- <q-slide-transition>
         <div v-show="expanded">

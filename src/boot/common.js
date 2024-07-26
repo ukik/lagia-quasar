@@ -132,7 +132,12 @@ function onTelp (val) {
 }
 
 
-
+function getHost() {
+  return window.location.protocol +
+            "//" +
+            window.location.host +
+            "/"
+}
 
 
 export default boot(async ({ app, ssrContext, router, store }) => {
@@ -186,6 +191,10 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$onTelp = onTelp;
 
   app.config.globalProperties.$year = new Date().getFullYear();
+
+  app.config.globalProperties.$getHost = getHost;
+
+
 
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;

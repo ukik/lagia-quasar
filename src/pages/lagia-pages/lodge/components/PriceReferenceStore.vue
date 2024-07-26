@@ -47,9 +47,10 @@
               clickable
               class="q-pa-none"
               :to="{
-                name: '/profile/room-list',
-                query: {
-                  vendor: item?.id,
+                name: '/lodge/profile-detail',
+                params: {
+                  slug: item?.id,
+                  slug_text: item?.name,
                 },
               }"
             >

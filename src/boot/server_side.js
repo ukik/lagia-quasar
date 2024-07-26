@@ -152,12 +152,26 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.component('GoogleMapPackageSide',
     defineAsyncComponent(() => import('src/components/lagia-components/GoogleMapPackageSide.vue'))
   )
+
+
+
   app.component('FormRegister',
     defineAsyncComponent(() => import('src/components/lagia-components/auth/FormRegister.vue'))
   )
   app.component('FormLogin',
     defineAsyncComponent(() => import('src/components/lagia-components/auth/FormLogin.vue'))
   )
+  app.component('FormForgotPassword',
+    defineAsyncComponent(() => import('src/components/lagia-components/auth/FormForgotPassword.vue'))
+  )
+  app.component('FormResetPassword',
+    defineAsyncComponent(() => import('src/components/lagia-components/auth/FormResetPassword.vue'))
+  )
+  app.component('FormVerify',
+    defineAsyncComponent(() => import('src/components/lagia-components/auth/FormVerify.vue'))
+  )
+
+
   app.component('FormCareer',
     defineAsyncComponent(() => import('src/components/lagia-components/FormCareer.vue'))
   )
@@ -331,4 +345,9 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.component("isDestinationRatingNoFloat",
     defineAsyncComponent(() => import('src/components/lagia-components/widget/isDestinationRatingNoFloat.vue'))
   )
+  app.component("isCartButton",
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isCartButton.vue'))
+  )
+
+
 })

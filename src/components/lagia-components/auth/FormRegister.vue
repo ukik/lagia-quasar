@@ -1,5 +1,5 @@
 <template>
-  <div class="form-box q-py-xl">
+  <div class="form-box">
     <q-card flat class="rounded-borders-2 bg-form">
       <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
@@ -219,6 +219,7 @@
               :loading="loading.form_register"
               :disable="loading.form_register"
               option-label="label"
+              :options="genderOptions"
               emit-value
               map-options
               @popup-show="onPlaceholder('hide')"
@@ -226,7 +227,6 @@
               @clear="onPlaceholder('show')"
               @focus="onPlaceholder('hide')"
               @blur="onPlaceholder('show')"
-              :options="genderOptions"
               :clearable="form_register.gender !== 'Gender'"
               counter
               maxlength="100"
@@ -303,7 +303,7 @@
             </div>
           </div>
 
-          <div class="col-12 text-center row justify-center q-mt-lg">
+          <q-card-actions class="col-12 text-center q-mt-lg" align="between">
             <q-btn
               :loading="loading.form_register"
               :disable="loading.form_register"
@@ -315,7 +315,7 @@
               class="rounded-borders-4 q-mx-sm"
               label="register"
             ></q-btn>
-            <div class="col-1"></div>
+            <!-- <div class="col-1"></div> -->
             <q-btn
               :loading="loading.form_register"
               :disable="loading.form_register"
@@ -328,40 +328,42 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-          </div>
+          </q-card-actions>
         </form>
       </q-card-section>
       <div class="col-12 q-mt-md"></div>
       <q-separator color="white-1"></q-separator>
-      <q-card-section>
-        <div class="col-12 row items-center justify-center text-white">
-          <div class="text-left">Do you have an account?</div>
-          <q-btn
-            capitalize
-            flat
-            :to="{ name: '/login' }"
-            outline
-            color="white"
-            size="16px"
-            class="rounded-borders-4"
-            label="Login"
-          ></q-btn>
-        </div>
+      <slot name="bottom">
+        <q-card-section>
+          <div class="col-12 row items-center justify-center text-white">
+            <div class="text-left">Do you have an account?</div>
+            <q-btn
+              capitalize
+              flat
+              :to="{ name: '/login' }"
+              outline
+              color="white"
+              size="16px"
+              class="rounded-borders-4"
+              label="Login"
+            ></q-btn>
+          </div>
 
-        <div class="col-12 row items-center justify-center text-white">
-          <div class="text-left">I forget password!</div>
-          <q-btn
-            flat
-            :to="{ name: '/forgot-password' }"
-            capitalize
-            outline
-            color="white"
-            size="16px"
-            class="rounded-borders-4"
-            label="Ask password"
-          ></q-btn>
-        </div>
-      </q-card-section>
+          <div class="col-12 row items-center justify-center text-white">
+            <div class="text-left">I forget password!</div>
+            <q-btn
+              flat
+              :to="{ name: '/forgot-password' }"
+              capitalize
+              outline
+              color="white"
+              size="16px"
+              class="rounded-borders-4"
+              label="Ask password"
+            ></q-btn>
+          </div>
+        </q-card-section>
+      </slot>
     </q-card>
   </div>
 </template>
@@ -503,7 +505,14 @@ export default {
           // });
         }
 
-        await onRegister();
+        const resp = await onRegister();
+
+        if (resp.isLogin) {
+          if (this.$route.name == "/register") {
+            this.$router.push({ name: "/lagia/index" });
+          }
+          this.$emit("onBubbleEventLogged");
+        }
 
         // $q.notify({
         //   icon: "done",

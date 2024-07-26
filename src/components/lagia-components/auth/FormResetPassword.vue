@@ -14,7 +14,6 @@
       </q-card-section>
       <q-separator color="white-1"></q-separator>
       <q-card-section class="q-mt-md">
-
         <form
           id="form-career-component"
           @keyup.enter="onSubmit"
@@ -22,9 +21,10 @@
           @reset.prevent.stop="onReset"
           class="q-col-gutter-md row q-col-gutter-y-lg"
         >
-
           <div class="col-12">
-            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
+            <q-input
+              :loading="loading.form_reset_password"
+              :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -54,7 +54,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
+            <q-input
+              :loading="loading.form_reset_password"
+              :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -77,14 +79,18 @@
                 <div class="text-white">Password kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form_reset_password.password">Password</span>
+                <span class="text-white" v-if="form_reset_password.password"
+                  >Password</span
+                >
                 <span class="text-white" v-else>Password wajib diisi *</span>
               </template>
             </q-input>
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
+            <q-input
+              :loading="loading.form_reset_password"
+              :disable="loading.form_reset_password"
               type="password"
               clearable
               counter
@@ -116,7 +122,9 @@
           </div>
 
           <div class="col-12">
-            <q-input :loading="loading.form_reset_password" :disable="loading.form_reset_password"
+            <q-input
+              :loading="loading.form_reset_password"
+              :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -145,9 +153,10 @@
             </q-input>
           </div>
 
-
-          <div class="col-12 text-center row justify-center q-mt-lg">
-            <q-btn :loading="loading.form_reset_password" :disable="loading.form_reset_password"
+          <q-card-actions class="col-12 text-center q-mt-lg" align="between">
+            <q-btn
+              :loading="loading.form_reset_password"
+              :disable="loading.form_reset_password"
               type="submit"
               icon-right="login"
               outline
@@ -156,8 +165,10 @@
               class="rounded-borders-4 q-mx-sm"
               label="login"
             ></q-btn>
-            <div class="col-1"></div>
-            <q-btn :loading="loading.form_reset_password" :disable="loading.form_reset_password"
+            <!-- <div class="col-1"></div> -->
+            <q-btn
+              :loading="loading.form_reset_password"
+              :disable="loading.form_reset_password"
               type="reset"
               icon-right="delete"
               outline
@@ -167,7 +178,7 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-          </div>
+          </q-card-actions>
         </form>
       </q-card-section>
     </q-card>

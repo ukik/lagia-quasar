@@ -13,6 +13,7 @@ import { useAuthStore } from "stores/lagia-stores/auth/AuthStore";
 
 import Konsultasi from "./components/konsultasi.vue";
 import DialogAddToCart from "./components/DialogAddToCart.vue";
+import DialogAuth from "./components/DialogAuth.vue";
 
 const initStore = useInitStore();
 const { footer_contact, getInfoPrivasi, getInfoSyarat } = storeToRefs(initStore); // have all reactive states here
@@ -198,8 +199,19 @@ export default {
     // how to use
     const vm = this;
     this.$global.$on("LagiaLayout", function (val) {
-      if (val?.label == "addToCart") {
-        vm.$refs?.addToCart?.onOpen(val);
+      switch (val?.label) {
+        case "addToCart":
+          vm.$refs?.addToCart?.onOpen(val);
+          console.log("LagiaLayout addToCart", val);
+          return;
+        case "konsultasi":
+          vm.$refs?.konsultasi?.onOpen(val);
+          console.log("LagiaLayout konsultasi", val);
+          return;
+        case "dialogAuth":
+          vm.$refs?.dialogAuth?.onOpen(val);
+          console.log("LagiaLayout dialogAuth", val);
+          return;
       }
     });
     // $global.$once('nama-event', 'arg1 value', 'arg2 value', 'arg3 value');
@@ -394,6 +406,7 @@ export default {
           <GlobalEasyLightbox></GlobalEasyLightbox>
           <Konsultasi ref="konsultasi"></Konsultasi>
           <DialogAddToCart ref="addToCart"></DialogAddToCart>
+          <DialogAuth ref="dialogAuth"></DialogAuth>
         </q-no-ssr>
 
         <q-card-section

@@ -81,8 +81,10 @@
             </q-input>
           </div>
 
-          <div class="col-12 text-center row justify-center q-mt-lg">
-            <q-btn :loading="loading.form_verify" :disable="loading.form_verify"
+          <q-card-actions class="col-12 text-center q-mt-lg" align="between">
+            <q-btn
+              :loading="loading.form_verify"
+              :disable="loading.form_verify"
               type="submit"
               icon-right="login"
               outline
@@ -91,8 +93,10 @@
               class="rounded-borders-4 q-mx-sm"
               label="login"
             ></q-btn>
-            <div class="col-1"></div>
-            <q-btn :loading="loading.form_verify" :disable="loading.form_verify"
+            <!-- <div class="col-1"></div> -->
+            <q-btn
+              :loading="loading.form_verify"
+              :disable="loading.form_verify"
               type="reset"
               icon-right="delete"
               outline
@@ -102,22 +106,24 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-          </div>
+          </q-card-actions>
         </form>
       </q-card-section>
       <div class="col-12 q-mt-md"></div>
       <q-separator color="white-1"></q-separator>
       <q-card-section>
         <div class="col-12 row items-center text-white">
-            <div class="col text-left">Not receive email or token expired?</div>
-            <q-btn @click="onSubmit('resend')" :loading="loading.form_verify"
-              outline
-              color="white"
-              size="16px"
-              class="rounded-borders-4"
-              label="Resend"
-            ></q-btn>
-          </div>
+          <div class="col text-left">Not receive email or token expired?</div>
+          <q-btn
+            @click="onSubmit('resend')"
+            :loading="loading.form_verify"
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Resend"
+          ></q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
@@ -164,7 +170,7 @@ export default {
           return;
         }
 
-        if(type == 'resend') return await onRequestVerification();
+        if (type == "resend") return await onRequestVerification();
         await onVerify();
       },
 

@@ -1,11 +1,8 @@
 import { defineStore } from 'pinia';
-import { storeToRefs } from "pinia";
 
 import axios from 'axios'
 
 import { Loading, Notify, Cookies, Platform, Screen } from 'quasar'
-
-import { useAuthStore } from '../auth/AuthStore';
 
 function finalPrice(item) {
   // console.log('getTotalAmount', { general, discount, cashback })
@@ -19,19 +16,12 @@ function finalPrice(item) {
 }
 
 // no need to import defineStore and acceptHMRUpdate
-export const useAddToCartStore = defineStore('AddToCartStore', {
-  id: 'AddToCartStore',
+export const useDialogAuth = defineStore('DialogAuth', {
+  id: 'DialogAuth',
 
   state: () => ({
     prompt: false,
-    quantity: 1,
-    date_start: null,
-    participant_adult: null,
-    participant_young: null,
-    hotel: 'Pilih Hotel',
-
-    date_checkin: [],
-
+    quantity: 0,
     loading: false,
   }),
 
@@ -50,16 +40,14 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
       this.quantity = Number(this.quantity) + 1
     },
     onRemove() {
-      if(this.quantity <= 1) {
-        this.quantity = 1
+      if(this.quantity <= 0) {
+        this.quantity = 0
         return
       }
       this.quantity = Number(this.quantity) - 1
     },
 
     async onAddToCart({ price_id, slug }) {
-
-      console.log('onAddToCart', price_id, slug)
 
       if (this.loading) return false;
 
@@ -78,33 +66,7 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
       // }
 
       formData.append('price_id', price_id);
-
-      if(slug == 'lodge') {
-        formData.append('quantity', this.date_checkin.length);
-
-        console.log('date_checkin',this.date_checkin)
-
-        let temp = [];
-        this.date_checkin.forEach((element, index) => {
-          temp.push({"id":element,"date":element})
-        });
-        formData.append('date_checkin', JSON.stringify(temp));
-
-      } else {
-        formData.append('quantity', this.quantity);
-      }
-
-      formData.append('date_start', this.date_start);
-      formData.append('participant_adult', this.participant_adult);
-      formData.append('participant_young', !this.participant_young ? 0 : this.participant_young);
-      formData.append('hotel', this.hotel);
-
-      const auth = useAuthStore()
-      const { getAuth } = auth
-      const user_id = getAuth?.data?.user?.id
-
-      formData.append('customer_id', user_id);
-
+      formData.append('quantity', this.quantity);
 
       // console.log('formData', this.form_login)
 
@@ -127,11 +89,10 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
             caption: 'data berhasil diproses',
             icon: 'done'
           })
-          return true
           return response
         })
         .catch((err) => {
-          console.log('AddToCartStore error', err?.response)
+          console.log('DialogAuth error', err?.response)
           if(err?.response?.status == 401) {
             Notify.create({
               color: 'negative',
@@ -155,10 +116,8 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
         })
 
       this.loading = false
+      console.log('onLogin', resp)
       Loading.hide()
-
-
-      if(resp) this.onReset()
 
       return resp
 
@@ -171,19 +130,6 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
       // console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
 
     },
-
-    onReset() {
-        this.prompt = false
-        this.quantity = 1
-        this.date_start = null
-        this.participant_adult = 1
-        this.participant_young = null
-        this.hotel = 'Pilih Hotel'
-
-        this.date_checkin = []
-
-        this.loading = false
-    }
 
   }
 });

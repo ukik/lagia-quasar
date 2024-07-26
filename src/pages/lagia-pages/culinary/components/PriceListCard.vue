@@ -211,7 +211,14 @@
 
       <q-separator></q-separator>
 
-      <q-card-actions align="center">
+      <isCartButton
+        :item="item"
+        slug="culinary"
+        vendor="culinaryStore"
+        product="culinaryProduct"
+      ></isCartButton>
+
+      <!-- <q-card-actions align="center">
         <q-btn
           @click="
             $global.$emit('LagiaLayout', {
@@ -227,7 +234,7 @@
           size="md"
           label="Add To Cart"
         />
-      </q-card-actions>
+      </q-card-actions> -->
 
       <!-- <q-slide-transition>
         <div v-show="expanded">

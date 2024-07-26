@@ -153,19 +153,20 @@ function onKonsultasi(name = null, email = null, question = null){
   (
   // `Selamat datang di *LAGIA* %0D%0A %0D%0A`+
   `*KONSULTASI* %0D%0A`+
-  `Halo!! Terima kasih telah menghubungi LAGIA. Kami akan segera merespon pada jam kerja berikutnya. %0D%0A  %0D%0A`+
+  `Halo Kak!! Terima kasih telah menghubungi LAGIA.
+  Kami akan segera merespon secepatnya (pada jam kerja). %0D%0A  %0D%0A`+
   // `. %0D%0A %0D%0A`+
-  // `Jika Anda membutuhkan layanan kami, bisa melalui telepon, online, dan offline. %0D%0A %0D%0A`+
+  // `Jika Anda membutuhkan layanan kami, bisa melalui telepon, online, dan offline. %0D%0A %0D%0A`+\
 
-
-  `Silakan tinggalkan pesan ataupun pertanyaan menggunakan format dibawah ini, agar tim kami bisa segera memberikan respon. %0D%0A  %0D%0A`+
+  `Silakan tinggalkan pesan ataupun pertanyaan menggunakan format dibawah ini,
+  agar tim kami bisa segera memberikan respon. %0D%0A  %0D%0A`+
 
   // `Bagaimana kami menyapa Anda? %0D%0A  %0D%0A` +
   `Nama: ${name} %0D%0A` +
   `Email: ${email} %0D%0A` +
   `Pesan/Pertanyaan: ${question} %0D%0A %0D%0A` +
 
-  `LAGIA - Let's explore opportunity with us.`
+  `Let's explore opportunity with LAGIA.`
 
   );
 
@@ -192,6 +193,62 @@ function onKonsultasi(name = null, email = null, question = null){
   // window.open(`https://wa.me/${num}?text=I%27m%20api%20msg%20hello%20${name}%20friend%20${msg}`, '_blank');
   window.open(`https://api.whatsapp.com/send?phone=${num}&text=${msg}`, '_blank')
 }
+
+
+function onKonsultasiProduk(name = null, email = null, question = null, link = null){
+
+  const initStore = useInitStore();
+  const { getFooterContact } = storeToRefs(initStore); // have all reactive states here
+
+  const num = getFooterContact.value?.grid2Value
+  const msg =
+  (
+  // `Selamat datang di *LAGIA* %0D%0A %0D%0A`+
+  `*KONSULTASI PRODUK* %0D%0A %0D%0A`+
+
+  `*Link*: ${link} %0D%0A %0D%0A`+
+
+  `Halo Kak!! Terima kasih telah menghubungi LAGIA.
+  Kami akan segera merespon secepatnya (pada jam kerja). %0D%0A  %0D%0A`+
+  // `. %0D%0A %0D%0A`+
+  // `Jika Anda membutuhkan layanan kami, bisa melalui telepon, online, dan offline. %0D%0A %0D%0A`+\
+
+  `Silakan tinggalkan pesan ataupun pertanyaan menggunakan format dibawah ini,
+  agar tim kami bisa segera memberikan respon. %0D%0A  %0D%0A`+
+
+  // `Bagaimana kami menyapa Anda? %0D%0A  %0D%0A` +
+  `Nama: ${name} %0D%0A` +
+  `Email: ${email} %0D%0A` +
+  `Pesan/Pertanyaan: ${question} %0D%0A %0D%0A` +
+
+  `Let's explore opportunity with LAGIA.`
+
+  );
+
+  if(Platform.is.cordova) {
+      cordova.InAppBrowser.open(`https://api.whatsapp.com/send?phone=${num}&text=${msg}`, '_system', '')
+      // cordova.plugin.media.to.whatsapp.shareMedia(num,num,"com.whatsapp",function(){
+      //     console.log("Media To Whatsapp Success")
+      // },function(e){
+      //     console.log("Media To Whatsapp Error" + e)
+      // });
+      return
+  }
+
+  // encodeURIComponent
+  // (
+  // `Selamat Datang di _*Cubix*_ %0D%0A %0D%0A %0D%0A`
+  // +
+  // `Ini adalah aplikasi jual beli properti, tanah, dan aset %0D%0A %0D%0A`
+  // +
+  // `Kami agen jual beli terbesar di Kaltim %0D%0A %0D%0A`
+  // +
+  // `Jika ada yang ingin ditanyakan, jangan sungkan...`
+  // )
+  // window.open(`https://wa.me/${num}?text=I%27m%20api%20msg%20hello%20${name}%20friend%20${msg}`, '_blank');
+  window.open(`https://api.whatsapp.com/send?phone=${num}&text=${msg}`, '_blank')
+}
+
 
 function onCall(){
 
@@ -220,7 +277,10 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   // }
 
   app.config.globalProperties.$onKonsultasi = onKonsultasi;
+  app.config.globalProperties.$onKonsultasiProduk = onKonsultasiProduk;
   app.config.globalProperties.$onCall = onCall;
+
+
 
   // app.config.globalProperties.$getImage = getImage;
 })

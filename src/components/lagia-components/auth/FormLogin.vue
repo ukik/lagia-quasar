@@ -111,7 +111,7 @@
             </q-item>
           </div>
 
-          <div class="col-12 text-center row justify-center q-mt-lg">
+          <q-card-actions class="col-12 text-center q-mt-lg" align="between">
             <q-btn
               :loading="loading.form_login"
               :disable="loading.form_login"
@@ -123,7 +123,7 @@
               class="rounded-borders-4 q-mx-sm"
               label="login"
             ></q-btn>
-            <div class="col-1"></div>
+            <!-- <div class="col-1"></div> -->
             <q-btn
               :loading="loading.form_login"
               :disable="loading.form_login"
@@ -136,40 +136,42 @@
               class="rounded-borders-4 q-mx-sm"
               label="reset"
             ></q-btn>
-          </div>
+          </q-card-actions>
         </form>
       </q-card-section>
       <div class="col-12 q-mt-md"></div>
       <q-separator color="white-1"></q-separator>
-      <q-card-section>
-        <div class="col-12 row items-center justify-center text-white">
-          <div class="text-left">Don't have an account?</div>
-          <q-btn
-            flat
-            :to="{ name: '/register' }"
-            capitalize
-            outline
-            color="white"
-            size="16px"
-            class="rounded-borders-4"
-            label="Create an account"
-          ></q-btn>
-        </div>
+      <slot name="bottom">
+        <q-card-section>
+          <div class="col-12 row items-center justify-center text-white">
+            <div class="text-left">Don't have an account?</div>
+            <q-btn
+              flat
+              :to="{ name: '/register' }"
+              capitalize
+              outline
+              color="white"
+              size="16px"
+              class="rounded-borders-4"
+              label="Register"
+            ></q-btn>
+          </div>
 
-        <div class="col-12 row items-center justify-center text-white">
-          <div class="text-left">I forget password!</div>
-          <q-btn
-            flat
-            :to="{ name: '/forgot-password' }"
-            capitalize
-            outline
-            color="white"
-            size="16px"
-            class="rounded-borders-4"
-            label="Ask password"
-          ></q-btn>
-        </div>
-      </q-card-section>
+          <div class="col-12 row items-center justify-center text-white">
+            <div class="text-left">I forget password!</div>
+            <q-btn
+              flat
+              :to="{ name: '/forgot-password' }"
+              capitalize
+              outline
+              color="white"
+              size="16px"
+              class="rounded-borders-4"
+              label="Ask password"
+            ></q-btn>
+          </div>
+        </q-card-section>
+      </slot>
     </q-card>
   </div>
 </template>
@@ -228,7 +230,12 @@ export default {
       const resp = await this.onLogin();
       this.$q.loading.hide();
 
-      if (resp.isLogin) this.$router.push({ name: "/lagia/index" });
+      if (resp.isLogin) {
+        if (this.$route.name == "/login") {
+          this.$router.push({ name: "/lagia/index" });
+        }
+        this.$emit("onBubbleEventLogged");
+      }
 
       // $q.notify({
       //   icon: "done",

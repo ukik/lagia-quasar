@@ -133,3 +133,82 @@ h6 {
 .top-margin-1 {
   margin-top: 50px;
 }
+
+
+* {
+  box-sizing: border-box;
+}
+
+// .zoom, img {
+.q-img__image {
+  // padding: 50px;
+  // background-color: green;
+  transition: transform .15s;
+  // width: 200px;
+  // height: 200px;
+  // margin: 0 auto;
+}
+
+// .zoom:hover, img:hover {
+.q-img__image:hover {
+  -ms-transform: scale(1.25); /* IE 9 */
+  -webkit-transform: scale(1.25); /* Safari 3-8 */
+  transform: scale(1.25);
+}
+
+
+// default state
+.q-item img {
+  transition: transform .15s;
+  // opacity: 0;
+  // background: #ccc;
+  // transition: 0.5s ease;
+}
+
+// trigger
+.q-item:hover img {
+  // opacity: 1;
+  -ms-transform: scale(1.25); /* IE 9 */
+  -webkit-transform: scale(1.25); /* Safari 3-8 */
+  transform: scale(1.25);
+
+}
+
+
+
+// default state
+img {
+  transition: transform .15s;
+  // opacity: 0;
+  // background: #ccc;
+  // transition: 0.5s ease;
+}
+
+// trigger
+ img:hover {
+  // opacity: 1;
+  -ms-transform: scale(0.8); /* IE 9 */
+  -webkit-transform: scale(0.8); /* Safari 3-8 */
+  transform: scale(0.8);
+
+}
+
+
+// default state
+.q-carousel__slide {
+  // transition: transform .15s;
+  // opacity: 1;
+  filter: brightness(100%);
+  // background: #ccc;
+  transition: 0.75s ease;
+}
+
+// trigger
+ .q-carousel__slide:hover {
+  // opacity: 0.75;
+  filter: brightness(80%);
+  // -ms-transform: scale(0.8); /* IE 9 */
+  // -webkit-transform: scale(0.8); /* Safari 3-8 */
+  // transform: scale(0.8);
+
+}

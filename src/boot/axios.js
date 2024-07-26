@@ -103,7 +103,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
       // await cookies.set('imajora_csrf', response?.data?.payload?.csrf, is_cookie_secure)
       // await cookies.set('imajora_cookie', response?.data?.payload?.token, is_cookie_secure)
 
-      if(response?.data?.data?.accessToken) await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
+      // if(response?.data?.data?.accessToken) await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
       // await cookies.set('XSRF-TOKEN', response.data.payload.token, is_cookie_secure)
     }
 
@@ -119,6 +119,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     // always update Login status
     if(response?.data?.isLogin) {
       auth.isLogin = response?.data?.isLogin
+      if(response?.data?.data?.accessToken) await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
     } else {
       // dipindah ke pinia saat user click logout
       // await onClearAuth()
@@ -155,6 +156,11 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
   console.log('boot/axios.js', error?.response)
 
   try {
+    if(error?.response?.status == 401) {
+      // dipindah ke pinia saat user click logout
+      Cookies.remove('accessToken')
+    }
+
     if (error.response.data) { }
   } catch (err) { }
 

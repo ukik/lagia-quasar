@@ -217,6 +217,7 @@ export const useAuthStore = defineStore('AuthStore', {
       resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
 
       this.auth = resp?.data
+
       console.log('stores/lagia-stores/auth/AuthStore/onRelogin', this.auth)
     },
 
