@@ -14,11 +14,14 @@
         <q-spinner color="primary" size="3em" />
       </div>
 
-      <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
-        <!-- {{ record }} -->
+      <div class="col-12">
         <StoreDetailContent :record="record"></StoreDetailContent>
       </div>
-      <div class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
+
+      <div v-if="false" class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
+        <StoreDetailContent :record="record"></StoreDetailContent>
+      </div>
+      <div v-if="false" class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
         <q-no-ssr>
           <FormBookingPackageSide
             class="col-12"

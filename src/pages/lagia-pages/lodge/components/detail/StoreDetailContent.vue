@@ -59,7 +59,7 @@
 import { ref, defineProps } from "vue";
 // import RelatedImageSlideCarousel from "./RelatedImageSlideCarousel";
 import StoreDetailPriceList from "./StoreDetailPriceList";
-import StoreDetailBody from "./StoreDetailBody";
+import StoreDetailBody from "./StoreDetailBody.vue";
 
 const ratingZero = 0;
 </script>

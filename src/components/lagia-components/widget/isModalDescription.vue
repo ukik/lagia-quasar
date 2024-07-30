@@ -1,7 +1,12 @@
 <template>
   <q-no-ssr>
-    <q-dialog v-model="dialog_value">
-      <q-card style="min-width: 400px">
+    <q-dialog
+      full-width
+      v-model="dialog_value"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-toolbar>
           <!-- <q-avatar>
               <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
@@ -18,9 +23,7 @@
 
         <q-separator></q-separator>
 
-        <q-card-section>
-          {{ dialog_payload?.value }}
-        </q-card-section>
+        <q-card-section v-html="dialog_payload?.value"> </q-card-section>
       </q-card>
     </q-dialog>
   </q-no-ssr>
