@@ -140,13 +140,35 @@
         <q-card flat bordered class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
+              @click="
+                $router.push({
+                  name: '/tour/store-detail',
+                  params: {
+                    slug: item?.id,
+                    slug_text: item?.slug,
+                  },
+                })
+              "
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pointer"
               :src="item?.image[0]"
               :error-src="$defaultErrorImage"
             >
+              <!-- <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/tour/store-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div> -->
               <div class="absolute-top-right bg-transparent">
                 <q-btn
                   size="16px"
@@ -293,7 +315,7 @@
                     vendor: item?.id,
                   },
                 }"
-                class="package-price col-12 text-center row q-mt-md text-white"
+                class="package-price col-12 text-center row q-my-md text-white"
               >
                 <h6 class="col-12">
                   {{ item?.tourProductsCount }}
@@ -303,7 +325,7 @@
               </router-link>
 
               <div class="row col-12 justify-center">
-                <q-btn-group outline rounded class="">
+                <q-btn-group outline square spread>
                   <q-btn
                     @click="
                       dialog_selengkapnya = true;
@@ -338,6 +360,20 @@
                     color="form"
                     text-color="white"
                     label="Harga"
+                  />
+                  <q-separator vertical></q-separator>
+                  <q-btn
+                    :to="{
+                      name: '/tour/product-list',
+                      query: {
+                        vendor: item?.id,
+                      },
+                    }"
+                    outline
+                    class="text-weight-normal"
+                    color="form"
+                    text-color="white"
+                    label="lanjut"
                   />
                 </q-btn-group>
               </div>

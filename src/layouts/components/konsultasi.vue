@@ -50,6 +50,7 @@
                 </q-item-section>
               </q-item>
             </q-list>
+
             <form
               id="form-career-component"
               @submit.prevent.stop="onSubmit"
@@ -220,13 +221,16 @@ export default {
         if (!this.item && !this.vendor) {
           await this.$onKonsultasi(this.name, this.email, this.question);
         } else {
-          const host =
-            this.$getHost() +
-            this.slug +
-            "/price-detail/" +
-            this.item[this.vendor]?.id +
-            "/" +
-            this.item[this.vendor]?.name;
+          // const host =
+          //   this.$getHost() +
+          //   this.slug +
+          //   "/price-detail/" +
+          //   this.item[this.vendor]?.id +
+          //   "/" +
+          //   this.item[this.vendor]?.name;
+
+          const host = window.location.href?.replace("/#/", "/");
+
           await this.$onKonsultasiProduk(this.name, this.email, this.question, host);
         }
 

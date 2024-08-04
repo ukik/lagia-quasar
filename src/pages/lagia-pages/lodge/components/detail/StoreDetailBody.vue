@@ -148,7 +148,7 @@
     </q-list>
 
     <q-list bordered class="q-mt-lg rounded-borders-1 bg-white text-capitalize">
-      <q-card-section horizontal>
+      <q-card-section class="q-pa-none" :horizontal="$q.screen.width > 425">
         <isQItemLabelSimpleValue
           :dense="false"
           col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"

@@ -37,6 +37,20 @@
               class="col-12 q-border-bottom"
               :src="item?.image[0]"
             >
+              <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/souvenir/store-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div>
+
               <div class="absolute-top-right bg-transparent">
                 <q-btn
                   size="16px"

@@ -28,10 +28,7 @@
       <q-item-section avatar>
         <q-avatar>
           <img v-if="record?.badasoUser?.avatar" :src="record?.badasoUser?.avatar" />
-          <img
-            v-else
-            :src="$defaultUser"
-          />
+          <img v-else :src="$defaultUser" />
         </q-avatar>
       </q-item-section>
 

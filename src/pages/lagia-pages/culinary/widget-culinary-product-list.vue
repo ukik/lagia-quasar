@@ -31,12 +31,35 @@
         <q-card square flat bordered class="rounded-borders-2">
           <q-card-section class="row q-pa-none">
             <q-img
+              @click="
+                $router.push({
+                  name: '/culinary/store-detail',
+                  params: {
+                    slug: item?.id,
+                    slug_text: item?.slug,
+                  },
+                })
+              "
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
-              class="col-12 q-border-bottom"
+              class="col-12 q-border-bottom pointer"
               :src="item?.image[0]"
             >
+              <!-- <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/culinary/store-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div> -->
+
               <div class="absolute-top-right bg-transparent">
                 <q-btn
                   size="16px"

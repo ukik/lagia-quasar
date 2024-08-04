@@ -118,7 +118,7 @@
                   }}</a
                 >
                 <ul class="shadow-3">
-                  <!-- <li class="menu-item-has-children">
+                  <li class="menu-item-has-children">
                     <router-link
                       to="/tour/store-list"
                       :class="[
@@ -142,12 +142,11 @@
                         <router-link to="/tour/price-list">Harga Tour</router-link>
                       </li>
                     </ul>
-                  </li> -->
-
-                  <li>
-                    <router-link to="/tour/product-list">Tour</router-link>
                   </li>
 
+                  <!-- <li>
+                    <router-link to="package-common">Travel</router-link>
+                  </li> -->
                   <!-- <li>
                     <router-link to="/transport/rental-list">Rental</router-link>
                   </li> -->
@@ -245,7 +244,7 @@
                   </li>
 
                   <!-- <li>
-                    <router-link to="/culinary/product-list">Kuliner</router-link>
+                    <router-link to="/culinary/store-list">Kuliner</router-link>
                   </li> -->
                   <li class="menu-item-has-children">
                     <router-link

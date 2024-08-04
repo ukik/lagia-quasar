@@ -36,6 +36,22 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
+      path: "/tour/product-detail/:slug/:slug_text?",
+      name: "/tour/product-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'detail vendor',
+      },
+      component: () => import("pages/lagia-pages/tour/product-detail.vue"),
+    },
+
+
+
+
+
+    {
       path: "/tour/store-detail/:slug/:slug_text?",
       name: "/tour/store-detail",
       meta: {

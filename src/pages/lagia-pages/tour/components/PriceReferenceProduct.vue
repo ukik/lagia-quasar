@@ -7,7 +7,7 @@
     :class="[$q.screen.width > 768 ? 'rounded-borders-2' : '']"
   >
     <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
-      <!-- <q-img
+      <q-img
         v-if="item?.image && item?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
@@ -37,7 +37,7 @@
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
         v-else
         :src="$defaultErrorImage"
-      /> -->
+      />
 
       <q-card-section class="bg-grey-2 row col flex items-start">
         <div class="text-box full-width q-px-sm col-12 text-capitalize">

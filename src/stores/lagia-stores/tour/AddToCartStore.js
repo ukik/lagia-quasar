@@ -28,6 +28,7 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
     date_start: null,
     participant_adult: null,
     participant_young: null,
+    description: null,
     hotel: 'Pilih Hotel',
 
     date_checkin: [],
@@ -170,8 +171,9 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
         this.prompt = false
         this.quantity = 1
         this.date_start = null
-        this.participant_adult = 1
+        // this.participant_adult = 1
         this.participant_young = null
+        this.description = null
         this.hotel = 'Pilih Hotel'
 
         this.date_checkin = []

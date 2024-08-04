@@ -1,7 +1,7 @@
 <template>
   <div class="row items-start q-gutter-md">
     <q-card v-if="vendor" class="my-card" flat>
-      <q-img
+      <!-- <q-img
         v-if="item[vendor]?.image && item[vendor]?.image.length > 0"
         loading="lazy"
         :ratio="16 / 9"
@@ -19,7 +19,7 @@
             @click="showMultiple(item[vendor]?.image, 0)"
           />
         </div>
-        <!-- <q-badge
+        <q-badge
           :color="badgeCondition(item?.condition)"
           class="q-mr-lg rounded-borders-2"
           style="margin-top: -17px"
@@ -27,7 +27,7 @@
           ><span class="text-title text-uppercase q-mt-md">{{
             item?.condition
           }}</span></q-badge
-        > -->
+        >
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
             Cannot load image
@@ -40,31 +40,14 @@
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
         v-else
         :src="$defaultErrorImage"
-      />
+      /> -->
 
       <q-card-section>
         <DestinationRating
+          v-if="false"
           :rating="item[vendor]?.ratingAvg?.avgRating"
         ></DestinationRating>
 
-        <!-- <q-chip
-          color="pink"
-          text-color="white"
-          icon="label"
-          class="text-overline text-uppercase"
-          >{{ item?.typePrice }}</q-chip
-        > -->
-
-        <!-- <router-link
-          :to="{
-            name: '/culinary/price-detail',
-            params: {
-              slug: item?.id,
-              slug_text: item?.name,
-            },
-          }"
-          ><div></div
-        ></router-link> -->
         <q-item class="q-pa-none">
           <q-item-section class="text-h6 q-mb-xs">
             <q-item-label>{{ item?.name }}</q-item-label>
@@ -75,7 +58,7 @@
         <div class="row text-white">
           <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white text-capitalize"
-              >Harga {{ item?.typePrice }}</q-item-label
+              >Harga Dewasa {{ item?.typePrice }}</q-item-label
             >
             <q-item-label class="text-h4">{{
               $currency($finalPrice(item))
@@ -83,24 +66,18 @@
           </q-item-section>
         </div>
 
-        <!-- <q-rating
-          v-if="item?.ratingAvg?.avgRating"
-          readonly
-          v-model="item.ratingAvg.avgRating"
-          size="sm"
-          :max="5"
-          color="red"
-        ></q-rating>
-
-        <q-rating
-          v-else
-          readonly
-          v-model="ratingZero"
-          size="sm"
-          :max="5"
-          color="grey"
-        ></q-rating> -->
+        <div class="row text-white">
+          <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
+            <q-item-label class="text-white text-capitalize"
+              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
+            >
+            <q-item-label class="text-h4">{{
+              $currency($finalPrice(item))
+            }}</q-item-label>
+          </q-item-section>
+        </div>
       </q-card-section>
+
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">

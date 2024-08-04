@@ -19,6 +19,7 @@ export const useIndexStore = defineStore('IndexStore', {
     record_gallery: null,
     record_testimonial: null,
 
+    record_tour: null,
     record_culinary: null,
     record_souvenir: null,
     record_lodge: null,
@@ -80,6 +81,21 @@ export const useIndexStore = defineStore('IndexStore', {
       // } catch (error) {
       //   if (response?.data?.data['image']) response.data.data['image'] = [response?.data?.data['image']]
       // }
+      let tour = response?.data?.data?.tour?.data
+      if (tour) {
+        try {
+          tour.forEach(element => {
+            if (element?.image) element['image'] = JSON.parse(element['image'])
+          });
+        } catch (error) {
+          tour.forEach(element => {
+            if (element?.image) element['image'] = [element['image']]
+          });
+        }
+        this.record_tour = tour
+      }
+
+
 
       let culinary = response?.data?.data?.culinary?.data
       if (culinary) {

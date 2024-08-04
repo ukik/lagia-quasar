@@ -115,6 +115,16 @@ function finalPrice(item) {
   return total;
 }
 
+function finalPriceAnak(item) {
+  // console.log('getTotalAmount', { general, discount, cashback })
+  const general = item?.generalChildPrice
+  const discount = item?.discountPrice
+  const cashback = item?.cashbackPrice
+
+  const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
+  // console.log('getTotalAmount', total)
+  return total;
+}
 function shuffleArray(arr) {
   if(!arr) return []
   return arr.map(value => ({ value, sort: Math.random() }))
@@ -178,6 +188,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$defaultErrorImage = "https://cdn.quasar.dev/logo-v2/header.png";
 
   app.config.globalProperties.$finalPrice = finalPrice;
+  app.config.globalProperties.$finalPriceAnak = finalPriceAnak;
 
   app.config.globalProperties.$currency = currency;
   app.config.globalProperties.$percent = percent;

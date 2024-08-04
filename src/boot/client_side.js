@@ -33,6 +33,12 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 import {Share} from 'vue3-social-share';
 import 'vue3-social-share/lib/index.css'
 
+const testMe = {
+  inserted(el) {
+    el.style.backgroundColor = 'red'
+  },
+}
+
 export default boot( async ({ app, ssrContext, router, store }) => {
 
   app.use(VueEasyLightbox)
@@ -41,6 +47,8 @@ export default boot( async ({ app, ssrContext, router, store }) => {
 
   app.component('YouTube', YouTube)
   app.component('Share', Share)
+
+  app.directive('testMe', testMe)
 
 	app.mixin({
 		data() {

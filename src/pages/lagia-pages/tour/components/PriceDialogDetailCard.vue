@@ -14,9 +14,7 @@
 
         <q-separator></q-separator>
 
-        <q-card-section>
-          {{ dialog_payload?.value }}
-        </q-card-section>
+        <q-card-section v-html="dialog_payload?.value"> </q-card-section>
       </q-card>
     </q-dialog>
   </q-no-ssr>
@@ -87,7 +85,18 @@
         <div class="row text-white">
           <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
             <q-item-label class="text-white text-capitalize"
-              >Harga {{ item?.typePrice }}</q-item-label
+              >Harga Dewasa {{ item?.typePrice }}</q-item-label
+            >
+            <q-item-label class="text-h4">{{
+              $currency($finalPrice(item))
+            }}</q-item-label>
+          </q-item-section>
+        </div>
+
+        <div class="row text-white">
+          <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
+            <q-item-label class="text-white text-capitalize"
+              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
             >
             <q-item-label class="text-h4">{{
               $currency($finalPrice(item))
@@ -226,7 +235,7 @@
         </q-btn-group>
       </q-card-section> -->
 
-      <q-separator></q-separator>
+      <!-- <q-separator></q-separator> -->
 
       <!-- <q-card-actions align="center">
         <q-btn
@@ -238,7 +247,7 @@
           label="Add To Cart"
         />
       </q-card-actions> -->
-
+      <!--
       <q-card-section class="q-pa-none">
         <slot :scoped="item" name="buttongroup">
           <q-btn-group spread unelevated>
@@ -252,20 +261,9 @@
               label="Add To Cart"
               icon="shopping_cart_checkout"
             />
-            <!-- <q-separator vertical></q-separator>
-            <q-btn
-              @click="
-                $emit('onBubbleEvent', {
-                  label: 'store',
-                  payload: item,
-                })
-              "
-              label="store"
-              icon="storefront"
-            /> -->
           </q-btn-group>
         </slot>
-      </q-card-section>
+      </q-card-section> -->
 
       <!-- <q-slide-transition>
         <div v-show="expanded">

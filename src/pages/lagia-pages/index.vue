@@ -2,10 +2,10 @@
   <!-- {{ getCulinary }} -->
   <HomeTron :records="page_widget_tron"></HomeTron>
 
-  <WidgetDestination
-    v-if="record_destination"
-    :records="record_destination"
-  ></WidgetDestination>
+  <widgetTourProductList
+    v-if="record_tour"
+    :records="record_tour"
+  ></widgetTourProductList>
 
   <widgetLodgeProfileList
     v-if="record_lodge"
@@ -31,6 +31,11 @@
 
   <!-- <HomeDestination></HomeDestination> -->
   <HomePackage v-if="false"></HomePackage>
+
+  <WidgetDestination
+    v-if="record_destination"
+    :records="record_destination"
+  ></WidgetDestination>
 
   <!-- <div v-intersection.once="onIntersection"> -->
   <HomeCallActionPromo
@@ -92,6 +97,7 @@ import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbo
 import { useIndexStore } from "stores/lagia-stores/page/IndexStore";
 import { useRouter, onBeforeRouteLeave } from "vue-router";
 
+import widgetTourProductList from "./tour/widget-product-list.vue";
 import widgetCulinaryProductList from "./culinary/widget-culinary-product-list.vue";
 import widgetSouvenirProductList from "./souvenir/widget-souvenir-product-list.vue";
 import widgetLodgeProfileList from "./lodge/widget-lodge-profile-list.vue";
@@ -128,6 +134,7 @@ const {
   record_gallery,
   record_testimonial,
 
+  record_tour,
   record_culinary,
   record_souvenir,
   record_lodge,

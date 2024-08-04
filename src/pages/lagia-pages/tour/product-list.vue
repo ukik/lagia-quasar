@@ -48,17 +48,35 @@
       <div
         v-else
         v-for="(item, index) in records"
-        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6"
       >
-        <q-card flat bordered class="rounded-borders-2">
+        <q-card square flat bordered class="rounded-borders-2">
           <q-card-section class="row q-pa-none">
             <q-img
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="1"
-              class="col-12 q-border-bottom"
+              class="col-12 q-border-bottom pointer"
               :src="item?.image[0]"
             >
+              <div v-if="$q.screen.width > 425" class="absolute-bottom">
+                {{ item?.name }}
+              </div>
+
+              <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/tour/product-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div>
+
               <div class="absolute-top-right bg-transparent">
                 <q-btn
                   size="16px"
@@ -85,8 +103,57 @@
               :src="$defaultUser"
             />
 
+            <q-card-section class="row col-12 flex items-start q-pa-none">
+              <q-list padding>
+                <q-item v-if="$q.screen.width > 425">
+                  <q-item-section>
+                    <q-item-label caption>Kategori</q-item-label>
+                    <q-item-label lines="1">
+                      {{ item?.category }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item
+                  v-else
+                  clickable
+                  v-ripple
+                  :to="{
+                    name: '/tour/product-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                  <q-item-section>
+                    <q-item-label>
+                      {{ item?.name }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item>
+                  <q-item-section>
+                    <q-item-label caption>Durasi</q-item-label>
+                    <q-item-label>
+                      {{ item?.durasi }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section>
+                    <q-item-label caption>Destinasi</q-item-label>
+                    <q-item-label>
+                      {{ item?.province }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-card-section>
+
             <q-card-section
-              class="bg-grey-2 row col-12 flex items-start q-pa-none q-my-md"
+              v-if="false"
+              class="bg-grey-2 row col-12 flex items-start q-pa-none"
             >
               <div class="text-box full-width col-12 text-capitalize">
                 <q-expansion-item class="bg-white" default-opened>
@@ -99,20 +166,25 @@
                   </template>
                   <q-card>
                     <isQItemLabelSimpleValue
-                      label="uuid"
-                      :value="item?.uuid"
-                    ></isQItemLabelSimpleValue>
-                    <!-- <isQItemLabelSimpleValue
-                      label="name"
-                      :value="item?.name"
-                    ></isQItemLabelSimpleValue> -->
-                    <isQItemLabelSimpleValue
                       label="category"
                       :value="item?.category"
                     ></isQItemLabelSimpleValue>
+
                     <isQItemLabelSimpleValue
-                      label="lainnya"
-                      :value="item?.others"
+                      label="durasi"
+                      :value="item?.durasi"
+                    ></isQItemLabelSimpleValue>
+                    <isQItemLabelSimpleValue
+                      label="Destinasi"
+                      :value="item?.province"
+                    ></isQItemLabelSimpleValue>
+                    <!-- <isQItemLabelSimpleValue
+                      label="city"
+                      :value="item?.city"
+                    ></isQItemLabelSimpleValue> -->
+                    <!-- <isQItemLabelSimpleValue
+                      label="country"
+                      :value="item?.country"
                     ></isQItemLabelSimpleValue>
 
                     <isQItemLabelSimpleValue
@@ -129,23 +201,16 @@
                       label="description"
                       value="Detail"
                       textcolor="text-primary"
-                    ></isQItemLabelSimpleValue>
+                    ></isQItemLabelSimpleValue> -->
                   </q-card>
                 </q-expansion-item>
               </div>
             </q-card-section>
 
             <q-card-section
+              v-if="false"
               class="bg-form col-12 row flex flex-center text-white q-pt-lg"
             >
-              <!-- <q-badge
-                color="pink"
-                class="q-mr-lg rounded-borders-2"
-                style="margin-top: -10px"
-                floating
-                ><span class="text-title q-ma-sm text-uppercase">{{ item?.category }}</span></q-badge
-              > -->
-
               <q-rating
                 v-if="item?.ratingAvg?.avgRating"
                 readonly
@@ -176,54 +241,17 @@
               </div>
 
               <div class="row col-12 justify-center q-mt-lg">
-                <!-- <q-btn-group outline rounded class="">
-                  <q-btn
-                    @click="
-                      modal_detail = true;
-                      record = item;
-                    "
-                    outline
-                    class="text-weight-normal"
-                    color="form"
-                    text-color="white"
-                    label="Detail"
-                  />
-                  <q-separator vertical></q-separator>
-                  <q-btn
-                    @click="
-                      lodge_facility = true;
-                      record = item;
-                    "
-                    outline
-                    class="text-weight-normal"
-                    color="form"
-                    text-color="white"
-                    label="Fasilitas"
-                  />
-                  <q-separator vertical></q-separator>
-                  <q-btn
-                    @click="
-                      lodge_profiles = true;
-                      record = item;
-                    "
-                    outline
-                    class="text-weight-normal"
-                    color="form"
-                    text-color="white"
-                    label="hotel"
-                  />
-                </q-btn-group> -->
-
                 <q-btn
                   outline
-                  class="text-weight-normal rounded-borders-2"
+                  class="text-weight-normal col-12"
                   color="form"
                   text-color="white"
                   label="selengkapnya"
                   :to="{
-                    name: '/tour/price-list',
-                    query: {
-                      product: item?.id,
+                    name: '/tour/store-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
                     },
                   }"
                 />

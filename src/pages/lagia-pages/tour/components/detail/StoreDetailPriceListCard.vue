@@ -4,18 +4,9 @@
   <div class="row items-start q-gutter-md">
     <q-card class="my-card q-mt-lg" flat bordered>
       <q-card-section>
-        <!-- <div class="text-overline text-uppercase text-pink">{{ item?.category }}</div> -->
         <isDestinationRatingNoFloat
           :rating="item?.transportVehicle?.ratingAvg?.avgRating"
         ></isDestinationRatingNoFloat>
-
-        <!-- <q-chip
-          color="pink"
-          text-color="white"
-          icon="label"
-          class="text-overline text-uppercase"
-          >{{ item?.typePrice }}</q-chip
-        > -->
 
         <div class="row text-white">
           <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md">
@@ -27,24 +18,6 @@
             }}</q-item-label>
           </q-item-section>
         </div>
-
-        <!-- <q-rating
-          v-if="item?.ratingAvg?.avgRating"
-          readonly
-          v-model="item.ratingAvg.avgRating"
-          size="sm"
-          :max="5"
-          color="red"
-        ></q-rating>
-
-        <q-rating
-          v-else
-          readonly
-          v-model="ratingZero"
-          size="sm"
-          :max="5"
-          color="grey"
-        ></q-rating> -->
       </q-card-section>
 
       <q-separator></q-separator>

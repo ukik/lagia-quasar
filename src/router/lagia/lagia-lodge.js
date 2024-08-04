@@ -46,7 +46,6 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/lodge/lodge-profile-detail.vue"),
     },
 
-
     {
       path: "/lodge/price-detail/:slug/:slug_text?",
       name: "/lodge/price-detail",

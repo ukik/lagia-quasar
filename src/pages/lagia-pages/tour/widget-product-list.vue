@@ -3,7 +3,7 @@
   <div class="call-action-box bg-color-callback row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h6 class="text-blue">BEST PRICE OFFER</h6>
-      <h2>LAGIA CULINARY</h2>
+      <h2>LAGIA TOUR</h2>
       <p>
         Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
         Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
@@ -31,12 +31,34 @@
         <q-card square flat bordered class="rounded-borders-2">
           <q-card-section class="row q-pa-none">
             <q-img
+              @click="
+                $router.push({
+                  name: '/tour/store-detail',
+                  params: {
+                    slug: item?.id,
+                    slug_text: item?.slug,
+                  },
+                })
+              "
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
-              class="col-12 q-border-bottom"
+              class="col-12 q-border-bottom pointer"
               :src="item?.image[0]"
             >
+              <!-- <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/tour/store-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div> -->
               <div class="absolute-top-right bg-transparent">
                 <q-btn
                   size="16px"

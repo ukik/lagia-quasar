@@ -230,12 +230,34 @@
         <q-card flat bordered class="rounded-borders-2">
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
+              @click="
+                $router.push({
+                  name: '/tourism/profile-detail',
+                  params: {
+                    slug: item?.id,
+                    slug_text: item?.slug,
+                  },
+                })
+              "
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
-              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+              class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pointer"
               :src="item?.image[0]"
             >
+              <!-- <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/tourism/profile-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div> -->
               <div class="absolute-top-right bg-transparent">
                 <q-btn
                   size="16px"

@@ -28,9 +28,7 @@
 
           <q-separator></q-separator>
 
-          <q-card-section>
-            {{ dialog_payload?.value }}
-          </q-card-section>
+          <q-card-section v-html="dialog_payload?.value"> </q-card-section>
         </q-card>
       </q-dialog>
     </q-no-ssr>
@@ -59,6 +57,15 @@
         >
           <q-card-section :horizontal="$q.screen.width > 768" class="row q-pa-none">
             <q-img
+              @click="
+                $router.push({
+                  name: '/tour/store-detail',
+                  params: {
+                    slug: item?.id,
+                    slug_text: item?.slug,
+                  },
+                })
+              "
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="16 / 9"
