@@ -10,7 +10,7 @@ export default boot(async ({ router, store }) => {
   const { onRelogin } = _store
   const { auth, getIsLogin, getLoading } = storeToRefs(_store)
 
-  // if(!getIsLogin.value) await onInit()
+  // if(!getIsLogin.value) await onRelogin()
 
   const routerStore = useRouterStore()
 
@@ -21,22 +21,24 @@ export default boot(async ({ router, store }) => {
     // sepertinya dari Client saja, karena error 401 nanti lambat di server
     // if(!getIsLogin.value && to.meta.logged) await onRelogin()
 
-    console.log('beforeEach boot/lagia-router', auth, getIsLogin.value)
+    // if(!getLoadingInit.value && !getIsLogin.value) await onInit()
+
+    console.log('beforeEach boot/lagia-router-server', auth, getIsLogin.value)
 
     await routerStore.setRouter(to);
 
     if (to.meta.logged && getIsLogin.value) {
-      console.log('beforeEach boot/lagia-init-router.js 1')
-      next()
-    } else if (to.meta.logged && !getIsLogin.value && to.name !== '/login') {
-      console.log('beforeEach boot/lagia-init-router.js 2')
-      next({ name: '/login' })
+      console.log('beforeEach boot/lagia-router-server.js 1')
+      return next()
     } else if (getIsLogin.value && to.name == '/login') {
-      console.log('beforeEach boot/lagia-init-router.js 3')
-      next({ name: '/register' })
+      console.log('beforeEach boot/lagia-router-server.js 3', getIsLogin.value, to.name)
+      return next({ name: '/lagia/cart' })
+    } else if (to.meta.logged && !getIsLogin.value && to.name !== '/login') {
+      console.log('beforeEach boot/lagia-router-server.js 2')
+      return next({ name: '/login' })
     } else {
-      console.log('beforeEach boot/lagia-init-router.js 4')
-      next()
+      console.log('beforeEach boot/lagia-router-server.js 4')
+      return next()
     }
   })
 

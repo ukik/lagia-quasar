@@ -156,8 +156,9 @@ export const useAuthStore = defineStore('AuthStore', {
       this.loading.fetchInitAuth = true;
 
       const accessToken = Cookies.get("accessTokent");
-      console.log('accessToken', accessToken)
+      // console.log('accessToken', accessToken)
 
+      console.log('fetchInitAuth')
       const resp = await api.get('/trevolia-api/v1/dashboard', {
         headers: {
           "Content-Type": "application/json",
@@ -202,6 +203,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.relogin = true;
 
+      console.log('onRelogin')
       const resp = await axios({
         url: '/trevolia-api/v1/auth/init',
         method: 'get',
@@ -227,6 +229,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.init = true;
 
+      console.log('onInit')
       const resp = await axios({
         url: '/trevolia-api/v1/auth/init',
         method: 'get',

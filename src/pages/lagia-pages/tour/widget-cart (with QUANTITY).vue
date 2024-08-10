@@ -7,7 +7,7 @@
       :table-header-class="$q.dark.isActive ? 'bg-dark' : 'bg-white'"
       class="my-sticky-header-table"
       title="Product Cart"
-      :rows="[...rows, ...rows, ...rows, ...rows]"
+      :rows="records"
       :columns="columns"
       row-key="id"
       selection="multiple"
@@ -50,9 +50,6 @@
                   <q-item-section side>
                     <q-item-label>{{ col.value }}</q-item-label>
                   </q-item-section>
-                  <!-- <q-item-section side>
-                  <q-item-label caption>{{ col.value }}</q-item-label>
-                </q-item-section> -->
                 </q-item>
               </template>
             </q-list>
@@ -81,8 +78,6 @@
                 icon="add"
                 @click="props.row.quantity = Number(props.row.quantity) + 1"
               ></q-btn>
-
-              <!-- <q-btn icon="add" @click="onAdd({ key: 'quantity', index: props.key, row: props.row})"></q-btn> -->
             </q-card-section>
           </q-card>
         </div>
@@ -136,16 +131,12 @@
                   onUpdate({ key: 'quantity', index: props.key, row: props.row });
                 "
               ></q-btn>
-
-              <!-- <q-btn icon="add" @click="onAdd({ key: 'quantity', index: props.key, row: props.row})"></q-btn> -->
             </q-card-section>
           </q-td>
           <q-td key="sub_total" :props="props">
-            <!-- <q-badge color="primary"> -->
             <div class="text-bold text-big">
               {{ props.row.quantity * props.row.price }}
             </div>
-            <!-- </q-badge> -->
           </q-td>
         </q-tr>
       </template>
@@ -158,8 +149,81 @@
   </q-no-ssr>
 </template>
 
+<script async setup>
+import PriceReferenceStore from "./components/PriceReferenceStore";
+
+import { storeToRefs } from "pinia";
+import { useQuasar, Cookies } from "quasar";
+import { ref, nextTick, watch, onMounted } from "vue";
+import { preFetch } from "quasar/wrappers";
+
+import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useTourCartListStore } from "stores/lagia-stores/tour/TourCartListStore";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+const store = useTourCartListStore();
+const { onFetch, onPaginate } = store; // have all reactive states here
+const {
+  errors,
+  data,
+  paginate,
+  records,
+  totalItem,
+  page,
+  orderField,
+  orderDirection,
+  isShowDataRecycle,
+  search,
+  lastPage,
+  currentPage,
+  perPage,
+
+  loading,
+  init,
+
+  additional,
+} = storeToRefs(store); // have all reactive states here
+
+defineOptions({
+  preFetch: preFetch(
+    ({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath,
+    }) => {
+      if (!currentRoute?.query?.page)
+        redirect({ name: currentRoute.name, query: { ...currentRoute.query, page: 1 } });
+
+      return useTourCartListStore(store).onFetch({
+        currentPage: currentRoute?.query?.page,
+        query: currentRoute?.query,
+      });
+    }
+  ),
+});
+
+const lightbox = useGlobalEasyLightbox();
+const { showMultiple } = lightbox;
+
+const router = useRouter();
+
+const onCurrentPage = async (val) => {
+  console.log("onCurrentPage", router.currentRoute.value);
+  const currentRoute = router.currentRoute.value;
+  router.push({ query: { ...currentRoute.query, page: val.value } });
+  onPaginate({ currentPage: val.value, query: currentRoute?.query });
+};
+watch(() => currentPage, onCurrentPage, {
+  deep: true,
+  // immediate: true,
+});
+</script>
+
 <script>
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 
 const columns = [
   // {
@@ -244,7 +308,6 @@ export default {
     return {
       onRowClick: (row) => alert(`${row.name} clicked`),
       filter: ref(""),
-      selected: ref([]),
       columns,
       rows: ref(rows), // wajib ada ref, kalo tidak gak bisa di edit
     };
@@ -252,6 +315,7 @@ export default {
   data() {
     return {
       // rows,
+      selected: [],
       vat: 5555,
       coupon: 0,
     };
@@ -269,7 +333,7 @@ export default {
   },
   computed: {
     calculate() {
-      // if (this.selected.length <= 0) return;
+      if (!this.selected) return;
       let total = 0;
       for (let i = 0; i < this.selected.length; i++) {
         total += Number(this.selected[i]["price"] * this.selected[i]["quantity"]);

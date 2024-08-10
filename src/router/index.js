@@ -68,6 +68,18 @@ export default route(function ({ store, ssrContext }) {
             top: 10,
           }
         }
+        const ANCHOR = document.querySelector('#ANCHOR')
+        if(ANCHOR) {
+          return {
+            // could also be
+            // el: document.getElementById('main'),
+            el: '#ANCHOR',
+            // 10px above the element
+            top: 10,
+          }
+        }
+
+
         return { top: 0 };
       }
 

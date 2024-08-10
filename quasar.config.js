@@ -27,10 +27,10 @@ module.exports = configure(function (ctx) {
       'axios',
       // 'router', // matikan saja
       {
-        path: 'lagia-router', server: true
+        path: 'lagia-router-server', server: true
       },
       {
-        path: 'lagia-init', server: false
+        path: 'lagia-router-client', server: false
       },
       { path: 'lagia/travel/detail', server: true },
       // "i18n", // bikin SSR ERROR

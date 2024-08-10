@@ -13,12 +13,16 @@
       class="bg-white text-dark"
     >
       <q-page-container> -->
-    <q-card flat :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
-      <q-card-section class="q-py-none">
+    <q-card
+      class="rounded-borders-2"
+      flat
+      :style="$q.screen.width > 768 ? 'width: 750px !important' : ''"
+    >
+      <q-card-section class="q-py-none bg-form">
         <q-toolbar style="height: 50px" class="q-pa-none">
-          <div class="text-h6">Konsultasi</div>
+          <div class="text-h6 text-white">Konsultasi</div>
           <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup></q-btn>
+          <q-btn color="white" dense flat icon="close" v-close-popup></q-btn>
         </q-toolbar>
       </q-card-section>
 
@@ -49,7 +53,7 @@
       </q-card-section>
 
       <form id="form-career-component" @submit.prevent.stop="onSubmit">
-        <q-card-section>
+        <q-card-section class="bg-form">
           <div class="q-col-gutter-md row q-col-gutter-y-lg">
             <div class="col-12">
               <q-input
@@ -70,10 +74,10 @@
                   <q-icon name="person" color="primary" />
                 </template>
                 <template v-slot:error>
-                  <div>Nama tidak boleh kosong</div>
+                  <div class="text-white">Nama tidak boleh kosong</div>
                 </template>
                 <template v-slot:hint>
-                  <span>Nama wajib diisi *</span>
+                  <span class="text-white">Nama wajib diisi *</span>
                 </template>
               </q-input>
             </div>
@@ -90,17 +94,16 @@
                 v-model="email"
                 placeholder="Email Anda *"
                 lazy-rules
-                :rules="[(val) => !!val || '']"
                 bottom-slots
               >
                 <template v-slot:prepend>
                   <q-icon name="email" color="primary" />
                 </template>
                 <template v-slot:error>
-                  <div>Email tidak boleh kosong</div>
+                  <div class="text-white">Email tidak boleh kosong</div>
                 </template>
                 <template v-slot:hint>
-                  <span>Email wajib diisi *</span>
+                  <span class="text-white">Email wajib diisi *</span>
                 </template>
               </q-input>
             </div>
@@ -126,20 +129,20 @@
                   <q-icon name="help" color="primary" />
                 </template>
                 <template v-slot:error>
-                  <div>Pertanyaan tidak boleh kosong</div>
+                  <div class="text-white">Pertanyaan tidak boleh kosong</div>
                 </template>
                 <template v-slot:hint>
-                  <span>Pertanyaan wajib diisi *</span>
+                  <span class="text-white">Pertanyaan wajib diisi *</span>
                 </template>
               </q-input>
             </div>
           </div>
         </q-card-section>
 
-        <q-separator />
+        <!-- <q-separator /> -->
 
-        <q-card-actions align="evenly" class="text-primary">
-          <!-- <q-btn rounded outline label="Batal" v-close-popup /> -->
+        <q-card-actions align="between" class="text-white bg-form">
+          <q-btn rounded outline label="Batal" v-close-popup />
           <q-btn rounded @click="onSubmit" outline label="Kirim" icon-right="send" />
         </q-card-actions>
       </form>
@@ -208,12 +211,12 @@ export default {
       // }
 
       this.$refs.nameRef.validate();
-      this.$refs.emailRef.validate();
+      // this.$refs.emailRef.validate();
       this.$refs.questionRef.validate();
 
       if (
         this.$refs.nameRef.hasError ||
-        this.$refs.emailRef.hasError ||
+        // this.$refs.emailRef.hasError ||
         this.$refs.questionRef.hasError
       ) {
         this.$q.notify({

@@ -1,6 +1,8 @@
 <template>
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
+  <!-- <isHtml2PDF ref="isHtml2PDF"> xxxxxxxxxxxxxxxxxxxx </isHtml2PDF> -->
+
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
     <div
@@ -14,8 +16,8 @@
         <q-spinner color="primary" size="3em" />
       </div>
 
-      <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
-        <!-- {{ record }} -->
+      <!-- <div class="col-12"> -->
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
         <div v-if="record?.tourStore" class="col-12 q-mb-lg">
           <q-list bordered>
             <q-expansion-item group="somegroup" header-class="bg-grey-1" default-opened>
@@ -41,7 +43,13 @@
           </q-list>
         </div>
 
-        <StoreDetailProductContent :record="record"></StoreDetailProductContent>
+        <!-- <q-btn @click="$refs.isHtml2PDF.onGenerate()" label="print PDF"></q-btn>
+        <q-btn @click="exportToPDF" label="On PDF"></q-btn> -->
+
+        <StoreDetailProductContent
+          id="StoreDetailProductContent"
+          :record="record"
+        ></StoreDetailProductContent>
       </div>
       <div class="col" :class="[$q.screen.width > 768 ? '' : 'row']">
         <q-no-ssr>
@@ -107,6 +115,21 @@ const {
 
   loading,
 } = storeToRefs($store); // have all reactive states here
+</script>
+
+<script>
+// import html2pdf from "html2pdf.js";
+
+// export default {
+//   methods: {
+//     exportToPDF() {
+//       html2pdf(document.getElementById("StoreDetailProductContent"), {
+//         margin: 1,
+//         filename: "i-was-html.pdf",
+//       });
+//     },
+//   },
+// };
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <div class="q-mt-lg q-py-none col-12">
     <q-list bordered>
-      <q-expansion-item group="somegroup" header-class="bg-grey-1">
+      <q-expansion-item default-opened group="somegroup1" header-class="bg-grey-1">
         <template v-slot:header>
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white">1</q-avatar>
@@ -20,7 +20,7 @@
 
       <q-separator />
 
-      <q-expansion-item group="somegroup" header-class="bg-grey-1">
+      <q-expansion-item default-opened group="somegroup2" header-class="bg-grey-1">
         <template v-slot:header>
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white">2</q-avatar>
@@ -38,7 +38,7 @@
 
       <q-separator />
 
-      <q-expansion-item group="somegroup" header-class="bg-grey-1">
+      <q-expansion-item default-opened group="somegroup3" header-class="bg-grey-1">
         <template v-slot:header>
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white">2</q-avatar>

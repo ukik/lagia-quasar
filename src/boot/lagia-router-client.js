@@ -27,17 +27,17 @@ export default boot(async ({ router, store }) => {
     await routerStore.setRouter(to);
 
     if (to.meta.logged && getIsLogin.value) {
-      console.log('beforeEach boot/lagia-.js 1')
-      next()
-    } else if (to.meta.logged && !getIsLogin.value && to.name !== '/login') {
-      console.log('beforeEach boot/lagia-.js 2')
-      next({ name: '/login' })
+      console.log('beforeEach boot/lagia-router-client.js 1')
+      return next()
     } else if (getIsLogin.value && to.name == '/login') {
-      console.log('beforeEach boot/lagia-.js 3')
-      next({ name: '/register' })
+      console.log('beforeEach boot/lagia-router-client.js 3',getIsLogin.value,to.name)
+      return next({ name: '/lagia/cart' })
+    } else if (to.meta.logged && !getIsLogin.value && to.name !== '/login') {
+      console.log('beforeEach boot/lagia-router-client.js 2')
+      return next({ name: '/login' })
     } else {
-      console.log('beforeEach boot/lagia-.js 4')
-      next()
+      console.log('beforeEach boot/lagia-router-client.js 4')
+      return next()
     }
   })
 

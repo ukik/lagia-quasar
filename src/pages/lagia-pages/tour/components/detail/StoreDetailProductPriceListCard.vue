@@ -91,7 +91,7 @@
           </q-item>
           <q-item>
             <q-item-section>
-              <q-item-label caption>Subtotal Dijumlah</q-item-label>
+              <q-item-label caption>Subtotal Dijumlah (diluar hotel)</q-item-label>
               <q-item-label class="text-h6">{{
                 $currency(subTotalAnak + subTotalDewasa)
               }}</q-item-label>

@@ -33,7 +33,7 @@
   <HomePackage v-if="false"></HomePackage>
 
   <WidgetDestination
-    v-if="record_destination"
+    v-if="record_destination && false"
     :records="record_destination"
   ></WidgetDestination>
 

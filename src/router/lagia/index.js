@@ -12,7 +12,17 @@ import lagia_tour from './lagia-tour';
 
 import lagia_transport_1 from './lagia-transport-1';
 
+// import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
+import { useAuthStore } from "src/stores/auth/auth"
+import { storeToRefs } from 'pinia';
+
+
 export default function (store, cookies, ssrContext) {
+
+  const authStore = useAuthStore(store)
+  const { getAuth } = storeToRefs(authStore);
+  console.log('ROUTER LAGIA INDEX', store.state.value)
+
   return [
     {
       path: '/',
@@ -119,14 +129,52 @@ export default function (store, cookies, ssrContext) {
         {
           path: "/lagia/cart",
           name: "/lagia/cart",
+          redirect: {
+            name: "/lagia/cart/tour",
+          },
+          meta: {
+            ssr: false,
+            logged: true,
+            role: '',
+            title: 'keranjang',
+          },
+          // beforeEnter: (to, from, next) => {
+          //   console.log('ROUTER INIT',getAuth)
+          //   if (!authStore?.is_logged) {
+          //     next({ name: "/login" })
+          //   } else {
+          //     next()
+          //   }
+          // },
+          component: () => import("pages/lagia-pages/cart.vue"),
+          children: [
+            {
+              meta: {
+                ssr: false,
+                logged: true,
+                role: '',
+                title: 'keranjang',
+              },
+              path: "/lagia/cart/tour",
+              name: "/lagia/cart/tour",
+              component: () => import("pages/lagia-pages/tour/widget-cart.vue"),
+
+            }
+          ]
+        },
+
+        {
+          path: "/lagia/cart-sample",
+          name: "/lagia/cart-sample",
           meta: {
             ssr: true,
             logged: false,
             role: '',
             title: 'keranjang',
           },
-          component: () => import("pages/lagia-pages/cart.vue"),
+          component: () => import("pages/lagia-pages/cart-sample.vue"),
         },
+
         {
           path: "/lagia/comming-soon",
           name: "/lagia/comming-soon",
@@ -367,7 +415,7 @@ export default function (store, cookies, ssrContext) {
 
 
 
-// {
+        // {
         //   path: "/lagia/todopinia",
         //   name: "/lagia/todopinia",
         //   meta: {

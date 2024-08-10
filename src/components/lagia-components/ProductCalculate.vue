@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue"
+import { ref, defineProps } from "vue";
 // const { calculate } = defineProps(['calculate'])
 const text = ref(null);
 </script>
@@ -101,6 +101,7 @@ export default {
       loading: false,
     };
   },
+  emits: ["onCoupon"],
   props: {
     calculate: {
       default: () => ({

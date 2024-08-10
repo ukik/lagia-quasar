@@ -5,7 +5,8 @@ import { storeToRefs } from 'pinia';
 export default function (store, cookies, ssrContext) {
 
   const authStore = useAuthStore(store)
-  // const { auth, getIsLogin, getLoading } = storeToRefs(authStore)
+  const { getAuth } = storeToRefs(authStore);
+  console.log('ROUTER LAGIA AUTH', store.state.value)
 
   return [
     // EMPTY

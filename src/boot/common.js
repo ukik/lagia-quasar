@@ -117,7 +117,7 @@ function finalPrice(item) {
 
 function finalPriceAnak(item) {
   // console.log('getTotalAmount', { general, discount, cashback })
-  const general = item?.generalChildPrice
+  const general = item?.generalPriceChild
   const discount = item?.discountPrice
   const cashback = item?.cashbackPrice
 

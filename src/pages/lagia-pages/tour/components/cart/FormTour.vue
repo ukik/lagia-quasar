@@ -4,8 +4,35 @@
     id="FormTour"
     @submit.prevent.stop="onSubmit"
   >
+    <!-- {{ date_start }}, {{ participant_young }}, {{ participant_adult }}, {{ description }},
+    {{ hotel }}, -->
     <div class="col-12">
-      <q-input
+      <q-field
+        dense
+        outlined
+        bg-color="white"
+        color="primary"
+        ref="dateRef"
+        v-model="date_start"
+        mask="date"
+        placeholder="Tanggal Berangkat"
+        hint="Tanggal Berangkat"
+        error-message="Tanggal Berangkat"
+        :rules="['date']"
+        bottom-slots
+      >
+        <q-date
+          today-btn
+          bordered
+          flat
+          class="full-width q-my-md"
+          :options="optionsFn"
+          v-model="date_start"
+        >
+        </q-date>
+      </q-field>
+
+      <!-- <q-input
         @click="$refs.popupProxy.show()"
         clearable
         outlined
@@ -35,10 +62,12 @@
             </q-popup-proxy>
           </q-icon>
         </template>
-      </q-input>
+      </q-input> -->
     </div>
+
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
+        v-if="participant_adult"
         @clear="onMinParticipantRule"
         clearable
         dense
@@ -135,7 +164,7 @@
 <script>
 import { storeToRefs } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
+import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
 
 import { date } from "quasar";
 
@@ -179,33 +208,37 @@ export default {
   },
   mounted() {
     // console.log(formattedString, newDate);
-    this.onMinParticipantRule();
+    // this.onMinParticipantRule();
   },
   // props: ["item"],
   setup() {
-    const store = useAddToCartStore();
+    const store = useTourCartSelectedStore();
     const {
-      prompt,
-      quantity,
+      // prompt,
+      // quantity,
       date_start,
       participant_young,
       participant_adult,
       description,
       hotel,
     } = storeToRefs(store); // have all reactive states here
-    const { onAdd, onRemove, onAddToCart } = store;
+    const {
+      // onAdd, onRemove,
+      onAddToCart,
+    } = store;
 
     return {
       onAddToCart,
-      onAdd,
-      onRemove,
-      prompt,
-      quantity,
+      // onAdd,
+      // onRemove,
+      // prompt,
+      // quantity,
       date_start,
       participant_young,
       participant_adult,
       description,
       hotel,
+
       options: options,
 
       optionsFn(date) {
@@ -252,6 +285,7 @@ export default {
       });
     },
     async onSubmit({ price_id }) {
+      return;
       const vm = this;
 
       vm.$refs?.dewasaRef?.validate();
@@ -285,6 +319,7 @@ export default {
           position: "top",
         });
       } else {
+        return;
         const resp = await vm.onAddToCart({
           price_id,
           slug: vm.slug,

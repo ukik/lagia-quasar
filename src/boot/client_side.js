@@ -222,6 +222,10 @@ export default boot( async ({ app, ssrContext, router, store }) => {
   )
 
 
+  // app.component("isHtml2PDF",
+  //   defineAsyncComponent(() => import('src/components/lagia-components/widget/isHtml2PDF.vue'))
+  // )
+
 
 
   // app.component('EasyLightbox',

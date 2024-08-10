@@ -24,7 +24,7 @@
       color="grey"
     ></q-rating>
 
-    <q-item class="rounded-borders-1 bg-grey-2 q-mt-lg" clickable v-ripple>
+    <q-item v-if="false" class="rounded-borders-1 bg-grey-2 q-mt-lg" clickable v-ripple>
       <q-item-section avatar>
         <q-avatar>
           <img
@@ -40,7 +40,6 @@
           record?.tourStore?.badasoUser?.name
         }}</q-item-label>
         <q-item-label caption lines="2">
-          <!-- <span class="text-weight-bold">Janet</span> -->
           {{ record?.tourStore?.badasoUser?.username }}
           <span v-if="$q.screen.width < 768"
             >({{ record?.tourStore?.badasoUser?.createdAt }})</span
@@ -54,7 +53,7 @@
     </q-item>
 
     <isImageSlideCarousel
-      height="400px"
+      :height="height"
       class="rounded-borders-2 q-mt-lg"
       :_gallery="record?.image"
     ></isImageSlideCarousel>
@@ -209,7 +208,19 @@ function getSplit(item) {
 </script>
 <script>
 export default {
-  props: ["record"],
+  props: ["record", "_height"],
+  data() {
+    return {
+      height: null,
+    };
+  },
+  mounted() {
+    if (!this._height) {
+      this.height = this.$q.screen.width > 425 ? "650px" : "400px";
+      return;
+    }
+    this.height = this._height;
+  },
 };
 </script>
 

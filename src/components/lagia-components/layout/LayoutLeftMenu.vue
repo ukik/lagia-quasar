@@ -1,6 +1,6 @@
 <template>
-  {{ getAuth }}
   <div>
+    {{ getAuth }}
     <!-- <q-list bordered class="rounded-borders"> -->
     <q-item
       :to="{
