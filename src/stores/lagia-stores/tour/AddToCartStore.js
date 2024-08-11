@@ -146,6 +146,7 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
             })
 
           }
+          return false
           return err?.response
         })
 

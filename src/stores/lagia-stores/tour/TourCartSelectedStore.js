@@ -7,6 +7,8 @@ import { Loading, Notify, Cookies, Platform, Screen } from 'quasar'
 
 import { useAuthStore } from '../auth/AuthStore';
 
+import { useInitStore } from '../page/InitStore';
+
 
 function finalPrice(item) {
   // console.log('getTotalAmount', { general, discount, cashback })
@@ -50,11 +52,6 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
 
     min_participant: null, // ref tour_prices
 
-
-    // prompt: false,
-    // quantity: 1,
-
-
     date_start: null,
     participant_adult: null,
     participant_young: null,
@@ -68,15 +65,15 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
 
   getters: {
     getSelectedTourPrice: state => {
-      if(state.selected.length > 0) return state.selected[0]?.tourPrice
+      if (state.selected.length > 0) return state.selected[0]?.tourPrice
       return []
     },
     subTotalAnak: state => {
-      if(state.selected.length <= 0) return 111111
+      if (state.selected.length <= 0) return 0
       return state.participant_young * finalPriceAnak(state.selected[0]?.tourPrice);
     },
     subTotalDewasa: state => {
-      if(state.selected.length <= 0) return 22222
+      if (state.selected.length <= 0) return 0
       return state.participant_adult * finalPrice(state.selected[0]?.tourPrice);
     },
     calculate: state => {
@@ -92,6 +89,21 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
         grand: Number(total - state.vat - state.coupon),
       };
     },
+    getHotelPrice: state => {
+      const store = useInitStore()
+      const { page_hotel_level_price } = (store)
+      if (page_hotel_level_price && state.hotel !== 'Pilih Hotel') {
+        let temp = {};
+        for (let i = 0; i < page_hotel_level_price.length; i++) {
+          if (state.hotel.toLowerCase() === page_hotel_level_price[i]["label"].toLowerCase()) {
+            temp = page_hotel_level_price[i];
+          }
+        }
+        return temp;
+      }
+    },
+
+
   },
   actions: {
     calculateSingle() {
@@ -139,6 +151,88 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
     //   }
     //   this.quantity = Number(this.quantity) - 1
     // },
+
+
+
+
+
+
+
+
+
+
+
+    async onRemove(selected = []) {
+
+      const ids = selected.map((item) => item);
+      // const ids = selected.map((item) => item.id);
+
+      // const formData = new FormData();
+      // formData.append('price_id', price_id);
+
+      const resp = await axios({
+        url: '/trevolia-api/v1/entities/tour-carts/delete',
+        method: 'delete',
+        // data: formData,
+        data: {
+          slug: 'tour-carts',
+          data: [
+            {
+              field: "id",
+              value: ids.join(","),
+            },
+          ],
+        }
+      })
+        .then((response) => {
+          // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
+          Notify.create({
+            color: 'positive',
+            position: 'top',
+            message: 'Loading success',
+            caption: 'data berhasil diproses',
+            icon: 'done'
+          })
+          return true
+          // return response
+        })
+        .catch((err) => {
+          // console.log('AddToCartStore error', err?.response)
+          if (err?.response?.status == 401) {
+            Notify.create({
+              color: 'negative',
+              position: 'top',
+              message: 'Loading failed',
+              caption: 'data gagal dihapus',
+              icon: 'report_problem'
+            })
+
+          } else {
+            Notify.create({
+              color: 'negative',
+              position: 'top',
+              message: 'Loading failed',
+              caption: 'data gagal dihapus',
+              // caption: err?.data?.meta?.message[0],
+              icon: 'report_problem'
+            })
+
+          }
+          return false //err?.response
+        })
+
+      return resp
+    },
+
+
+
+
+
+
+
+
+
+
 
     async onAddToCart({ price_id, slug }) {
 
@@ -209,7 +303,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
         })
         .catch((err) => {
           console.log('TourCartSelectedStore error', err?.response)
-          if(err?.response?.status == 401) {
+          if (err?.response?.status == 401) {
             Notify.create({
               color: 'negative',
               position: 'top',
@@ -235,7 +329,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
       Loading.hide()
 
 
-      if(resp) this.onReset()
+      if (resp) this.onReset()
 
       return resp
 
@@ -253,17 +347,46 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
       console.log('setSelected', val)
     },
     onReset() {
-        // this.prompt = false
-        // this.quantity = 1
-        this.date_start = null
-        // this.participant_adult = 1
-        this.participant_young = null
-        this.description = null
-        this.hotel = 'Pilih Hotel'
+      // this.prompt = false
+      // this.quantity = 1
+      this.date_start = null
+      // this.participant_adult = 1
+      this.participant_young = null
+      this.description = null
+      this.hotel = 'Pilih Hotel'
 
-        this.date_checkin = []
+      this.date_checkin = []
 
-        this.loading = false
+      this.loading = false
+    },
+
+    onSelectedRemove(id) {
+      if (this.selected[0]?.id == id) {
+        this.onResetStateA()
+      }
+    },
+
+    onResetStateA() {
+      this.selected = []
+      this.vat = 0
+      this.coupon = 0
+      this.item = {
+        total: 0,
+        coupon: 0,
+        vat: null,
+        grand: 0, //Number(total - this.vat - this.coupon),
+      },
+
+      // filter: "",
+
+      this.min_participant = null
+
+      this.date_start = null
+      this.participant_adult = null
+      this.participant_young = null
+      this.description = null
+      this.hotel = 'Pilih Hotel'
+      this.date_checkin = []
     }
 
   }

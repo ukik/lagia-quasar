@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <div class="col-12 flex justify-center">
+      <div class="col-12 flex justify-center q-mt-lg">
         <q-pagination
           :disable="loading"
           class="q-mt-lg"

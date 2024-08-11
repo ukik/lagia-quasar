@@ -230,10 +230,11 @@
     <q-toggle v-model="accept" label="I accept the license and terms" /> -->
         </q-card-section>
 
-        <q-separator color="white"></q-separator>
+        <!-- <q-separator color="white"></q-separator>
 
         <q-card-actions class="q-pa-md" align="between">
           <q-btn
+            @click="onDeletePopup"
             style="padding: 10px 15px"
             icon="delete"
             unelevated
@@ -253,7 +254,30 @@
             label="Book Now"
             no-caps
           ></q-btn>
-          <!-- <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" /> -->
+        </q-card-actions> -->
+      </q-card>
+
+      <q-card flat bordered class="rounded-borders-2 q-mt-lg">
+        <q-card-actions class="q-pa-md" align="between">
+          <q-btn
+            @click="onDeletePopup"
+            style="padding: 10px 15px"
+            icon="delete"
+            unelevated
+            color="negative"
+            size="18px"
+            label="Hapus"
+            no-caps
+          ></q-btn>
+          <q-btn
+            style="padding: 10px 15px"
+            icon-right="send"
+            unelevated
+            color="positive"
+            size="18px"
+            label="Book Now"
+            no-caps
+          ></q-btn>
         </q-card-actions>
       </q-card>
     </form>
@@ -261,8 +285,21 @@
 </template>
 
 <script>
-import { useQuasar } from "quasar";
-import { ref, defineProps } from "vue";
+import { useQuasar, scroll } from "quasar";
+import { ref } from "vue";
+import { mapActions, mapState, mapWritableState } from "pinia";
+import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
+import { useTourCartListStore } from "stores/lagia-stores/tour/TourCartListStore";
+
+const { getScrollTarget, setVerticalScrollPosition } = scroll;
+
+// takes an element object
+function scrollToElement(el) {
+  const target = getScrollTarget(el);
+  const offset = el.offsetTop;
+  const duration = 10;
+  setVerticalScrollPosition(target, offset, duration);
+}
 
 export default {
   setup() {
@@ -343,12 +380,85 @@ export default {
 
       onReset() {
         name.value = null;
-        age.value = null;
+        email.value = null;
+        phone.value = null;
+        instance.value = null;
+        city.value = null;
+        address.value = null;
 
         nameRef.value.resetValidation();
-        ageRef.value.resetValidation();
+        emailRef.value.resetValidation();
+        phoneRef.value.resetValidation();
+        instanceRef.value.resetValidation();
+        cityRef.value.resetValidation();
+        addressRef.value.resetValidation();
       },
     };
+  },
+  computed: {
+    // ...mapWritableState(useTourCartListStore, ["records"]),
+    ...mapState(useTourCartSelectedStore, ["selected"]),
+  },
+  methods: {
+    ...mapActions(useTourCartSelectedStore, ["onRemove", "onSelectedRemove"]),
+    ...mapActions(useTourCartListStore, ["onRecordRemove"]),
+
+    async onDeletePopup() {
+      const vm = this;
+
+      const id = this.selected[0]?.id;
+
+      vm.$swal
+        .fire({
+          title: "Apa anda yakin?",
+          text: "Hapus data ini dari keranjang",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, hapus saja!",
+          cancelButtonText: "Tidak, cancel!",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          reverseButtons: true,
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            vm.$q.loading.show();
+
+            const remove = await vm.onRemove([id]);
+
+            vm.$q.loading.hide();
+
+            if (remove) {
+              vm.$swal.fire({
+                title: "Deleted!",
+                text: "Data berhasil dihapus  :)",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: "Tutup",
+                timer: 1500,
+              });
+
+              await vm.onRecordRemove(id);
+              await vm.onSelectedRemove(id);
+
+              const ANCHOR = document.querySelector("#ANCHOR");
+              scrollToElement(ANCHOR);
+            }
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === vm.$swal.DismissReason.cancel
+          ) {
+            vm.$swal.fire({
+              title: "Cancelled",
+              text: "Data batal dihapus :)",
+              icon: "error",
+              showConfirmButton: true,
+              confirmButtonText: "Tutup",
+              timer: 1500,
+            });
+          }
+        });
+    },
   },
 };
 </script>

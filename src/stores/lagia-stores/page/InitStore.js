@@ -27,6 +27,8 @@ export const useInitStore = defineStore('InitStore', {
     page_widget_promo: null,
     page_widget_tron: null,
 
+    page_hotel_level_price: null,
+
     loading: false,
 
     init: false,
@@ -122,6 +124,9 @@ export const useInitStore = defineStore('InitStore', {
       this.page_widget_offer = response?.data?.data?.pageWidgetOffer
       this.page_widget_promo = response?.data?.data?.pageWidgetPromo?.data
       this.page_widget_tron = response?.data?.data?.pageWidgetTron?.data
+
+      this.page_hotel_level_price = response?.data?.data?.pageHotelLevelPrice
+
 
       this.record = response?.data?.data;
 

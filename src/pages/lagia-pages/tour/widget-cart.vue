@@ -72,8 +72,9 @@
 
     <!-- :filter="filter" -->
     <q-table
+      dense
       id="WidgetCart"
-      style="height: 750px"
+      :style="records?.length > 6 ? 'height: 750px' : ''"
       flat
       bordered
       :loading="loading"
@@ -89,9 +90,10 @@
       :hide-header="$q.screen.width < 768"
       v-model:pagination="pagination"
     >
-      <template v-slot:loading>
+      <!-- <template v-slot:loading>
         <q-inner-loading showing color="primary" />
-      </template>
+      </template> -->
+
       <template v-slot:top-right>
         <q-input dense debounce="500" v-model="filter" placeholder="Filter" clearable>
           <template v-slot:append>
@@ -275,23 +277,62 @@
           <q-td>
             <q-checkbox v-model="props.selected" color="primary" />
           </q-td>
-          <q-td key="id" :props="props">
+          <!-- <q-td key="id" :props="props">
             {{ props.row.id }}
+          </q-td> -->
+          <q-td key="delete" :props="props">
+            <q-btn-group unelevated>
+              <q-btn
+                @click="onDeletePopup(props.row.id, records.indexOf(props.row))"
+                dense
+                color="red"
+                icon="delete"
+              ></q-btn>
+              <q-separator vertical></q-separator>
+              <q-btn
+                dense
+                color="primary"
+                icon="visibility"
+                :to="{
+                  name: '/tour/product-detail',
+                  params: {
+                    slug: props.row.tourProduct?.id,
+                    slug_text: props.row.tourProduct?.slug,
+                  },
+                }"
+              ></q-btn>
+            </q-btn-group>
           </q-td>
+
           <q-td key="image" :props="props">
-            <q-img
-              v-if="props.row?.tourProduct"
-              @click="showMultiple(props.row.tourProduct.image, 0)"
-              height="100px"
-              width="100px"
-              :src="props.row.tourProduct.image[0]"
-            ></q-img>
+            <template v-if="props.row?.tourProduct">
+              <q-img
+                @click="showMultiple(props.row.tourProduct.image, 0)"
+                height="100px"
+                width="100px"
+                :src="props.row.tourProduct.image[0]"
+              ></q-img>
+            </template>
+            <template v-else>
+              <q-img
+                @click="showMultiple($defaultErrorImage, 0)"
+                loading="lazy"
+                :ratio="16 / 9"
+                class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+                height="100px"
+                width="100px"
+                :src="$defaultErrorImage"
+              />
+            </template>
           </q-td>
           <q-td key="get_final_amount" :props="props">
-            <div class="text-h6 full-width text-center">
+            <div class="text-title full-width text-center">
               {{
                 $currency(
-                  $finalPrice(props.row.tourPrice) + $finalPriceAnak(props.row.tourPrice)
+                  Number($finalPriceAnak(props.row.tourPrice)) *
+                    Number(props.row.participantYoung) +
+                    Number($finalPrice(props.row.tourPrice)) *
+                      Number(props.row.participantAdult)
                 )
               }}
             </div>
@@ -414,8 +455,7 @@
         />
       </template>
     </q-table>
-    {{ pagination }}
-    xxxxxxxx
+
     <!-- <PriceListCard
       v-if="selected.length > 0"
       :item="selected[0]?.tourPrice"
@@ -424,12 +464,22 @@
 
     <ProductPriceListCard v-if="selected.length > 0" :item="selected[0]?.tourPrice">
       <template v-slot:carousel>
-        <isImageSlideCarousel
-          v-if="selected.length > 0"
-          :height="$q.screen.width > 425 ? '400px' : '400px'"
-          class="rounded-borders-2"
-          :_gallery="selected[0]?.tourProduct?.image"
-        ></isImageSlideCarousel>
+        <template v-if="selected.length > 0">
+          <isImageSlideCarousel
+            v-if="selected[0]?.tourProduct?.image"
+            :height="$q.screen.width > 425 ? '400px' : '400px'"
+            class="rounded-borders-2"
+            :_gallery="selected[0]?.tourProduct?.image"
+          ></isImageSlideCarousel>
+
+          <q-img
+            v-else
+            loading="lazy"
+            :ratio="16 / 9"
+            class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+            :src="$defaultErrorImage"
+          />
+        </template>
       </template>
 
       <template v-slot:title>
@@ -461,7 +511,7 @@
       </template>
     </ProductPriceListCard>
 
-    <ProductCalculate v-if="selected.length > 0" class="q-mt-lg"></ProductCalculate>
+    <ProductCalculate class="q-mt-lg"></ProductCalculate>
 
     <div v-if="selected.length > 0" class="q-mt-lg q-py-none col-12">
       <FormBookingCustomerData></FormBookingCustomerData>
@@ -480,12 +530,16 @@
       </q-list> -->
     </div>
 
-    <q-banner inline-actions class="text-white bg-red q-mt-lg rounded-borders-2">
+    <!-- <q-banner
+      v-if="selected.length > 0"
+      inline-actions
+      class="text-white bg-red q-mt-lg rounded-borders-2"
+    >
       <template v-slot:avatar>
         <q-icon name="report_problem" color="white" />
       </template>
       Batas maksimal keranjang 200 produk
-    </q-banner>
+    </q-banner> -->
   </q-no-ssr>
 </template>
 
@@ -528,7 +582,8 @@ const {
   additional,
 } = storeToRefs(store); // have all reactive states here
 
-const _TourCartSelectedStore = useTourCartSelectedStore();
+const tourCartSelectedStore = useTourCartSelectedStore();
+const { onResetStateA } = tourCartSelectedStore;
 const {
   selected,
   vat,
@@ -537,15 +592,15 @@ const {
   calculate,
 
   filter,
+
   min_participant,
 
-  // quantity,
   date_start,
   participant_young,
   participant_adult,
   description,
   hotel,
-} = storeToRefs(_TourCartSelectedStore);
+} = storeToRefs(tourCartSelectedStore);
 
 // defineOptions({
 //   preFetch: preFetch(
@@ -660,12 +715,14 @@ watch(() => currentPage, onCurrentPage, {
 });
 
 const watchSelected = async (val) => {
+  console.log("watchSelected", val.value);
   min_participant.value = val.value[0]?.tourPrice?.minParticipant;
   date_start.value = val.value[0]?.dateStart;
   participant_adult.value = val.value[0]?.participantAdult;
   participant_young.value = val.value[0]?.participantYoung;
   description.value = val.value[0]?.description;
   hotel.value = val.value[0]?.hotel;
+
   console.log(
     date_start.value,
     participant_adult.value,
@@ -673,6 +730,11 @@ const watchSelected = async (val) => {
     description.value,
     hotel.value
   );
+
+  // if (val.value?.length > 0) {
+  // } else {
+  //   onResetStateA();
+  // }
 };
 watch(() => selected, watchSelected, {
   deep: true,
@@ -711,6 +773,9 @@ const dialog_product_selected = ref(null);
 
 <script>
 import { ref } from "vue";
+import { mapActions, mapWritableState } from "pinia";
+import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
+import { useTourCartListStore } from "stores/lagia-stores/tour/TourCartListStore";
 
 const columns = [
   // {
@@ -732,6 +797,12 @@ const columns = [
   //   align: "left",
   //   sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
   // },
+  {
+    name: "delete",
+    align: "center",
+    label: "Hapus",
+    field: "delete",
+  },
   {
     name: "image",
     label: "Gambar",
@@ -807,6 +878,8 @@ const columns = [
   // },
 ];
 
+// const store = useTourCartSelectedStore();
+
 export default {
   emits: ["onCoupon"],
   setup() {
@@ -814,65 +887,68 @@ export default {
       columns,
     };
   },
-  data() {
-    return {
-      // selected: [],
-      // vat: 5555,
-      // coupon: 0,
-      // item: {
-      //   total: 0,
-      //   coupon: 0,
-      //   vat: null,
-      //   grand: 0, //Number(total - this.vat - this.coupon),
-      // },
-    };
+  computed: {
+    // ...mapWritableState(useTourCartListStore, ["records"]),
   },
   methods: {
-    // calculateSingle() {
-    //   if (!this.selected) return;
-    //   console.log("this.selected", this.selected[0]);
-    //   const total =
-    //     this.$finalPrice(this.selected[0]?.tourPrice) +
-    //     this.$finalPriceAnak(this.selected[0]?.tourPrice);
-    //   const grand = Number(total) - Number(this.coupon);
-    //   this.item = {
-    //     total: this.$currency(total),
-    //     coupon: this.coupon,
-    //     vat: this.vat,
-    //     grand: this.$currency(grand), //Number(total - this.vat - this.coupon),
-    //   };
-    // },
+    ...mapActions(useTourCartSelectedStore, ["onRemove", "onSelectedRemove"]),
+    ...mapActions(useTourCartListStore, ["onRecordRemove"]),
+
+    async onDeletePopup(id, index = null) {
+      const vm = this;
+
+      vm.$swal
+        .fire({
+          title: "Apa anda yakin?",
+          text: "Hapus data ini dari keranjang",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, hapus saja!",
+          cancelButtonText: "Tidak, cancel!",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          reverseButtons: true,
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            vm.$q.loading.show();
+
+            const remove = await vm.onRemove([id]);
+
+            vm.$q.loading.hide();
+
+            if (remove) {
+              vm.$swal.fire({
+                title: "Deleted!",
+                text: "Data berhasil dihapus  :)",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: "Tutup",
+                timer: 1500,
+              });
+
+              await vm.onRecordRemove(id);
+              await vm.onSelectedRemove(id);
+            }
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === vm.$swal.DismissReason.cancel
+          ) {
+            vm.$swal.fire({
+              title: "Cancelled",
+              text: "Data batal dihapus :)",
+              icon: "error",
+              showConfirmButton: true,
+              confirmButtonText: "Tutup",
+              timer: 1500,
+            });
+          }
+        });
+    },
   },
   mounted() {
     this.$q.dark.set(false);
   },
-  computed: {
-    // calculate() {
-    //   if (!this.selected) return;
-    //   let total = 0;
-    //   for (let i = 0; i < this.selected.length; i++) {
-    //     total += Number(this.selected[i]["price"] * this.selected[i]["quantity"]);
-    //   }
-    //   return {
-    //     total: total,
-    //     coupon: this.coupon,
-    //     vat: this.vat,
-    //     grand: Number(total - this.vat - this.coupon),
-    //   };
-    // },
-  },
-  // watch: {
-  //   selected(val) {
-  //     this.calculateSingle();
-  //     this.min_participant = val[0]?.tourPrice?.minParticipant;
-  //     alert(this.min_participant);
-  //     // this.date_start = val[0]?.dateStart;
-  //     // this.participant_adult = val[0]?.participantAdult;
-  //     // this.participant_young = val[0]?.participantYoung;
-  //     // this.description = val[0]?.description;
-  //     // this.hotel = val[0]?.hotel;
-  //   },
-  // },
 };
 </script>
 
@@ -901,7 +977,7 @@ export default {
   /* this is when the loading indicator appears */
   &.q-table--loading thead tr:last-child th
     /* height of all previous header rows */
-    top: 48px
+    top: 0px
 
   /* prevent scrolling behind sticky top row on focus */
   tbody

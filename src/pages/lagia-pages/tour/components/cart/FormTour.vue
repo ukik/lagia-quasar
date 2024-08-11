@@ -113,6 +113,7 @@
 
     <div class="col-12">
       <q-select
+        class="text-capitalize"
         @clear="hotel = 'Pilih Hotel'"
         :clearable="hotel !== 'Pilih Hotel'"
         clearable
@@ -120,7 +121,7 @@
         emit-value
         option-label="label"
         option-value="value"
-        :options="options"
+        :options="page_hotel_level_price"
         dense
         bg-color="white"
         outlined
@@ -149,9 +150,9 @@
         color="primary"
         ref="descRef"
         v-model="description"
-        placeholder="Catatan Tambahan (Permintaan Khusus)"
-        hint="Catatan Tambahan (Permintaan Khusus)"
-        error-message="Catatan Tambahan (Permintaan Khusus)"
+        placeholder="Permintaan Khusus"
+        hint="Permintaan Khusus"
+        error-message="Permintaan Khusus"
       >
         <template v-slot:prepend>
           <q-icon name="description" />
@@ -162,9 +163,11 @@
 </template>
 
 <script>
-import { storeToRefs } from "pinia";
+import { storeToRefs, mapState } from "pinia";
 
 import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
+
+import { useInitStore } from "src/stores/lagia-stores/page/InitStore";
 
 import { date } from "quasar";
 
@@ -214,30 +217,25 @@ export default {
   setup() {
     const store = useTourCartSelectedStore();
     const {
-      // prompt,
-      // quantity,
+      getHotelPrice,
+
       date_start,
       participant_young,
       participant_adult,
       description,
       hotel,
     } = storeToRefs(store); // have all reactive states here
-    const {
-      // onAdd, onRemove,
-      onAddToCart,
-    } = store;
+    const { onAddToCart } = store;
 
     return {
       onAddToCart,
-      // onAdd,
-      // onRemove,
-      // prompt,
-      // quantity,
       date_start,
       participant_young,
       participant_adult,
       description,
       hotel,
+
+      getHotelPrice,
 
       options: options,
 
@@ -246,12 +244,20 @@ export default {
       },
     };
   },
-  // computed: {
-  //   getPriceCart() {
-  //     if (!this.item) return 0;
-  //     return Math.round(this.$finalPrice(this.item) * this.quantity);
-  //   },
-  // },
+  computed: {
+    ...mapState(useInitStore, ["page_hotel_level_price"]),
+    // getHotelPrice() {
+    //   if (this.page_hotel_level_price) {
+    //     let temp = null;
+    //     for (let i = 0; i < this.page_hotel_level_price.length; i++) {
+    //       if (this.hotel === this.page_hotel_level_price[i]["label"]) {
+    //         temp = this.page_hotel_level_price[i];
+    //       }
+    //     }
+    //     return temp;
+    //   }
+    // },
+  },
   methods: {
     onMinParticipantRule() {
       this.participant_adult = this.item?.minParticipant;

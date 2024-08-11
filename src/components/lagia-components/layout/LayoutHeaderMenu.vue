@@ -362,7 +362,7 @@
                     <router-link to="/lagia/contact-us">Kontak</router-link>
                   </li>
                   <li>
-                    <router-link to="/lagia/team">Tim</router-link>
+                    <router-link to="/lagia/team">Teamwork</router-link>
                   </li>
 
                   <li>

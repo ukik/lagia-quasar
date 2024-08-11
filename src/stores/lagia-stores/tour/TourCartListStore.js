@@ -143,6 +143,21 @@ export const useTourCartListStore = defineStore('TourCartListStore', {
     async onClearRegister() {
 
     },
+
+    onRecordRemove(id, index = null) {
+      this.records.forEach((el,i) => {
+        if(el.id == id) {
+          this.records.splice(i, 1);
+          return
+        }
+      })
+
+      return
+      // gak usah pakai index dari qtable soalnya susah kalo ke children component
+      this.records.splice(index, 1);
+
+    }
+
   }
 });
 

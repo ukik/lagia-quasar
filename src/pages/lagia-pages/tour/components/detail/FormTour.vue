@@ -5,7 +5,32 @@
     @submit.prevent.stop="onSubmit"
   >
     <div class="col-12">
-      <q-input
+      <q-field
+        dense
+        outlined
+        bg-color="white"
+        color="primary"
+        ref="dateRef"
+        v-model="date_start"
+        mask="date"
+        placeholder="Tanggal Berangkat"
+        hint="Tanggal Berangkat"
+        error-message="Tanggal Berangkat"
+        :rules="['date']"
+        bottom-slots
+      >
+        <q-date
+          today-btn
+          bordered
+          flat
+          class="full-width q-my-md"
+          :options="optionsFn"
+          v-model="date_start"
+        >
+        </q-date>
+      </q-field>
+
+      <!-- <q-input
         @click="$refs.popupProxy.show()"
         clearable
         outlined
@@ -35,8 +60,9 @@
             </q-popup-proxy>
           </q-icon>
         </template>
-      </q-input>
+      </q-input> -->
     </div>
+
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
         @clear="onMinParticipantRule"
@@ -120,9 +146,9 @@
         color="primary"
         ref="descRef"
         v-model="description"
-        placeholder="Catatan Tambahan (Permintaan Khusus)"
-        hint="Catatan Tambahan (Permintaan Khusus)"
-        error-message="Catatan Tambahan (Permintaan Khusus)"
+        placeholder="Permintaan Khusus"
+        hint="Permintaan Khusus"
+        error-message="Permintaan Khusus"
       >
         <template v-slot:prepend>
           <q-icon name="description" />
@@ -301,6 +327,18 @@ export default {
         }
 
         if (resp) {
+          vm.$router.push({
+            name: "/lagia/cart/tour",
+            query: {
+              page: 1,
+              perPage: 25,
+              search: "",
+              orderField: "desc",
+              orderDirection: false,
+              selected_id: price_id,
+            },
+          });
+
           let timerInterval;
 
           vm.$swal({

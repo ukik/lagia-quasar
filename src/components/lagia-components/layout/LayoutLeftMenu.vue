@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ getAuth }}
+    <!-- {{ getAuth }} -->
     <!-- <q-list bordered class="rounded-borders"> -->
     <q-item
       :to="{
@@ -27,9 +27,24 @@
       v-ripple
     >
       <q-item-section avatar>
-        <q-icon name="groups" />
+        <q-icon name="images" />
       </q-item-section>
       <q-item-section>Gallery</q-item-section>
+    </q-item>
+
+    <q-item
+      :to="{
+        name: '/lagia/team',
+      }"
+      :active="link === '/lagia/team'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="groups" />
+      </q-item-section>
+      <q-item-section>Teamwork</q-item-section>
     </q-item>
 
     <q-item
@@ -146,6 +161,7 @@
     </q-expansion-item>
 
     <q-expansion-item
+      v-if="false"
       dense
       :content-inset-level="0.5"
       :expand-separator="false"
@@ -244,6 +260,7 @@
     </q-expansion-item>
 
     <q-expansion-item
+      v-if="false"
       dense
       :content-inset-level="0.5"
       :expand-separator="false"

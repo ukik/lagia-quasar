@@ -1,5 +1,10 @@
 <template>
   <div>
+    <!-- {{ selected }}
+    =====
+    {{ subTotalAnak }}
+    =====
+    {{ subTotalDewasa }} -->
     <q-card flat bordered class="q-mt-lg">
       <q-card-section>
         <q-input
@@ -62,14 +67,22 @@
       <q-card-actions align="right">
         <table>
           <tr>
-            <td>Subtotal Biaya (diluar hotel)</td>
+            <td>Sub Total Biaya (diluar hotel)</td>
             <td class="text-h6 text-bold">
-              {{ $currency(subTotalAnak + subTotalDewasa) }}
+              {{ $currency(getTotalNonHotel) }}
             </td>
           </tr>
           <tr>
-            <td>Biaya Penginapan/Hotel</td>
-            <td>{{ calculate?.total }}</td>
+            <td>Jenis Hotel</td>
+            <td class="text-capitalize">{{ hotel }}</td>
+          </tr>
+          <tr>
+            <td>Biaya Hotel (Harga Min.)</td>
+            <td>{{ $currency(getHotelPrice?.minPrice) }}</td>
+          </tr>
+          <tr>
+            <td>Biaya Hotel (Harga Max.)</td>
+            <td>{{ $currency(getHotelPrice?.maxPrice) }}</td>
           </tr>
           <tr>
             <td>Coupon</td>
@@ -79,9 +92,44 @@
           <td>Vat</td>
           <td>{{ calculate?.vat }}</td>
         </tr> -->
+          <!-- <tr class="text-bold">
+            <td>Grand Total</td>
+            <td>{{ calculate?.grand }}</td>
+          </tr>
           <tr class="text-bold">
             <td>Grand Total</td>
             <td>{{ calculate?.grand }}</td>
+          </tr> -->
+          <tr class="text-bold">
+            <td>Grand Total + Hotel Harga Minimal</td>
+            <td class="text-positive">
+              {{ $currency(Number(getTotalNonHotel) + Number(getHotelPrice?.minPrice)) }}
+            </td>
+          </tr>
+          <tr class="text-bold">
+            <td>Grand Total + Hotel Harga Maksimal</td>
+            <td class="text-orange">
+              {{ $currency(Number(getTotalNonHotel) + Number(getHotelPrice?.maxPrice)) }}
+            </td>
+          </tr>
+          <tr class="text-bold">
+            <td>Grand Total + Hotel Harga Rata-rata</td>
+            <td class="text-primary">
+              {{ $currency(getGrandAvg) }}
+            </td>
+          </tr>
+          <tr class="text-bold">
+            <td>DP Final 30% dari Grand Total Rata-rata</td>
+            <td>
+              <span class="text-h6">{{ $currency(getDPAvg) }}</span>
+            </td>
+          </tr>
+          <tr v-if="getDPAvg > 0">
+            <td colSpan="2" class="bg-red-2">
+              <q-icon name="info"></q-icon>
+              Silahkan lengkapi "DATA PELANGGAN" untuk melanjutkan proses Booking paket
+              Anda. Kami akan proses setelah DP dibayarkan. Terimakasih.
+            </td>
           </tr>
         </table>
       </q-card-actions>
@@ -102,7 +150,7 @@
 </template>
 
 <script>
-import { storeToRefs } from "pinia";
+import { mapGetters, mapState, storeToRefs } from "pinia";
 
 import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
 
@@ -114,32 +162,69 @@ export default {
       text: null,
     };
   },
-  // props: {
-  //   calculate: {
-  //     default: {
-  //       total: 0,
-  //       coupon: 0,
-  //       vat: null,
-  //       grand: 0,
-  //     },
-  //   },
-  // },
   setup() {
-    const _TourCartSelectedStore = useTourCartSelectedStore();
-    const {
-      selected,
-      vat,
-      coupon,
-      item,
-      calculate,
-      subTotalAnak,
-      subTotalDewasa,
-    } = storeToRefs(_TourCartSelectedStore);
-    return {
-      calculate,
-      subTotalAnak,
-      subTotalDewasa,
-    };
+    // const tourCartSelectedStore = useTourCartSelectedStore();
+    // const {
+    //   selected,
+    //   item,
+    //   min_participant,
+    //   date_start,
+    //   participant_adult,
+    //   participant_young,
+    //   description,
+    //   hotel,
+    //   calculate,
+    //   subTotalAnak,
+    //   subTotalDewasa,
+    //   getHotelPrice,
+    // } = storeToRefs(tourCartSelectedStore);
+    // return {
+    //   selected,
+    //   min_participant,
+    //   date_start,
+    //   participant_adult,
+    //   participant_young,
+    //   description,
+    //   hotel,
+    //   calculate,
+    //   subTotalAnak,
+    //   subTotalDewasa,
+    //   getHotelPrice,
+    // };
+  },
+  computed: {
+    ...mapState(useTourCartSelectedStore, [
+      "selected",
+      "item",
+
+      "min_participant",
+      "date_start",
+      "participant_adult",
+      "participant_young",
+      "description",
+      "hotel",
+
+      "calculate",
+    ]),
+    ...mapState(useTourCartSelectedStore, [
+      "subTotalAnak",
+      "subTotalDewasa",
+
+      "getHotelPrice",
+    ]),
+    getTotalNonHotel() {
+      return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
+    },
+    getGrandAvg() {
+      return (
+        Number(this.subTotalAnak) +
+        Number(this.subTotalDewasa) +
+        (Number(this.getHotelPrice?.minPrice) + Number(this.getHotelPrice?.maxPrice)) / 2
+      );
+    },
+    getDPAvg() {
+      return this.getGrandAvg - (this.getGrandAvg * 30) / 100;
+    },
   },
   methods: {
     async onCoupon() {

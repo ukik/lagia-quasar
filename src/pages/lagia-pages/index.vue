@@ -56,6 +56,7 @@
 
   <!-- <q-intersection once> -->
   <WidgetGallery v-if="record_gallery" :records="record_gallery?.image"></WidgetGallery>
+
   <HomeCallActionOffer
     v-if="page_widget_offer"
     :records="page_widget_offer[0]"
@@ -65,19 +66,22 @@
   <q-intersection once> -->
 
   <HomeBlog v-if="false"></HomeBlog>
+
   <HomeTestimonial
     v-if="record_testimonial"
     :records="record_testimonial"
   ></HomeTestimonial>
 
   <widgetCulinaryProductList
-    v-if="record_culinary"
+    v-if="record_culinary && false"
     :records="record_culinary"
   ></widgetCulinaryProductList>
+
   <widgetSouvenirProductList
-    v-if="record_souvenir"
+    v-if="record_souvenir && false"
     :records="record_souvenir"
   ></widgetSouvenirProductList>
+
   <WidgetTalentProfileList
     v-if="record_talent"
     :records="record_talent"

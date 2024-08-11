@@ -179,7 +179,7 @@ function onMouseLeave() {
 
 <script>
 export default {
-  methods: {
+  computed: {
     hideNav() {
       switch (this.$route.name) {
         case "dashboard-login":
@@ -189,6 +189,46 @@ export default {
         case "/forgot-password":
         case "/reset-password":
         case "/verify":
+          //
+          // case "/lagia/index":
+          // case "/lagia/cart":
+          // case "/lagia/cart/tour":
+          return false;
+        default:
+          return true;
+      }
+    },
+    hideNavBottomBanner() {
+      switch (this.$route.name) {
+        case "dashboard-login":
+        case "dashboard-register":
+        case "/register":
+        case "/login":
+        case "/forgot-password":
+        case "/reset-password":
+        case "/verify":
+        //
+        case "/lagia/index":
+        case "/lagia/cart":
+        case "/lagia/cart/tour":
+          return false;
+        default:
+          return true;
+      }
+    },
+    hideNavBottomBannerCallToAction() {
+      switch (this.$route.name) {
+        case "dashboard-login":
+        case "dashboard-register":
+        case "/register":
+        case "/login":
+        case "/forgot-password":
+        case "/reset-password":
+        case "/verify":
+        //
+        case "/lagia/index":
+          // case "/lagia/cart":
+          // case "/lagia/cart/tour":
           return false;
         default:
           return true;
@@ -267,7 +307,7 @@ export default {
             : ''
         "
       >
-        <q-toolbar v-if="hideNav()" class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
+        <q-toolbar v-if="hideNav" class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
           <q-btn
             flat
             dense
@@ -397,9 +437,7 @@ export default {
     </q-drawer>
 
     <q-page-container
-      :style="
-        $q.screen.width > 768 && hideNav() ? 'margin-top: -60px' : 'margin-top: 0px'
-      "
+      :style="$q.screen.width > 768 && hideNav ? 'margin-top: -60px' : 'margin-top: 0px'"
     >
       <q-page>
         <q-no-ssr>
@@ -410,7 +448,7 @@ export default {
         </q-no-ssr>
 
         <q-card-section
-          v-if="hideNav()"
+          v-if="hideNav"
           id="thing_to_stick"
           class="absolute-top bg-redX q-py-none row justify-center"
           :style="
@@ -495,14 +533,18 @@ export default {
           </router-view>
         </q-no-ssr>
 
-        <CallActionPromo v-if="$route.name !== '/lagia/index'"></CallActionPromo>
+        <!-- <CallActionPromo v-if="$route.name !== '/lagia/index'"></CallActionPromo>
         <CallAction v-if="$route.name !== '/lagia/index'"></CallAction>
-        <CallActionOffer v-if="$route.name !== '/lagia/index'"></CallActionOffer>
+        <CallActionOffer v-if="$route.name !== '/lagia/index'"></CallActionOffer> -->
+
+        <CallActionPromo v-if="hideNavBottomBanner"></CallActionPromo>
+        <CallAction v-if="hideNavBottomBannerCallToAction"></CallAction>
+        <CallActionOffer v-if="hideNavBottomBanner"></CallActionOffer>
 
         <q-no-ssr
           :style="$q.screen.width > 425 ? 'padding-bottom:35px;' : 'padding-bottom:80px;'"
         >
-          <LayoutFooter v-if="hideNav()"></LayoutFooter>
+          <LayoutFooter></LayoutFooter>
         </q-no-ssr>
 
         <!-- place QPageScroller at end of page -->
