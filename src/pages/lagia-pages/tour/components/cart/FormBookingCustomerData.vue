@@ -18,7 +18,7 @@
         <q-separator color="white"></q-separator>
 
         <q-card-section class="q-col-gutter-md row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="col-12">
             <q-input
               clearable
               counter
@@ -63,7 +63,7 @@
               bottom-slots
             >
               <template v-slot:prepend>
-                <q-icon name="person" color="primary" />
+                <q-icon name="home" color="primary" />
               </template>
               <template v-slot:error>
                 <div class="text-white">Wajib Instansi</div>
@@ -121,13 +121,41 @@
               bottom-slots
             >
               <template v-slot:prepend>
-                <q-icon name="person" color="primary" />
+                <q-icon name="phone" color="primary" />
               </template>
               <template v-slot:error>
                 <div class="text-white">Wajib Telepon</div>
               </template>
               <template v-slot:hint>
                 <span class="text-white">Telepon *</span>
+              </template>
+            </q-input>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <q-input
+              clearable
+              counter
+              maxlength="100"
+              bg-color="white"
+              rounded
+              outlined
+              color="primary"
+              ref="cityRef"
+              v-model="city"
+              lazy-rules
+              placeholder="Kota Asal"
+              :rules="[(val) => !!val || '']"
+              bottom-slots
+            >
+              <template v-slot:prepend>
+                <q-icon name="near_me" color="primary" />
+              </template>
+              <template v-slot:error>
+                <div class="text-white">Wajib Kota Asal</div>
+              </template>
+              <template v-slot:hint>
+                <span class="text-white">Kota Asal *</span>
               </template>
             </q-input>
           </div>
@@ -178,7 +206,7 @@
               bottom-slots
             >
               <template v-slot:prepend>
-                <q-icon name="person" color="primary" />
+                <q-icon name="place" color="primary" />
               </template>
               <template v-slot:error>
                 <div class="text-white">Wajib Alamat</div>
@@ -270,6 +298,7 @@
             no-caps
           ></q-btn>
           <q-btn
+            type="submit"
             style="padding: 10px 15px"
             icon-right="send"
             unelevated
@@ -303,24 +332,26 @@ function scrollToElement(el) {
 
 export default {
   setup() {
+    const { onAddToBook } = useTourCartSelectedStore();
+
     const $q = useQuasar();
 
-    const name = ref(null);
+    const name = ref("demo@gmail.com");
     const nameRef = ref(null);
 
-    const email = ref(null);
+    const email = ref("demo@gmail.com");
     const emailRef = ref(null);
 
-    const phone = ref(null);
+    const phone = ref(423523523);
     const phoneRef = ref(null);
 
-    const instance = ref(null);
+    const instance = ref("demo@gmail.com");
     const instanceRef = ref(null);
 
-    const city = ref(null);
+    const city = ref("demo@gmail.com");
     const cityRef = ref(null);
 
-    const address = ref(null);
+    const address = ref("demo@gmail.com");
     const addressRef = ref(null);
 
     const accept = ref(false);
@@ -329,23 +360,21 @@ export default {
     // const position_options = ref(["Google", "Facebook", "Twitter", "Apple", "Oracle"]);
 
     return {
-      name,
-      nameRef,
+      onAddToBook,
       // nameRules: [(val) => (val && val.length > 0) || ""],
 
+      name,
       email,
-      emailRef,
-
       phone,
-      phoneRef,
-
       instance,
-      instanceRef,
-
       city,
-      cityRef,
-
       address,
+
+      nameRef,
+      emailRef,
+      phoneRef,
+      instanceRef,
+      cityRef,
       addressRef,
 
       // ageRules: [
@@ -358,24 +387,54 @@ export default {
 
       accept,
 
-      onSubmit() {
+      async onSubmit() {
         nameRef.value.validate();
-        ageRef.value.validate();
+        emailRef.value.validate();
+        phoneRef.value.validate();
+        instanceRef.value.validate();
+        cityRef.value.validate();
+        addressRef.value.validate();
 
-        if (nameRef.value.hasError || ageRef.value.hasError) {
+        // @click="onAddToBook"
+
+        if (
+          nameRef.value.hasError ||
+          emailRef.value.hasError ||
+          phoneRef.value.hasError ||
+          instanceRef.value.hasError ||
+          cityRef.value.hasError ||
+          addressRef.value.hasError
+        ) {
           // form has error
-        } else if (accept.value !== true) {
           $q.notify({
             color: "negative",
-            message: "You need to accept the license and terms first",
+            message: "Lengkapi formulir pelanggan",
           });
+          return;
+          // } else if (accept.value !== true) {
+          //   $q.notify({
+          //     color: "negative",
+          //     message: "You need to accept the license and terms first",
+          //   });
+          //   return;
         } else {
-          $q.notify({
-            icon: "done",
-            color: "positive",
-            message: "Submitted",
-          });
+          // $q.notify({
+          //   icon: "done",
+          //   color: "positive",
+          //   message: "Submitted",
+          // });
         }
+
+        await onAddToBook({
+          payload: {
+            full_name: name.value,
+            email: email.value,
+            phone: phone.value,
+            instance: instance.value,
+            city: city.value,
+            address: address.value,
+          },
+        });
       },
 
       onReset() {
@@ -400,7 +459,11 @@ export default {
     ...mapState(useTourCartSelectedStore, ["selected"]),
   },
   methods: {
-    ...mapActions(useTourCartSelectedStore, ["onRemove", "onSelectedRemove"]),
+    ...mapActions(useTourCartSelectedStore, [
+      "onRemove",
+      "onSelectedRemove",
+      "onAddToBook",
+    ]),
     ...mapActions(useTourCartListStore, ["onRecordRemove"]),
 
     async onDeletePopup() {
@@ -429,13 +492,20 @@ export default {
             vm.$q.loading.hide();
 
             if (remove) {
-              vm.$swal.fire({
-                title: "Deleted!",
-                text: "Data berhasil dihapus  :)",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: "Tutup",
-                timer: 1500,
+              // vm.$swal.fire({
+              //   title: "Deleted!",
+              //   text: "Data berhasil dihapus  :)",
+              //   icon: "success",
+              //   showConfirmButton: true,
+              //   confirmButtonText: "Tutup",
+              //   timer: 1500,
+              // });
+
+              vm.$q.notify({
+                icon: "done",
+                color: "positive",
+                message: "Deleted!",
+                caption: "Data berhasil dihapus",
               });
 
               await vm.onRecordRemove(id);
@@ -448,13 +518,20 @@ export default {
             /* Read more about handling dismissals below */
             result.dismiss === vm.$swal.DismissReason.cancel
           ) {
-            vm.$swal.fire({
-              title: "Cancelled",
-              text: "Data batal dihapus :)",
-              icon: "error",
-              showConfirmButton: true,
-              confirmButtonText: "Tutup",
-              timer: 1500,
+            // vm.$swal.fire({
+            //   title: "Cancelled",
+            //   text: "Data batal dihapus :)",
+            //   icon: "error",
+            //   showConfirmButton: true,
+            //   confirmButtonText: "Tutup",
+            //   timer: 1500,
+            // });
+
+            vm.$q.notify({
+              icon: "close",
+              color: "negative",
+              message: "Cancelled!",
+              caption: "Data gagal dihapus",
             });
           }
         });

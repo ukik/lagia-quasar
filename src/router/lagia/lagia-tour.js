@@ -48,6 +48,50 @@ export default function (store, cookies, ssrContext) {
     },
 
 
+    {
+      path: "/tour/cart",
+      name: "/tour/cart",
+      meta: {
+        ssr: true,
+        logged: true,
+        role: '',
+        title: 'keranjang',
+      },
+      component: () => import("pages/lagia-pages/tour/cart.vue"),
+    },
+    {
+      path: "/tour/booking",
+      name: "/tour/booking",
+      meta: {
+        ssr: true,
+        logged: true,
+        role: '',
+        title: 'list booking',
+      },
+      component: () => import("pages/lagia-pages/tour/booking.vue"),
+    },
+
+    {
+      path: "/tour/booking-detail/:id",
+      name: "/tour/booking-detail",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'detail booking',
+      },
+      component: () => import("pages/lagia-pages/tour/cart.vue"),
+    },
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -74,5 +118,6 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/tour/price-detail.vue"),
     },
+
   ]
 }

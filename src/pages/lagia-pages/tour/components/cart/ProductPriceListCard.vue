@@ -147,8 +147,6 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 
-// import { useAddToCartStore } from "stores/lagia-stores/widget/AddToCartStore";
-
 import FormTour from "./FormTour";
 
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";

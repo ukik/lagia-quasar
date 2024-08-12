@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, storeToRefs } from "pinia";
+import { mapState, storeToRefs } from "pinia";
 
 import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
 

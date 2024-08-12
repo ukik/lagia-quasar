@@ -10,11 +10,11 @@ import { useTourCartSelectedStore } from "./TourCartSelectedStore"
 import { storeToRefs } from "pinia";
 
 // no need to import defineStore and acceptHMRUpdate
-export const useTourCartListStore = defineStore('TourCartListStore', {
-  id: 'TourCartListStore',
+export const useTourBookingListStore = defineStore('TourBookingListStore', {
+  id: 'TourBookingListStore',
 
   state: () => ({
-    slug: 'tour-carts',
+    slug: 'tour-bookings',
     errors: {},
     data: {},
     paginate: [5, 10, 25, 50, 75, 100],
@@ -51,7 +51,7 @@ export const useTourCartListStore = defineStore('TourCartListStore', {
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/tour-carts/lagia',
+          url: '/trevolia-api/v1/entities/tour-bookings/lagia',
           method: 'get',
           params: {
             slug: this.slug,
@@ -91,7 +91,7 @@ export const useTourCartListStore = defineStore('TourCartListStore', {
 
       this.loading = false
 
-      console.log('stores/lagia-stores/TourCartListStore 1', response?.data)
+      console.log('stores/lagia-stores/TourBookingListStore 1', response?.data)
 
       if (!response?.data) return this.loading = false
 
@@ -99,12 +99,12 @@ export const useTourCartListStore = defineStore('TourCartListStore', {
 
       try {
         response?.data?.data?.data.forEach(element => {
-          if(element?.tourProduct?.image) element.tourProduct['image'] = JSON.parse(element.tourProduct['image'])
+          if(element?.tourStore?.tourProduct?.image) element.tourStore.tourProduct['image'] = JSON.parse(element.tourStore?.tourProduct['image'])
           // if(element?.category) element['category'] = JSON.parse(element['category'])
         });
       } catch (error) {
         response?.data?.data?.data.forEach(element => {
-          if(element?.tourProduct?.image) element.tourProduct['image'] = [element.tourProduct['image']]
+          if(element?.tourStore?.tourProduct?.image) element.tourStore.tourProduct['image'] = [element.tourStore?.tourProduct['image']]
           // if(element?.category) element['category'] = [element['category']]
         });
       }
@@ -116,9 +116,9 @@ export const useTourCartListStore = defineStore('TourCartListStore', {
       this.data = response?.data?.data;
       this.records = response?.data?.data?.data;
 
-      console.log('stores/lagia-stores/TourCartListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
+      console.log('stores/lagia-stores/TourBookingListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
-      console.log('TourCartListStore', query)
+      console.log('TourBookingListStore', query)
       // ini auto SELECTED setelah FETCH
       // ini redirect dari AddToCart yang baru dilakukan user
       if(query?.selected_id) {

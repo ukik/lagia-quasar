@@ -10,7 +10,7 @@ export default boot(async ({ router, store }) => {
   const { onRelogin } = _store
   const { auth, getIsLogin, getLoading } = storeToRefs(_store)
 
-  // if(!getIsLogin.value) await onRelogin()
+  if(!getIsLogin.value) await onRelogin() // WAJIB kalo enggak kena redirect page yang wajib login
 
   const routerStore = useRouterStore()
 
@@ -32,7 +32,7 @@ export default boot(async ({ router, store }) => {
       return next()
     } else if (getIsLogin.value && to.name == '/login') {
       console.log('beforeEach boot/lagia-router-server.js 3', getIsLogin.value, to.name)
-      return next({ name: '/lagia/cart' })
+      return next({ name: "/tour/cart" })
     } else if (to.meta.logged && !getIsLogin.value && to.name !== '/login') {
       console.log('beforeEach boot/lagia-router-server.js 2')
       return next({ name: '/login' })

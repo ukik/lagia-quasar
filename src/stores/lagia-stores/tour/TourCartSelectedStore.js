@@ -9,6 +9,8 @@ import { useAuthStore } from '../auth/AuthStore';
 
 import { useInitStore } from '../page/InitStore';
 
+import { useTourCartListStore } from './TourCartListStore';
+
 
 function finalPrice(item) {
   // console.log('getTotalAmount', { general, discount, cashback })
@@ -49,7 +51,6 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
 
     filter: "",
 
-
     min_participant: null, // ref tour_prices
 
     date_start: null,
@@ -58,7 +59,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
     description: null,
     hotel: 'Pilih Hotel',
 
-    date_checkin: [],
+    date_checkin: [], // HOTEL only
 
     loading: false,
   }),
@@ -95,9 +96,11 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
       if (page_hotel_level_price && state.hotel !== 'Pilih Hotel') {
         let temp = {};
         for (let i = 0; i < page_hotel_level_price.length; i++) {
-          if (state.hotel.toLowerCase() === page_hotel_level_price[i]["label"].toLowerCase()) {
-            temp = page_hotel_level_price[i];
-          }
+          try {
+            if (state.hotel.toLowerCase() === page_hotel_level_price[i]["label"].toLowerCase()) {
+              temp = page_hotel_level_price[i];
+            }
+          } catch (e) {}
         }
         return temp;
       }
@@ -123,45 +126,9 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
         grand: this.$currency(grand), //Number(total - this.vat - this.coupon),
       };
     },
-
-
-
-
-
-
-
-
-
-
-
     onOpen() {
       this.prompt = true
     },
-    // onAdd() {
-    //   if(this.quantity >= 999) {
-    //     this.quantity = 999
-    //     return
-    //   }
-    //   this.quantity = Number(this.quantity) + 1
-    // },
-    // onRemove() {
-    //   if(this.quantity <= 1) {
-    //     this.quantity = 1
-    //     return
-    //   }
-    //   this.quantity = Number(this.quantity) - 1
-    // },
-
-
-
-
-
-
-
-
-
-
-
     async onRemove(selected = []) {
 
       const ids = selected.map((item) => item);
@@ -223,29 +190,17 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
 
       return resp
     },
+    async onAddToBook({ payload }) {
 
+      const price_id = this.selected[0]?.id;
 
-
-
-
-
-
-
-
-
-
-    async onAddToCart({ price_id, slug }) {
-
-      console.log('onAddToCart', price_id, slug)
+      console.log('AddToBook', price_id)
 
       if (this.loading) return false;
 
       this.loading = true;
 
       Loading.show()
-
-      // const accessToken = Cookies.get("accessTokent");
-      // const csrf = Cookies.get("XSRF-TOKEN");
 
       const formData = new FormData();
       // for (const slug in this.form_login) {
@@ -254,38 +209,31 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
       //   formData.append(slug, value);
       // }
 
-      formData.append('price_id', price_id);
+      // formData.append('price_id', price_id);
+      // formData.append('date_start', this.date_start);
+      // formData.append('participant_adult', this.participant_adult);
+      // formData.append('participant_young', !this.participant_young ? 0 : this.participant_young);
+      // formData.append('hotel', this.hotel);
+      // formData.append('customer_id', user_id);
 
-      // if(slug == 'lodge') {
-      //   formData.append('quantity', this.date_checkin.length);
 
-      //   console.log('date_checkin',this.date_checkin)
+      this.selected[0]['date_start'] = this.date_start
+      this.selected[0]['participant_adult'] = this.participant_adult
+      this.selected[0]['participant_young'] = this.participant_young
+      this.selected[0]['description'] = this.description
+      this.selected[0]['hotel'] = this.hotel
+      this.selected[0]['date_checkin'] = this.date_checkin
 
-      //   let temp = [];
-      //   this.date_checkin.forEach((element, index) => {
-      //     temp.push({"id":element,"date":element})
-      //   });
-      //   formData.append('date_checkin', JSON.stringify(temp));
+      formData.append('payload', JSON.stringify(this.selected));
+      formData.append('description', this.description);
+      formData.append('min_participant', this.min_participant);
 
-      // } else {
-      //   formData.append('quantity', this.quantity);
-      // }
-
-      formData.append('date_start', this.date_start);
-      formData.append('participant_adult', this.participant_adult);
-      formData.append('participant_young', !this.participant_young ? 0 : this.participant_young);
-      formData.append('hotel', this.hotel);
-
-      const auth = useAuthStore()
-      const { getAuth } = auth
-      const user_id = getAuth?.data?.user?.id
-
-      formData.append('customer_id', user_id);
-
-      // console.log('formData', this.form_login)
+      // const auth = useAuthStore()
+      // const { getAuth } = auth
+      // const user_id = getAuth?.data?.user?.id
 
       const resp = await axios({
-        url: `/api/typehead/${slug}/add_to_cart`,
+        url: `/trevolia-api/v1/entities/tour-carts/add`,
         method: 'post',
         data: formData,
       })
@@ -298,12 +246,12 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
             caption: 'data berhasil diproses',
             icon: 'done'
           })
-          return true
+          // return true
           return response
         })
         .catch((err) => {
-          console.log('TourCartSelectedStore error', err?.response)
-          if (err?.response?.status == 401) {
+          console.log('AddToBookStore error', err?.response)
+          if(err?.response?.status == 401) {
             Notify.create({
               color: 'negative',
               position: 'top',
@@ -322,6 +270,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
             })
 
           }
+          return false
           return err?.response
         })
 
@@ -329,19 +278,98 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
       Loading.hide()
 
 
-      if (resp) this.onReset()
+      console.log('AddToBook', resp?.data?.additional)
+      if(!resp) return
+
+      const { onRecordRemove } = useTourCartListStore()
+      onRecordRemove(price_id)
+      this.onSelectedRemove(price_id);
+      this.router.push({
+        name: "/tour/booking-detail",
+        params: {
+          id: resp?.data?.additional?.id,
+        }
+      })
 
       return resp
-
-
-      // if (!resp?.data) return this.loading = false
-
-      // resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
-
-      // this.auth = resp?.data
-      // console.log('stores/lagia-stores/auth/AuthStore/onInit', this.auth)
-
     },
+
+    // async onAddToCart({ price_id, slug }) {
+
+    //   console.log('onAddToCart', price_id, slug)
+
+    //   if (this.loading) return false;
+
+    //   this.loading = true;
+
+    //   Loading.show()
+
+    //   const formData = new FormData();
+
+    //   formData.append('price_id', price_id);
+
+    //   formData.append('date_start', this.date_start);
+    //   formData.append('participant_adult', this.participant_adult);
+    //   formData.append('participant_young', !this.participant_young ? 0 : this.participant_young);
+    //   formData.append('hotel', this.hotel);
+
+    //   const auth = useAuthStore()
+    //   const { getAuth } = auth
+    //   const user_id = getAuth?.data?.user?.id
+
+    //   formData.append('customer_id', user_id);
+
+    //   // console.log('formData', this.form_login)
+
+    //   const resp = await axios({
+    //     url: `/api/typehead/${slug}/add_to_cart`,
+    //     method: 'post',
+    //     data: formData,
+    //   })
+    //     .then((response) => {
+    //       // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
+    //       Notify.create({
+    //         color: 'positive',
+    //         position: 'top',
+    //         message: 'Loading success',
+    //         caption: 'data berhasil diproses',
+    //         icon: 'done'
+    //       })
+    //       return true
+    //       return response
+    //     })
+    //     .catch((err) => {
+    //       console.log('TourCartSelectedStore error', err?.response)
+    //       if (err?.response?.status == 401) {
+    //         Notify.create({
+    //           color: 'negative',
+    //           position: 'top',
+    //           message: 'Loading failed',
+    //           caption: 'harus login',
+    //           icon: 'report_problem'
+    //         })
+
+    //       } else {
+    //         Notify.create({
+    //           color: 'negative',
+    //           position: 'top',
+    //           message: 'Loading failed',
+    //           // caption: err?.data?.meta?.message[0],
+    //           icon: 'report_problem'
+    //         })
+
+    //       }
+    //       return err?.response
+    //     })
+
+    //   this.loading = false
+    //   Loading.hide()
+
+
+    //   if (resp) this.onReset()
+
+    //   return resp
+    // },
     setSelected(val) {
       this.selected = val
       console.log('setSelected', val)

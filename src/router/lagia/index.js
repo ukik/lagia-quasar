@@ -126,11 +126,17 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/career.vue"),
         },
+
+
+
+
+
+        // TIDAK DIGUNAKAN
         {
           path: "/lagia/cart",
           name: "/lagia/cart",
           redirect: {
-            name: "/lagia/cart/tour",
+            name: "/lagia/cart/tour-child",
           },
           meta: {
             ssr: false,
@@ -138,14 +144,6 @@ export default function (store, cookies, ssrContext) {
             role: '',
             title: 'keranjang',
           },
-          // beforeEnter: (to, from, next) => {
-          //   console.log('ROUTER INIT',getAuth)
-          //   if (!authStore?.is_logged) {
-          //     next({ name: "/login" })
-          //   } else {
-          //     next()
-          //   }
-          // },
           component: () => import("pages/lagia-pages/cart.vue"),
           children: [
             {
@@ -156,12 +154,19 @@ export default function (store, cookies, ssrContext) {
                 title: 'keranjang',
               },
               path: "/lagia/cart/tour",
-              name: "/lagia/cart/tour",
+              name: "/lagia/cart/tour-child",
               component: () => import("pages/lagia-pages/tour/widget-cart.vue"),
 
             }
           ]
         },
+
+
+
+
+
+
+
 
         {
           path: "/lagia/cart-sample",
@@ -174,6 +179,11 @@ export default function (store, cookies, ssrContext) {
           },
           component: () => import("pages/lagia-pages/cart-sample.vue"),
         },
+
+
+
+
+
 
         {
           path: "/lagia/comming-soon",

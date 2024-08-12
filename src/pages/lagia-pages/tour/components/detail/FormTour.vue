@@ -328,7 +328,7 @@ export default {
 
         if (resp) {
           vm.$router.push({
-            name: "/lagia/cart/tour",
+            name: "/tour/cart",
             query: {
               page: 1,
               perPage: 25,
