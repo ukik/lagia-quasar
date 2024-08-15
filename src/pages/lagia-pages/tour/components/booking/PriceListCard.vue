@@ -1,38 +1,6 @@
 <template>
   <div class="row items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <!-- <q-img
-        v-if="images"
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        :src="images[0]"
-      >
-        <div class="absolute-top-left bg-transparent">
-          <q-btn
-            size="16px"
-            rounded
-            dense
-            color="white"
-            text-color="primary"
-            icon="fullscreen"
-            @click="showMultiple(images, 0)"
-          />
-        </div>
-        <template v-slot:error>
-          <div class="absolute-full flex flex-center bg-negative text-white">
-            Cannot load image
-          </div>
-        </template>
-      </q-img>
-      <q-img
-        loading="lazy"
-        :ratio="16 / 9"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-        v-else
-        :src="$defaultErrorImage"
-      /> -->
-
       <isImageSlideCarousel
         :height="$q.screen.width > 425 ? '400px' : '400px'"
         class="rounded-borders-2"
@@ -69,7 +37,7 @@
               >Harga Dewasa {{ item?.typePrice }}</q-item-label
             >
             <q-item-label class="text-h4">{{
-              $currency($finalPrice(item))
+              $currency($finalPriceBooking(item))
             }}</q-item-label>
           </q-item-section>
         </div>
@@ -80,7 +48,7 @@
               >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
             >
             <q-item-label class="text-h4">{{
-              $currency($finalPriceAnak(item))
+              $currency($finalPriceAnakBooking(item))
             }}</q-item-label>
           </q-item-section>
         </div>
@@ -91,19 +59,19 @@
         <q-list class="row flex items-start text-caption text-dark">
           <isQItemLabelValue
             label="HPP Dewasa"
-            :value="$currency(item?.generalPrice)"
+            :value="$currency(item?.getPrice)"
           ></isQItemLabelValue>
           <isQItemLabelValue
             label="HPP Anak (2-6 tahun)"
-            :value="$currency(item?.generalPriceChild)"
+            :value="$currency(item?.getPriceChild)"
           ></isQItemLabelValue>
           <isQItemLabelValue
             label="Diskon"
-            :value="$percent(item?.discountPrice)"
+            :value="$percent(item?.getDiscount)"
           ></isQItemLabelValue>
           <isQItemLabelValue
             label="Cashback"
-            :value="$currency(item?.cashbackPrice)"
+            :value="$currency(item?.getCashback)"
           ></isQItemLabelValue>
           <q-item>
             <q-item-section>
@@ -114,7 +82,11 @@
         </q-list>
       </q-card-section>
 
-      <!-- <q-separator></q-separator> -->
+      <q-separator></q-separator>
+
+      <q-card-section>
+        <q-btn @click="$emit('onBubbleEvent')" class="full-width" outline color="primary" icon="description" label="Detail Produk"></q-btn>
+      </q-card-section>
     </q-card>
   </div>
 </template>

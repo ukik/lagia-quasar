@@ -98,7 +98,7 @@ h3 {
         <q-banner
           id="ANCHOR"
           inline-actions
-          class="text-white bg-red q-mb-lg rounded-borders-2"
+          class="text-white bg-red q-mb-lg rounded-borders-1"
         >
           <template v-slot:avatar>
             <q-icon name="report_problem" color="white" />
@@ -117,7 +117,7 @@ h3 {
           separator="cell"
           :table-header-class="$q.dark.isActive ? 'bg-dark' : 'bg-white'"
           class="my-sticky-header-table"
-          title="Keranjang Produk"
+          title="Keranjang"
           :rows="records"
           :columns="columns"
           row-key="id"
@@ -385,7 +385,7 @@ h3 {
                       "
                       dense
                       size="sm"
-                      label="price"
+                      label="harga"
                       no-caps
                       unelevated
                       outline
@@ -399,7 +399,7 @@ h3 {
                       "
                       dense
                       size="sm"
-                      label="product"
+                      label="produk"
                       no-caps
                       unelevated
                       outline
@@ -842,7 +842,7 @@ const columns = [
   {
     name: "delete",
     align: "center",
-    label: "Hapus",
+    label: "Menu",
     field: "delete",
   },
   {
@@ -960,14 +960,21 @@ export default {
             vm.$q.loading.hide();
 
             if (remove) {
-              vm.$swal.fire({
-                title: "Deleted!",
-                text: "Data berhasil dihapus  :)",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: "Tutup",
-                timer: 1500,
-              });
+              // vm.$swal.fire({
+              //   title: "Deleted!",
+              //   text: "Data berhasil dihapus  :)",
+              //   icon: "success",
+              //   showConfirmButton: true,
+              //   confirmButtonText: "Tutup",
+              //   timer: 1500,
+              // });
+
+              // vm.$q.notify({
+              //   icon: "done",
+              //   color: "positive",
+              //   message: "Deleted!",
+              //   caption: "Data berhasil dihapus",
+              // });
 
               await vm.onRecordRemove(id);
               await vm.onSelectedRemove(id);
@@ -976,13 +983,20 @@ export default {
             /* Read more about handling dismissals below */
             result.dismiss === vm.$swal.DismissReason.cancel
           ) {
-            vm.$swal.fire({
-              title: "Cancelled",
-              text: "Data batal dihapus :)",
-              icon: "error",
-              showConfirmButton: true,
-              confirmButtonText: "Tutup",
-              timer: 1500,
+            // vm.$swal.fire({
+            //   title: "Cancelled",
+            //   text: "Data batal dihapus :)",
+            //   icon: "error",
+            //   showConfirmButton: true,
+            //   confirmButtonText: "Tutup",
+            //   timer: 1500,
+            // });
+
+            vm.$q.notify({
+              icon: "close",
+              color: "negative",
+              message: "Cancelled!",
+              caption: "Data gagal dihapus",
             });
           }
         });

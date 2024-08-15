@@ -55,7 +55,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
 
     date_start: null,
     participant_adult: null,
-    participant_young: null,
+    participant_young: 0,
     description: null,
     hotel: 'Pilih Hotel',
 
@@ -379,7 +379,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
       // this.quantity = 1
       this.date_start = null
       // this.participant_adult = 1
-      this.participant_young = null
+      this.participant_young = 0
       this.description = null
       this.hotel = 'Pilih Hotel'
 
@@ -411,7 +411,7 @@ export const useTourCartSelectedStore = defineStore('TourCartSelectedStore', {
 
       this.date_start = null
       this.participant_adult = null
-      this.participant_young = null
+      this.participant_young = 0
       this.description = null
       this.hotel = 'Pilih Hotel'
       this.date_checkin = []

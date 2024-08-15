@@ -49,7 +49,7 @@
         ></isQItemLabelValue>
         <isQItemLabelValue
           label="HPP Anak (2-6 tahun)"
-          :value="$currency(getSelectedTourPrice?.generalPrice)"
+          :value="$currency(getSelectedTourPrice?.generalPriceChild)"
         ></isQItemLabelValue>
         <isQItemLabelValue
           label="Diskon"

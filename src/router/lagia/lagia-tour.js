@@ -72,15 +72,15 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
-      path: "/tour/booking-detail/:id",
-      name: "/tour/booking-detail",
+      path: "/tour/confirmation/:id",
+      name: "/tour/confirmation",
       meta: {
         ssr: true,
         logged: false,
         role: '',
-        title: 'detail booking',
+        title: 'detail invoice',
       },
-      component: () => import("pages/lagia-pages/tour/cart.vue"),
+      component: () => import("pages/lagia-pages/tour/confirmation.vue"),
     },
 
 

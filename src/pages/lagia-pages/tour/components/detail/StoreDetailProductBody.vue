@@ -159,7 +159,21 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="q-mt-lg" id="LodgeStoreDetailBody_DESCRIPTION" flat bordered>
+    <q-tabs
+        v-model="tab"
+        inline-label
+        :breakpoint="0"
+        align="justify"
+        class="bg-primary text-grey-3 q-mt-lg"
+         indicator-color=""
+         active-color="white"
+      >
+        <q-tab name="DESCRIPTION" label="DESCRIPTION" />
+        <q-tab name="ITINERARY" label="ITINERARY" />
+        <q-tab name="FACILITY" label="FACILITY" />
+      </q-tabs>
+
+    <q-card v-show="tab == 'DESCRIPTION'" id="LodgeStoreDetailBody_DESCRIPTION" flat bordered>
       <q-card-actions align="left">
         <h6 class="">DESCRIPTION</h6>
       </q-card-actions>
@@ -169,7 +183,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="q-mt-lg" id="LodgeStoreDetailBody_ITINERARY" flat bordered>
+    <q-card v-show="tab == 'ITINERARY'" id="LodgeStoreDetailBody_ITINERARY" flat bordered>
       <q-card-actions align="left">
         <h6 class="">ITINERARY</h6>
       </q-card-actions>
@@ -179,7 +193,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="q-mt-lg" id="LodgeStoreDetailBody_FACILITY" flat bordered>
+    <q-card v-show="tab == 'FACILITY'" id="LodgeStoreDetailBody_FACILITY" flat bordered>
       <q-card-actions align="left">
         <h6 class="">FACILITY</h6>
       </q-card-actions>
@@ -188,6 +202,8 @@
         <div v-html="record?.facility"></div>
       </q-card-section>
     </q-card>
+
+
   </div>
 </template>
 
@@ -212,6 +228,7 @@ export default {
   data() {
     return {
       height: null,
+      tab: 'DESCRIPTION',
     };
   },
   mounted() {

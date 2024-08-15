@@ -5,17 +5,16 @@
       @submit.prevent.stop="onSubmit"
       @reset.prevent.stop="onReset"
     >
-      <q-card flat class="rounded-borders-2 bg-form">
+      <q-card flat class="rounded-borders-2 bg-form q-pt-md">
         <q-card-section class="text-center">
           <h2 class="q-mb-none">DATA PELANGGAN</h2>
           <h5 class="subtitle q-mb-sm">SILAHKAN LENGKAPI</h5>
           <span class="text-caption"
             >Isi formulir dibawah ini dengan informasi yang benar</span
           >
-          <!-- <p>Isi formulir dibawah ini dengan informasi yang benar</p> -->
         </q-card-section>
 
-        <q-separator color="white"></q-separator>
+        <!-- <q-separator color="white"></q-separator> -->
 
         <q-card-section class="q-col-gutter-md row">
           <div class="col-12">
@@ -561,6 +560,6 @@ export default {
 }
 h2 {
   font-size: 32px;
-  font-weight: 800;
+  font-weight: 700;
 }
 </style>

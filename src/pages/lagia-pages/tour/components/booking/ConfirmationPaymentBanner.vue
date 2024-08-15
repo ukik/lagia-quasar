@@ -1,12 +1,12 @@
 <template>
   <q-banner
-    class="rounded-borders-2 q-pa-lg"
-    :class="[$q.screen.width > 425 ? 'q-mb-lg' : '', color]"
+    class="rounded-borders-1 q-pa-lg"
+    :class="[color]"
   >
     <template v-slot:avatar>
-      <q-icon v-if="$q.screen.width > 425" size="80px" :name="icon" color="white" />
+      <q-icon v-if="$q.screen.width > 425" size="50px" :name="icon" color="white" />
     </template>
-    <div class="success-content text-white q-mb-lg">
+    <div class="success-content text-white">
       <h3>{{ title }}</h3>
       <p>
         <slot>
@@ -15,9 +15,6 @@
         </slot>
       </p>
     </div>
-    <template v-slot:action>
-      <q-btn v-close-popup flat color="white" icon="close" label="Close" />
-    </template>
   </q-banner>
 </template>
 

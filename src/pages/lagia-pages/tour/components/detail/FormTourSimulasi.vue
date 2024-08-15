@@ -4,9 +4,7 @@
     id="FormTour"
     @submit.prevent.stop="onSubmit"
   >
-    <!-- {{ date_start }}, {{ participant_young }}, {{ participant_adult }}, {{ description }},
-    {{ hotel }}, -->
-    <div class="col-12">
+    <!-- <div class="col-12">
       <q-field
         dense
         outlined
@@ -32,42 +30,10 @@
         </q-date>
       </q-field>
 
-      <!-- <q-input
-        @click="$refs.popupProxy.show()"
-        clearable
-        outlined
-        dense
-        bg-color="white"
-        color="primary"
-        ref="dateRef"
-        v-model="date_start"
-        mask="date"
-        placeholder="Tanggal Berangkat"
-        hint="Tanggal Berangkat"
-        error-message="Tanggal Berangkat"
-        :rules="['date']"
-      >
-        <template v-slot:prepend>
-          <q-icon name="event" class="cursor-pointer">
-            <q-popup-proxy
-              ref="popupProxy"
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date :options="optionsFn" v-model="date_start">
-                <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
-                </div>
-              </q-date>
-            </q-popup-proxy>
-          </q-icon>
-        </template>
-      </q-input> -->
-    </div>
+    </div> -->
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
-        v-if="participant_adult"
         @clear="onMinParticipantRule"
         clearable
         dense
@@ -113,7 +79,6 @@
 
     <div class="col-12">
       <q-select
-        class="text-capitalize"
         @clear="hotel = 'Pilih Hotel'"
         :clearable="hotel !== 'Pilih Hotel'"
         clearable
@@ -121,7 +86,7 @@
         emit-value
         option-label="label"
         option-value="value"
-        :options="page_hotel_level_price"
+        :options="options"
         dense
         bg-color="white"
         outlined
@@ -138,8 +103,7 @@
         </template>
       </q-select>
     </div>
-
-    <div class="col-12">
+    <!-- <div class="col-12">
       <q-input
         type="textarea"
         clearable
@@ -157,16 +121,14 @@
           <q-icon name="description" />
         </template>
       </q-input>
-    </div>
+    </div> -->
   </form>
 </template>
 
 <script>
-import { storeToRefs, mapState } from "pinia";
+import { storeToRefs, mapState, mapWritableState } from "pinia";
 
-import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
-
-import { useInitStore } from "src/stores/lagia-stores/page/InitStore";
+import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
 
 import { date } from "quasar";
 
@@ -210,32 +172,33 @@ export default {
   },
   mounted() {
     // console.log(formattedString, newDate);
-    // this.onMinParticipantRule();
+    this.onMinParticipantRule();
   },
   // props: ["item"],
   setup() {
-    const store = useTourCartSelectedStore();
+    const store = useAddToCartStore();
     const {
-      getHotelPrice,
-
+      prompt,
+      quantity,
       date_start,
       participant_young,
       participant_adult,
-      description,
+      // description,
       hotel,
     } = storeToRefs(store); // have all reactive states here
-    const { onAddToCart } = store;
+    const { onAdd, onRemove, onAddToCart } = store;
 
     return {
       onAddToCart,
+      onAdd,
+      onRemove,
+      prompt,
+      quantity,
       date_start,
       participant_young,
       participant_adult,
-      description,
+      // description,
       hotel,
-
-      getHotelPrice,
-
       options: options,
 
       optionsFn(date) {
@@ -243,24 +206,12 @@ export default {
       },
     };
   },
-  watch: {
-    hotel(val) {
-      alert(val)
-    }
-  },
   computed: {
-    ...mapState(useInitStore, ["page_hotel_level_price"]),
-    // ...mapState(useTourCartSelectedStore, ['hotel'])
-    // getHotelPrice() {
-    //   if (this.page_hotel_level_price) {
-    //     let temp = null;
-    //     for (let i = 0; i < this.page_hotel_level_price.length; i++) {
-    //       if (this.hotel === this.page_hotel_level_price[i]["label"]) {
-    //         temp = this.page_hotel_level_price[i];
-    //       }
-    //     }
-    //     return temp;
-    //   }
+    ...mapWritableState(useAddToCartStore, ['description'])
+
+    // getPriceCart() {
+    //   if (!this.item) return 0;
+    //   return Math.round(this.$finalPrice(this.item) * this.quantity);
     // },
   },
   methods: {
@@ -296,7 +247,6 @@ export default {
       });
     },
     async onSubmit({ price_id }) {
-      return;
       const vm = this;
 
       vm.$refs?.dewasaRef?.validate();
@@ -304,13 +254,15 @@ export default {
       vm.$refs?.dateRef?.validate();
       vm.$refs?.hotelRef?.validate();
 
-      if (vm.$refs?.dateRef?.hasError) {
-        return vm.$q.notify({
-          color: "negative",
-          message: "Tanggal Berangkat (wajib)",
-          position: "top",
-        });
-      } else if (vm.participant_adult < Number(vm.item?.minParticipant))
+      // if (vm.$refs?.dateRef?.hasError) {
+      //   return vm.$q.notify({
+      //     color: "negative",
+      //     message: "Tanggal Berangkat (wajib)",
+      //     position: "top",
+      //   });
+      // } else
+
+      if (vm.participant_adult < Number(vm.item?.minParticipant))
         return vm.$q.notify({
           color: "negative",
           message: "(Minimal) Peserta " + this.item?.minParticipant + " (wajib)",
@@ -330,7 +282,7 @@ export default {
           position: "top",
         });
       } else {
-        return;
+        return
         const resp = await vm.onAddToCart({
           price_id,
           slug: vm.slug,
@@ -345,8 +297,20 @@ export default {
             product: null,
           });
         }
-
+        return
         if (resp) {
+          vm.$router.push({
+            name: "/tour/cart",
+            query: {
+              page: 1,
+              perPage: 25,
+              search: "",
+              orderField: "desc",
+              orderDirection: false,
+              selected_id: price_id,
+            },
+          });
+
           let timerInterval;
 
           vm.$swal({

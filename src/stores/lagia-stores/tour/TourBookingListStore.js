@@ -121,14 +121,14 @@ export const useTourBookingListStore = defineStore('TourBookingListStore', {
       console.log('TourBookingListStore', query)
       // ini auto SELECTED setelah FETCH
       // ini redirect dari AddToCart yang baru dilakukan user
-      if(query?.selected_id) {
-        const selectedStore = useTourCartSelectedStore()
-        // const { selected } = storeToRefs(selectedStore)
-        const { setSelected } = selectedStore
-        this.records.forEach((element, index) => {
-          if(element.id == query?.selected_id) setSelected([element])
-        });
-      }
+      // if(query?.selected_id) {
+      //   const selectedStore = useTourCartSelectedStore()
+      //   // const { selected } = storeToRefs(selectedStore)
+      //   const { setSelected } = selectedStore
+      //   this.records.forEach((element, index) => {
+      //     if(element.id == query?.selected_id) setSelected([element])
+      //   });
+      // }
 
       // if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
       // if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
@@ -156,7 +156,73 @@ export const useTourBookingListStore = defineStore('TourBookingListStore', {
       // gak usah pakai index dari qtable soalnya susah kalo ke children component
       this.records.splice(index, 1);
 
-    }
+    },
+
+    async onRemove(selected = []) {
+
+      const ids = selected.map((item) => item);
+      // const ids = selected.map((item) => item.id);
+
+      // const formData = new FormData();
+      // formData.append('price_id', price_id);
+
+      const resp = await axios({
+        url: '/trevolia-api/v1/entities/tour-bookings/delete',
+        method: 'delete',
+        // data: formData,
+        data: {
+          slug: 'tour-bookings',
+          data: [
+            {
+              field: "id",
+              value: ids.join(","),
+            },
+          ],
+        }
+      })
+        .then((response) => {
+          // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
+          Notify.create({
+            color: 'positive',
+            position: 'top',
+            message: 'Loading success',
+            caption: 'data berhasil diproses',
+            icon: 'done'
+          })
+          return true
+          // return response
+        })
+        .catch((err) => {
+          // console.log('AddToCartStore error', err?.response)
+          if (err?.response?.status == 401) {
+            Notify.create({
+              color: 'negative',
+              position: 'top',
+              message: 'Loading failed',
+              caption: 'data gagal dihapus',
+              icon: 'report_problem'
+            })
+
+          } else {
+            Notify.create({
+              color: 'negative',
+              position: 'top',
+              message: 'Loading failed',
+              caption: 'data gagal dihapus',
+              // caption: err?.data?.meta?.message[0],
+              icon: 'report_problem'
+            })
+
+          }
+          return false //err?.response
+        })
+
+      if(resp) {
+        this.onRecordRemove(ids.join(","))
+      }
+
+      return resp
+    },
 
   }
 });

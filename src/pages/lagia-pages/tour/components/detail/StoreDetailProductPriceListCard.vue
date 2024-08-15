@@ -1,8 +1,10 @@
 <template>
   <div class="row items-start q-gutter-md">
-    <q-card class="my-card q-mt-lg" flat bordered>
+    <q-card class="my-card" flat bordered>
+      <slot name="header"></slot>
+
       <q-card-section class="row q-col-gutter-md">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 row text-white">
+        <div :class="price_css">
           <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
             <q-item-label class="text-white text-capitalize"
               >Harga Dewasa {{ item?.typePrice }}</q-item-label
@@ -13,7 +15,7 @@
           </q-item-section>
         </div>
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 row text-white">
+        <div :class="price_css">
           <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
             <q-item-label class="text-white text-capitalize"
               >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
@@ -44,7 +46,7 @@
           ></isQItemLabelValue>
           <isQItemLabelValue
             label="HPP Anak (2-6 tahun)"
-            :value="$currency(item?.generalPrice)"
+            :value="$currency(item?.generalPriceChild)"
           ></isQItemLabelValue>
           <isQItemLabelValue
             label="Diskon"
@@ -103,6 +105,7 @@
       <q-separator></q-separator>
 
       <q-card-section>
+      <slot name="buttons">
         <q-btn-group spread unelevated>
           <q-btn
             size="lg"
@@ -119,7 +122,7 @@
             "
             color="positive"
             text-color="white"
-            label="Tanya"
+            label="Pesan via WA"
             icon="fa-brands fa-whatsapp"
           />
           <q-separator vertical></q-separator>
@@ -130,10 +133,11 @@
             square
             color="primary"
             text-color="white"
-            label="Pesan"
+            label="Pesan via APP"
             icon="shopping_cart_checkout"
           />
         </q-btn-group>
+      </slot>
       </q-card-section>
     </q-card>
   </div>
@@ -150,7 +154,12 @@ import FormTour from "./FormTour";
 import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbox";
 
 export default {
-  props: ["item"],
+  props: {
+    item: null,
+    price_css: {
+      default: 'col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 row text-white'
+    }
+  },
   emits: ["onBubbleEvent"], // <--- add this line
   components: {
     FormTour,
@@ -198,6 +207,9 @@ export default {
     },
   },
   methods: {
+    onSubmit() {
+      this.$refs.form.onSubmit({ price_id: this.item?.id })
+    },
     badgeCondition(condition) {
       switch (condition) {
         case "public":

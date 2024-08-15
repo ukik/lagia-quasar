@@ -211,6 +211,8 @@ export default {
         case "/lagia/index":
         case "/lagia/cart":
         case "/lagia/cart/tour":
+        case "/tour/cart":
+        case "/tour/booking":
           return false;
         default:
           return true;
@@ -522,13 +524,14 @@ export default {
         <!-- <router-view ></router-view> -->
 
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
-          <component :is="Component" :key="$route.name"> </component>
+          <component :scrollY="scrollY" :is="Component" :key="$route.name"> </component>
         </router-view>
 
         <q-no-ssr v-else>
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :is="Component" :key="$route.name"> </component>
+              <component :scrollY="scrollY" :is="Component" :key="$route.name">
+              </component>
             </keep-alive>
           </router-view>
         </q-no-ssr>
@@ -546,8 +549,6 @@ export default {
         >
           <LayoutFooter></LayoutFooter>
         </q-no-ssr>
-
-        <!-- place QPageScroller at end of page -->
 
         <q-page-sticky
           v-if="scrollY >= 100"

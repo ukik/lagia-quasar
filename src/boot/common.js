@@ -125,6 +125,30 @@ function finalPriceAnak(item) {
   // console.log('getTotalAmount', total)
   return total;
 }
+
+function finalPriceBooking(item) {
+  // console.log('getTotalAmount', { general, discount, cashback })
+  const general = item?.getPrice
+  const discount = item?.getDiscount
+  const cashback = item?.getCashback
+
+  const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
+  // console.log('getTotalAmount', total)
+  return total;
+}
+
+function finalPriceAnakBooking(item) {
+  // console.log('getTotalAmount', { general, discount, cashback })
+  const general = item?.getPriceChild
+  const discount = item?.getDiscount
+  const cashback = item?.getCashback
+
+  const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
+  // console.log('getTotalAmount', total)
+  return total;
+}
+
+
 function shuffleArray(arr) {
   if(!arr) return []
   return arr.map(value => ({ value, sort: Math.random() }))
@@ -189,6 +213,9 @@ export default boot(async ({ app, ssrContext, router, store }) => {
 
   app.config.globalProperties.$finalPrice = finalPrice;
   app.config.globalProperties.$finalPriceAnak = finalPriceAnak;
+
+  app.config.globalProperties.$finalPriceBooking = finalPriceBooking;
+  app.config.globalProperties.$finalPriceAnakBooking = finalPriceAnakBooking;
 
   app.config.globalProperties.$currency = currency;
   app.config.globalProperties.$percent = percent;

@@ -13,7 +13,7 @@
       class="bg-white text-dark"
     >
       <q-page-container> -->
-    <q-card
+    <q-card flat
       class="bg-transparent"
       :style="$q.screen.width > 768 ? 'width: 750px !important' : ''"
     >

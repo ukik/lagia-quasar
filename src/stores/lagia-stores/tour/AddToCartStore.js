@@ -38,6 +38,7 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
 
   getters: {
     // getRecord: state => state.record,
+
   },
   actions: {
     onOpen() {
@@ -122,7 +123,8 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
             caption: 'data berhasil diproses',
             icon: 'done'
           })
-          return true
+          if(response.data.data)  return true
+          return false
           return response
         })
         .catch((err) => {

@@ -25,7 +25,60 @@ h3 {
 </style>
 
 <template>
+  <q-no-ssr>
   <!-- PRICE -->
+  <q-dialog full-width v-model="dialog_payment">
+    <q-card
+      flat
+      class="bg-transparent q-pa-sm"
+      :style="$q.screen.width > 768 ? 'width: 750px !important' : ''"
+    >
+      <ConfirmationPaymentBanner
+        v-if="dialog_payment_selected == 'PAYMENT WAITING' || !dialog_payment_selected"
+        icon="refresh"
+        color="bg-blue"
+        title="PAYMENT WAITING"
+      >
+        Silahkan melanjutkan proses pembayaran, pesanan anda akan diproses setelah
+        membayar DP
+      </ConfirmationPaymentBanner>
+      <ConfirmationPaymentBanner
+        v-else-if="dialog_payment_selected == 'DOWN PAYMENT CONFIRMED'"
+        icon="check_circle_outline"
+        color="bg-cyan"
+        title="DOWN PAYMENT CONFIRMED"
+      >
+        Terimakasih sudah melakukan proses pembayaran DP, pesanan anda kami proses
+      </ConfirmationPaymentBanner>
+
+      <ConfirmationPaymentBanner
+        v-else-if="dialog_payment_selected == 'FULL PAYMENT CONFIRMED'"
+        icon="done_all"
+        color="bg-positive"
+        title="FULL PAYMENT CONFIRMED"
+      >
+        Terimakasih sudah melakukan proses pelunasan, pesanan anda kami proses
+      </ConfirmationPaymentBanner>
+      <ConfirmationPaymentBanner
+        v-else-if="dialog_payment_selected == 'PAYMENT TIMEOUT'"
+        icon="highlight_off"
+        color="bg-orange"
+        title="PAYMENT TIMEOUT"
+      >
+        Maaf pesanan expired dalam waktu 1x24 jam jika tidak ada pembayaran, silahkan
+        membuat pesanan baru
+      </ConfirmationPaymentBanner>
+      <ConfirmationPaymentBanner
+        v-else-if="dialog_payment_selected == 'PAYMENT CANCELLED'"
+        icon="block"
+        color="bg-negative"
+        title="PAYMENT CANCELLED"
+      >
+        Pesanan ini telah anda batalkan secara langsung, silahkan membuat pesanan baru
+      </ConfirmationPaymentBanner>
+    </q-card>
+  </q-dialog>
+
   <q-dialog
     full-width
     full-height
@@ -81,7 +134,7 @@ h3 {
       </q-card-section>
     </q-card>
   </q-dialog>
-
+</q-no-ssr>
   <!-- <q-btn label="dialog" @click="dialog_price = true"></q-btn> -->
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
@@ -98,12 +151,12 @@ h3 {
         <q-banner
           id="ANCHOR"
           inline-actions
-          class="text-white bg-red q-mb-lg rounded-borders-2"
+          class="text-white bg-red q-mb-lg rounded-borders-1"
         >
           <template v-slot:avatar>
             <q-icon name="report_problem" color="white" />
           </template>
-          Batas maksimal keranjang 200 produk
+          Batas maksimal booking 200 invoice
         </q-banner>
 
         <!-- :filter="filter" -->
@@ -117,11 +170,11 @@ h3 {
           separator="cell"
           :table-header-class="$q.dark.isActive ? 'bg-dark' : 'bg-white'"
           class="my-sticky-header-table"
-          title="Booking Produk"
+          title="Invoice"
           :rows="records"
           :columns="columns"
           row-key="id"
-          selection="single"
+          selection="none"
           v-model:selected="selected"
           :hide-header="$q.screen.width < 768"
           v-model:pagination="pagination"
@@ -314,16 +367,22 @@ h3 {
 
           <template v-slot:body="props">
             <q-tr :props="props">
-              <q-td>
+              <!-- <q-td>
                 <q-checkbox v-model="props.selected" color="primary" />
-              </q-td>
+              </q-td> -->
               <!-- <q-td key="id" :props="props">
             {{ props.row.id }}
           </q-td> -->
               <q-td key="delete" :props="props">
                 <q-btn-group unelevated>
                   <q-btn
-                    @click="onDeletePopup(props.row.id, records.indexOf(props.row))"
+                    @click="
+                      onDeletePopup(
+                        props.row.id,
+                        records.indexOf(props.row),
+                        props.row.condition
+                      )
+                    "
                     dense
                     color="red"
                     icon="delete"
@@ -340,6 +399,19 @@ h3 {
                         slug_text: props.row.tourStore?.tourProduct?.slug,
                       },
                     }"
+                  ></q-btn>
+                  <q-separator vertical></q-separator>
+                  <q-btn
+                    dense
+                    color="positive"
+                    icon="description"
+                    :to="{
+                    name: '/tour/confirmation',
+                    params: {
+                      slug: props.row.id,
+                    },
+                  }"
+
                   ></q-btn>
                 </q-btn-group>
               </q-td>
@@ -365,6 +437,23 @@ h3 {
                   />
                 </template>
               </q-td>
+              <q-td key="payment" :props="props">
+                <div>{{ props.row.condition }}</div>
+                <q-btn
+                  unelevated
+                  label="Invoice"
+                  dense
+                  color="positive"
+                  icon="description"
+                  :to="{
+                    name: '/tour/confirmation',
+                    params: {
+                      slug: props.row.id,
+                    },
+                  }"
+                ></q-btn>
+              </q-td>
+
               <q-td key="get_final_amount" :props="props">
                 <div class="text-title full-width text-center">
                   {{ $currency(getSubTotalExcludeHotel(props)) }}
@@ -378,7 +467,7 @@ h3 {
                       "
                       dense
                       size="sm"
-                      label="price"
+                      label="harga"
                       no-caps
                       unelevated
                       outline
@@ -392,7 +481,7 @@ h3 {
                       "
                       dense
                       size="sm"
-                      label="product"
+                      label="produk"
                       no-caps
                       unelevated
                       outline
@@ -463,7 +552,7 @@ h3 {
 </template>
 
 <script async setup>
-import PriceListCard from "./components/cart/PriceListCard";
+import PriceListCard from "./components/booking/PriceListCard";
 import ProductCalculate from "./components/cart/ProductCalculate";
 import FormBookingCustomerData from "./components/cart/FormBookingCustomerData";
 import StoreDetailProductBody from "./components/detail/StoreDetailProductBody";
@@ -636,20 +725,21 @@ watch(() => currentPage, onCurrentPage, {
 
 const watchSelected = async (val) => {
   console.log("watchSelected", val.value);
-  min_participant.value = val.value[0]?.tourBookingItem?.minParticipant;
-  date_start.value = val.value[0]?.dateStart;
-  participant_adult.value = val.value[0]?.participantAdult;
-  participant_young.value = val.value[0]?.participantYoung;
-  description.value = val.value[0]?.description;
-  hotel.value = val.value[0]?.hotel;
+  // min_participant.value = val.value[0]?.tourBookingItem?.minParticipant;
+  // date_start.value = val.value[0]?.dateStart;
+  // participant_adult.value = val.value[0]?.participantAdult;
+  // participant_young.value = val.value[0]?.participantYoung;
+  // description.value = val.value[0]?.description;
+  // hotel.value = val.value[0]?.hotel;
 
-  console.log(
-    date_start.value,
-    participant_adult.value,
-    participant_young.value,
-    description.value,
-    hotel.value
-  );
+  console
+    .log
+    // date_start.value,
+    // participant_adult.value,
+    // participant_young.value,
+    // description.value,
+    // hotel.value
+    ();
 
   // if (val.value?.length > 0) {
   // } else {
@@ -665,7 +755,7 @@ async function onReset() {
   const val = pagination.value;
   currentPage.value = 1;
 
-  filter.value = "";
+  search.value = "";
   pagination.value = {
     sortBy: "desc",
     descending: false,
@@ -757,7 +847,7 @@ const columns = [
   {
     name: "delete",
     align: "center",
-    label: "Hapus",
+    label: "Menu",
     field: "delete",
   },
   {
@@ -767,6 +857,12 @@ const columns = [
     sortable: true,
     align: "left",
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+  },
+  {
+    name: "payment",
+    align: "center",
+    label: "Pembayaran",
+    field: "payment",
   },
   {
     name: "get_final_amount",
@@ -844,20 +940,42 @@ export default {
       columns,
     };
   },
+  data() {
+    return {
+      dialog_payment: false,
+      dialog_payment_selected: null,
+    };
+  },
   computed: {
     // ...mapWritableState(useTourBookingListStore, ["records"]),
   },
   methods: {
     // ...mapActions(useTourCartSelectedStore, ["onRemove", "onSelectedRemove"]),
-    ...mapActions(useTourBookingListStore, ["onRecordRemove"]),
+    ...mapActions(useTourBookingListStore, [
+      // "onRecordRemove",
+      "onRemove",
+    ]),
 
-    async onDeletePopup(id, index = null) {
+    async onDeletePopup(id, index = null, condition = null) {
       const vm = this;
+      switch (condition) {
+        case "DOWN PAYMENT CONFIRMED":
+        case "FULL PAYMENT CONFIRMED":
+        case "PAYMENT TIMEOUT":
+        case "PAYMENT CANCELLED":
+          vm.dialog_payment = true;
+          vm.dialog_payment_selected = condition;
+          // setTimeout(() => {
+          //   vm.dialog_payment = false;
+          //   vm.dialog_payment_selected = null;
+          // }, 2500);
+          return;
+      }
 
       vm.$swal
         .fire({
           title: "Apa anda yakin?",
-          text: "Hapus data ini dari keranjang",
+          text: "Hapus data booking ini",
           icon: "warning",
           showCancelButton: true,
           confirmButtonText: "Yes, hapus saja!",
@@ -875,29 +993,44 @@ export default {
             vm.$q.loading.hide();
 
             if (remove) {
-              vm.$swal.fire({
-                title: "Deleted!",
-                text: "Data berhasil dihapus  :)",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: "Tutup",
-                timer: 1500,
-              });
-
-              await vm.onRecordRemove(id);
-              await vm.onSelectedRemove(id);
+              // vm.$swal.fire({
+              //   title: "Deleted!",
+              //   text: "Data berhasil dihapus  :)",
+              //   icon: "success",
+              //   showConfirmButton: true,
+              //   confirmButtonText: "Tutup",
+              //   timer: 1500,
+              // });
+              // vm.$q.notify({
+              //   icon: "done",
+              //   color: "positive",
+              //   message: "Deleted!",
+              //   caption: "Data berhasil dihapus",
+              // });
+              // await vm.onRecordRemove(id);
+              // await vm.onSelectedRemove(id);
+            } else {
+              // vm.dialog_payment = true;
+              // vm.dialog_payment_selected = condition;
             }
           } else if (
             /* Read more about handling dismissals below */
             result.dismiss === vm.$swal.DismissReason.cancel
           ) {
-            vm.$swal.fire({
-              title: "Cancelled",
-              text: "Data batal dihapus :)",
-              icon: "error",
-              showConfirmButton: true,
-              confirmButtonText: "Tutup",
-              timer: 1500,
+            // vm.$swal.fire({
+            //   title: "Cancelled",
+            //   text: "Data batal dihapus :)",
+            //   icon: "error",
+            //   showConfirmButton: true,
+            //   confirmButtonText: "Tutup",
+            //   timer: 1500,
+            // });
+
+            vm.$q.notify({
+              icon: "close",
+              color: "negative",
+              message: "Cancelled!",
+              caption: "Data gagal dihapus",
             });
           }
         });

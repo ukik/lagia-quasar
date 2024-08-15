@@ -1,13 +1,41 @@
 <template>
   <div class="">
-    <StoreDetailProductBody :record="record"></StoreDetailProductBody>
+    <StoreDetailProductBody :record="record" ></StoreDetailProductBody>
 
-    <StoreDetailProductPriceList
+    <template v-for="(item, i) in record?.tourPrices">
+      <StoreDetailProductPriceSimulasi class="q-mt-sm" v-if="$q.screen.width > 425" :item="item">
+        <template v-slot:header="">
+          <q-card-section>
+            <q-item-section>
+              <q-item-label class="text-h6 text-weight-normal"
+                >RINCIAN BIAYA</q-item-label
+              >
+            </q-item-section>
+          </q-card-section>
+          <q-separator></q-separator>
+        </template>
+        <template v-slot:buttons>
+          <q-btn
+            class="full-width"
+            unelevated
+            size="lg"
+            no-caps
+            @click="onSubmit(i)"
+            square
+            color="primary"
+            text-color="white"
+            label="Buat Pesanan"
+            icon="shopping_cart_checkout"
+          />
+        </template>
+      </StoreDetailProductPriceSimulasi>
+    </template>
+    <!-- <StoreDetailProductPriceList v-if="$q.screen.width > 425"
       :items="record?.tourPrices"
       :count="record?.tourPricesCount"
-    ></StoreDetailProductPriceList>
+    ></StoreDetailProductPriceList> -->
 
-    <div class="page-content-2 q-mt-xl">
+    <div class="page-content-2 q-mt-xl" v-if="false">
       <h3>Placerat quaerat curae reiciendis commodi. X</h3>
 
       <div class="row col-gutters q-col-gutter-sm q-mb-lg">
@@ -56,6 +84,7 @@
 
 <script setup>
 import { ref, defineProps } from "vue";
+import StoreDetailProductPriceSimulasi from "./StoreDetailProductPriceSimulasi";
 
 import StoreDetailProductPriceList from "./StoreDetailProductPriceList";
 import StoreDetailProductBody from "./StoreDetailProductBody";

@@ -98,7 +98,7 @@
         color="primary"
         ref="youngRef"
         v-model="participant_young"
-        placeholder="Peserta Anak (2-6 thn) "
+        placeholder="0"
         hint="Peserta Anak (2-6 thn)"
         error-message="Peserta Anak (2-6 thn)"
       >
@@ -127,7 +127,6 @@
         placeholder="Pilih Hotel"
         hint="Pilih Hotel"
         error-message="Pilih Hotel"
-        lazy-rules
         :rules="[(val) => (!!val && val !== 'Pilih Hotel') || '']"
       >
         <template v-slot:prepend>
@@ -135,7 +134,6 @@
         </template>
       </q-select>
     </div>
-
     <div class="col-12">
       <q-input
         type="textarea"
@@ -159,7 +157,7 @@
 </template>
 
 <script>
-import { storeToRefs } from "pinia";
+import { storeToRefs, mapState, mapWritableState } from "pinia";
 
 import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
 
@@ -172,7 +170,7 @@ const formattedString = date.formatDate(newDate, "YYYY/MM/DD");
 const options = [
   {
     label: "Tanpa Hotel",
-    value: "",
+    value: "tanpa hotel",
   },
   {
     label: "Hotel Bintang 1",
@@ -216,7 +214,7 @@ export default {
       date_start,
       participant_young,
       participant_adult,
-      description,
+      // description,
       hotel,
     } = storeToRefs(store); // have all reactive states here
     const { onAdd, onRemove, onAddToCart } = store;
@@ -230,7 +228,7 @@ export default {
       date_start,
       participant_young,
       participant_adult,
-      description,
+      // description,
       hotel,
       options: options,
 
@@ -239,12 +237,14 @@ export default {
       },
     };
   },
-  // computed: {
-  //   getPriceCart() {
-  //     if (!this.item) return 0;
-  //     return Math.round(this.$finalPrice(this.item) * this.quantity);
-  //   },
-  // },
+  computed: {
+    ...mapWritableState(useAddToCartStore, ['description'])
+
+    // getPriceCart() {
+    //   if (!this.item) return 0;
+    //   return Math.round(this.$finalPrice(this.item) * this.quantity);
+    // },
+  },
   methods: {
     onMinParticipantRule() {
       this.participant_adult = this.item?.minParticipant;
@@ -311,6 +311,7 @@ export default {
           position: "top",
         });
       } else {
+        return
         const resp = await vm.onAddToCart({
           price_id,
           slug: vm.slug,
@@ -325,7 +326,7 @@ export default {
             product: null,
           });
         }
-
+        return
         if (resp) {
           vm.$router.push({
             name: "/tour/cart",

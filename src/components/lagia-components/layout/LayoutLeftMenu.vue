@@ -508,6 +508,21 @@
 
       <q-item-section>Logout</q-item-section>
     </q-item>
+
+    <q-item
+      v-if="!getAuth?.isLogin"
+      clickable
+      v-ripple
+      :to="{ name:'/login' }"
+      active-class="my-menu-link"
+    >
+      <q-item-section avatar>
+        <q-icon name="login" />
+      </q-item-section>
+
+      <q-item-section>Login</q-item-section>
+    </q-item>
+
   </div>
 </template>
 
