@@ -2,14 +2,14 @@
   <div class="">
     <StoreDetailProductBody :record="record"></StoreDetailProductBody>
 
-    <template v-for="(item, i) in record?.tourPrices">
+    <!-- <template v-for="(item, i) in record?.tourPrices">
       <StoreDetailProductPriceSimulasi
         class="q-mt-sm"
         :item="item"
         :ref="'side_price' + i"
       >
         <template v-slot:header="">
-          <q-card-section  class="bg-grey-1 ">
+          <q-card-section>
             <q-item-section>
               <q-item-label class="text-h6 text-weight-normal"
                 >SIMULASI BIAYA</q-item-label
@@ -46,7 +46,9 @@
           </div>
         </template>
       </StoreDetailProductPriceSimulasi>
-    </template>
+    </template> -->
+
+
     <!-- <StoreDetailProductPriceList v-if="$q.screen.width > 425"
       :items="record?.tourPrices"
       :count="record?.tourPricesCount"

@@ -193,6 +193,9 @@ export default {
           // case "/lagia/index":
           // case "/lagia/cart":
           // case "/lagia/cart/tour":
+        // case "/tour/product-detail":
+        // case "/tour/product-order":
+
           return false;
         default:
           return true;
@@ -213,6 +216,8 @@ export default {
         case "/lagia/cart/tour":
         case "/tour/cart":
         case "/tour/booking":
+        case "/tour/product-detail":
+        case "/tour/product-order":
           return false;
         default:
           return true;
@@ -229,6 +234,8 @@ export default {
         case "/verify":
         //
         case "/lagia/index":
+        case "/tour/product-detail":
+        case "/tour/product-order":
           // case "/lagia/cart":
           // case "/lagia/cart/tour":
           return false;
@@ -319,17 +326,14 @@ export default {
             @click="toggleLeftDrawer"
           />
 
-          <q-toolbar-title>
-            <!-- Travel & Tour  -->
+          <q-toolbar-title class="row">
+            <q-item class="col-auto" dense :to="{name:'/lagia/index'}">
             <q-item-label>
-              <img style="height: 35px" src="/assets/lagia/white-logo.png" />
+              <img style="height: 30px" src="/assets/lagia/white-logo.png" />
             </q-item-label>
+          </q-item>
           </q-toolbar-title>
-          <!-- <img
-            style="height: 48px"
-            v-if="$q.screen.width > 768 && scroll_triggered === 'bg-top'"
-            src="assets/images/site-logo.png"
-          /> -->
+
           <q-space
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-top'"
           ></q-space>
@@ -338,18 +342,6 @@ export default {
             :scroll_triggered="scroll_triggered"
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
           ></LayoutHeaderMenu>
-
-          <!-- <q-btn
-            v-if="scroll_triggered === 'bg-down'"
-            style="height: 46px"
-            dense
-            icon="fa-brands fa-whatsapp"
-            unelevated
-            rounded
-            class="q-px-lg rounded-borders-4 shadow-1"
-            color="positive"
-            label="Konsultasi"
-          /> -->
 
           <q-btn
             flat
@@ -371,14 +363,13 @@ export default {
             @click="toggleLeftDrawer"
           />
 
-          <q-toolbar-title>
-            <!-- Travel & Tour  -->
+          <q-toolbar-title class="row">
+            <q-item class="col-auto" dense :to="{name:'/lagia/index'}">
             <q-item-label>
-              <img style="height: 35px" src="/assets/lagia/white-logo.png" />
+              <img style="height: 30px" src="/assets/lagia/white-logo.png" />
             </q-item-label>
+          </q-item>
           </q-toolbar-title>
-
-          <!-- <q-toolbar-title>DASHBOARD</q-toolbar-title> -->
 
           <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
 
@@ -524,13 +515,13 @@ export default {
         <!-- <router-view ></router-view> -->
 
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
-          <component :scrollY="scrollY" :is="Component" :key="$route.name"> </component>
+          <component :is="Component" :key="$route.name"> </component>
         </router-view>
 
         <q-no-ssr v-else>
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :scrollY="scrollY" :is="Component" :key="$route.name">
+              <component :is="Component" :key="$route.name">
               </component>
             </keep-alive>
           </router-view>

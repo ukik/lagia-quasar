@@ -4,8 +4,8 @@
     id="FormTour"
     @submit.prevent.stop="onSubmit"
   >
-    <div class="col-12" v-if="false" >
-      <q-field class="row"
+    <div class="col-12">
+      <q-field
         v-if="date_sticky"
         dense
         outlined
@@ -24,7 +24,7 @@
           today-btn
           bordered
           flat
-          class="col q-my-md"
+          class="full-width q-my-md"
           :options="optionsFn"
           v-model="date_start"
         >
@@ -65,7 +65,7 @@
       </q-input>
     </div>
 
-    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-xs-12">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
         @clear="onMinParticipantRule"
         clearable
@@ -90,7 +90,7 @@
       </q-input>
     </div>
 
-    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-xs-12">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
         clearable
         dense
@@ -161,7 +161,7 @@
 <script>
 import { storeToRefs, mapState, mapWritableState } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
+import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 
 import { Cookies, date } from "quasar";
 
@@ -226,7 +226,7 @@ export default {
   },
   // props: ["item"],
   setup() {
-    const store = useAddToCartStore();
+    const store = useTourOrderDetailStore();
     const {
       // prompt,
       // quantity,
@@ -260,7 +260,7 @@ export default {
     };
   },
   computed: {
-    ...mapWritableState(useAddToCartStore, [
+    ...mapWritableState(useTourOrderDetailStore, [
       "date_start",
       "participant_young",
       "participant_adult",
@@ -313,15 +313,13 @@ export default {
       vm.$refs?.dateRef?.validate();
       vm.$refs?.hotelRef?.validate();
 
-      // if (vm.$refs?.dateRef?.hasError) {
-      //   return vm.$q.notify({
-      //     color: "negative",
-      //     message: "Tanggal Berangkat (wajib)",
-      //     position: "top",
-      //   });
-      // } else
-
-      if (vm.participant_adult < Number(vm.item?.minParticipant)) {
+      if (vm.$refs?.dateRef?.hasError) {
+        return vm.$q.notify({
+          color: "negative",
+          message: "Tanggal Berangkat (wajib)",
+          position: "top",
+        });
+      } else if (vm.participant_adult < Number(vm.item?.minParticipant)) {
         return vm.$q.notify({
           color: "negative",
           message: "(Minimal) Peserta " + this.item?.minParticipant + " (wajib)",
@@ -358,32 +356,11 @@ export default {
           },
         };
 
-        const cookies_name = "TOUR-"+this.$route.params?.slug+"-"+this.$route.params?.slug_text // this.$route.params?.slug_text; //window.location.href
+        const cookies_name = this.$route.params?.slug_text; //window.location.href
         vm.$q.cookies.set(cookies_name, JSON.stringify(payload), {
           secure: true,
           path: "/", // wajib
         });
-
-        this.$q.notify({
-          message: "Simpan data formulir",
-          color: "positive",
-          position: "bottom"
-        });
-
-        vm.$router.push({
-            name: "/tour/product-order",
-            params: {
-              ...this.$route.params,
-            }
-            // query: {
-            //   page: 1,
-            //   perPage: 25,
-            //   search: "",
-            //   orderField: "desc",
-            //   orderDirection: false,
-            //   selected_id: price_id,
-            // },
-          });
 
         // console.log('GET JSON.stringify(payload)', vm.$q.cookies.get(window.location.href))
 

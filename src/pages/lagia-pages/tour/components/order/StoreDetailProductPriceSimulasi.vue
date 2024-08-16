@@ -1,6 +1,6 @@
 <template>
-  <div class=" items-start q-gutter-md">
-    <q-card class="" flat bordered>
+
+    <q-card flat bordered>
       <slot name="header"></slot>
 
       <q-card-section>
@@ -57,7 +57,7 @@
             label="Cashback"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
-          <q-item v-if="simulasi">
+          <q-item>
             <q-item-section>
               <q-item-label caption>Deskripsi Harga</q-item-label>
               <q-item-label>{{ item?.description }}</q-item-label>
@@ -69,26 +69,20 @@
       <q-separator></q-separator>
 
       <q-card-section>
-        <FormTourSimulasi
-          :date_sticky="date_sticky"
-          ref="form"
-          :item="item"
-        ></FormTourSimulasi>
+        <FormTourSimulasi :date_sticky="date_sticky" ref="form" :item="item"></FormTourSimulasi>
       </q-card-section>
-    </q-card>
 
-    <q-card class="q-mt-lg " v-if="simulasi" flat bordered>
-      <!-- <q-separator v-if="simulasi"></q-separator> -->
+      <q-separator v-if="simulasi"></q-separator>
 
-      <q-card-section class="bg-grey-1">
+      <q-card-section v-if="simulasi">
         <q-item-section>
           <q-item-label class="text-h6 text-weight-normal">RINCIAN BIAYA</q-item-label>
         </q-item-section>
       </q-card-section>
 
-      <q-separator></q-separator>
+      <q-separator v-if="simulasi"></q-separator>
 
-      <q-card-section>
+      <q-card-section v-if="simulasi">
         <!-- <q-item-label class="text-h6 q-mb-md text-bold text-dark"
           >DAFTAR HARGA</q-item-label
         > -->
@@ -217,53 +211,51 @@
       </q-card-section>
 
       <!-- <q-separator></q-separator> -->
-    </q-card>
 
-    <q-card class="q-mt-lg " flat bordered>
-      <q-card-section class="row q-col-gutter-md">
+      <q-card-section v-if="false" class="row q-col-gutter-md">
         <slot name="buttons">
           <!-- <q-btn-group  spread unelevated> -->
-          <q-btn
-            size="lg"
-            no-caps
-            square
-            @click="
-              $global.$emit('LagiaLayout', {
-                label: 'konsultasi',
-                slug: 'konsultasi',
-                vendor: 'tourStore',
-                value: item,
-                product: 'tourProduct',
-              })
-            "
-            color="positive"
-            text-color="white"
-            label="Pesan via WA"
-            icon="fa-brands fa-whatsapp"
-          />
-          <q-separator vertical></q-separator>
-          <q-btn
-            size="lg"
-            no-caps
-            @click="$refs.form.onSubmit({ price_id: item?.id })"
-            square
-            color="primary"
-            text-color="white"
-            label="Pesan via APP"
-            icon="shopping_cart_checkout"
-          />
+            <q-btn
+              size="lg"
+              no-caps
+              square
+              @click="
+                $global.$emit('LagiaLayout', {
+                  label: 'konsultasi',
+                  slug: 'konsultasi',
+                  vendor: 'tourStore',
+                  value: item,
+                  product: 'tourProduct',
+                })
+              "
+              color="positive"
+              text-color="white"
+              label="Pesan via WA"
+              icon="fa-brands fa-whatsapp"
+            />
+            <q-separator vertical></q-separator>
+            <q-btn
+              size="lg"
+              no-caps
+              @click="$refs.form.onSubmit({ price_id: item?.id })"
+              square
+              color="primary"
+              text-color="white"
+              label="Pesan via APP"
+              icon="shopping_cart_checkout"
+            />
           <!-- </q-btn-group> -->
         </slot>
       </q-card-section>
     </q-card>
-  </div>
+
 </template>
 
 <script>
 import { ref } from "vue";
 import { mapState, mapWritableState, storeToRefs } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/widget/AddToCartStore";
+import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 
 import FormTourSimulasi from "./FormTourSimulasi";
 
@@ -278,11 +270,11 @@ export default {
       default: "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 row text-white",
     },
     simulasi: {
-      default: true,
+      default: true
     },
     date_sticky: {
-      default: false,
-    },
+      default: false
+    }
   },
   emits: ["onBubbleEvent"], // <--- add this line
   components: {
@@ -292,7 +284,7 @@ export default {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;
 
-    const store = useAddToCartStore();
+    const store = useTourOrderDetailStore();
     const {
       prompt,
       quantity,
@@ -324,7 +316,7 @@ export default {
   },
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),
-    ...mapWritableState(useAddToCartStore, [
+    ...mapWritableState(useTourOrderDetailStore, [
       "participant_young",
       "participant_adult",
       "hotel",
@@ -336,30 +328,28 @@ export default {
       return this.participant_adult * this.$finalPrice(this.item);
     },
     getAVGHotel() {
-      return (
-        (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice)) / 2
-      );
+      return (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice))/2
     },
     getAllPerserta() {
-      return Number(this.participant_adult) + Number(this.participant_young);
+      return Number(this.participant_adult)+Number(this.participant_young)
     },
     getDoubleBed() {
-      const bagi = this.getAllPerserta / 2;
-      const sisa = this.getAllPerserta % 2;
+      const bagi =  this.getAllPerserta / 2;
+      const sisa = this.getAllPerserta % 2
 
-      return this.getAVGHotel * (bagi + sisa);
+      return (this.getAVGHotel * (bagi + sisa))
     },
     getSingleBed() {
-      const all = this.getAllPerserta;
+      const all =  this.getAllPerserta
 
-      return this.getAVGHotel * all;
+      return (this.getAVGHotel * all)
     },
     getDPSingleBed() {
-      const cal = this.getSingleBed + this.getTotalNonHotel;
+      const cal = (this.getSingleBed + this.getTotalNonHotel)
       return cal - (cal * 30) / 100;
     },
     getDPDoubleBed() {
-      const cal = this.getDoubleBed + this.getTotalNonHotel;
+      const cal = (this.getDoubleBed + this.getTotalNonHotel)
       return cal - (cal * 30) / 100;
     },
     // getSelectedTourPrice: state => {
@@ -443,15 +433,5 @@ th {
   text-align: left;
   padding: 8px;
   font-size: 16px;
-}
-
-@media only screen and (max-width: 425px) {
-  td,
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    font-size: 15px;
-  }
 }
 </style>

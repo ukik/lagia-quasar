@@ -109,7 +109,25 @@
             :value="item?.country"
           ></isQItemLabelSimpleValue>
 
-          <isQItemLabelSimpleValue
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>policy</q-item-label>
+              <q-item-label>{{ item?.policy }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>location</q-item-label>
+              <q-item-label>{{ item?.location }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>description</q-item-label>
+              <q-item-label>{{ item?.description }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <!-- <isQItemLabelSimpleValue
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -120,8 +138,8 @@
             label="policy"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue>
-
+          ></isQItemLabelSimpleValue> -->
+<!--
           <isQItemLabelSimpleValue
             @onBubbleEvent="
               $refs.isModal.onOpen({
@@ -133,9 +151,9 @@
             label="description"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue>
+          ></isQItemLabelSimpleValue> -->
 
-          <isQItemLabelSimpleValue
+          <!-- <isQItemLabelSimpleValue
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -146,7 +164,7 @@
             label="location"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue>
+          ></isQItemLabelSimpleValue> -->
           <!-- </div> -->
         </q-card-section>
       </q-card>

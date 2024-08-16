@@ -47,8 +47,9 @@ const title = _title;
 }
 
 .inner-baner-container .inner-banner-content {
-  padding-top: 120px;
-  padding-bottom: 135px;
+  /* padding-top: 120px;
+  padding-bottom: 135px; */
+  padding: 50px 0px;
   position: relative;
   color: #ffffff;
 }

@@ -67,39 +67,39 @@
     </div>
 
     <q-card class="q-mt-lg" flat bordered>
-      <q-card-actions align="left" class="bg-grey-1 ">
+      <q-card-actions align="left">
         <h6 class="">INFO</h6>
       </q-card-actions>
       <q-separator></q-separator>
-      <q-card-section class="q-pa-none row">
-        <!-- <isQItemLabelSimpleValue
+      <q-card-section class="q-pa-none bg-grey-1 row">
+        <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
           label="id"
           :value="record?.id"
-        ></isQItemLabelSimpleValue> -->
+        ></isQItemLabelSimpleValue>
 
         <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
           label="uuid"
           :value="record?.uuid"
         ></isQItemLabelSimpleValue>
         <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12 text-capitalize"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-capitalize"
           label="Durasi"
           :value="record?.durasi"
         ></isQItemLabelSimpleValue>
         <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12 text-capitalize"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-capitalize"
           label="Kategori"
           :value="record?.category"
         ></isQItemLabelSimpleValue>
         <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-6 col-lg-6 col-md-12 col-sm-6 col-12 text-capitalize"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-capitalize"
           label="Adventure Level"
           :value="record?.level"
         >
@@ -133,11 +133,11 @@
     </q-card>
 
     <q-card class="q-mt-lg" flat bordered>
-      <q-card-actions align="left" class="bg-grey-1 ">
+      <q-card-actions align="left">
         <h6 class="">DESTINASI</h6>
       </q-card-actions>
       <q-separator></q-separator>
-      <q-card-section class="q-pa-none row">
+      <q-card-section class="q-pa-none bg-grey-1 row">
         <q-item class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-capitalize">
           <q-item-section>
             <q-item-label caption>Kota</q-item-label>
@@ -159,22 +159,21 @@
             <q-item-label v-else>___</q-item-label>
           </q-item-section>
         </q-item>
-
         <!-- <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-capitalize"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-capitalize"
           label="Kota"
           :value="record?.city"
         ></isQItemLabelSimpleValue>
         <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-capitalize"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-capitalize"
           label="Provinsi"
           :value="record?.province"
         ></isQItemLabelSimpleValue>
         <isQItemLabelSimpleValue
           :dense="false"
-          col="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-capitalize"
+          col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-capitalize"
           label="Negara"
           :value="record?.country"
         ></isQItemLabelSimpleValue> -->
@@ -182,21 +181,26 @@
     </q-card>
 
     <q-tabs
-        v-model="tab"
-        inline-label
-        :breakpoint="0"
-        align="justify"
-        class="bg-primary text-grey-3 q-mt-lg"
-         indicator-color=""
-         active-color="white"
-      >
-        <q-tab name="DESCRIPTION" label="DESCRIPTION" />
-        <q-tab name="ITINERARY" label="ITINERARY" />
-        <q-tab name="FACILITY" label="FACILITY" />
-      </q-tabs>
+      v-model="tab"
+      inline-label
+      :breakpoint="0"
+      align="justify"
+      class="bg-primary text-grey-3 q-mt-lg"
+      indicator-color=""
+      active-color="white"
+    >
+      <q-tab name="DESCRIPTION" label="DESCRIPTION" />
+      <q-tab name="ITINERARY" label="ITINERARY" />
+      <q-tab name="FACILITY" label="FACILITY" />
+    </q-tabs>
 
-    <q-card v-show="tab == 'DESCRIPTION'" id="LodgeStoreDetailBody_DESCRIPTION" flat bordered>
-      <q-card-actions align="left"  class="bg-grey-1 ">
+    <q-card
+      v-show="tab == 'DESCRIPTION'"
+      id="LodgeStoreDetailBody_DESCRIPTION"
+      flat
+      bordered
+    >
+      <q-card-actions align="left">
         <h6 class="">DESCRIPTION</h6>
       </q-card-actions>
       <q-separator></q-separator>
@@ -206,7 +210,7 @@
     </q-card>
 
     <q-card v-show="tab == 'ITINERARY'" id="LodgeStoreDetailBody_ITINERARY" flat bordered>
-      <q-card-actions align="left"  class="bg-grey-1 ">
+      <q-card-actions align="left">
         <h6 class="">ITINERARY</h6>
       </q-card-actions>
       <q-separator></q-separator>
@@ -216,7 +220,7 @@
     </q-card>
 
     <q-card v-show="tab == 'FACILITY'" id="LodgeStoreDetailBody_FACILITY" flat bordered>
-      <q-card-actions align="left"  class="bg-grey-1 ">
+      <q-card-actions align="left">
         <h6 class="">FACILITY</h6>
       </q-card-actions>
       <q-separator></q-separator>
@@ -224,8 +228,6 @@
         <div v-html="record?.facility"></div>
       </q-card-section>
     </q-card>
-
-
   </div>
 </template>
 

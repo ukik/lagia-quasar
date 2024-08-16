@@ -55,48 +55,80 @@
         <q-spinner color="primary" size="3em" />
       </div>
 
-      <!-- <div class="col-12"> -->
-      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
-        <div v-if="record?.tourStore" class="col-12 q-mb-lg">
-          <!-- <q-list bordered>
-            <q-expansion-item group="somegroup" header-class="bg-grey-1" default-opened>
-              <template v-slot:header>
-                <q-item-section avatar>
-                  <q-avatar color="primary" text-color="white">
-                    <q-icon name="storefront"></q-icon>
-                  </q-avatar>
-                </q-item-section>
+      <div class="col-12">
+        <!-- <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12"> -->
+        <StepperOrder>
+          <template v-slot:step1>
+            <div v-if="record?.tourStore" class="col-12">
+              <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
+            </div>
+          </template>
+          <template v-slot:step2>
+            <StoreDetailProductContent
+              id="StoreDetailProductContent"
+              :record="record"
+            ></StoreDetailProductContent>
+          </template>
 
-                <q-item-section class="text-h6 text-dark">
-                  PROFILE VENDOR
-                </q-item-section>
-              </template>
-              <q-separator />
-
-              <q-card>
-                <q-card-section> -->
-          <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
-          <!-- </q-card-section>
-              </q-card>
-            </q-expansion-item>
-          </q-list> -->
-        </div>
-
-        <!-- <q-btn @click="$refs.isHtml2PDF.onGenerate()" label="print PDF"></q-btn>
-        <q-btn @click="exportToPDF" label="On PDF"></q-btn> -->
-
-        <StoreDetailProductContent
-          id="StoreDetailProductContent"
-          :record="record"
-        ></StoreDetailProductContent>
+          <template v-slot:step3>
+            <template v-for="(item, i) in record?.tourPrices">
+              <StoreDetailProductPriceSimulasi
+                class="q-mt-sm"
+                :item="item"
+                :ref="'side_price' + i"
+              >
+                <template v-slot:header="">
+                  <q-card-section>
+                    <q-item-section>
+                      <q-item-label class="text-h6 text-weight-normal"
+                        >SIMULASI BIAYA</q-item-label
+                      >
+                    </q-item-section>
+                  </q-card-section>
+                  <q-separator></q-separator>
+                </template>
+                <template v-slot:buttons>
+                  <div class="col-xl-auto col-lg-auto col-md-auto col-sm-auto col-xs-12">
+                    <q-btn
+                      class="full-width"
+                      unelevated
+                      size="16px"
+                      no-caps
+                      square
+                      color="positive"
+                      text-color="white"
+                      icon="search"
+                      label="Preview"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-btn
+                      class="full-width"
+                      unelevated
+                      size="16px"
+                      no-caps
+                      @click="onSubmit(i)"
+                      square
+                      color="primary"
+                      text-color="white"
+                      label="Buat Pesanan"
+                      icon="shopping_cart_checkout"
+                    />
+                  </div>
+                </template>
+              </StoreDetailProductPriceSimulasi>
+            </template>
+          </template>
+        </StepperOrder>
       </div>
 
-      <div
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+      <!-- <div
+        class="col"
         v-if="$q.screen.width > 768"
         :class="[$q.screen.width > 768 ? '' : 'row']"
       >
-        <!-- <div id="stickyPrice"></div> -->
+        <div id="stickyPrice"></div>
+
         <template v-for="(item, i) in record?.tourPrices">
           <StoreDetailProductPriceSimulasi
             :simulasi="false"
@@ -106,7 +138,7 @@
             :date_sticky="true"
           >
             <template v-slot:header="">
-              <q-card-section  class="bg-grey-1 ">
+              <q-card-section>
                 <q-item-section>
                   <q-item-label class="text-h6 text-weight-normal"
                     >SIMULASI BIAYA</q-item-label
@@ -116,8 +148,9 @@
               <q-separator></q-separator>
             </template>
             <template v-slot:buttons>
-              <div class="col-xl-auto col-lg-auto col-md-12 col-sm-12 col-xs-12">
-                <q-btn class="full-width"
+              <div class="col-xl-auto col-lg-auto col-md-auto col-sm-auto col-xs-12">
+                <q-btn
+                  class="full-width"
                   unelevated
                   size="md"
                   no-caps
@@ -128,7 +161,7 @@
                   label="Preview"
                 />
               </div>
-              <div class="col-xl col-lg col-md-12 col-sm-12 col-xs-12">
+              <div class="col">
                 <q-btn
                   class="full-width"
                   unelevated
@@ -147,10 +180,6 @@
         </template>
 
         <q-no-ssr v-if="false">
-          <!-- <StoreDetailProductPriceList
-      :items="record?.tourPrices"
-      :count="record?.tourPricesCount"
-    ></StoreDetailProductPriceList> -->
 
           <FormBookingPackageSide
             class="col-12"
@@ -160,7 +189,7 @@
           <RelatedImageSlide class="col-12"></RelatedImageSlide>
           <GoogleMapPackageSide class="col-12"></GoogleMapPackageSide>
         </q-no-ssr>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -212,13 +241,15 @@
 </template>
 
 <script setup>
-import StoreDetailProductContent from "./components/detail/StoreDetailProductContent.vue";
-import PriceReferenceStore from "./components/PriceReferenceStore";
-import StoreDetailProductPriceSimulasi from "./components/detail/StoreDetailProductPriceSimulasi";
+import StepperOrder from "./components/order/StepperOrder.vue";
+
+import StoreDetailProductContent from "./components/order/StoreDetailProductContent.vue";
+import PriceReferenceStore from "./components/order/PriceReferenceStore";
+import StoreDetailProductPriceSimulasi from "./components/order/StoreDetailProductPriceSimulasi";
 
 // SOLUSI SSR via SETUP
 
-import { useTourProductDetailStore } from "stores/lagia-stores/tour/TourProductDetailStore";
+import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
 import { mapWritableState, storeToRefs } from "pinia";
@@ -232,7 +263,7 @@ import { preFetch } from "quasar/wrappers";
 defineOptions({
   // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
   //   console.log('running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-  //   return useTourProductDetailStore(store).onFetch(currentRoute?.params?.slug);
+  //   return useTourOrderDetailStore(store).onFetch(currentRoute?.params?.slug);
   // }
   preFetch: preFetch(
     ({
@@ -245,7 +276,7 @@ defineOptions({
       publicPath,
     }) => {
       console.log("running preFetch XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-      return useTourProductDetailStore(store).onFetch(currentRoute?.params?.slug);
+      return useTourOrderDetailStore(store).onFetch(currentRoute?.params?.slug);
     }
   ),
 });
@@ -253,7 +284,7 @@ defineOptions({
 const $auth = useAuthStore();
 const { auth } = storeToRefs($auth);
 
-const $store = useTourProductDetailStore();
+const $store = useTourOrderDetailStore();
 const {
   dataType,
   record,
@@ -264,22 +295,9 @@ const {
 </script>
 
 <script>
-// import html2pdf from "html2pdf.js";
-
-// export default {
-//   methods: {
-//     exportToPDF() {
-//       html2pdf(document.getElementById("StoreDetailProductContent"), {
-//         margin: 1,
-//         filename: "i-was-html.pdf",
-//       });
-//     },
-//   },
-// };
 import { mapWritableState } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
-
+import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 
 export default {
   // props: ["scrollY"],
@@ -290,7 +308,7 @@ export default {
     };
   },
   computed: {
-    ...mapWritableState(useAddToCartStore, [
+    ...mapWritableState(useTourOrderDetailStore, [
       "date_start",
       "participant_young",
       "participant_adult",
@@ -298,32 +316,14 @@ export default {
       "hotel",
     ]),
   },
-  // watch: {
-  //   scrollY(val) {
-  //     if (val >= 480) {
-  //       this.product_price = true;
-  //     } else {
-  //       this.product_price = false;
-  //     }
-  //   },
-  //   // "$q.screen.width": function () {
-  //   //   const stickyPrice = document.querySelector("#stickyPrice");
-  //   //   console.log("stickyPrice", stickyPrice.getBoundingClientRect());
-  //   //   this.stickyPrice = stickyPrice;
-  //   // },
-  // },
   mounted() {
-    // const stickyPrice = document.querySelector("#stickyPrice");
-    // console.log("stickyPrice", stickyPrice.getBoundingClientRect());
-    // this.stickyPrice = stickyPrice;
-
     const cookies_name = "TOUR-"+this.$route.params?.slug+"-"+this.$route.params?.slug_text //window.location.href
 
     if (!this.$q.cookies.has(cookies_name)) return;
     this.$q.notify({
       message: "Load data formulir",
       color: "positive",
-      position: "bottom"
+      position: "bottom",
     });
 
     const cookies = this.$q.cookies.get(cookies_name);
@@ -345,7 +345,6 @@ export default {
 </script>
 
 <style scoped>
-
 .content-page-section {
   padding-bottom: 80px;
 }

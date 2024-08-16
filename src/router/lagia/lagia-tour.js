@@ -36,7 +36,7 @@ export default function (store, cookies, ssrContext) {
     },
 
     {
-      path: "/tour/product-detail/:slug/:slug_text?",
+      path: "/tour/product-detail/:slug/:slug_text",
       name: "/tour/product-detail",
       meta: {
         ssr: true,
@@ -45,6 +45,18 @@ export default function (store, cookies, ssrContext) {
         title: 'detail produk',
       },
       component: () => import("pages/lagia-pages/tour/product-detail.vue"),
+    },
+
+    {
+      path: "/tour/product-order/:slug/:slug_text",
+      name: "/tour/product-order",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'pesan',
+      },
+      component: () => import("pages/lagia-pages/tour/product-order.vue"),
     },
 
 
