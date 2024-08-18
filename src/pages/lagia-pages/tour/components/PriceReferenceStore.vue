@@ -101,15 +101,19 @@
             :value="item?.codepos"
           ></isQItemLabelSimpleValue> -->
           <isQItemLabelSimpleValue
-            label="city"
+            label="Kota"
             :value="item?.city"
           ></isQItemLabelSimpleValue>
           <isQItemLabelSimpleValue
-            label="country"
+            label="Provinsi"
+            :value="item?.province"
+          ></isQItemLabelSimpleValue>
+          <isQItemLabelSimpleValue
+            label="Negara"
             :value="item?.country"
           ></isQItemLabelSimpleValue>
 
-          <isQItemLabelSimpleValue
+          <isQItemLabelSimpleValue v-if="item?.policy"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -117,12 +121,12 @@
               })
             "
             :clickable="true"
-            label="policy"
+            label="Kebijakan"
             value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
-          <isQItemLabelSimpleValue
+          <isQItemLabelSimpleValue v-if="item?.description"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -130,12 +134,12 @@
               })
             "
             :clickable="true"
-            label="description"
+            label="Deskripsi"
             value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
-          <isQItemLabelSimpleValue
+          <isQItemLabelSimpleValue v-if="item?.location"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -143,7 +147,7 @@
               })
             "
             :clickable="true"
-            label="location"
+            label="Lokasi"
             value="Detail"
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>

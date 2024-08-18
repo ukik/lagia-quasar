@@ -32,7 +32,7 @@ module.exports = configure(function (ctx) {
       {
         path: 'lagia-router-client', server: false
       },
-      { path: 'lagia/travel/detail', server: true },
+      // { path: 'lagia/travel/detail', server: true },
       // "i18n", // bikin SSR ERROR
       'common',
       'server_side',
@@ -114,18 +114,41 @@ module.exports = configure(function (ctx) {
       preloadChunks: true,
       // showProgress: false,
       gzip: true,
-      // analyze: true,
+      analyze: true,
       scopeHoisting: true,
       vueCompiler: true, // diperlukan agar "vue3-runtime-template" bisa berjalan
 
 
       // chainWebpack(/* chain */) { }
-      // chainWebpack (chain) {
-      //   chain.optimization.minimizer('js').tap(args => {
-      //     args[0].terserOptions.compress.drop_console = true
-      //     return args
-      //   })
-      // }
+      chainWebpack (chain) {
+        // chain.optimization.minimizer('js').tap(args => {
+        //   args[0].terserOptions.compress.drop_console = true
+        //   return args
+        // })
+
+        if(ctx.prod) {
+          chain.optimization.splitChunks({
+            ...chain.optimization.get('splitChunks'),
+            minSize: 20000,
+            cacheGroups: {
+              vendor_initial: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: 20,
+                reuseExistingChunk: true,
+                name: 'vendor',
+                chunks: 'initial',
+              },
+              vendor_whitelist: {
+                test: /[\\/]node_modules[\\/](vue|quasar|axios|core-js)[\\/]/,
+                priority: 20,
+                reuseExistingChunk: true,
+                name: 'vendor',
+                chunks: 'all',
+              },
+            }
+          })
+        }
+      }
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer

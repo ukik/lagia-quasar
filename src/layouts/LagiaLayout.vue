@@ -531,9 +531,9 @@ export default {
         <CallAction v-if="$route.name !== '/lagia/index'"></CallAction>
         <CallActionOffer v-if="$route.name !== '/lagia/index'"></CallActionOffer> -->
 
-        <CallActionPromo v-if="hideNavBottomBanner"></CallActionPromo>
+        <!-- <CallActionPromo v-if="hideNavBottomBanner"></CallActionPromo>
         <CallAction v-if="hideNavBottomBannerCallToAction"></CallAction>
-        <CallActionOffer v-if="hideNavBottomBanner"></CallActionOffer>
+        <CallActionOffer v-if="hideNavBottomBanner"></CallActionOffer> -->
 
         <q-no-ssr
           :style="$q.screen.width > 425 ? 'padding-bottom:35px;' : 'padding-bottom:80px;'"

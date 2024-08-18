@@ -48,20 +48,18 @@
       <q-card-section>
         <!-- <div class="text-overline text-uppercase text-pink">{{ item?.tourStore?.category }}</div> -->
         <!-- <template v-for="(val, index) in item?.tourStore?.category"> -->
-        <q-chip
+        <!-- <q-chip
           color="blue"
           text-color="white"
           class="text-overline text-uppercase q-ml-none"
           >{{ item?.tourStore?.category }}</q-chip
-        >
+        > -->
         <!-- </template> -->
 
-        <div class="text-h6 q-mt-sm q-mb-xs">{{ item?.tourStore?.name }}</div>
-        <q-item-label caption class="q-mb-lg">{{
-          item?.tourStore?.createdAt
-        }}</q-item-label>
+        <div class="text-h6">{{ item?.tourStore?.name }}</div>
+        <q-item-label caption>{{ item?.tourStore?.createdAt }}</q-item-label>
 
-        <q-rating
+        <!-- <q-rating
           v-if="item?.tourStore?.ratingAvg?.avgRating"
           readonly
           v-model="item.tourStore.ratingAvg.avgRating"
@@ -77,48 +75,45 @@
           size="sm"
           :max="5"
           color="red"
-        ></q-rating>
-
-        <!-- <div class="row text-white">
-          <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
-            <q-item-label class="text-white">Start From</q-item-label>
-            <q-item-label class="text-h4">Rp. {{ item?.tourStore?.tourStore?.generalPrice }}</q-item-label>
-          </q-item-section>
-        </div> -->
+        ></q-rating> -->
       </q-card-section>
       <q-separator></q-separator>
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <isQItemLabelSimpleValueNoDense
-            label="uuid"
+          <!-- <isQItemLabelSimpleValueNoDense
+            label="UUID"
             :value="item?.tourStore?.uuid"
-          ></isQItemLabelSimpleValueNoDense>
+          ></isQItemLabelSimpleValueNoDense> -->
           <isQItemLabelSimpleValueNoDense
-            label="name"
+            label="Nama"
             :value="item?.tourStore?.name"
           ></isQItemLabelSimpleValueNoDense>
           <isQItemLabelSimpleValueNoDense
-            label="email"
+            label="Email"
             :value="item?.tourStore?.email"
           ></isQItemLabelSimpleValueNoDense>
           <isQItemLabelSimpleValueNoDense
-            label="phone"
+            label="Telepon"
             :value="item?.tourStore?.phone"
           ></isQItemLabelSimpleValueNoDense>
           <isQItemLabelSimpleValueNoDense
-            label="codepos"
+            label="Kodepos"
             :value="item?.tourStore?.codepos"
           ></isQItemLabelSimpleValueNoDense>
           <isQItemLabelSimpleValueNoDense
-            label="city"
+            label="Kota"
             :value="item?.tourStore?.city"
           ></isQItemLabelSimpleValueNoDense>
           <isQItemLabelSimpleValueNoDense
-            label="country"
+            label="Provinsi"
+            :value="item?.tourStore?.province"
+          ></isQItemLabelSimpleValueNoDense>
+          <isQItemLabelSimpleValueNoDense
+            label="Negara"
             :value="item?.tourStore?.country"
           ></isQItemLabelSimpleValueNoDense>
 
-          <isQItemLabelSimpleValueNoDense
+          <!-- <isQItemLabelSimpleValueNoDense
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -158,11 +153,37 @@
             label="description"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValueNoDense>
+          ></isQItemLabelSimpleValueNoDense> -->
 
           <isAvailable :item="item?.tourStore?.isAvailable"></isAvailable>
         </q-list>
       </q-card-section>
+
+      <q-separator></q-separator>
+
+      <q-card-section class="q-pa-none">
+        <q-item class="col-12">
+          <q-item-section>
+            <q-item-label caption>Alamat</q-item-label>
+            <q-item-label>{{ item?.tourStore?.address }}</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item class="col-12" v-if="item?.tourStore?.description">
+          <q-item-section>
+            <q-item-label caption>Deskripsi</q-item-label>
+            <q-item-label>{{ item?.tourStore?.description }}</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item class="col-12" v-if="item?.tourStore?.policy">
+          <q-item-section caption>
+            <q-item-label>Kebijakan</q-item-label>
+            <q-item-label>{{ item?.tourStore?.policy }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+
       <!-- <q-card-section class="q-pa-none">
         <q-expansion-item default-opened>
           <template v-slot:header>

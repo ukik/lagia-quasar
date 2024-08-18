@@ -3,10 +3,10 @@
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h6 class="text-blue">BEST PRICE OFFER</h6>
       <h2>LAGIA TOURISM</h2>
-      <p>
+      <!-- <p>
         Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
         Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
-      </p>
+      </p> -->
     </div>
   </div>
 

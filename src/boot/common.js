@@ -112,7 +112,7 @@ function finalPrice(item) {
 
   const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
   // console.log('getTotalAmount', total)
-  return total;
+  return total <= 0 ? 0 : total;
 }
 
 function finalPriceAnak(item) {
@@ -123,7 +123,7 @@ function finalPriceAnak(item) {
 
   const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
   // console.log('getTotalAmount', total)
-  return total;
+  return total <= 0 ? 0 : total;
 }
 
 function finalPriceBooking(item) {
@@ -134,7 +134,7 @@ function finalPriceBooking(item) {
 
   const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
   // console.log('getTotalAmount', total)
-  return total;
+  return total <= 0 ? 0 : total;
 }
 
 function finalPriceAnakBooking(item) {
@@ -145,7 +145,7 @@ function finalPriceAnakBooking(item) {
 
   const total = (Number(general) - ((Number(general) * Number(discount) / 100)) - Number(cashback))
   // console.log('getTotalAmount', total)
-  return total;
+  return total <= 0 ? 0 : total;
 }
 
 

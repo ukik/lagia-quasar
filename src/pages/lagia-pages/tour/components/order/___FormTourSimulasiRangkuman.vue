@@ -67,8 +67,6 @@
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
-        @clear="onMinParticipantRule"
-        @blur="$refs.dewasaRef.validate()"
         clearable
         dense
         mask="###"
@@ -81,8 +79,6 @@
         :placeholder="`(Minimal) Peserta ${item?.minParticipant}`"
         :hint="`(Minimal) Peserta ${item?.minParticipant}`"
         :error-message="`(Minimal) Peserta ${item?.minParticipant}`"
-        lazy-rules
-        :rules="[(val) => !!val || '', minParticipantRule]"
         bottom-slots
       >
         <template v-slot:prepend>
@@ -205,6 +201,7 @@ export default {
     };
   },
   mounted() {
+    // alert(111)
     // console.log(formattedString, newDate);
     // this.onMinParticipantRule();
 
@@ -303,7 +300,7 @@ export default {
           // as having an error, but there will not be any
           // error message displayed below the input
           // (only in browser console)
-        }, 250);
+        }, 0);
       });
     },
     async onSubmit({ price_id }) {

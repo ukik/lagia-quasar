@@ -69,7 +69,7 @@
         <q-card-section class="q-px-none">
           <!-- <div class="text-box full-width q-px-sm col-12 text-capitalize"> -->
 
-          <q-item dense>
+          <!-- <q-item dense>
             <q-item-section>
               <q-item-label lines="1">Rating</q-item-label>
             </q-item-section>
@@ -94,40 +94,64 @@
                 ></q-rating>
               </q-item-label>
             </q-item-section>
-          </q-item>
-
-          <!-- <isQItemLabelSimpleValue
-            label="codepos"
-            :value="item?.codepos"
-          ></isQItemLabelSimpleValue> -->
+          </q-item> -->
           <isQItemLabelSimpleValue
-            label="city"
+            label="Email"
+            :value="item?.email"
+          ></isQItemLabelSimpleValue>
+          <isQItemLabelSimpleValue
+            label="Telepon"
+            :value="item?.phone"
+          ></isQItemLabelSimpleValue>
+
+          <isQItemLabelSimpleValue
+            label="Kodepos"
+            :value="item?.codepos"
+          ></isQItemLabelSimpleValue>
+          <isQItemLabelSimpleValue
+            label="Kota"
             :value="item?.city"
           ></isQItemLabelSimpleValue>
           <isQItemLabelSimpleValue
-            label="country"
+            label="Provinsi"
+            :value="item?.province"
+          ></isQItemLabelSimpleValue>
+          <isQItemLabelSimpleValue
+            label="Negara"
             :value="item?.country"
           ></isQItemLabelSimpleValue>
 
           <q-item>
             <q-item-section>
+              <q-item-label class="text-grey-7">Alamat</q-item-label>
+              <q-item-label>{{ item?.address }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- <q-item>
+            <q-item-section>
               <q-item-label caption>policy</q-item-label>
               <q-item-label>{{ item?.policy }}</q-item-label>
             </q-item-section>
-          </q-item>
-          <q-item>
+          </q-item> -->
+          <!-- <q-item>
             <q-item-section>
-              <q-item-label caption>location</q-item-label>
+              <q-item-label >Lokasi</q-item-label>
               <q-item-label>{{ item?.location }}</q-item-label>
             </q-item-section>
-          </q-item>
-          <q-item>
+          </q-item> -->
+          <!-- <q-item>
             <q-item-section>
               <q-item-label caption>description</q-item-label>
               <q-item-label>{{ item?.description }}</q-item-label>
             </q-item-section>
-          </q-item>
-          <!-- <isQItemLabelSimpleValue
+          </q-item> -->
+
+          <!-- </div> -->
+        </q-card-section>
+        <q-separator></q-separator>
+        <q-card-section class="q-pa-none">
+          <isQItemLabelSimpleValue v-if="item?.policy"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -135,12 +159,12 @@
               })
             "
             :clickable="true"
-            label="policy"
+            label="Kebijakan"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue> -->
-<!--
-          <isQItemLabelSimpleValue
+          ></isQItemLabelSimpleValue>
+
+          <isQItemLabelSimpleValue v-if="item?.description"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -148,12 +172,12 @@
               })
             "
             :clickable="true"
-            label="description"
+            label="Deskripsi"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue> -->
+          ></isQItemLabelSimpleValue>
 
-          <!-- <isQItemLabelSimpleValue
+          <isQItemLabelSimpleValue
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
@@ -161,11 +185,10 @@
               })
             "
             :clickable="true"
-            label="location"
+            label="Lokasi"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue> -->
-          <!-- </div> -->
+          ></isQItemLabelSimpleValue>
         </q-card-section>
       </q-card>
     </q-card-section>

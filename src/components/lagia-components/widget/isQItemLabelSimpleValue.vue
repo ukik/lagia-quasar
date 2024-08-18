@@ -7,7 +7,7 @@
     :class="[col]"
   >
     <q-item-section avatar>
-      <q-item-label class="text-capitalize">{{ label }}</q-item-label>
+      <q-item-label :caption="caption" class="text-capitalize text-grey-7">{{ label }}</q-item-label>
     </q-item-section>
     <slot name="right">
       <q-item-section class="q-px-none text-right" :class="[textcolor]">
@@ -21,6 +21,9 @@
 export default {
   // props: ["label", "value", "clickable", "textcolor"],
   props: {
+    caption: {
+      default: false
+    },
     label: {
       default: "",
     },

@@ -27,7 +27,7 @@
       v-ripple
     >
       <q-item-section avatar>
-        <q-icon name="images" />
+        <q-icon name="image" />
       </q-item-section>
       <q-item-section>Gallery</q-item-section>
     </q-item>
@@ -62,7 +62,39 @@
       <q-item-section>Testimoni</q-item-section>
     </q-item>
 
-    <q-expansion-item
+    <q-item-label header>Etalase</q-item-label>
+
+    <q-item
+      :to="{
+        name: '/tour/price-list',
+      }"
+      :active="link === '/tour/price-list'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="explore" />
+      </q-item-section>
+      <q-item-section>Tour</q-item-section>
+    </q-item>
+
+    <q-item
+      :to="{
+        name: '/transport/price-list',
+      }"
+      :active="link === '/transport/price-list'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="car_rental" />
+      </q-item-section>
+      <q-item-section>Rental</q-item-section>
+    </q-item>
+
+    <!-- <q-expansion-item
       dense
       :content-inset-level="0.5"
       :expand-separator="false"
@@ -109,9 +141,25 @@
           <q-item-section>{{ item?.label }}</q-item-section>
         </q-item>
       </template>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
-    <q-expansion-item
+    <q-item
+      :to="{
+        name: '/lodge/price-list',
+      }"
+      :active="link === '/lodge/price-list'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="apartment" />
+      </q-item-section>
+      <q-item-section>Hotel</q-item-section>
+    </q-item>
+
+
+    <!-- <q-expansion-item
       dense
       :content-inset-level="0.5"
       :expand-separator="false"
@@ -158,9 +206,9 @@
           <q-item-section>{{ item?.label }}</q-item-section>
         </q-item>
       </template>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
-    <q-expansion-item
+    <!-- <q-expansion-item
       v-if="false"
       dense
       :content-inset-level="0.5"
@@ -257,9 +305,24 @@
           <q-item-section>{{ item?.label }}</q-item-section>
         </q-item>
       </template>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
-    <q-expansion-item
+    <q-item
+      :to="{
+        name: '/talent/price-list',
+      }"
+      :active="link === '/talent/price-list'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="face" />
+      </q-item-section>
+      <q-item-section>Talent</q-item-section>
+    </q-item>
+
+    <!-- <q-expansion-item
       v-if="false"
       dense
       :content-inset-level="0.5"
@@ -307,9 +370,9 @@
           <q-item-section>{{ item?.label }}</q-item-section>
         </q-item>
       </template>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
-    <q-expansion-item
+    <!-- <q-expansion-item
       dense
       :content-inset-level="0.5"
       :expand-separator="false"
@@ -356,9 +419,24 @@
           <q-item-section>{{ item?.label }}</q-item-section>
         </q-item>
       </template>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
-    <q-expansion-item
+    <q-item
+      :to="{
+        name: '/tourism/price-list',
+      }"
+      :active="link === '/tourism/price-list'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="map" />
+      </q-item-section>
+      <q-item-section>Destinasi</q-item-section>
+    </q-item>
+
+    <!-- <q-expansion-item
       dense
       :content-inset-level="0.5"
       :expand-separator="false"
@@ -405,8 +483,67 @@
           <q-item-section>{{ item?.label }}</q-item-section>
         </q-item>
       </template>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
+
+    <q-item-label header>Halaman</q-item-label>
+
+    <template v-for="(item, index) in pages">
+        <q-item
+          :to="{
+            name: item?.name,
+          }"
+          :active="link === item?.name"
+          active-class="text-primary"
+          clickable
+          v-ripple
+        >
+          <q-item-section avatar>
+            <q-icon :name="item?.icon" />
+          </q-item-section>
+          <q-item-section>{{ item?.label }}</q-item-section>
+        </q-item>
+      </template>
+
+      <q-item
+        :to="{
+          name: '/info/terms-condition',
+          params: {
+            slug: getInfoSyarat?.slug,
+            id: getInfoSyarat?.id,
+          },
+        }"
+        :active="link === '/info/terms-condition'"
+        active-class="text-primary"
+        clickable
+        v-ripple
+      >
+        <q-item-section avatar>
+          <q-icon name="info" />
+        </q-item-section>
+        <q-item-section>{{ getInfoSyarat?.title }}</q-item-section>
+      </q-item>
+
+      <q-item
+        v-if="getInfoPrivasi?.slug"
+        :to="{
+          name: '/info/privacy-policy',
+          params: {
+            slug: getInfoPrivasi?.slug,
+            id: getInfoPrivasi?.id,
+          },
+        }"
+        :active="link === '/info/privacy-policy'"
+        active-class="text-primary"
+        clickable
+        v-ripple
+      >
+        <q-item-section avatar>
+          <q-icon name="info" />
+        </q-item-section>
+        <q-item-section>{{ getInfoPrivasi?.title }}</q-item-section>
+      </q-item>
+<!--
     <q-expansion-item
       dense
       :content-inset-level="0.5"
@@ -493,7 +630,7 @@
         </q-item-section>
         <q-item-section>{{ getInfoPrivasi?.title }}</q-item-section>
       </q-item>
-    </q-expansion-item>
+    </q-expansion-item> -->
 
     <q-item
       v-if="getAuth?.isLogin"
@@ -682,11 +819,11 @@ export default {
           name: "/lagia/career",
           icon: "info",
         },
-        {
-          label: "Gallery",
-          name: "/lagia/gallery",
-          icon: "info",
-        },
+        // {
+        //   label: "Gallery",
+        //   name: "/lagia/gallery",
+        //   icon: "info",
+        // },
         // {
         //   label: "Destinasi",
         //   name: "/lagia/destination",

@@ -1,14 +1,14 @@
 <template>
   <div class="row items-start q-gutter-md">
-    <q-card class="my-card" flat bordered>
+    <q-card class="my-card" square flat bordered>
       <q-img
         v-if="item?.tourProduct?.image && item?.tourProduct?.image.length > 0"
         loading="lazy"
-        :ratio="16 / 9"
+        :ratio="1"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
         :src="item?.tourProduct?.image[0]"
       >
-        <div class="absolute-top-left bg-transparent">
+        <div class="absolute-top-right bg-transparent">
           <q-btn
             size="16px"
             rounded
@@ -19,7 +19,7 @@
             @click="showMultiple(item?.tourProduct?.image, 0)"
           />
         </div>
-        <q-badge
+        <!-- <q-badge
           :color="badgeCondition(item?.condition)"
           class="q-mr-lg rounded-borders-2"
           style="margin-top: -17px"
@@ -27,7 +27,7 @@
           ><span class="text-title text-uppercase q-mt-md">{{
             item?.condition
           }}</span></q-badge
-        >
+        > -->
         <template v-slot:error>
           <div class="absolute-full flex flex-center bg-negative text-white">
             Cannot load image
@@ -36,35 +36,34 @@
       </q-img>
       <q-img
         loading="lazy"
-        :ratio="16 / 9"
+        :ratio="1"
         class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
         v-else
         :src="$defaultErrorImage"
       />
 
       <q-card-section>
-        <DestinationRating
+        <!-- <DestinationRating
           :rating="item?.tourProduct?.ratingAvg?.avgRating"
-        ></DestinationRating>
+        ></DestinationRating> -->
+        <!-- <q-rating
+          v-if="item?.tourStore?.ratingAvg?.avgRating"
+          readonly
+          v-model="item.tourStore.ratingAvg.avgRating"
+          size="sm"
+          :max="5"
+          color="red"
+        ></q-rating>
 
-        <!-- <q-chip
-          color="pink"
-          text-color="white"
-          icon="label"
-          class="text-overline text-uppercase"
-          >{{ item?.typePrice }}</q-chip
-        > -->
+        <q-rating
+          v-else
+          readonly
+          v-model="ratingZero"
+          size="sm"
+          :max="5"
+          color="red"
+        ></q-rating> -->
 
-        <!-- <router-link
-          :to="{
-            name: '/tour/price-detail',
-            params: {
-              slug: item?.id,
-              slug_text: item?.name,
-            },
-          }"
-          ><div></div
-        ></router-link> -->
         <q-item
           dense
           clickable
@@ -77,68 +76,95 @@
             },
           }"
         >
-          <q-item-section class="text-h6 q-mb-xs">
-            <q-item-label>{{ item?.name }}</q-item-label>
+          <q-item-section class="text-title q-mb-xs">
+            <q-item-label style="height: 48px" lines="2">{{ item?.name }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item-label caption>{{ item?.createdAt }}</q-item-label>
+      </q-card-section>
 
-        <div class="row text-white">
-          <q-item-section class="bg-primary q-mt-lg col-auto rounded-borders-1 q-pa-md">
+      <q-separator></q-separator>
+
+      <!-- <q-card-section class="rowX q-col-gutter-md">
+        <q-item >
+          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
             <q-item-label class="text-white text-capitalize"
-              >Harga {{ item?.typePrice }}</q-item-label
+              >Harga Dewasa {{ item?.typePrice }}</q-item-label
             >
-            <q-item-label class="text-h4">{{
+            <q-item-label class="text-h5 text-white">{{
               $currency($finalPrice(item))
             }}</q-item-label>
           </q-item-section>
-        </div>
+        </q-item>
 
-        <!-- <q-rating
-          v-if="item?.ratingAvg?.avgRating"
-          readonly
-          v-model="item.ratingAvg.avgRating"
-          size="sm"
-          :max="5"
-          color="red"
-        ></q-rating>
+        <q-item >
+          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
+            <q-item-label class="text-white text-capitalize"
+              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
+            >
+            <q-item-label class="text-h5 text-white">{{
+              $currency($finalPriceAnak(item))
+            }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section> -->
 
-        <q-rating
-          v-else
-          readonly
-          v-model="ratingZero"
-          size="sm"
-          :max="5"
-          color="grey"
-        ></q-rating> -->
-      </q-card-section>
+      <q-item>
+        <q-item-section>
+          <q-item-label caption class="text-capitalize">Harga Dewasa</q-item-label>
+          <q-item-label class="text-h5">{{ $currency($finalPrice(item)) }}</q-item-label>
+        </q-item-section>
+      </q-item>
       <q-separator></q-separator>
+
+      <q-item>
+        <q-item-section>
+          <q-item-label caption class="text-capitalize"
+            >Harga Anak (2-6 tahun)</q-item-label
+          >
+          <q-item-label class="text-h5">{{
+            $currency($finalPriceAnak(item))
+          }}</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <!-- <q-item >
+          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
+            <q-item-label class="text-white text-capitalize"
+              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
+            >
+            <q-item-label class="text-h5 text-white">{{
+              $currency($finalPriceAnak(item))
+            }}</q-item-label>
+          </q-item-section>
+        </q-item> -->
+
+      <q-separator></q-separator>
+
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
-          <!-- <isQItemLabelValue label="id" :value="item?.id"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="uuid" :value="item?.uuid"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="rentalId" :value="item?.rentalId"></isQItemLabelValue>
-          <isQItemLabelValue label="vehicleId" :value="item?.vehicleId"></isQItemLabelValue> -->
-          <!-- <isQItemLabelValue label="name" :value="item?.name"></isQItemLabelValue> -->
           <isQItemLabelValue
-            label="generalPrice"
+            label="HPP Dewasa"
             :value="$currency(item?.generalPrice)"
           ></isQItemLabelValue>
           <isQItemLabelValue
-            label="discountPrice"
+            label="HPP Anak (2-6 tahun)"
+            :value="$currency(item?.generalPriceChild)"
+          ></isQItemLabelValue>
+          <isQItemLabelValue
+            label="Diskon"
             :value="$percent(item?.discountPrice)"
           ></isQItemLabelValue>
           <isQItemLabelValue
-            label="cashbackPrice"
+            label="Cashback"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
         </q-list>
       </q-card-section>
-
       <q-card-section class="q-pa-none">
         <q-expansion-item>
           <template v-slot:header>
-            <q-item-section> Description </q-item-section>
+            <q-item-section> Deskripsi </q-item-section>
           </template>
           <q-separator></q-separator>
 
@@ -149,6 +175,57 @@
           </q-card>
         </q-expansion-item>
       </q-card-section>
+
+
+      <q-separator></q-separator>
+      <q-card-section class="row col-12 flex items-start q-pa-none">
+        <q-list padding>
+          <q-item v-if="$q.screen.width > 425">
+            <q-item-section>
+              <q-item-label caption>Kategori</q-item-label>
+              <q-item-label lines="1">
+                {{ item?.tourProduct.category }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            v-else
+            clickable
+            v-ripple
+            :to="{
+              name: '/tour/product-detail',
+              params: {
+                slug: item?.tourProduct.id,
+                slug_text: item?.tourProduct.slug,
+              },
+            }"
+          >
+            <q-item-section>
+              <q-item-label>
+                {{ item?.tourProduct.name }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>Durasi</q-item-label>
+              <q-item-label>
+                {{ item?.tourProduct.durasi }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label caption>Destinasi</q-item-label>
+              <q-item-label>
+                {{ item?.tourProduct.province }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+
 
       <q-separator></q-separator>
 
@@ -174,14 +251,22 @@
 
       <q-card-section class="q-pa-none">
         <q-btn-group spread unelevated>
-          <q-btn
-            @click="
+          <!-- @click="
               $emit('onBubbleEvent', {
                 label: 'detail',
                 payload: item,
               })
-            "
-            label="detail"
+            " -->
+          <q-btn
+            v-if="item?.tourProduct"
+            :to="{
+              name: '/tour/product-detail',
+              params: {
+                slug: item?.productId,
+                slug_text: item?.tourProduct?.slug,
+              },
+            }"
+            label="detail produk"
             icon="visibility"
           />
           <q-separator vertical></q-separator>
@@ -192,9 +277,10 @@
                 payload: item,
               })
             "
-            label="store"
+            label="detail vendor"
             icon="storefront"
           />
+
           <!-- <q-separator vertical></q-separator>
           <q-btn
             @click="
@@ -222,12 +308,32 @@
         />
       </q-card-actions> -->
 
-      <isCartButton
+      <q-btn
+        unelevated
+        square
+        class="full-width"
+        style="border-radius: 0px"
+        @click="
+          $global.$emit('LagiaLayout', {
+            label: 'konsultasi',
+            slug: 'konsultasi',
+            vendor: 'tourStore',
+            value: item,
+            product: 'tourProduct',
+          })
+        "
+        color="positive"
+        text-color="white"
+        label="Tanya Admin"
+        icon="fa-brands fa-whatsapp"
+      />
+
+      <!-- <isCartButton
         :item="item"
         slug="tour"
         vendor="tourStore"
         product="tourProduct"
-      ></isCartButton>
+      ></isCartButton> -->
 
       <!-- <q-slide-transition>
         <div v-show="expanded">

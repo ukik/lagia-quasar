@@ -56,13 +56,20 @@
       </div>
 
       <div class="col-12">
+        "{{date_start}}",
+      "{{participant_young}}",
+      "{{participant_adult}}",
+      "{{description}}",
+      "{{hotel}}",
+
         <!-- <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12"> -->
-        <StepperOrder>
+        <StepperOrder @onBubbleEvent="step = $event">
           <template v-slot:step1>
             <div v-if="record?.tourStore" class="col-12">
               <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
             </div>
           </template>
+
           <template v-slot:step2>
             <StoreDetailProductContent
               id="StoreDetailProductContent"
@@ -118,6 +125,76 @@
                 </template>
               </StoreDetailProductPriceSimulasi>
             </template>
+          </template>
+
+          <template v-slot:step4>
+            <!-- <FormLogin />
+            <FormRegister /> -->
+            <FormBookingCustomerData />
+          </template>
+
+          <template v-slot:step5>
+            <FormInformasi />
+          </template>
+
+          <template v-slot:step6>
+            <!-- <div v-if="record?.tourStore" class="col-12">
+              <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
+            </div>
+            <StoreDetailProductContent
+              id="StoreDetailProductContent"
+              :record="record"
+            ></StoreDetailProductContent> -->
+            {{ step }}
+            <template v-for="(item, i) in record?.tourPrices">
+              <StoreDetailProductPriceSimulasi
+                class="q-mt-sm"
+                :item="item"
+                :ref="'side_price' + i"
+              >
+                <template v-slot:header="">
+                  <q-card-section>
+                    <q-item-section>
+                      <q-item-label class="text-h6 text-weight-normal"
+                        >SIMULASI BIAYA</q-item-label
+                      >
+                    </q-item-section>
+                  </q-card-section>
+                  <q-separator></q-separator>
+                </template>
+                <template v-slot:buttons>
+                  <div class="col-xl-auto col-lg-auto col-md-auto col-sm-auto col-xs-12">
+                    <q-btn
+                      class="full-width"
+                      unelevated
+                      size="16px"
+                      no-caps
+                      square
+                      color="positive"
+                      text-color="white"
+                      icon="search"
+                      label="Preview"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-btn
+                      class="full-width"
+                      unelevated
+                      size="16px"
+                      no-caps
+                      @click="onSubmit(i)"
+                      square
+                      color="primary"
+                      text-color="white"
+                      label="Buat Pesanan"
+                      icon="shopping_cart_checkout"
+                    />
+                  </div>
+                </template>
+              </StoreDetailProductPriceSimulasi>
+            </template>
+            <FormBookingCustomerData />
+            <FormInformasi />
           </template>
         </StepperOrder>
       </div>
@@ -243,9 +320,17 @@
 <script setup>
 import StepperOrder from "./components/order/StepperOrder.vue";
 
+import FormInformasi from "./components/order/FormInformasi.vue";
+
+import FormLogin from "./components/order/FormLogin.vue";
+import FormRegister from "./components/order/FormRegister.vue";
+
 import StoreDetailProductContent from "./components/order/StoreDetailProductContent.vue";
 import PriceReferenceStore from "./components/order/PriceReferenceStore";
 import StoreDetailProductPriceSimulasi from "./components/order/StoreDetailProductPriceSimulasi";
+// import StoreDetailProductPriceSimulasiRangkuman from "./components/order/StoreDetailProductPriceSimulasiRangkuman";
+import FormBookingCustomerData from "./components/order/FormBookingCustomerData";
+
 
 // SOLUSI SSR via SETUP
 
@@ -305,6 +390,8 @@ export default {
     return {
       product_price: true,
       stickyPrice: null,
+
+      step:1,
     };
   },
   computed: {
@@ -317,7 +404,8 @@ export default {
     ]),
   },
   mounted() {
-    const cookies_name = "TOUR-"+this.$route.params?.slug+"-"+this.$route.params?.slug_text //window.location.href
+    const cookies_name =
+      "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
 
     if (!this.$q.cookies.has(cookies_name)) return;
     this.$q.notify({

@@ -7,8 +7,8 @@ import {
 } from 'vue-router';
 import { Cookies } from 'quasar'
 import routes from './routes';
-import simple from './simple';
-import business from './business';
+// import simple from './simple';
+// import business from './business';
 import lagia from './lagia';
 
 

@@ -8,15 +8,9 @@ import { defineAsyncComponent } from 'vue'
 // import VueVirtualScroller from 'vue3-virtual-scroller'
 
 
-// import 'src/components/list-item';
-// import 'src/components/profile';
-// import 'src/components/toolbar';
-// import 'src/components/blank';
-// import 'src/components/skeleton';
-// import 'src/components/widgets';
 
-import VueVirtualScroller from 'vue-virtual-scroller'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+// import VueVirtualScroller from 'vue-virtual-scroller'
+// import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 export default boot(({ app, ssrContext, router, store }) => {
 
@@ -35,7 +29,7 @@ export default boot(({ app, ssrContext, router, store }) => {
 
   app.component("Touch", () => import('src/components/Touch.vue'))
 
-  app.use(VueVirtualScroller)
+  // app.use(VueVirtualScroller)
 
 
 	// app.mixin({

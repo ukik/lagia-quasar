@@ -118,6 +118,10 @@
                   }}</a
                 >
                 <ul class="shadow-3">
+                  <li>
+                    <router-link to="/tour/product-list">Tour</router-link>
+                  </li>
+
                   <!-- <li class="menu-item-has-children">
                     <router-link
                       to="/tour/store-list"
@@ -145,15 +149,15 @@
                   </li> -->
 
                   <li>
-                    <router-link to="/tour/product-list">Tour</router-link>
+                    <router-link to="/transport/vehicle-list">Rental</router-link>
                   </li>
 
                   <!-- <li>
                     <router-link to="/transport/rental-list">Rental</router-link>
                   </li> -->
-                  <li class="menu-item-has-children">
+                  <!-- <li class="menu-item-has-children">
                     <router-link
-                      to="/transport/rental-list"
+                      to="/transport/vehicle-list"
                       :class="[
                         $route.name == '/transport/vehicle-list'
                           ? 'router-link-exact-active'
@@ -179,14 +183,15 @@
                         <router-link to="/transport/price-list">Harga Rental</router-link>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
 
                   <!-- <li>
                     <router-link to="/souvenir/store-list">Souvenir</router-link>
                   </li> -->
-                  <li class="menu-item-has-children">
+
+                  <!-- <li class="menu-item-has-children">
                     <router-link
-                      to="/souvenir/store-list"
+                      to="/souvenir/product-list"
                       :class="[
                         $route.name == '/souvenir/product-list'
                           ? 'router-link-exact-active'
@@ -214,13 +219,14 @@
                         >
                       </li>
                     </ul>
-                  </li>
-                  <!-- <li>
-                    <router-link to="/lodge/profile-list">Hotel</router-link>
                   </li> -->
-                  <li class="menu-item-has-children">
+
+                  <li>
+                    <router-link to="/lodge/profile-list">Hotel</router-link>
+                  </li>
+                  <!-- <li class="menu-item-has-children">
                     <router-link
-                      to="/lodge/profile-list"
+                      to="/lodge/room-list"
                       :class="[
                         $route.name == '/lodge/room-list'
                           ? 'router-link-exact-active'
@@ -242,14 +248,14 @@
                         <router-link to="/lodge/price-list">Harga Hotel</router-link>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
 
                   <!-- <li>
                     <router-link to="/culinary/product-list">Kuliner</router-link>
-                  </li> -->
+                  </li>
                   <li class="menu-item-has-children">
                     <router-link
-                      to="/culinary/store-list"
+                      to="/culinary/product-list"
                       :class="[
                         $route.name == '/culinary/product-list'
                           ? 'router-link-exact-active'
@@ -275,14 +281,14 @@
                         <router-link to="/culinary/price-list">Harga Kuliner</router-link>
                       </li>
                     </ul>
-                  </li>
-
-                  <!-- <li>
-                    <router-link to="/talent/profile-list">Talent</router-link>
                   </li> -->
-                  <li class="menu-item-has-children">
+
+                  <li>
+                    <router-link to="/talent/profile-list">Talent</router-link>
+                  </li>
+                  <!-- <li class="menu-item-has-children">
                     <router-link
-                      to="/talent/profile-list"
+                      to="/talent/skill-list"
                       :class="[
                         $route.name == '/talent/skill-list'
                           ? 'router-link-exact-active'
@@ -306,14 +312,14 @@
                         <router-link to="/talent/price-list">Harga Talent</router-link>
                       </li>
                     </ul>
-                  </li>
-
-                  <!-- <li>
-                    <router-link to="/tourism/venue-list">Wisata</router-link>
                   </li> -->
-                  <li class="menu-item-has-children">
+
+                  <li>
+                    <router-link to="/tourism/venue-list">Wisata</router-link>
+                  </li>
+                  <!-- <li class="menu-item-has-children">
                     <router-link
-                      to="/tourism/venue-list"
+                      to="/tourism/facilities-list"
                       :class="[
                         $route.name == '/tourism/facilities-list'
                           ? 'router-link-exact-active'
@@ -337,7 +343,7 @@
                         <router-link to="/tourism/price-list">Harga Wisata</router-link>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
 

@@ -47,7 +47,7 @@
       <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
         <q-card-section class="q-py-none">
           <q-toolbar style="height: 50px" class="q-pa-none">
-            <div class="text-h6 text-capitalize">Detail Store</div>
+            <div class="text-h6 text-capitalize">Detail Vendor</div>
             <q-space></q-space>
             <q-btn dense flat icon="close" v-close-popup></q-btn>
           </q-toolbar>
