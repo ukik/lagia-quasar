@@ -136,7 +136,7 @@
               </td>
             </tr>
             <tr>
-              <td>Subtotal Biaya (diluar hotel)</td>
+              <td>Subtotal Biaya Tour (diluar hotel)</td>
               <td class="text-h6">
                 {{ $currency(getTotalNonHotel) }}
               </td>
@@ -158,11 +158,11 @@
               <td>{{ $currency(getAVGHotel) }}</td>
             </tr>
             <tr>
-              <td>Subtotal Hotel (Single Bed)</td>
+              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Single Bed)</td>
               <td>{{ $currency(getSingleBed) }}</td>
             </tr>
             <tr>
-              <td>Subtotal Hotel (Double Bed)</td>
+              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Double Bed)</td>
               <td>{{ $currency(getDoubleBed) }}</td>
             </tr>
 
@@ -183,25 +183,25 @@
               </td>
             </tr> -->
             <tr class="">
-              <td>Grandtotal + Hotel (Single Bed) (Rata-rata)</td>
+              <td>Grandtotal + Hotel (Peserta Single Bed) (Rata-rata)</td>
               <td class="">
                 {{ $currency(getSingleBed + getTotalNonHotel) }}
               </td>
             </tr>
             <tr class="">
-              <td>Grandtotal + Hotel (Double Bed) (Rata-rata)</td>
+              <td>Grandtotal + Hotel (Peserta Double Bed) (Rata-rata)</td>
               <td class="">
                 {{ $currency(getDoubleBed + getTotalNonHotel) }}
               </td>
             </tr>
             <tr class="text-bold">
-              <td>DP Final 30% dari Grandtotal Hotel (Double Bed)</td>
+              <td>Down Payment 30% dari Grandtotal (Peserta Double Bed)</td>
               <td>
                 <span>{{ $currency(getDPDoubleBed) }}</span>
               </td>
             </tr>
             <tr class="text-bold">
-              <td>DP Final 30% dari Grandtotal Hotel (Single Bed)</td>
+              <td>Down Payment 30% dari Grandtotal (Peserta Single Bed)</td>
               <td>
                 <span>{{ $currency(getDPSingleBed) }}</span>
               </td>
@@ -346,11 +346,11 @@ export default {
     },
     getDPSingleBed() {
       const cal = (this.getSingleBed + this.getTotalNonHotel)
-      return cal - (cal * 30) / 100;
+      return (cal * 30) / 100;
     },
     getDPDoubleBed() {
       const cal = (this.getDoubleBed + this.getTotalNonHotel)
-      return cal - (cal * 30) / 100;
+      return (cal * 30) / 100;
     },
     // getSelectedTourPrice: state => {
     //   if (state.selected.length > 0) return state.selected[0]?.tourPrice

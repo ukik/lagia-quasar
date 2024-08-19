@@ -30,7 +30,7 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
     participant_young: null,
     description: null,
     hotel: 'Pilih Hotel',
-
+    dibayar: null,
     // date_checkin: [],
 
     loading: false,

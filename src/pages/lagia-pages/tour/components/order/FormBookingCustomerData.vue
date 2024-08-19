@@ -28,7 +28,8 @@
               color="primary"
               ref="nameRef"
               v-model="name"
-              lazy-rules
+              :lazy-rules="false"
+              :debounce="300"
               placeholder="Nama Lengkap"
               :rules="[(val) => !!val || '']"
               bottom-slots
@@ -45,7 +46,8 @@
             </q-input>
           </div>
 
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <!-- :rules="[(val) => !!val || '']" -->
             <q-input
               clearable
               counter
@@ -56,16 +58,14 @@
               color="primary"
               ref="instanceRef"
               v-model="instance"
-              lazy-rules
               placeholder="Instansi"
-              :rules="[(val) => !!val || '']"
               bottom-slots
             >
               <template v-slot:prepend>
                 <q-icon name="home" color="primary" />
               </template>
               <template v-slot:error>
-                <div class="text-white">Wajib Instansi</div>
+                <div class="text-white">(Opsional) Instansi</div>
               </template>
               <template v-slot:hint>
                 <span class="text-white">Instansi *</span>
@@ -73,7 +73,7 @@
             </q-input>
           </div>
 
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <q-input
               type="email"
               clearable
@@ -85,7 +85,8 @@
               color="primary"
               ref="emailRef"
               v-model="email"
-              lazy-rules
+              :lazy-rules="false"
+              :debounce="300"
               placeholder="Email"
               :rules="[(val) => !!val || '', 'email']"
               bottom-slots
@@ -102,7 +103,7 @@
             </q-input>
           </div>
 
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <q-input
               clearable
               counter
@@ -114,7 +115,8 @@
               color="primary"
               ref="phoneRef"
               v-model="phone"
-              lazy-rules
+              :lazy-rules="false"
+              :debounce="300"
               placeholder="Telepon"
               :rules="[(val) => !!val || '']"
               bottom-slots
@@ -131,7 +133,7 @@
             </q-input>
           </div>
 
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <q-input
               clearable
               counter
@@ -142,7 +144,8 @@
               color="primary"
               ref="cityRef"
               v-model="city"
-              lazy-rules
+              :lazy-rules="false"
+              :debounce="300"
               placeholder="Kota Asal"
               :rules="[(val) => !!val || '']"
               bottom-slots
@@ -199,7 +202,8 @@
               color="primary"
               ref="addressRef"
               v-model="address"
-              lazy-rules
+              :lazy-rules="false"
+              :debounce="300"
               placeholder="Alamat"
               :rules="[(val) => !!val || '']"
               bottom-slots
@@ -315,9 +319,11 @@
 <script>
 import { useQuasar, scroll } from "quasar";
 import { ref } from "vue";
-import { mapActions, mapState, mapWritableState } from "pinia";
-import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
-import { useTourCartListStore } from "stores/lagia-stores/tour/TourCartListStore";
+import { mapActions, mapState, mapWritableState, storeToRefs } from "pinia";
+// import { useTourCartSelectedStore } from "stores/lagia-stores/tour/TourCartSelectedStore";
+// import { useTourCartListStore } from "stores/lagia-stores/tour/TourCartListStore";
+
+import { useTourOrderDetailStore } from "src/stores/lagia-stores/tour/TourOrderDetailStore";
 
 const { getScrollTarget, setVerticalScrollPosition } = scroll;
 
@@ -331,35 +337,44 @@ function scrollToElement(el) {
 
 export default {
   setup() {
-    const { onAddToBook } = useTourCartSelectedStore();
+    // const { onAddToBook } = useTourCartSelectedStore();
 
     const $q = useQuasar();
 
-    const name = ref("demo@gmail.com");
+    // const name = ref("demo@gmail.com");
     const nameRef = ref(null);
 
-    const email = ref("demo@gmail.com");
+    // const email = ref("demo@gmail.com");
     const emailRef = ref(null);
 
-    const phone = ref(423523523);
+    // const phone = ref(423523523);
     const phoneRef = ref(null);
 
-    const instance = ref("demo@gmail.com");
+    // const instance = ref("demo@gmail.com");
     const instanceRef = ref(null);
 
-    const city = ref("demo@gmail.com");
+    // const city = ref("demo@gmail.com");
     const cityRef = ref(null);
 
-    const address = ref("demo@gmail.com");
+    // const address = ref("demo@gmail.com");
     const addressRef = ref(null);
 
-    const accept = ref(false);
+    // const accept = ref(false);
 
     // const position = ref(null);
     // const position_options = ref(["Google", "Facebook", "Twitter", "Apple", "Oracle"]);
 
+    const {
+      name,
+      email,
+      phone,
+      instance,
+      city,
+      address,
+    } = storeToRefs(useTourOrderDetailStore())
+
     return {
-      onAddToBook,
+      // onAddToBook,
       // nameRules: [(val) => (val && val.length > 0) || ""],
 
       name,
@@ -384,18 +399,31 @@ export default {
       // position,
       // position_options,
 
-      accept,
-
+      // accept,
+      notify(message) {
+        $q.notify({
+            color: "negative",
+            message: message,
+            position: "top",
+          });
+      },
       async onSubmit() {
         nameRef.value.validate();
         emailRef.value.validate();
         phoneRef.value.validate();
-        instanceRef.value.validate();
+        // instanceRef.value.validate();
         cityRef.value.validate();
         addressRef.value.validate();
 
         // @click="onAddToBook"
+        if(nameRef.value.hasError) this.notify("Nama (wajib)")
+        if(emailRef.value.hasError) this.notify("Email (wajib)")
+        if(phoneRef.value.hasError) this.notify("Telepon (wajib)")
+        // if(instanceRef.value.hasError) this.notify("Instansi (wajib)")
+        if(cityRef.value.hasError) this.notify("Kota Asal (wajib)")
+        if(addressRef.value.hasError) this.notify("Alamat (wajib)")
 
+        return
         if (
           nameRef.value.hasError ||
           emailRef.value.hasError ||
@@ -424,16 +452,16 @@ export default {
           // });
         }
 
-        await onAddToBook({
-          payload: {
-            full_name: name.value,
-            email: email.value,
-            phone: phone.value,
-            instance: instance.value,
-            city: city.value,
-            address: address.value,
-          },
-        });
+        // await onAddToBook({
+        //   payload: {
+        //     full_name: name.value,
+        //     email: email.value,
+        //     phone: phone.value,
+        //     instance: instance.value,
+        //     city: city.value,
+        //     address: address.value,
+        //   },
+        // });
       },
 
       onReset() {
@@ -455,86 +483,103 @@ export default {
   },
   computed: {
     // ...mapWritableState(useTourCartListStore, ["records"]),
-    ...mapState(useTourCartSelectedStore, ["selected"]),
+    // ...mapState(useTourCartSelectedStore, ["selected"]),
+    ...mapWritableState(useTourOrderDetailStore, {
+      name:'name',
+      email:'email',
+      phone:'phone',
+      instance:'instance',
+      city:'city',
+      address:'address',
+    })
+  },
+  mounted() {
+    this.$refs?.nameRef.validate();
+    this.$refs?.emailRef.validate();
+    this.$refs?.phoneRef.validate();
+    // this.$refs?.instanceRef.validate();
+    this.$refs?.cityRef.validate();
+    this.$refs?.addressRef.validate();
+
   },
   methods: {
-    ...mapActions(useTourCartSelectedStore, [
-      "onRemove",
-      "onSelectedRemove",
-      "onAddToBook",
-    ]),
-    ...mapActions(useTourCartListStore, ["onRecordRemove"]),
+    // ...mapActions(useTourCartSelectedStore, [
+    //   "onRemove",
+    //   "onSelectedRemove",
+    //   "onAddToBook",
+    // ]),
+    // ...mapActions(useTourCartListStore, ["onRecordRemove"]),
 
-    async onDeletePopup() {
-      const vm = this;
+    // async onDeletePopup() {
+    //   const vm = this;
 
-      const id = this.selected[0]?.id;
+    //   const id = this.selected[0]?.id;
 
-      vm.$swal
-        .fire({
-          title: "Apa anda yakin?",
-          text: "Hapus data ini dari keranjang",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes, hapus saja!",
-          cancelButtonText: "Tidak, cancel!",
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          reverseButtons: true,
-        })
-        .then(async (result) => {
-          if (result.isConfirmed) {
-            vm.$q.loading.show();
+    //   vm.$swal
+    //     .fire({
+    //       title: "Apa anda yakin?",
+    //       text: "Hapus data ini dari keranjang",
+    //       icon: "warning",
+    //       showCancelButton: true,
+    //       confirmButtonText: "Yes, hapus saja!",
+    //       cancelButtonText: "Tidak, cancel!",
+    //       confirmButtonColor: "#3085d6",
+    //       cancelButtonColor: "#d33",
+    //       reverseButtons: true,
+    //     })
+    //     .then(async (result) => {
+    //       if (result.isConfirmed) {
+    //         vm.$q.loading.show();
 
-            const remove = await vm.onRemove([id]);
+    //         const remove = await vm.onRemove([id]);
 
-            vm.$q.loading.hide();
+    //         vm.$q.loading.hide();
 
-            if (remove) {
-              // vm.$swal.fire({
-              //   title: "Deleted!",
-              //   text: "Data berhasil dihapus  :)",
-              //   icon: "success",
-              //   showConfirmButton: true,
-              //   confirmButtonText: "Tutup",
-              //   timer: 1500,
-              // });
+    //         if (remove) {
+    //           // vm.$swal.fire({
+    //           //   title: "Deleted!",
+    //           //   text: "Data berhasil dihapus  :)",
+    //           //   icon: "success",
+    //           //   showConfirmButton: true,
+    //           //   confirmButtonText: "Tutup",
+    //           //   timer: 1500,
+    //           // });
 
-              vm.$q.notify({
-                icon: "done",
-                color: "positive",
-                message: "Deleted!",
-                caption: "Data berhasil dihapus",
-              });
+    //           vm.$q.notify({
+    //             icon: "done",
+    //             color: "positive",
+    //             message: "Deleted!",
+    //             caption: "Data berhasil dihapus",
+    //           });
 
-              await vm.onRecordRemove(id);
-              await vm.onSelectedRemove(id);
+    //           await vm.onRecordRemove(id);
+    //           await vm.onSelectedRemove(id);
 
-              const ANCHOR = document.querySelector("#ANCHOR");
-              scrollToElement(ANCHOR);
-            }
-          } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === vm.$swal.DismissReason.cancel
-          ) {
-            // vm.$swal.fire({
-            //   title: "Cancelled",
-            //   text: "Data batal dihapus :)",
-            //   icon: "error",
-            //   showConfirmButton: true,
-            //   confirmButtonText: "Tutup",
-            //   timer: 1500,
-            // });
+    //           const ANCHOR = document.querySelector("#ANCHOR");
+    //           scrollToElement(ANCHOR);
+    //         }
+    //       } else if (
+    //         /* Read more about handling dismissals below */
+    //         result.dismiss === vm.$swal.DismissReason.cancel
+    //       ) {
+    //         // vm.$swal.fire({
+    //         //   title: "Cancelled",
+    //         //   text: "Data batal dihapus :)",
+    //         //   icon: "error",
+    //         //   showConfirmButton: true,
+    //         //   confirmButtonText: "Tutup",
+    //         //   timer: 1500,
+    //         // });
 
-            vm.$q.notify({
-              icon: "close",
-              color: "negative",
-              message: "Cancelled!",
-              caption: "Data gagal dihapus",
-            });
-          }
-        });
-    },
+    //         vm.$q.notify({
+    //           icon: "close",
+    //           color: "negative",
+    //           message: "Cancelled!",
+    //           caption: "Data gagal dihapus",
+    //         });
+    //       }
+    //     });
+    // },
   },
 };
 </script>

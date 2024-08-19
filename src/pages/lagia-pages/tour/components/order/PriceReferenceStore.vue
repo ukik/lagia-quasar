@@ -121,7 +121,7 @@
             :value="item?.country"
           ></isQItemLabelSimpleValue>
 
-          <q-item>
+          <q-item v-if="item?.address">
             <q-item-section>
               <q-item-label class="text-grey-7">Alamat</q-item-label>
               <q-item-label>{{ item?.address }}</q-item-label>
@@ -148,14 +148,30 @@
           </q-item> -->
 
           <!-- </div> -->
-        </q-card-section>
+          <!-- </q-card-section>
         <q-separator></q-separator>
-        <q-card-section class="q-pa-none">
-          <isQItemLabelSimpleValue v-if="item?.policy"
+        <q-card-section class="q-pa-none"> -->
+
+          <!-- <isQItemLabelSimpleValue
+            v-if="item?.address"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
-                dialog_payload: { value: item?.policy, label: 'policy' },
+                dialog_payload: { value: item?.address, label: 'Alamat' },
+              })
+            "
+            :clickable="true"
+            label="Alamat"
+            value="Detail"
+            textcolor="text-primary"
+          ></isQItemLabelSimpleValue>
+
+          <isQItemLabelSimpleValue
+            v-if="item?.policy"
+            @onBubbleEvent="
+              $refs.isModal.onOpen({
+                dialog_value: true,
+                dialog_payload: { value: item?.policy, label: 'Kebijakan' },
               })
             "
             :clickable="true"
@@ -164,11 +180,12 @@
             textcolor="text-primary"
           ></isQItemLabelSimpleValue>
 
-          <isQItemLabelSimpleValue v-if="item?.description"
+          <isQItemLabelSimpleValue
+            v-if="item?.description"
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
-                dialog_payload: { value: item?.description, label: 'description' },
+                dialog_payload: { value: item?.description, label: 'Deskripsi' },
               })
             "
             :clickable="true"
@@ -181,14 +198,14 @@
             @onBubbleEvent="
               $refs.isModal.onOpen({
                 dialog_value: true,
-                dialog_payload: { value: item?.location, label: 'location' },
+                dialog_payload: { value: item?.location, label: 'Lokasi' },
               })
             "
             :clickable="true"
             label="Lokasi"
             value="Detail"
             textcolor="text-primary"
-          ></isQItemLabelSimpleValue>
+          ></isQItemLabelSimpleValue> -->
         </q-card-section>
       </q-card>
     </q-card-section>

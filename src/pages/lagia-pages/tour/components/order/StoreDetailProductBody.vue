@@ -6,7 +6,7 @@
     <h3 class="q-mb-xs">{{ record?.name }}</h3>
     <div class="text-caption q-mb-md">Dibuat: {{ record?.createdAt }}</div>
 
-    <q-rating
+    <!-- <q-rating
       v-if="record?.ratingAvg?.avgRating"
       readonly
       v-model="record.ratingAvg.avgRating"
@@ -22,7 +22,7 @@
       size="sm"
       :max="5"
       color="grey"
-    ></q-rating>
+    ></q-rating> -->
 
     <q-item v-if="false" class="rounded-borders-1 bg-grey-2 q-mt-lg" clickable v-ripple>
       <q-item-section avatar>

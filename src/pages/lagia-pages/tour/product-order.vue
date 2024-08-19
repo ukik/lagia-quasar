@@ -56,33 +56,29 @@
       </div>
 
       <div class="col-12">
-        "{{date_start}}",
-      "{{participant_young}}",
-      "{{participant_adult}}",
-      "{{description}}",
-      "{{hotel}}",
+        "{{ date_start }}", "{{ participant_young }}", "{{ participant_adult }}", "{{
+          description
+        }}", "{{ hotel }}",
 
         <!-- <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12"> -->
-        <StepperOrder @onBubbleEvent="step = $event">
+        <StepperOrder @onBubbleEvent="step = $event" @onBubbleEventRangkuman="onBubbleEventRangkuman">
           <template v-slot:step1>
             <div v-if="record?.tourStore" class="col-12">
               <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
             </div>
-          </template>
-
-          <template v-slot:step2>
             <StoreDetailProductContent
-              id="StoreDetailProductContent"
+              class="q-mt-lg"
               :record="record"
             ></StoreDetailProductContent>
           </template>
 
-          <template v-slot:step3>
+          <template v-slot:step2>
             <template v-for="(item, i) in record?.tourPrices">
               <StoreDetailProductPriceSimulasi
+                :prop_dibayar="false"
                 class="q-mt-sm"
                 :item="item"
-                :ref="'side_price' + i"
+                :ref="'side_price' + item.id"
               >
                 <template v-slot:header="">
                   <q-card-section>
@@ -94,63 +90,51 @@
                   </q-card-section>
                   <q-separator></q-separator>
                 </template>
-                <template v-slot:buttons>
-                  <div class="col-xl-auto col-lg-auto col-md-auto col-sm-auto col-xs-12">
-                    <q-btn
-                      class="full-width"
-                      unelevated
-                      size="16px"
-                      no-caps
-                      square
-                      color="positive"
-                      text-color="white"
-                      icon="search"
-                      label="Preview"
-                    />
-                  </div>
-                  <div class="col">
-                    <q-btn
-                      class="full-width"
-                      unelevated
-                      size="16px"
-                      no-caps
-                      @click="onSubmit(i)"
-                      square
-                      color="primary"
-                      text-color="white"
-                      label="Buat Pesanan"
-                      icon="shopping_cart_checkout"
-                    />
-                  </div>
-                </template>
               </StoreDetailProductPriceSimulasi>
             </template>
           </template>
 
-          <template v-slot:step4>
+          <template v-slot:step3>
             <!-- <FormLogin />
             <FormRegister /> -->
-            <FormBookingCustomerData />
+            <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
+              Saat login data pelanggan akan terisi otomatis dan tersimpan di database
+              <template v-slot:action>
+      <q-btn flat icon="login" label="Login" />
+    </template>
+            </q-banner>
+            <FormBookingCustomerData class="q-mt-lg" />
+          </template>
+
+          <template v-slot:step4>
+            <FormInformasi  />
           </template>
 
           <template v-slot:step5>
-            <FormInformasi />
-          </template>
-
-          <template v-slot:step6>
             <!-- <div v-if="record?.tourStore" class="col-12">
               <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
             </div>
             <StoreDetailProductContent
-              id="StoreDetailProductContent"
+              class="q-mt-lg"
               :record="record"
             ></StoreDetailProductContent> -->
-            {{ step }}
+            <q-banner inline-actions rounded class="bg-red-1 q-mb-lg">
+              Pastikan data wajib sudah diisi dengan benar
+            </q-banner>
+
+            <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
+              Saat login data pelanggan akan terisi otomatis dan tersimpan di database
+              <template v-slot:action>
+      <q-btn flat icon="login" label="Login" />
+    </template>
+            </q-banner>
+            <FormBookingCustomerData ref="FormBookingCustomerDataRef" class="q-mt-lg" />
+            <FormInformasi ref="FormInformasiRef" class="q-mt-lg" />
             <template v-for="(item, i) in record?.tourPrices">
-              <StoreDetailProductPriceSimulasi
-                class="q-mt-sm"
+              <StoreDetailProductPriceSimulasi :prop_dibayar="true"
+                class="q-mt-lg"
                 :item="item"
-                :ref="'side_price' + i"
+                :ref="'StoreDetailProductPriceSimulasiRef' + item.id"
               >
                 <template v-slot:header="">
                   <q-card-section>
@@ -162,39 +146,25 @@
                   </q-card-section>
                   <q-separator></q-separator>
                 </template>
-                <template v-slot:buttons>
-                  <div class="col-xl-auto col-lg-auto col-md-auto col-sm-auto col-xs-12">
-                    <q-btn
-                      class="full-width"
-                      unelevated
-                      size="16px"
-                      no-caps
-                      square
-                      color="positive"
-                      text-color="white"
-                      icon="search"
-                      label="Preview"
-                    />
-                  </div>
-                  <div class="col">
-                    <q-btn
-                      class="full-width"
-                      unelevated
-                      size="16px"
-                      no-caps
-                      @click="onSubmit(i)"
-                      square
-                      color="primary"
-                      text-color="white"
-                      label="Buat Pesanan"
-                      icon="shopping_cart_checkout"
-                    />
-                  </div>
-                </template>
+
               </StoreDetailProductPriceSimulasi>
             </template>
-            <FormBookingCustomerData />
-            <FormInformasi />
+          </template>
+          <template v-slot:step6>
+            <template v-for="(item, i) in record?.tourPrices">
+              <StoreInvoice
+                :item_product="{
+                  category: record?.category,
+                  durasi: record?.durasi,
+                  level: record?.level,
+                  province: record?.province,
+                  city: record?.city,
+                  country: record?.country,
+                }"
+                :item="item"
+                :item_store="record?.tourStore"
+              />
+            </template>
           </template>
         </StepperOrder>
       </div>
@@ -330,7 +300,7 @@ import PriceReferenceStore from "./components/order/PriceReferenceStore";
 import StoreDetailProductPriceSimulasi from "./components/order/StoreDetailProductPriceSimulasi";
 // import StoreDetailProductPriceSimulasiRangkuman from "./components/order/StoreDetailProductPriceSimulasiRangkuman";
 import FormBookingCustomerData from "./components/order/FormBookingCustomerData";
-
+import StoreInvoice from "./components/order/StoreInvoice";
 
 // SOLUSI SSR via SETUP
 
@@ -391,7 +361,7 @@ export default {
       product_price: true,
       stickyPrice: null,
 
-      step:1,
+      step: 1,
     };
   },
   computed: {
@@ -401,6 +371,8 @@ export default {
       "participant_adult",
       "description",
       "hotel",
+
+      'record',
     ]),
   },
   mounted() {
@@ -427,6 +399,17 @@ export default {
   methods: {
     onSubmit(i) {
       this.$refs["side_price" + i][i]?.onSubmit();
+    },
+    onBubbleEventRangkuman() {
+
+      for (let i = 0; i < this.record?.tourPrices.length; i++) {
+        const id = this.record?.tourPrices[i].id;
+        this.$refs["StoreDetailProductPriceSimulasiRef" + id][i]?.onSubmit();
+      }
+      this.$refs?.FormBookingCustomerDataRef.onSubmit();
+      this.$refs?.FormInformasiRef.onSubmit();
+
+
     },
   },
 };

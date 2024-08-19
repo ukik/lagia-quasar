@@ -9,7 +9,7 @@
         >Tanggal Berangkat</q-item-label
       >
       <q-item-label class="text-caption text-center q-mb-lg"
-        >Silahkan pilih tanggal keberangkatan (minimal +3 H)</q-item-label
+        >Pilih tanggal keberangkatan (minimal +3 H)</q-item-label
       >
 
       <q-input
@@ -19,11 +19,13 @@
         dense
         bg-color="white"
         color="primary"
-        ref="dateRef"
+        ref="datePickerRef"
         v-model="date_start"
         mask="date"
         placeholder="Tanggal Berangkat"
         :rules="['date']"
+        :lazy-rules="false"
+        :debounce="300"
       >
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
@@ -67,6 +69,38 @@
         </q-date>
       </q-field>
     </div>
+
+    <div class="col-12">
+      <q-item-label class="text-center text-h6 text-uppercase"
+        >Permintaan Khusus</q-item-label
+      >
+      <q-item-label class="text-caption text-center q-mb-lg"
+        >Tambah catatan jika dibutuhkan</q-item-label
+      >
+
+      <q-input
+      input-style="min-height: 300px;"
+        type="textarea"
+        autogrow
+        clearable
+        dense
+        bg-color="white"
+        outlined
+        color="primary"
+        ref="descRef"
+        v-model="description"
+        placeholder="Permintaan Khusus"
+        hint="Permintaan Khusus"
+        error-message="Permintaan Khusus"
+        :lazy-rules="false"
+        :debounce="300"
+      >
+        <template v-slot:prepend>
+          <q-icon name="description" />
+        </template>
+      </q-input>
+    </div>
+
 
   </form>
 </template>
@@ -166,15 +200,30 @@ export default {
     //   return Math.round(this.$finalPrice(this.item) * this.quantity);
     // },
   },
+  mounted() {
+    this.$refs?.dateRef?.validate();
+    this.$refs?.datePickerRef?.validate();
+  },
   methods: {
-
-    async onSubmit({ price_id }) {
+    notify(message) {
+      this.$q.notify({
+          color: "negative",
+          message: message,
+          position: "top",
+        });
+    },
+    async onSubmit() {
       const vm = this;
 
       // vm.$refs?.dewasaRef?.validate();
       // vm.$refs?.youngRef?.validate();
-      // vm.$refs?.dateRef?.validate();
-      vm.$refs?.hotelRef?.validate();
+      vm.$refs?.dateRef?.validate();
+      vm.$refs?.datePickerRef?.validate();
+
+      // vm.$refs?.hotelRef?.validate();
+
+      if (this.$refs?.dateRef?.hasError || this.$refs?.datePickerRef?.hasError) this.notify("Tanggal Barangkat (wajib)")
+      return
 
       if (vm.$refs?.dateRef?.hasError) {
         return vm.$q.notify({

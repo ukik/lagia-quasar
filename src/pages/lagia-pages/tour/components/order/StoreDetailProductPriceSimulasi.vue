@@ -1,5 +1,5 @@
 <template>
-
+  <div>
     <q-card flat bordered>
       <slot name="header"></slot>
 
@@ -69,7 +69,11 @@
       <q-separator></q-separator>
 
       <q-card-section>
-        <FormTourSimulasi :date_sticky="date_sticky" ref="form" :item="item"></FormTourSimulasi>
+        <FormTourSimulasi
+          :date_sticky="date_sticky"
+          ref="form"
+          :item="item"
+        ></FormTourSimulasi>
       </q-card-section>
 
       <q-separator v-if="simulasi"></q-separator>
@@ -136,7 +140,7 @@
               </td>
             </tr>
             <tr>
-              <td>Subtotal Biaya (diluar hotel)</td>
+              <td>Subtotal Biaya Tour (diluar hotel)</td>
               <td class="text-h6">
                 {{ $currency(getTotalNonHotel) }}
               </td>
@@ -158,11 +162,11 @@
               <td>{{ $currency(getAVGHotel) }}</td>
             </tr>
             <tr>
-              <td>Subtotal Hotel (Single Bed)</td>
+              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Single Bed)</td>
               <td>{{ $currency(getSingleBed) }}</td>
             </tr>
             <tr>
-              <td>Subtotal Hotel (Double Bed)</td>
+              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Double Bed)</td>
               <td>{{ $currency(getDoubleBed) }}</td>
             </tr>
 
@@ -182,43 +186,115 @@
                 }}
               </td>
             </tr> -->
-            <tr class="">
-              <td>Grandtotal + Hotel (Single Bed) (Rata-rata)</td>
+            <tr class="text-bold">
+              <td>Grandtotal Biaya Tour + Kamar Hotel (Peserta Single Bed)</td>
               <td class="">
                 {{ $currency(getSingleBed + getTotalNonHotel) }}
               </td>
             </tr>
-            <tr class="">
-              <td>Grandtotal + Hotel (Double Bed) (Rata-rata)</td>
+            <tr class="text-bold">
+              <td>Grandtotal Biaya Tour + Kamar Hotel (Peserta Double Bed)</td>
               <td class="">
                 {{ $currency(getDoubleBed + getTotalNonHotel) }}
               </td>
             </tr>
+
             <tr class="text-bold">
-              <td>DP Final 30% dari Grandtotal Hotel (Double Bed)</td>
+              <td>Down Payment 30% dari Grandtotal (Peserta Single Bed)</td>
               <td>
-                <span>{{ $currency(getDPDoubleBed) }}</span>
+                <span>{{ $currency(getDPSingleBed) }}</span>
               </td>
             </tr>
             <tr class="text-bold">
-              <td>DP Final 30% dari Grandtotal Hotel (Single Bed)</td>
+              <td>Down Payment 30% dari Grandtotal (Peserta Double Bed)</td>
               <td>
-                <span>{{ $currency(getDPSingleBed) }}</span>
+                <span>{{ $currency(getDPDoubleBed) }}</span>
               </td>
             </tr>
           </table>
         </q-list>
       </q-card-section>
 
-      <!-- <q-separator></q-separator> -->
+      <q-separator v-if="prop_dibayar"></q-separator>
 
-      <q-card-section v-if="false" class="row q-col-gutter-md">
-        <slot name="buttons">
-          <!-- <q-btn-group  spread unelevated> -->
+      <q-card-section v-if="prop_dibayar">
+        <q-item-section>
+          <q-item-label class="text-h6 text-weight-normal"
+            >PILIH NOMINAL DIBAYAR</q-item-label
+          >
+        </q-item-section>
+      </q-card-section>
+
+      <q-separator v-if="prop_dibayar"></q-separator>
+
+      <!-- <q-card-section v-if="prop_dibayar">
+        <q-list bordered separator>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="lunas_double_bed" color="cyan" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>
+                Full Payment 100% dari Grandtotal (Peserta Double Bed)
+              </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getDoubleBed + getTotalNonHotel) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="lunas_single_bed" color="teal" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>
+                Full Payment 100% dari Grandtotal (Peserta Single Bed)
+              </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getSingleBed + getTotalNonHotel) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="dp_double_bed" color="orange" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>
+                Down Payment 30% dari Grandtotal (Peserta Double Bed)
+              </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getDPDoubleBed) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="dp_single_bed" color="pink" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>
+                Down Payment 30% dari Grandtotal (Peserta Single Bed)
+              </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getDPSingleBed) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section> -->
+
+      <q-card-section>
+        <q-banner rounded class="bg-teal text-white q-mb-md">
+          <div class="q-mb-lg">
+            Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami
+            siap membantu Anda mendapatkan layanan terbaik
+          </div>
+          <template v-slot:action>
             <q-btn
-              size="lg"
-              no-caps
-              square
+              unelevated
+              outline
               @click="
                 $global.$emit('LagiaLayout', {
                   label: 'konsultasi',
@@ -230,25 +306,66 @@
               "
               color="positive"
               text-color="white"
-              label="Pesan via WA"
+              label="Tanya Admin"
               icon="fa-brands fa-whatsapp"
             />
-            <q-separator vertical></q-separator>
-            <q-btn
-              size="lg"
-              no-caps
-              @click="$refs.form.onSubmit({ price_id: item?.id })"
-              square
-              color="primary"
-              text-color="white"
-              label="Pesan via APP"
-              icon="shopping_cart_checkout"
-            />
-          <!-- </q-btn-group> -->
-        </slot>
-      </q-card-section>
-    </q-card>
+          </template>
+        </q-banner>
 
+        <q-list bordered separator>
+          <q-item-label header>Full Payment 100%</q-item-label>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="lunas_double_bed" color="cyan" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption> Grandtotal (Peserta Double Bed) </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getDoubleBed + getTotalNonHotel) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="lunas_single_bed" color="teal" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption> Grandtotal (Peserta Single Bed) </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getSingleBed + getTotalNonHotel) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator></q-separator>
+          <q-item-label header>Down Payment 30% </q-item-label>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="dp_double_bed" color="orange" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption> Grandtotal (Peserta Double Bed) </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getDPDoubleBed) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="dp_single_bed" color="pink" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption> Grandtotal (Peserta Single Bed) </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(getDPSingleBed) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+
+      <!-- <q-separator></q-separator> -->
+    </q-card>
+  </div>
 </template>
 
 <script>
@@ -270,11 +387,12 @@ export default {
       default: "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 row text-white",
     },
     simulasi: {
-      default: true
+      default: true,
     },
     date_sticky: {
-      default: false
-    }
+      default: false,
+    },
+    prop_dibayar: null,
   },
   emits: ["onBubbleEvent"], // <--- add this line
   components: {
@@ -285,26 +403,29 @@ export default {
     const { showMultiple } = lightbox;
 
     const store = useTourOrderDetailStore();
+    // const {
+    //   prompt,
+    //   quantity,
+    //   date_start,
+    //   participant_young,
+    //   participant_adult,
+    //   hotel,
+    // } = storeToRefs(store); // have all reactive states here
     const {
-      prompt,
-      quantity,
-      date_start,
-      participant_young,
-      participant_adult,
-      hotel,
-    } = storeToRefs(store); // have all reactive states here
-    const { onAdd, onRemove, onAddToCart } = store;
+      // onAdd, onRemove,
+      onAddToCart,
+    } = store;
 
     return {
       onAddToCart,
-      onAdd,
-      onRemove,
-      prompt,
-      quantity,
-      date_start,
-      participant_young,
-      participant_adult,
-      hotel,
+      // onAdd,
+      // onRemove,
+      // prompt,
+      // quantity,
+      // date_start,
+      // participant_young,
+      // participant_adult,
+      // hotel,
 
       optionsFn(date) {
         return date >= formattedString; //'2019/02/03' && date <= '2019/02/15'
@@ -317,9 +438,13 @@ export default {
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),
     ...mapWritableState(useTourOrderDetailStore, [
+      "quantity",
+      "date_start",
       "participant_young",
       "participant_adult",
       "hotel",
+      "dibayar",
+      "dibayar_nominal",
     ]),
     subTotalAnak() {
       return this.participant_young * this.$finalPriceAnak(this.item);
@@ -328,29 +453,31 @@ export default {
       return this.participant_adult * this.$finalPrice(this.item);
     },
     getAVGHotel() {
-      return (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice))/2
+      return (
+        (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice)) / 2
+      );
     },
     getAllPerserta() {
-      return Number(this.participant_adult)+Number(this.participant_young)
+      return Number(this.participant_adult) + Number(this.participant_young);
     },
     getDoubleBed() {
-      const bagi =  this.getAllPerserta / 2;
-      const sisa = this.getAllPerserta % 2
+      const bagi = this.getAllPerserta / 2;
+      const sisa = this.getAllPerserta % 2;
 
-      return (this.getAVGHotel * (bagi + sisa))
+      return this.getAVGHotel * (bagi + sisa);
     },
     getSingleBed() {
-      const all =  this.getAllPerserta
+      const all = this.getAllPerserta;
 
-      return (this.getAVGHotel * all)
+      return this.getAVGHotel * all;
     },
     getDPSingleBed() {
-      const cal = (this.getSingleBed + this.getTotalNonHotel)
-      return cal - (cal * 30) / 100;
+      const cal = this.getSingleBed + this.getTotalNonHotel;
+      return (cal * 30) / 100;
     },
     getDPDoubleBed() {
-      const cal = (this.getDoubleBed + this.getTotalNonHotel)
-      return cal - (cal * 30) / 100;
+      const cal = this.getDoubleBed + this.getTotalNonHotel;
+      return (cal * 30) / 100;
     },
     // getSelectedTourPrice: state => {
     //   if (state.selected.length > 0) return state.selected[0]?.tourPrice
@@ -395,8 +522,34 @@ export default {
       return this.getGrandAvg - (this.getGrandAvg * 30) / 100;
     },
   },
+  watch: {
+    dibayar(val) {
+      switch (val) {
+        case "lunas_double_bed":
+          this.dibayar_nominal = this.getDoubleBed + this.getTotalNonHotel;
+          break;
+        case "lunas_single_bed":
+          this.dibayar_nominal = this.getSingleBed + this.getTotalNonHotel;
+          break;
+        case "dp_double_bed":
+          this.dibayar_nominal = this.getDPDoubleBed;
+          break;
+        case "dp_single_bed":
+          this.dibayar_nominal = this.getDPSingleBed;
+          break;
+      }
+    },
+  },
   methods: {
+    notify(message) {
+      this.$q.notify({
+        color: "negative",
+        message: message,
+        position: "top",
+      });
+    },
     onSubmit() {
+      if (!this.dibayar) this.notify("Pilih Nominal Dibayar (wajib)");
       this.$refs.form.onSubmit({ price_id: this.item?.id });
     },
     badgeCondition(condition) {

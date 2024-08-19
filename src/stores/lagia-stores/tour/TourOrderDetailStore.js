@@ -20,6 +20,16 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
     participant_young: null,
     description: null,
     hotel: 'Pilih Hotel',
+    dibayar: null,
+    dibayar_nominal: null,
+
+    name: null,
+    email: null,
+    phone: null,
+    instance: null,
+    city: null,
+    address: null,
+
 
     loading: false,
     loading_store: false,
@@ -27,6 +37,25 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
 
   getters: {
     getRecord: state => state.record,
+    getFormCheck: state => {
+      if(!state.date_start) return false
+      if(!state.participant_adult) return false
+      // if(!state.participant_young) return false
+      // if(!state.description) return false
+      if(!state.hotel || state.hotel == 'Pilih Hotel') return false
+      if(!state.dibayar) return false
+      if(!state.dibayar_nominal) return false
+
+      if(!state.name) return false
+      if(!state.email) return false
+      if(!state.phone) return false
+      // if(!state.instance) return false
+      if(!state.city) return false
+      if(!state.address) return false
+      return true
+    },
+
+
   },
 
   actions: {

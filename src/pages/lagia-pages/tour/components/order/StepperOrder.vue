@@ -1,196 +1,290 @@
 <template>
-  <div>
-    <q-btn
+  <!-- <div> -->
+  <!-- <q-btn
       label="Reset"
       push
       color="white"
       text-color="primary"
       @click="reset"
       class="q-mb-md"
-    />
-
-    <q-stepper
-      id="StepperOrder"
-      flat
-      bordered
-      v-model="step"
-      header-nav
-      ref="stepper"
-      color="primary"
-      done-color="pink"
-      active-color="deep-orange"
-      inactive-color="secondary"
-      animated
+    /> -->
+  <q-banner inline-actions rounded class="bg-blue-7 text-white q-mb-lg">
+    Login agar data Anda tersimpan di database, mendapatkan info terkini & penawaran menarik
+    dari kami
+    <template v-slot:action>
+      <q-btn flat icon="login" label="Login" />
+    </template>
+  </q-banner>
+  <q-stepper
+    id="StepperOrder"
+    flat
+    bordered
+    v-model="step"
+    header-nav
+    ref="stepper"
+    color="primary"
+    done-color="blue"
+    active-color="positive"
+    inactive-color="pink"
+    animated
+    :vertical="$q.screen.width <= 768"
+  >
+    <q-step
+      :name="1"
+      title="PRODUK"
+      icon="settings"
+      prefix="1"
+      :done="step > 1"
+      :header-nav="step > 1"
     >
-      <q-step
-        :name="1"
-        title="Vendor"
-        icon="settings"
-        prefix="1"
-        :done="step > 1"
-        :header-nav="step > 1"
-      >
-        <NavButton
-          class="q-pt-none q-pb-lg"
-          @onBubbleEvent="
-            done1 = true;
-            step = 2;
-          "
-        />
+      <NavButton
+        class="q-pt-none q-pb-lg"
+        @onBubbleEvent="
+          done1 = true;
+          step = 2;
+        "
+      />
+
 
         <slot name="step1"></slot>
 
-        <NavButton
-          class="q-pb-none"
-          @onBubbleEvent="
-            done1 = true;
-            step = 2;
-          "
+
+      <NavButton
+        class="q-pb-none"
+        @onBubbleEvent="
+          done1 = true;
+          step = 2;
+        "
+      />
+    </q-step>
+
+    <q-step
+      :name="2"
+      title="BIAYA"
+      caption=""
+      prefix="2"
+      icon="create_new_folder"
+      :done="step > 2"
+      :header-nav="step > 2"
+    >
+      <NavBackButton
+        class="q-pt-none q-pb-lg"
+        @onBubbleEvent="
+          done2 = true;
+          step = 3;
+        "
+        @onBubbleEventBack="step = 1"
+      >
+      </NavBackButton>
+
+      <slot name="step2"></slot>
+
+      <NavBackButton
+        class="q-pb-none"
+        @onBubbleEvent="
+          done2 = true;
+          step = 3;
+        "
+        @onBubbleEventBack="step = 1"
+      >
+      </NavBackButton>
+    </q-step>
+
+    <q-step
+      :name="3"
+      title="PELANGGAN"
+      icon="add_comment"
+      prefix="3"
+      :done="step > 3"
+      :header-nav="step > 3"
+    >
+      <NavBackButton
+        class="q-pt-none q-pb-lg"
+        @onBubbleEvent="
+          done3 = true;
+          step = 4;
+        "
+        @onBubbleEventBack="step = 2"
+      >
+      </NavBackButton>
+
+      <slot name="step3"></slot>
+
+      <NavBackButton
+        class="q-pb-none"
+        @onBubbleEvent="
+          done3 = true;
+          step = 4;
+        "
+        @onBubbleEventBack="step = 2"
+      >
+      </NavBackButton>
+    </q-step>
+
+    <q-step
+      :name="4"
+      title="TANGGAL"
+      icon="add_comment"
+      prefix="4"
+      :done="step > 4"
+      :header-nav="step > 4"
+    >
+      <NavBackButton
+        class="q-pt-none q-pb-lg"
+        @onBubbleEvent="
+          done4 = true;
+          step = 5;
+        "
+        @onBubbleEventBack="step = 3"
+      >
+      </NavBackButton>
+
+      <slot name="step4"></slot>
+
+      <NavBackButton
+        class="q-pb-none"
+        @onBubbleEvent="
+          done4 = true;
+          step = 5;
+        "
+        @onBubbleEventBack="step = 3"
+      >
+      </NavBackButton>
+    </q-step>
+
+    <q-step
+      :name="5"
+      title="RINGKASAN"
+      icon="add_comment"
+      prefix="5"
+      :done="step > 5"
+      :header-nav="step > 5"
+    >
+      <!-- <NavBackButton
+        class="q-pt-none q-pb-lg"
+        @onBubbleEvent="
+          done5 = true;
+          step = 6;
+        "
+        @onBubbleEventBack="step = 4"
+      >
+      </NavBackButton> -->
+
+      <div class="q-mb-lg">
+        <q-btn
+          class="q-mr-sm"
+          outline
+          @click="step = 4"
+          icon-right="arrow_back"
+          unelevated
         />
-      </q-step>
-
-      <q-step
-        :name="2"
-        title="Produk"
-        caption=""
-        prefix="2"
-        icon="create_new_folder"
-        :done="step > 2"
-        :header-nav="step > 2"
-      >
-        <NavBackButton
-          class="q-pt-none q-pb-lg"
-          @onBubbleEvent="
-            done2 = true;
-            step = 3;
+        <q-btn
+          @click="
+            () => {
+              if (getFormCheck) {
+                done5 = true;
+                step = 6;
+              } else {
+                onBubbleEventRangkuman()
+              }
+            }
           "
-          @onBubbleEventBack="step = 1"
-        >
-        </NavBackButton>
+          :color="getFormCheck ? 'primary' : 'red'"
+          label="Lanjut"
+          icon-right="arrow_forward"
+          unelevated
+        />
+      </div>
 
-        <slot name="step2"></slot>
+      <!-- <q-banner v-if="!getFormCheck" inline-actions rounded class="bg-orange-1 q-mb-lg">
+        Pastikan data wajib sudah diisi lengkap
+      </q-banner> -->
+      <slot name="step5"></slot>
 
-        <NavBackButton
-          class="q-pb-none"
-          @onBubbleEvent="
-            done2 = true;
-            step = 3;
+      <div class="q-mt-lg">
+        <q-btn
+          class="q-mr-sm"
+          outline
+          @click="step = 4"
+          icon-right="arrow_back"
+          unelevated
+        />
+        <q-btn
+          @click="
+            () => {
+              if (getFormCheck) {
+                done5 = true;
+                step = 6;
+              } else {
+                onBubbleEventRangkuman()
+              }
+            }
           "
-          @onBubbleEventBack="step = 1"
-        >
-        </NavBackButton>
-      </q-step>
+          :color="getFormCheck ? 'primary' : 'red'"
+          label="Lanjut"
+          icon-right="arrow_forward"
+          unelevated
+        />
+      </div>
 
-      <q-step
-        :name="3"
-        title="Biaya"
-        icon="add_comment"
-        prefix="3"
-        :done="step > 3"
-        :header-nav="step > 3"
-      >
-        <NavBackButton
-          class="q-pt-none q-pb-lg"
-          @onBubbleEvent="
-            done3 = true;
-            step = 4;
+    </q-step>
+
+    <q-step
+      :name="6"
+      title="INVOICE"
+      icon="add_comment"
+      prefix="6"
+      :done="step > 6"
+      :header-nav="step > 6"
+    >
+      <div class="q-mb-lg">
+        <q-btn
+          class="q-mr-sm"
+          outline
+          @click="step = 5"
+          icon-right="arrow_back"
+          unelevated
+        />
+        <q-btn
+          @click="
+            () => {
+              if (getFormCheck) {
+                done6 = true;
+                step = 7;
+              } else {
+                onBubbleEventRangkuman()
+              }
+            }
           "
-          @onBubbleEventBack="step = 2"
-        >
-        </NavBackButton>
+          :color="getFormCheck ? 'primary' : 'red'"
+          :label="getFormCheck ? 'Konfirmasi' : 'Lengkapi Data'"
+          :icon-right="getFormCheck ? 'arrow_forward' : 'info'"
+          unelevated
+        />
+      </div>
 
-        <slot name="step3"></slot>
+      <slot name="step6"></slot>
 
-        <NavBackButton
-          class="q-pb-none"
-          @onBubbleEvent="
-            done3 = true;
-            step = 4;
-          "
-          @onBubbleEventBack="step = 2"
-        >
-        </NavBackButton>
-      </q-step>
-
-      <q-step
-        :name="4"
-        title="Pelanggan"
-        icon="add_comment"
-        prefix="4"
-        :done="step > 4"
-        :header-nav="step > 4"
-      >
       <NavBackButton
-          class="q-pt-none q-pb-lg"
-          @onBubbleEvent="
-            done4 = true;
-            step = 5;
-          "
-          @onBubbleEventBack="step = 3"
-        >
-        </NavBackButton>
-
-        <slot name="step4"></slot>
-
-        <NavBackButton
-          class="q-pb-none"
-          @onBubbleEvent="
-            done4 = true;
-            step = 5;
-          "
-          @onBubbleEventBack="step = 3"
-        >
-        </NavBackButton>
-
-
-      </q-step>
-
-
-
-      <q-step
-        :name="5"
-        title="Tanggal"
-        icon="add_comment"
-        prefix="5"
-        :done="step > 5"
-        :header-nav="step > 5"
+        class="q-pb-none"
+        @onBubbleEvent="
+          done6 = true;
+          step = 7;
+        "
+        @onBubbleEventBack="step = 5"
       >
-      <NavBackButton
-          class="q-pt-none q-pb-lg"
-          @onBubbleEvent="
-            done5 = true;
-            step = 6;
-          "
-          @onBubbleEventBack="step = 4"
-        >
-        </NavBackButton>
+      </NavBackButton>
+    </q-step>
 
-        <slot name="step5"></slot>
-
-        <NavBackButton
-          class="q-pb-none"
-          @onBubbleEvent="
-            done5 = true;
-            step = 6;
-          "
-          @onBubbleEventBack="step = 4"
-        >
-        </NavBackButton>
-
-
-      </q-step>
-
-
-
-      <q-step
-        :name="6"
-        title="Rangkuman"
-        icon="add_comment"
-        prefix="6"
-        :done="step > 6"
-        :header-nav="step > 6"
-      >
-      <NavBackButton
+    <q-step
+      :name="7"
+      title=""
+      icon="add_comment"
+      prefix="7"
+      :done="step > 7"
+      :header-nav="step > 7"
+    >
+      <!-- <NavBackButton
           class="q-pt-none q-pb-lg"
           @onBubbleEvent="
             done6 = true;
@@ -198,11 +292,11 @@
           "
           @onBubbleEventBack="step = 5"
         >
-        </NavBackButton>
+        </NavBackButton> -->
 
-        <slot name="step6"></slot>
+      <slot name="step7"></slot>
 
-        <NavBackButton
+      <!-- <NavBackButton
           class="q-pb-none"
           @onBubbleEvent="
           done6 = true;
@@ -210,13 +304,10 @@
           "
           @onBubbleEventBack="step = 5"
         >
-        </NavBackButton>
+        </NavBackButton> -->
+    </q-step>
 
-
-      </q-step>
-
-
-      <!-- <q-step
+    <!-- <q-step
         :name="5"
         title="Biaya"
         icon="add_comment"
@@ -231,8 +322,8 @@
           <q-btn flat @click="step = 2" color="primary" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step> -->
-    </q-stepper>
-  </div>
+  </q-stepper>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -240,6 +331,9 @@ import { ref } from "vue";
 
 import NavButton from "./NavButton.vue";
 import NavBackButton from "./NavBackButton.vue";
+
+import { useTourOrderDetailStore } from "src/stores/lagia-stores/tour/TourOrderDetailStore";
+import { mapState } from "pinia";
 
 export default {
   setup() {
@@ -275,10 +369,18 @@ export default {
     NavButton,
     NavBackButton,
   },
-  emits:['onBubbleEvent'],
+  computed: {
+    ...mapState(useTourOrderDetailStore, ["getFormCheck"]),
+  },
+  emits: ["onBubbleEvent","onBubbleEventRangkuman"],
   watch: {
     step(val) {
-      this.$emit('onBubbleEvent', val)
+      this.$emit("onBubbleEvent", val);
+    },
+  },
+  methods: {
+    onBubbleEventRangkuman() {
+      this.$emit('onBubbleEventRangkuman')
     }
   }
 };
@@ -287,7 +389,7 @@ export default {
 <style>
 @media only screen and (max-width: 425px) {
   #StepperOrder .q-stepper__step-inner {
-    padding: 14px;
+    /* padding: 14px; */
   }
 }
 </style>

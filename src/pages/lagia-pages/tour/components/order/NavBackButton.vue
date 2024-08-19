@@ -18,6 +18,6 @@
 
 <script>
 export default {
-  emit: ["onBubbleEvent"],
+  emit: ["onBubbleEvent","onBubbleEventBack"],
 };
 </script>

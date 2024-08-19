@@ -142,7 +142,7 @@
               </td>
             </tr>
             <tr>
-              <td>Subtotal Biaya (diluar hotel)</td>
+              <td>Subtotal Biaya Tour (diluar hotel)</td>
               <td class="text-h6">
                 {{ $currency(getTotalNonHotel) }}
               </td>
@@ -164,11 +164,11 @@
               <td>{{ $currency(getAVGHotel) }}</td>
             </tr>
             <tr>
-              <td>Subtotal Hotel (Single Bed)</td>
+              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Single Bed)</td>
               <td>{{ $currency(getSingleBed) }}</td>
             </tr>
             <tr>
-              <td>Subtotal Hotel (Double Bed)</td>
+              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Double Bed)</td>
               <td>{{ $currency(getDoubleBed) }}</td>
             </tr>
 
@@ -188,28 +188,29 @@
                 }}
               </td>
             </tr> -->
-            <tr class="">
-              <td>Grandtotal + Hotel (Single Bed) (Rata-rata)</td>
-              <td class="">
-                {{ $currency(getSingleBed + getTotalNonHotel) }}
-              </td>
-            </tr>
-            <tr class="">
-              <td>Grandtotal + Hotel (Double Bed) (Rata-rata)</td>
-              <td class="">
-                {{ $currency(getDoubleBed + getTotalNonHotel) }}
-              </td>
-            </tr>
             <tr class="text-bold">
-              <td>DP Final 30% dari Grandtotal Hotel (Double Bed)</td>
-              <td>
-                <span>{{ $currency(getDPDoubleBed) }}</span>
-              </td>
-            </tr>
-            <tr class="text-bold">
-              <td>DP Final 30% dari Grandtotal Hotel (Single Bed)</td>
+            <td>Grandtotal Biaya Tour + Kamar Hotel (Peserta Single Bed)</td>
+            <td class="">
+              {{ $currency(getSingleBed + getTotalNonHotel) }}
+            </td>
+          </tr>
+          <tr class="text-bold">
+            <td>Grandtotal Biaya Tour + Kamar Hotel (Peserta Double Bed)</td>
+            <td class="">
+              {{ $currency(getDoubleBed + getTotalNonHotel) }}
+            </td>
+          </tr>
+
+          <tr class="text-bold">
+              <td>Down Payment 30% dari Grandtotal (Peserta Single Bed)</td>
               <td>
                 <span>{{ $currency(getDPSingleBed) }}</span>
+              </td>
+            </tr>
+            <tr class="text-bold">
+              <td>Down Payment 30% dari Grandtotal (Peserta Double Bed)</td>
+              <td>
+                <span>{{ $currency(getDPDoubleBed) }}</span>
               </td>
             </tr>
           </table>
@@ -263,7 +264,7 @@
 import { ref } from "vue";
 import { mapState, mapWritableState, storeToRefs } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/widget/AddToCartStore";
+import { useAddToCartStore } from "src/stores/lagia-stores/tour/AddToCartStore";
 
 import FormTourSimulasi from "./FormTourSimulasi";
 
@@ -293,26 +294,29 @@ export default {
     const { showMultiple } = lightbox;
 
     const store = useAddToCartStore();
+    // const {
+    //   prompt,
+    //   quantity,
+    //   date_start,
+    //   participant_young,
+    //   participant_adult,
+    //   hotel,
+    // } = storeToRefs(store); // have all reactive states here
     const {
-      prompt,
-      quantity,
-      date_start,
-      participant_young,
-      participant_adult,
-      hotel,
-    } = storeToRefs(store); // have all reactive states here
-    const { onAdd, onRemove, onAddToCart } = store;
+      // onAdd, onRemove,
+      onAddToCart
+    } = store;
 
     return {
       onAddToCart,
-      onAdd,
-      onRemove,
-      prompt,
-      quantity,
-      date_start,
-      participant_young,
-      participant_adult,
-      hotel,
+      // onAdd,
+      // onRemove,
+      // prompt,
+      // quantity,
+      // date_start,
+      // participant_young,
+      // participant_adult,
+      // hotel,
 
       optionsFn(date) {
         return date >= formattedString; //'2019/02/03' && date <= '2019/02/15'
@@ -325,9 +329,12 @@ export default {
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),
     ...mapWritableState(useAddToCartStore, [
-      "participant_young",
-      "participant_adult",
-      "hotel",
+      'quantity',
+      'date_start',
+      'participant_young',
+      'participant_adult',
+      'hotel',
+      'dibayar',
     ]),
     subTotalAnak() {
       return this.participant_young * this.$finalPriceAnak(this.item);
@@ -356,11 +363,11 @@ export default {
     },
     getDPSingleBed() {
       const cal = this.getSingleBed + this.getTotalNonHotel;
-      return cal - (cal * 30) / 100;
+      return (cal * 30) / 100;
     },
     getDPDoubleBed() {
       const cal = this.getDoubleBed + this.getTotalNonHotel;
-      return cal - (cal * 30) / 100;
+      return (cal * 30) / 100;
     },
     // getSelectedTourPrice: state => {
     //   if (state.selected.length > 0) return state.selected[0]?.tourPrice

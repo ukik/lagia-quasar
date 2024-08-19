@@ -67,12 +67,11 @@
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
+        type="number"
         @clear="onMinParticipantRule"
         @blur="$refs.dewasaRef.validate()"
         clearable
         dense
-        mask="###"
-        unmasked-value
         bg-color="white"
         outlined
         color="primary"
@@ -81,10 +80,12 @@
         :placeholder="`(Minimal) Peserta ${item?.minParticipant}`"
         :hint="`(Minimal) Peserta ${item?.minParticipant}`"
         :error-message="`(Minimal) Peserta ${item?.minParticipant}`"
-        lazy-rules
+        :lazy-rules="false"
+        :debounce="2500"
         :rules="[(val) => !!val || '', minParticipantRule]"
         bottom-slots
       >
+        <!-- :rules="[(val) => !!val || '', minParticipantRule]" -->
         <template v-slot:prepend>
           <q-icon name="fa-solid fa-person" />
         </template>
@@ -130,6 +131,8 @@
         placeholder="Pilih Hotel"
         hint="Pilih Hotel"
         error-message="Pilih Hotel"
+        :lazy-rules="false"
+        :debounce="300"
         :rules="[(val) => (!!val && val !== 'Pilih Hotel') || '']"
       >
         <template v-slot:prepend>
@@ -205,6 +208,10 @@ export default {
     };
   },
   mounted() {
+    this.$refs?.dewasaRef?.validate();
+    this.$refs?.dateRef?.validate();
+    this.$refs?.hotelRef?.validate();
+
     // console.log(formattedString, newDate);
     // this.onMinParticipantRule();
 
@@ -306,7 +313,14 @@ export default {
         }, 250);
       });
     },
-    async onSubmit({ price_id }) {
+    notify(message) {
+      this.$q.notify({
+        color: "negative",
+        message: message,
+        position: "top",
+      });
+    },
+    async onSubmit() {
       const vm = this;
 
       vm.$refs?.dewasaRef?.validate();
@@ -314,6 +328,17 @@ export default {
       vm.$refs?.dateRef?.validate();
       vm.$refs?.hotelRef?.validate();
 
+      if (vm.participant_adult < Number(vm.item?.minParticipant)) {
+        vm.participant_adult = this.item?.minParticipant;
+        this.notify("Minimal Peserta " + this.item?.minParticipant + " (wajib)");
+      }
+      if (vm.$refs?.dewasaRef?.hasError) {
+        vm.participant_adult = this.item?.minParticipant;
+        this.notify("Minimal Peserta " + this.item?.minParticipant + " (wajib)");
+      }
+      if (vm.$refs?.hotelRef?.hasError) this.notify("Hotel (wajib)");
+
+      return;
       // if (vm.$refs?.dateRef?.hasError) {
       //   return vm.$q.notify({
       //     color: "negative",
