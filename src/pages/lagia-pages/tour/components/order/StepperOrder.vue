@@ -9,8 +9,8 @@
       class="q-mb-md"
     /> -->
   <q-banner inline-actions rounded class="bg-blue-7 text-white q-mb-lg">
-    Login agar data Anda tersimpan di database, mendapatkan info terkini & penawaran menarik
-    dari kami
+    Login agar data Anda tersimpan di database, mendapatkan info terkini & penawaran
+    menarik dari kami
     <template v-slot:action>
       <q-btn flat icon="login" label="Login" />
     </template>
@@ -42,18 +42,18 @@
         @onBubbleEvent="
           done1 = true;
           step = 2;
+          $emit('setCookies');
         "
       />
 
-
-        <slot name="step1"></slot>
-
+      <slot name="step1"></slot>
 
       <NavButton
         class="q-pb-none"
         @onBubbleEvent="
           done1 = true;
           step = 2;
+          $emit('setCookies');
         "
       />
     </q-step>
@@ -72,8 +72,12 @@
         @onBubbleEvent="
           done2 = true;
           step = 3;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 1"
+        @onBubbleEventBack="
+          step = 1;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
 
@@ -84,8 +88,12 @@
         @onBubbleEvent="
           done2 = true;
           step = 3;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 1"
+        @onBubbleEventBack="
+          step = 1;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
     </q-step>
@@ -103,8 +111,12 @@
         @onBubbleEvent="
           done3 = true;
           step = 4;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 2"
+        @onBubbleEventBack="
+          step = 2;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
 
@@ -115,8 +127,12 @@
         @onBubbleEvent="
           done3 = true;
           step = 4;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 2"
+        @onBubbleEventBack="
+          step = 2;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
     </q-step>
@@ -134,8 +150,12 @@
         @onBubbleEvent="
           done4 = true;
           step = 5;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 3"
+        @onBubbleEventBack="
+          step = 3;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
 
@@ -146,8 +166,12 @@
         @onBubbleEvent="
           done4 = true;
           step = 5;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 3"
+        @onBubbleEventBack="
+          step = 3;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
     </q-step>
@@ -174,7 +198,10 @@
         <q-btn
           class="q-mr-sm"
           outline
-          @click="step = 4"
+          @click="
+            step = 4;
+            $emit('setCookies');
+          "
           icon-right="arrow_back"
           unelevated
         />
@@ -184,8 +211,9 @@
               if (getFormCheck) {
                 done5 = true;
                 step = 6;
+                $emit('setCookies');
               } else {
-                onBubbleEventRangkuman()
+                onBubbleEventRangkuman();
               }
             }
           "
@@ -205,7 +233,10 @@
         <q-btn
           class="q-mr-sm"
           outline
-          @click="step = 4"
+          @click="
+            step = 4;
+            $emit('setCookies');
+          "
           icon-right="arrow_back"
           unelevated
         />
@@ -215,8 +246,9 @@
               if (getFormCheck) {
                 done5 = true;
                 step = 6;
+                $emit('setCookies');
               } else {
-                onBubbleEventRangkuman()
+                onBubbleEventRangkuman();
               }
             }
           "
@@ -226,7 +258,6 @@
           unelevated
         />
       </div>
-
     </q-step>
 
     <q-step
@@ -241,7 +272,10 @@
         <q-btn
           class="q-mr-sm"
           outline
-          @click="step = 5"
+          @click="
+            step = 5;
+            $emit('setCookies');
+          "
           icon-right="arrow_back"
           unelevated
         />
@@ -251,8 +285,9 @@
               if (getFormCheck) {
                 done6 = true;
                 step = 7;
+                $emit('setCookies');
               } else {
-                onBubbleEventRangkuman()
+                onBubbleEventRangkuman();
               }
             }
           "
@@ -270,8 +305,12 @@
         @onBubbleEvent="
           done6 = true;
           step = 7;
+          $emit('setCookies');
         "
-        @onBubbleEventBack="step = 5"
+        @onBubbleEventBack="
+          step = 5;
+          $emit('setCookies');
+        "
       >
       </NavBackButton>
     </q-step>
@@ -372,7 +411,7 @@ export default {
   computed: {
     ...mapState(useTourOrderDetailStore, ["getFormCheck"]),
   },
-  emits: ["onBubbleEvent","onBubbleEventRangkuman"],
+  emits: ["onBubbleEvent", "onBubbleEventRangkuman","setCookies"],
   watch: {
     step(val) {
       this.$emit("onBubbleEvent", val);
@@ -380,9 +419,9 @@ export default {
   },
   methods: {
     onBubbleEventRangkuman() {
-      this.$emit('onBubbleEventRangkuman')
-    }
-  }
+      this.$emit("onBubbleEventRangkuman");
+    },
+  },
 };
 </script>
 

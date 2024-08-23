@@ -56,12 +56,16 @@
       </div>
 
       <div class="col-12">
-        "{{ date_start }}", "{{ participant_young }}", "{{ participant_adult }}", "{{
+        <!-- "{{ date_start }}", "{{ participant_young }}", "{{ participant_adult }}", "{{
           description
-        }}", "{{ hotel }}",
+        }}", "{{ hotel }}", -->
 
         <!-- <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12"> -->
-        <StepperOrder @onBubbleEvent="step = $event" @onBubbleEventRangkuman="onBubbleEventRangkuman">
+        <StepperOrder
+          @setCookies="setCookies"
+          @onBubbleEvent="step = $event"
+          @onBubbleEventRangkuman="onBubbleEventRangkuman"
+        >
           <template v-slot:step1>
             <div v-if="record?.tourStore" class="col-12">
               <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
@@ -100,14 +104,14 @@
             <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
               Saat login data pelanggan akan terisi otomatis dan tersimpan di database
               <template v-slot:action>
-      <q-btn flat icon="login" label="Login" />
-    </template>
+                <q-btn flat icon="login" label="Login" />
+              </template>
             </q-banner>
             <FormBookingCustomerData class="q-mt-lg" />
           </template>
 
           <template v-slot:step4>
-            <FormInformasi  />
+            <FormInformasi />
           </template>
 
           <template v-slot:step5>
@@ -125,13 +129,14 @@
             <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
               Saat login data pelanggan akan terisi otomatis dan tersimpan di database
               <template v-slot:action>
-      <q-btn flat icon="login" label="Login" />
-    </template>
+                <q-btn flat icon="login" label="Login" />
+              </template>
             </q-banner>
             <FormBookingCustomerData ref="FormBookingCustomerDataRef" class="q-mt-lg" />
             <FormInformasi ref="FormInformasiRef" class="q-mt-lg" />
             <template v-for="(item, i) in record?.tourPrices">
-              <StoreDetailProductPriceSimulasi :prop_dibayar="true"
+              <StoreDetailProductPriceSimulasi
+                :prop_dibayar="true"
                 class="q-mt-lg"
                 :item="item"
                 :ref="'StoreDetailProductPriceSimulasiRef' + item.id"
@@ -146,7 +151,6 @@
                   </q-card-section>
                   <q-separator></q-separator>
                 </template>
-
               </StoreDetailProductPriceSimulasi>
             </template>
           </template>
@@ -350,6 +354,7 @@ const {
 </script>
 
 <script>
+import { date } from "quasar";
 import { mapWritableState } from "pinia";
 
 import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
@@ -366,50 +371,167 @@ export default {
   },
   computed: {
     ...mapWritableState(useTourOrderDetailStore, [
+      // "date_start",
+      // "participant_young",
+      // "participant_adult",
+      // "description",
+      // "hotel",
+
       "date_start",
-      "participant_young",
       "participant_adult",
+      "participant_young",
       "description",
       "hotel",
+      "dibayar",
+      "dibayar_nominal",
 
-      'record',
+      "name",
+      "email",
+      "phone",
+      "instance",
+      "city",
+      "address",
+
+      "record",
     ]),
   },
   mounted() {
+    const vm = this;
     const cookies_name =
       "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
 
     if (!this.$q.cookies.has(cookies_name)) return;
+    vm.getCookies(cookies_name);
+    return
+
     this.$q.notify({
-      message: "Load data formulir",
-      color: "positive",
+      message: "Load Data Formulir?",
+      color: "primary",
       position: "bottom",
+      actions: [
+        {
+          label: "Ya",
+          color: "white",
+          handler: () => {
+            vm.getCookies(cookies_name);
+          },
+        },
+        {
+          label: "Tidak",
+          color: "white",
+          handler: () => {
+            /* ... */
+          },
+        },
+      ],
     });
-
-    const cookies = this.$q.cookies.get(cookies_name);
-
-    this.date_start = cookies.state.date_start;
-    this.participant_young = cookies.state.participant_young;
-    this.participant_adult = cookies.state.participant_adult;
-    this.description = cookies.state.description;
-    this.hotel = cookies.state.hotel;
-
-    console.log("GET COOKIES", cookies);
   },
+  // watch: {
+  //   step(val) {
+  //   }
+  // },
   methods: {
+    getCookies(cookies_name) {
+      const cookies = this.$q.cookies.get(cookies_name);
+      console.log("getDateDiff", this.getDateDiff(cookies.state.date_start));
+
+      if (this.getDateDiff(cookies.state.date_start) > 0) {
+        this.date_start = cookies.state.date_start;
+      }
+
+      // this.participant_young = cookies.state.participant_young;
+      // this.participant_adult = cookies.state.participant_adult;
+      // this.description = cookies.state.description;
+      // this.hotel = cookies.state.hotel;
+
+      this.participant_adult = cookies.state.participant_adult;
+      this.participant_young = cookies.state.participant_young;
+      this.description = cookies.state.description;
+      this.hotel = cookies.state.hotel;
+      this.dibayar = cookies.state.dibayar;
+      this.dibayar_nominal = cookies.state.dibayar_nominal;
+
+      this.name = cookies.state.name;
+      this.email = cookies.state.email;
+      this.phone = cookies.state.phone;
+      this.instance = cookies.state.instance;
+      this.city = cookies.state.city;
+      this.address = cookies.state.address;
+
+      console.log("GET COOKIES", cookies);
+
+    },
+    setCookies() {
+      console.log("SET COOKIES");
+      const payload = {
+        route: {
+          url: window.location.href,
+          host: this.$getHost(),
+          path: this.$route.path,
+          name: this.$route.name,
+          params: this.$route.params,
+          query: this.$route.query,
+        },
+        state: {
+          // date_start: this.date_start,
+          // participant_young: this.participant_young,
+          // participant_adult: this.participant_adult,
+          // description: this.description,
+          // hotel: this.hotel,
+
+          date_start: this.date_start,
+          participant_adult: this.participant_adult,
+          participant_young: this.participant_young,
+          description: this.description,
+          hotel: this.hotel,
+          dibayar: this.dibayar,
+          dibayar_nominal: this.dibayar_nominal,
+
+          name: this.name,
+          email: this.email,
+          phone: this.phone,
+          instance: this.instance,
+          city: this.city,
+          address: this.address,
+        },
+      };
+
+      const cookies_name =
+        "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; // this.$route.params?.slug_text; //window.location.href
+      this.$q.cookies.set(cookies_name, JSON.stringify(payload), {
+        secure: true,
+        path: "/", // wajib
+      });
+
+      // this.$q.notify({
+      //   message: "Simpan data formulir",
+      //   color: "positive",
+      //   position: "bottom"
+      // });
+    },
+    getDateDiff(date_start) {
+      // const payload = date_start?.split('/')
+
+      let max = new Date();
+      max = date.addToDate(max, { days: 3 });
+      //const min = this.$stringToDate("17/9/2014","dd/MM/yyyy","/"); //new Date(date_start); //date.buildDate({ year: payload[0], month: payload[1], date: payload[2] })
+      const min = new Date(date_start);
+      const unit = "days";
+
+      console.log(date_start, max, min);
+      // const diff =
+      return date.getDateDiff(min, max, unit);
+    },
     onSubmit(i) {
       this.$refs["side_price" + i][i]?.onSubmit();
     },
     onBubbleEventRangkuman() {
-
       for (let i = 0; i < this.record?.tourPrices.length; i++) {
         const id = this.record?.tourPrices[i].id;
         this.$refs["StoreDetailProductPriceSimulasiRef" + id][i]?.onSubmit();
       }
       this.$refs?.FormBookingCustomerDataRef.onSubmit();
       this.$refs?.FormInformasiRef.onSubmit();
-
-
     },
   },
 };

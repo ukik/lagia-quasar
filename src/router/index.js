@@ -79,7 +79,7 @@ export default route(function ({ store, ssrContext }) {
           }
         }
 
-
+        return savedPosition;
         return { top: 0 };
       }
 

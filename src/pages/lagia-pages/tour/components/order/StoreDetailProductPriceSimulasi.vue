@@ -285,7 +285,7 @@
         </q-list>
       </q-card-section> -->
 
-      <q-card-section>
+      <q-card-section v-if="subTotalDewasa">
         <q-banner rounded class="bg-teal text-white q-mb-md">
           <div class="q-mb-lg">
             Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami
@@ -312,7 +312,7 @@
           </template>
         </q-banner>
 
-        <q-list bordered separator>
+        <q-list v-if="subTotalDewasa" bordered separator>
           <q-item-label header>Full Payment 100%</q-item-label>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
@@ -479,18 +479,6 @@ export default {
       const cal = this.getDoubleBed + this.getTotalNonHotel;
       return (cal * 30) / 100;
     },
-    // getSelectedTourPrice: state => {
-    //   if (state.selected.length > 0) return state.selected[0]?.tourPrice
-    //   return []
-    // },
-    // subTotalAnak: state => {
-    //   if (state.selected.length <= 0) return 0
-    //   return state.participant_young * finalPriceAnak(state.selected[0]?.tourPrice);
-    // },
-    // subTotalDewasa: state => {
-    //   if (state.selected.length <= 0) return 0
-    //   return state.participant_adult * finalPrice(state.selected[0]?.tourPrice);
-    // },
     getHotelPrice() {
       if (this.page_hotel_level_price && this.hotel !== "Pilih Hotel") {
         let temp = {};
@@ -507,7 +495,6 @@ export default {
         return temp;
       }
     },
-
     getTotalNonHotel() {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
     },

@@ -24,7 +24,7 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
     search: '', // filter & search itu sama
     lastPage: 0,
     currentPage: 1,
-    perPage: 25,  // perPage & rowPerPage itu sama
+    perPage: 24,  // perPage & rowPerPage itu sama
 
     isAvailable: '',
     venueId: '',
@@ -42,6 +42,8 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
   actions: {
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
     async onFetch ({ currentPage, query }) {
+
+      console.log("this.loading", this.loading)
 
       if (this.loading) return false;
 
@@ -123,7 +125,7 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
 
     onPaginate: debounce(async function ({ currentPage, query }) {
       this.onFetch({ currentPage, query })
-    }, 500),
+    }, 0),
 
     async onClearRegister() {
 

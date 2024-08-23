@@ -387,10 +387,10 @@
     <q-card-section>
       <q-list bordered separator>
         <q-item-label header>Full Payment 100%</q-item-label>
-        <q-item tag="label" v-ripple>
-          <!-- <q-item-section avatar>
+        <q-item v-if="subTotalDewasa" tag="label" v-ripple>
+          <q-item-section avatar>
             <q-radio v-model="dibayar" val="lunas_double_bed" color="cyan" />
-          </q-item-section> -->
+          </q-item-section>
           <q-item-section>
             <q-item-label caption> Grandtotal (Peserta Double Bed) </q-item-label>
             <q-item-label class="text-h6">
@@ -398,10 +398,10 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item tag="label" v-ripple>
-          <!-- <q-item-section avatar>
+        <q-item v-if="subTotalDewasa" tag="label" v-ripple>
+          <q-item-section avatar>
             <q-radio v-model="dibayar" val="lunas_single_bed" color="teal" />
-          </q-item-section> -->
+          </q-item-section>
           <q-item-section>
             <q-item-label caption> Grandtotal (Peserta Single Bed) </q-item-label>
             <q-item-label class="text-h6">
@@ -411,7 +411,7 @@
         </q-item>
         <q-separator></q-separator>
         <q-item-label header>Down Payment 30% </q-item-label>
-        <q-item tag="label" v-ripple>
+        <q-item v-if="subTotalDewasa" tag="label" v-ripple>
           <q-item-section avatar>
             <q-radio v-model="dibayar" val="dp_double_bed" color="orange" />
           </q-item-section>
@@ -422,7 +422,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item tag="label" v-ripple>
+        <q-item v-if="subTotalDewasa" tag="label" v-ripple>
           <q-item-section avatar>
             <q-radio v-model="dibayar" val="dp_single_bed" color="pink" />
           </q-item-section>

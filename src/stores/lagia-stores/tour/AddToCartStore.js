@@ -81,20 +81,20 @@ export const useAddToCartStore = defineStore('AddToCartStore', {
 
       formData.append('price_id', price_id);
 
-      // if(slug == 'lodge') {
-      //   formData.append('quantity', this.date_checkin.length);
+      if(slug == 'lodge') {
+        formData.append('quantity', this.date_checkin.length);
 
-      //   console.log('date_checkin',this.date_checkin)
+        console.log('date_checkin',this.date_checkin)
 
-      //   let temp = [];
-      //   this.date_checkin.forEach((element, index) => {
-      //     temp.push({"id":element,"date":element})
-      //   });
-      //   formData.append('date_checkin', JSON.stringify(temp));
+        let temp = [];
+        this.date_checkin.forEach((element, index) => {
+          temp.push({"id":element,"date":element})
+        });
+        formData.append('date_checkin', JSON.stringify(temp));
 
-      // } else {
-      //   formData.append('quantity', this.quantity);
-      // }
+      } else {
+        formData.append('quantity', this.quantity);
+      }
 
       formData.append('date_start', this.date_start);
       formData.append('participant_adult', this.participant_adult);

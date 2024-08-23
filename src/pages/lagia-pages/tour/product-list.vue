@@ -8,6 +8,23 @@
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
+    <div class="col-12 flex flex-center q-mt-lg">
+      <q-pagination
+        :disable="loading"
+        class="q-mb-xl"
+        size="lg"
+        v-model="currentPage"
+        :max="lastPage"
+        :max-pages="6"
+        :input="$q.screen.width < 768"
+        direction-links
+
+        color="blue"
+        active-design="unelevated"
+        active-color="primary"
+        active-text-color="white"
+      />
+    </div>
     <div
       class="row justify-start col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
@@ -383,15 +400,28 @@ const { showMultiple } = lightbox;
 const router = useRouter();
 
 const onCurrentPage = async (val) => {
-  console.log("onCurrentPage", router.currentRoute.value);
   const currentRoute = router.currentRoute.value;
-  router.push({ query: { ...currentRoute.query, page: val.value } });
-  onPaginate({ currentPage: val.value, query: currentRoute?.query });
+  console.log("onCurrentPage", val.value, currentRoute.query.page);
+  await router.push({ query: { ...currentRoute.query, page: val.value } });
+  // onPaginate({ currentPage: val.value, query: currentRoute?.query });
 };
 watch(() => currentPage, onCurrentPage, {
   deep: true,
   // immediate: true,
 });
+
+const routerPageQuery = async (val) => {
+  const currentRoute = router.currentRoute.value;
+  console.log("routerPageQuery", val.value, currentRoute.query.page);
+  // await router.push({ query: { ...currentRoute.query, page: val.value } });
+  await onPaginate({ currentPage: val.value, query: currentRoute?.query });
+};
+watch(() => router.currentRoute, routerPageQuery, {
+  deep: true,
+  // immediate: true,
+});
+
+
 
 const ratingZero = 0.0;
 

@@ -30,7 +30,6 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
     city: null,
     address: null,
 
-
     loading: false,
     loading_store: false,
   }),
