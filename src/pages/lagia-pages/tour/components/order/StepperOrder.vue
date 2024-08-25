@@ -279,7 +279,7 @@
           icon-right="arrow_back"
           unelevated
         />
-        <q-btn
+        <!-- <q-btn
           @click="
             () => {
               if (getFormCheck) {
@@ -295,12 +295,25 @@
           :label="getFormCheck ? 'Konfirmasi' : 'Lengkapi Data'"
           :icon-right="getFormCheck ? 'arrow_forward' : 'info'"
           unelevated
-        />
+        /> -->
       </div>
 
       <slot name="step6"></slot>
 
-      <NavBackButton
+      <div class="q-mt-lg">
+        <q-btn
+          class="q-mr-sm"
+          outline
+          @click="
+            step = 5;
+            $emit('setCookies');
+          "
+          icon-right="arrow_back"
+          unelevated
+        />
+      </div>
+
+      <!-- <NavBackButton
         class="q-pb-none"
         @onBubbleEvent="
           done6 = true;
@@ -312,10 +325,10 @@
           $emit('setCookies');
         "
       >
-      </NavBackButton>
+      </NavBackButton> -->
     </q-step>
 
-    <q-step
+    <!-- <q-step
       :name="7"
       title=""
       icon="add_comment"
@@ -323,28 +336,10 @@
       :done="step > 7"
       :header-nav="step > 7"
     >
-      <!-- <NavBackButton
-          class="q-pt-none q-pb-lg"
-          @onBubbleEvent="
-            done6 = true;
-            step = 7;
-          "
-          @onBubbleEventBack="step = 5"
-        >
-        </NavBackButton> -->
 
       <slot name="step7"></slot>
 
-      <!-- <NavBackButton
-          class="q-pb-none"
-          @onBubbleEvent="
-          done6 = true;
-            step = 7;
-          "
-          @onBubbleEventBack="step = 5"
-        >
-        </NavBackButton> -->
-    </q-step>
+    </q-step> -->
 
     <!-- <q-step
         :name="5"

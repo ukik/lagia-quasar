@@ -215,9 +215,9 @@
         </q-list>
       </q-card-section>
 
-      <q-separator v-if="prop_dibayar"></q-separator>
+      <q-separator v-if="getFormCheck && prop_dibayar"></q-separator>
 
-      <q-card-section v-if="prop_dibayar">
+      <q-card-section v-if="getFormCheck && prop_dibayar">
         <q-item-section>
           <q-item-label class="text-h6 text-weight-normal"
             >PILIH NOMINAL DIBAYAR</q-item-label
@@ -225,7 +225,7 @@
         </q-item-section>
       </q-card-section>
 
-      <q-separator v-if="prop_dibayar"></q-separator>
+      <q-separator v-if="getFormCheck && prop_dibayar"></q-separator>
 
       <!-- <q-card-section v-if="prop_dibayar">
         <q-list bordered separator>
@@ -316,7 +316,7 @@
           <q-item-label header>Full Payment 100%</q-item-label>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
-              <q-radio v-model="dibayar" val="lunas_double_bed" color="cyan" />
+              <q-radio v-model="dibayar" val="get_full_payment_single_bed" color="cyan" />
             </q-item-section>
             <q-item-section>
               <q-item-label caption> Grandtotal (Peserta Double Bed) </q-item-label>
@@ -327,7 +327,7 @@
           </q-item>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
-              <q-radio v-model="dibayar" val="lunas_single_bed" color="teal" />
+              <q-radio v-model="dibayar" val="get_full_payment_double_bed" color="teal" />
             </q-item-section>
             <q-item-section>
               <q-item-label caption> Grandtotal (Peserta Single Bed) </q-item-label>
@@ -340,7 +340,7 @@
           <q-item-label header>Down Payment 30% </q-item-label>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
-              <q-radio v-model="dibayar" val="dp_double_bed" color="orange" />
+              <q-radio v-model="dibayar" val="get_dp_payment_single_bed" color="orange" />
             </q-item-section>
             <q-item-section>
               <q-item-label caption> Grandtotal (Peserta Double Bed) </q-item-label>
@@ -351,7 +351,7 @@
           </q-item>
           <q-item tag="label" v-ripple>
             <q-item-section avatar>
-              <q-radio v-model="dibayar" val="dp_single_bed" color="pink" />
+              <q-radio v-model="dibayar" val="get_dp_payment_double_bed" color="pink" />
             </q-item-section>
             <q-item-section>
               <q-item-label caption> Grandtotal (Peserta Single Bed) </q-item-label>
@@ -437,6 +437,7 @@ export default {
   },
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),
+    ...mapState(useTourOrderDetailStore, ['getFormCheck']),
     ...mapWritableState(useTourOrderDetailStore, [
       "quantity",
       "date_start",
@@ -510,22 +511,22 @@ export default {
     },
   },
   watch: {
-    dibayar(val) {
-      switch (val) {
-        case "lunas_double_bed":
-          this.dibayar_nominal = this.getDoubleBed + this.getTotalNonHotel;
-          break;
-        case "lunas_single_bed":
-          this.dibayar_nominal = this.getSingleBed + this.getTotalNonHotel;
-          break;
-        case "dp_double_bed":
-          this.dibayar_nominal = this.getDPDoubleBed;
-          break;
-        case "dp_single_bed":
-          this.dibayar_nominal = this.getDPSingleBed;
-          break;
-      }
-    },
+    // dibayar(val) {
+    //   switch (val) {
+    //     case "lunas_double_bed":
+    //       this.dibayar_nominal = this.getDoubleBed + this.getTotalNonHotel;
+    //       break;
+    //     case "lunas_single_bed":
+    //       this.dibayar_nominal = this.getSingleBed + this.getTotalNonHotel;
+    //       break;
+    //     case "dp_double_bed":
+    //       this.dibayar_nominal = this.getDPDoubleBed;
+    //       break;
+    //     case "dp_single_bed":
+    //       this.dibayar_nominal = this.getDPSingleBed;
+    //       break;
+    //   }
+    // },
   },
   methods: {
     notify(message) {
@@ -573,5 +574,15 @@ th {
   text-align: left;
   padding: 8px;
   font-size: 16px;
+}
+
+@media only screen and (max-width: 425px) {
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-size: 15px;
+  }
 }
 </style>

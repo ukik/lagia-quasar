@@ -535,7 +535,7 @@ export default {
         <CallAction v-if="hideNavBottomBannerCallToAction"></CallAction>
         <CallActionOffer v-if="hideNavBottomBanner"></CallActionOffer> -->
 
-        <q-no-ssr
+        <q-no-ssr v-if="$q.screen.width > 425"
           :style="$q.screen.width > 425 ? 'padding-bottom:35px;' : 'padding-bottom:80px;'"
         >
           <LayoutFooter></LayoutFooter>

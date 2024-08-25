@@ -39,7 +39,20 @@ const testMe = {
   },
 }
 
+import { useQuasar, scroll } from "quasar";
+const { getScrollTarget, setVerticalScrollPosition } = scroll;
+
+// takes an element object
+function scrollToElement(el) {
+  const target = getScrollTarget(el);
+  const offset = el.offsetTop;
+  const duration = 200;
+  setVerticalScrollPosition(target, offset, duration);
+}
+
 export default boot( async ({ app, ssrContext, router, store }) => {
+
+  app.config.globalProperties.$scrollToElement = scrollToElement;
 
   app.use(VueEasyLightbox)
   app.use(MasonryWall)

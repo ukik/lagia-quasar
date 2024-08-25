@@ -125,17 +125,17 @@
   </q-banner> -->
 
   <q-card flat bordered>
-    <q-card-section>
+    <q-card-section v-if="about_vendor">
       <q-item-section>
         <q-item-label class="text-h6 text-weight-normal">TENTANG VENDOR</q-item-label>
       </q-item-section>
     </q-card-section>
 
-    <q-separator></q-separator>
+    <q-separator v-if="about_vendor"></q-separator>
 
-    <VendorInvoice v-if="item_store" :item="item_store"></VendorInvoice>
+    <VendorInvoice v-if="item_store && about_vendor" :item="item_store"></VendorInvoice>
 
-    <q-separator></q-separator>
+    <q-separator v-if="about_vendor"></q-separator>
 
     <q-card-section>
       <q-item-section>
@@ -504,6 +504,9 @@ export default {
     date_sticky: {
       default: false,
     },
+    about_vendor: {
+      default: true
+    }
   },
   emits: ["onBubbleEvent"], // <--- add this line
   components: {
@@ -631,6 +634,7 @@ export default {
   },
   methods: {
     dateFormat(val) {
+      if(!val) return
       const timeSplit = val.split("/");
 
       let newDate = new Date(timeSplit[0], timeSplit[1], timeSplit[2]);
@@ -674,5 +678,15 @@ th {
   text-align: left;
   padding: 8px;
   font-size: 16px;
+}
+
+@media only screen and (max-width: 425px) {
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-size: 15px;
+  }
 }
 </style>

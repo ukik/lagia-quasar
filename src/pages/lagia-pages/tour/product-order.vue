@@ -61,7 +61,7 @@
         }}", "{{ hotel }}", -->
 
         <!-- <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12"> -->
-        <StepperOrder
+        <StepperOrder v-if="$q.screen.width > 768"
           @setCookies="setCookies"
           @onBubbleEvent="step = $event"
           @onBubbleEventRangkuman="onBubbleEventRangkuman"
@@ -115,13 +115,6 @@
           </template>
 
           <template v-slot:step5>
-            <!-- <div v-if="record?.tourStore" class="col-12">
-              <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
-            </div>
-            <StoreDetailProductContent
-              class="q-mt-lg"
-              :record="record"
-            ></StoreDetailProductContent> -->
             <q-banner inline-actions rounded class="bg-red-1 q-mb-lg">
               Pastikan data wajib sudah diisi dengan benar
             </q-banner>
@@ -154,6 +147,7 @@
               </StoreDetailProductPriceSimulasi>
             </template>
           </template>
+
           <template v-slot:step6>
             <template v-for="(item, i) in record?.tourPrices">
               <StoreInvoice
@@ -171,76 +165,71 @@
             </template>
           </template>
         </StepperOrder>
+
+        <StepperOrderAccordion v-else @setCookies="setCookies">
+          <template v-slot:step1>
+            <div v-if="record?.tourStore" class="col-12">
+              <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
+            </div>
+            <StoreDetailProductContent
+              class="q-mt-lg"
+              :record="record"
+            ></StoreDetailProductContent>
+          </template>
+
+          <template v-slot:step2>
+            <q-banner inline-actions rounded class="bg-red-1 q-mb-lg">
+              Pastikan data wajib sudah diisi dengan benar
+            </q-banner>
+
+            <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
+              Saat login data pelanggan akan terisi otomatis dan tersimpan di database
+              <template v-slot:action>
+                <q-btn flat icon="login" label="Login" />
+              </template>
+            </q-banner>
+            <FormBookingCustomerData ref="FormBookingCustomerDataRef" class="q-mt-lg" />
+            <template v-for="(item, i) in record?.tourPrices">
+              <StoreDetailProductPriceSimulasi :simulasi="true"
+                :prop_dibayar="true"
+                class="q-mt-lg"
+                :item="item"
+                :ref="'StoreDetailProductPriceSimulasiRef' + item.id"
+              >
+                <template v-slot:header="">
+                  <q-card-section>
+                    <q-item-section>
+                      <q-item-label class="text-h6 text-weight-normal"
+                        >SIMULASI BIAYA</q-item-label
+                      >
+                    </q-item-section>
+                  </q-card-section>
+                  <q-separator></q-separator>
+                </template>
+              </StoreDetailProductPriceSimulasi>
+            </template>
+            <FormInformasi ref="FormInformasiRef" class="q-mt-lg" />
+          </template>
+
+          <template v-slot:step3>
+            <template v-for="(item, i) in record?.tourPrices">
+              <StoreInvoice :about_vendor="false"
+                :item_product="{
+                  category: record?.category,
+                  durasi: record?.durasi,
+                  level: record?.level,
+                  province: record?.province,
+                  city: record?.city,
+                  country: record?.country,
+                }"
+                :item="item"
+                :item_store="record?.tourStore"
+              />
+            </template>
+          </template>
+        </StepperOrderAccordion>
       </div>
 
-      <!-- <div
-        class="col"
-        v-if="$q.screen.width > 768"
-        :class="[$q.screen.width > 768 ? '' : 'row']"
-      >
-        <div id="stickyPrice"></div>
-
-        <template v-for="(item, i) in record?.tourPrices">
-          <StoreDetailProductPriceSimulasi
-            :simulasi="false"
-            :ref="'side_price' + i"
-            price_css="col-12 row text-white"
-            :item="item"
-            :date_sticky="true"
-          >
-            <template v-slot:header="">
-              <q-card-section>
-                <q-item-section>
-                  <q-item-label class="text-h6 text-weight-normal"
-                    >SIMULASI BIAYA</q-item-label
-                  >
-                </q-item-section>
-              </q-card-section>
-              <q-separator></q-separator>
-            </template>
-            <template v-slot:buttons>
-              <div class="col-xl-auto col-lg-auto col-md-auto col-sm-auto col-xs-12">
-                <q-btn
-                  class="full-width"
-                  unelevated
-                  size="md"
-                  no-caps
-                  square
-                  color="positive"
-                  text-color="white"
-                  icon="search"
-                  label="Preview"
-                />
-              </div>
-              <div class="col">
-                <q-btn
-                  class="full-width"
-                  unelevated
-                  size="md"
-                  no-caps
-                  @click="onSubmit(i)"
-                  square
-                  color="primary"
-                  text-color="white"
-                  label="Buat Pesanan"
-                  icon="shopping_cart_checkout"
-                />
-              </div>
-            </template>
-          </StoreDetailProductPriceSimulasi>
-        </template>
-
-        <q-no-ssr v-if="false">
-
-          <FormBookingPackageSide
-            class="col-12"
-            :class="[$q.screen.width > 768 ? '' : 'q-mt-xl order-last']"
-          ></FormBookingPackageSide>
-          <MorePackageSide class="col-12"></MorePackageSide>
-          <RelatedImageSlide class="col-12"></RelatedImageSlide>
-          <GoogleMapPackageSide class="col-12"></GoogleMapPackageSide>
-        </q-no-ssr>
-      </div> -->
     </div>
   </div>
 
@@ -292,6 +281,7 @@
 </template>
 
 <script setup>
+import StepperOrderAccordion from "./components/order/StepperOrderAccordion.vue";
 import StepperOrder from "./components/order/StepperOrder.vue";
 
 import FormInformasi from "./components/order/FormInformasi.vue";
@@ -311,7 +301,7 @@ import StoreInvoice from "./components/order/StoreInvoice";
 import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
-import { mapWritableState, storeToRefs } from "pinia";
+import { mapWritableState, storeToRefs, mapState } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
@@ -370,6 +360,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(useTourOrderDetailStore, ['getFormCheck']),
     ...mapWritableState(useTourOrderDetailStore, [
       // "date_start",
       // "participant_young",
@@ -439,11 +430,6 @@ export default {
         this.date_start = cookies.state.date_start;
       }
 
-      // this.participant_young = cookies.state.participant_young;
-      // this.participant_adult = cookies.state.participant_adult;
-      // this.description = cookies.state.description;
-      // this.hotel = cookies.state.hotel;
-
       this.participant_adult = cookies.state.participant_adult;
       this.participant_young = cookies.state.participant_young;
       this.description = cookies.state.description;
@@ -473,11 +459,6 @@ export default {
           query: this.$route.query,
         },
         state: {
-          // date_start: this.date_start,
-          // participant_young: this.participant_young,
-          // participant_adult: this.participant_adult,
-          // description: this.description,
-          // hotel: this.hotel,
 
           date_start: this.date_start,
           participant_adult: this.participant_adult,
