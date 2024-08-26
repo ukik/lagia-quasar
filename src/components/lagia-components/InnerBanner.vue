@@ -1,6 +1,6 @@
 <template>
   <div class="inner-banner-wrap">
-    <div
+    <div id="InnerBanner"
       class="inner-baner-container"
       style="background-image: url(assets/images/img7.jpg); padding-top: 134.562px"
     >

@@ -262,13 +262,25 @@
 
     <q-step
       :name="6"
-      title="INVOICE"
+      title="CHECKOUT"
       icon="add_comment"
       prefix="6"
       :done="step > 6"
       :header-nav="step > 6"
     >
-      <div class="q-mb-lg">
+      <!-- <div class="q-mb-lg">
+        <q-btn
+          class="q-mr-sm"
+          outline
+          @click="
+            step = 5;
+            $emit('setCookies');
+          "
+          icon-right="arrow_back"
+          unelevated
+        />
+      </div> -->
+      <q-card-actions class="q-pa-none q-mb-lg" align="between">
         <q-btn
           class="q-mr-sm"
           outline
@@ -281,26 +293,19 @@
         />
         <!-- <q-btn
           @click="
-            () => {
-              if (getFormCheck) {
-                done6 = true;
-                step = 7;
-                $emit('setCookies');
-              } else {
-                onBubbleEventRangkuman();
-              }
-            }
+            $emit('setCookies');
+            onCheckout();
           "
-          :color="getFormCheck ? 'primary' : 'red'"
-          :label="getFormCheck ? 'Konfirmasi' : 'Lengkapi Data'"
-          :icon-right="getFormCheck ? 'arrow_forward' : 'info'"
+          color="primary"
+          label="CHECKOUT"
+          icon-right="shopping_cart"
           unelevated
         /> -->
-      </div>
+      </q-card-actions>
 
       <slot name="step6"></slot>
 
-      <div class="q-mt-lg">
+      <q-card-actions class="q-pa-none q-mt-lg" align="between">
         <q-btn
           class="q-mr-sm"
           outline
@@ -311,7 +316,17 @@
           icon-right="arrow_back"
           unelevated
         />
-      </div>
+        <q-btn
+          @click="
+            $emit('setCookies');
+            onCheckout();
+          "
+          color="primary"
+          label="CHECKOUT"
+          icon-right="shopping_cart"
+          unelevated
+        />
+      </q-card-actions>
 
       <!-- <NavBackButton
         class="q-pb-none"
@@ -367,7 +382,7 @@ import NavButton from "./NavButton.vue";
 import NavBackButton from "./NavBackButton.vue";
 
 import { useTourOrderDetailStore } from "src/stores/lagia-stores/tour/TourOrderDetailStore";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 
 export default {
   setup() {
@@ -406,13 +421,14 @@ export default {
   computed: {
     ...mapState(useTourOrderDetailStore, ["getFormCheck"]),
   },
-  emits: ["onBubbleEvent", "onBubbleEventRangkuman","setCookies"],
+  emits: ["onBubbleEvent", "onBubbleEventRangkuman", "setCookies"],
   watch: {
     step(val) {
       this.$emit("onBubbleEvent", val);
     },
   },
   methods: {
+    ...mapActions(useTourOrderDetailStore, ["onCheckoutVerify","onCheckout"]),
     onBubbleEventRangkuman() {
       this.$emit("onBubbleEventRangkuman");
     },

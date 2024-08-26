@@ -76,9 +76,9 @@
         color="primary"
         ref="dewasaRef"
         v-model="participant_adult"
-        :placeholder="`(Minimal) Peserta ${item?.minParticipant}`"
-        :hint="`(Minimal) Peserta ${item?.minParticipant}`"
-        :error-message="`(Minimal) Peserta ${item?.minParticipant}`"
+        :placeholder="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :hint="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :error-message="`Peserta Dewasa (min. ${item?.minParticipant})`"
         bottom-slots
       >
         <template v-slot:prepend>

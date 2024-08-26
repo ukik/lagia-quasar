@@ -4,8 +4,9 @@
     id="FormTour"
     @submit.prevent.stop="onSubmit"
   >
-    <!-- <div class="col-12">
+    <div class="col-12" v-if="false">
       <q-field
+        class="row"
         v-if="date_sticky"
         dense
         outlined
@@ -24,7 +25,7 @@
           today-btn
           bordered
           flat
-          class="full-width q-my-md"
+          class="col q-my-md"
           :options="optionsFn"
           v-model="date_start"
         >
@@ -44,7 +45,7 @@
         mask="date"
         placeholder="Tanggal Berangkat"
         hint="Tanggal Berangkat"
-        error-message="Tanggal Berangkat"
+        error-message="Tanggal Berangkat (wajib)"
         :rules="['date']"
       >
         <template v-slot:prepend>
@@ -63,36 +64,36 @@
           </q-icon>
         </template>
       </q-input>
-    </div> -->
+    </div>
 
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+      Berapa jumlah perserta Dewasa? (Min. {{ item?.minParticipant }})
       <q-input
-        type="number"
         @clear="onMinParticipantRule"
-        @blur="$refs.dewasaRef.validate()"
         clearable
         dense
+        mask="###"
+        unmasked-value
         bg-color="white"
         outlined
         color="primary"
         ref="dewasaRef"
         v-model="participant_adult"
-        :placeholder="`(Minimal) Peserta ${item?.minParticipant}`"
-        :hint="`(Minimal) Peserta ${item?.minParticipant}`"
-        :error-message="`(Minimal) Peserta ${item?.minParticipant}`"
-        :lazy-rules="false"
-        :debounce="2500"
+        :placeholder="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :hint="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :error-message="`Peserta Dewasa (min. ${item?.minParticipant}) (wajib)`"
+        lazy-rules
         :rules="[(val) => !!val || '', minParticipantRule]"
         bottom-slots
       >
-        <!-- :rules="[(val) => !!val || '', minParticipantRule]" -->
         <template v-slot:prepend>
           <q-icon name="fa-solid fa-person" />
         </template>
       </q-input>
     </div>
 
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+      Berapa jumlah perserta Peserta Anak (2-6 thn)?
       <q-input
         clearable
         dense
@@ -113,6 +114,7 @@
     </div>
 
     <div class="col-12" id="hotelRef">
+      Apa hotel yang ingin digunakan?
       <q-select
         @clear="hotel = 'Pilih Hotel'"
         :clearable="hotel !== 'Pilih Hotel'"
@@ -130,9 +132,7 @@
         v-model="hotel"
         placeholder="Pilih Hotel"
         hint="Pilih Hotel"
-        error-message="Pilih Hotel"
-        :lazy-rules="false"
-        :debounce="300"
+        error-message="Pilih Hotel (wajib)"
         :rules="[(val) => (!!val && val !== 'Pilih Hotel') || '']"
       >
         <template v-slot:prepend>
@@ -140,6 +140,67 @@
         </template>
       </q-select>
     </div>
+
+    <div
+      class="col-12"
+      v-if="
+        hotel?.toLocaleLowerCase() !== 'pilih hotel' &&
+        hotel?.toLocaleLowerCase() !== 'tanpa hotel'
+      "
+    >
+      Berapa kamar yang diinginkan?
+      <q-input
+        min="1"
+        max="0"
+        clearable
+        dense
+        mask="###"
+        bg-color="white"
+        outlined
+        color="primary"
+        ref="roomRef"
+        v-model="room_qty"
+        placeholder="0"
+        hint="Jumlah Kamar (min. 1)"
+        error-message="Jumlah Kamar (min. 1) (wajib)"
+        :rules="[(val) => !!val || '']"
+      >
+        <template v-slot:prepend>
+          <q-icon name="meeting_room" />
+        </template>
+      </q-input>
+    </div>
+
+    <div
+      class="col-12"
+      v-if="
+        hotel?.toLocaleLowerCase() !== 'pilih hotel' &&
+        hotel?.toLocaleLowerCase() !== 'tanpa hotel'
+      "
+    >
+      Berapa budget kamar yang diinginkan?
+      <br><b class="text-capitalize">{{hotel}}</b> - Harga {{ $currency(getHotelPrice?.minPrice) }} s/d {{ $currency(getHotelPrice?.maxPrice) }}
+      <q-input
+        clearable
+        dense
+        mask="Rp. #############"
+        unmasked-value
+        bg-color="white"
+        outlined
+        color="primary"
+        ref="roomBudgetRef"
+        v-model="room_budget"
+        placeholder=""
+        :hint="`Budget Kamar (wajib) di atas (min. ${$currency(getHotelPrice?.minPrice)})`"
+        :error-message="`Budget Kamar (wajib) di atas (min. ${$currency(getHotelPrice?.minPrice)})`"
+        :rules="[(val) => !!val || '', minPrice]"
+      >
+        <template v-slot:prepend>
+          <q-icon name="meeting_room" />
+        </template>
+      </q-input>
+    </div>
+
     <!-- <div class="col-12">
       <q-input
         type="textarea"
@@ -165,7 +226,9 @@
 <script>
 import { storeToRefs, mapState, mapWritableState } from "pinia";
 
-import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
+import { useTourOrderDetailStore } from "src/stores/lagia-stores/tour/TourOrderDetailStore";
+
+import { useInitStore } from "src/stores/lagia-stores/page/InitStore";
 
 import { Cookies, date } from "quasar";
 
@@ -208,58 +271,10 @@ export default {
     };
   },
   mounted() {
-    this.$refs?.dewasaRef?.validate();
-    this.$refs?.dateRef?.validate();
-    this.$refs?.hotelRef?.validate();
-
-    // console.log(formattedString, newDate);
     // this.onMinParticipantRule();
-
-    // const cookies_name = this.$route.params?.slug_text; //window.location.href
-    // const cookies = this.$q.cookies.get(cookies_name);
-
-    // if (!cookies) return;
-    // this.$q.notify({
-    //   message: "Load data formulir",
-    //   color: "positive",
-    // });
-
-    // this.date_start = cookies.state.date_start;
-    // this.participant_young = cookies.state.participant_young;
-    // this.participant_adult = cookies.state.participant_adult;
-    // this.description = cookies.state.description;
-    // this.hotel = cookies.state.hotel;
-
-    // console.log("GET COOKIES", cookies);
   },
-  // props: ["item"],
   setup() {
-    const store = useTourOrderDetailStore();
-    const {
-      // prompt,
-      // quantity,
-      // date_start,
-      // participant_young,
-      // participant_adult,
-      // // description,
-      // hotel,
-    } = storeToRefs(store); // have all reactive states here
-    const {
-      // onAdd, onRemove,
-      onAddToCart,
-    } = store;
-
     return {
-      onAddToCart,
-      // onAdd,
-      // onRemove,
-      // prompt,
-      // quantity,
-      // date_start,
-      // participant_young,
-      // participant_adult,
-      // // description,
-      // hotel,
       options: options,
 
       optionsFn(date) {
@@ -267,19 +282,49 @@ export default {
       },
     };
   },
+  watch: {
+    hotel() {
+      this.$refs?.roomBudgetRef?.validate()
+    }
+  },
   computed: {
+    ...mapState(useInitStore, ["page_hotel_level_price"]),
     ...mapWritableState(useTourOrderDetailStore, [
       "date_start",
-      "participant_young",
       "participant_adult",
+      "participant_young",
       "description",
       "hotel",
-    ]),
+      "dibayar",
+      "dibayar_nominal",
 
-    // getPriceCart() {
-    //   if (!this.item) return 0;
-    //   return Math.round(this.$finalPrice(this.item) * this.quantity);
-    // },
+      "room_qty",
+      "room_budget",
+
+      "name",
+      "email",
+      "phone",
+      "instance",
+      "city",
+      "address",
+    ]),
+    getHotelPrice() {
+      if (this.page_hotel_level_price && this.hotel !== "Pilih Hotel") {
+        let temp = {};
+        for (let i = 0; i < this.page_hotel_level_price.length; i++) {
+          try {
+            if (
+              this.hotel.toLowerCase() ===
+              this.page_hotel_level_price[i]["label"].toLowerCase()
+            ) {
+              temp = this.page_hotel_level_price[i];
+            }
+          } catch (e) {}
+        }
+        return temp;
+      }
+    },
+
   },
   methods: {
     onMinParticipantRule() {
@@ -310,35 +355,32 @@ export default {
           // as having an error, but there will not be any
           // error message displayed below the input
           // (only in browser console)
-        }, 250);
+        }, 0);
       });
     },
-    notify(message) {
-      this.$q.notify({
-        color: "negative",
-        message: message,
-        position: "top",
+    minPrice(val) {
+      const vm = this;
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const stat = val >= Number(vm.getHotelPrice?.minPrice);
+
+          if (!stat) vm.onMinParticipantRule();
+
+          resolve(stat || "Budget Terendah Rp." + vm.getHotelPrice?.minPrice + " (wajib)");
+        }, 0);
       });
     },
-    async onSubmit() {
+    async onSubmit({ price_id }) {
       const vm = this;
 
       vm.$refs?.dewasaRef?.validate();
       // vm.$refs?.youngRef?.validate();
       vm.$refs?.dateRef?.validate();
       vm.$refs?.hotelRef?.validate();
+      vm.$refs?.roomRef?.validate();
+      vm.$refs?.roomBudgetRef?.validate();
 
-      if (vm.participant_adult < Number(vm.item?.minParticipant)) {
-        vm.participant_adult = this.item?.minParticipant;
-        this.notify("Minimal Peserta " + this.item?.minParticipant + " (wajib)");
-      }
-      if (vm.$refs?.dewasaRef?.hasError) {
-        vm.participant_adult = this.item?.minParticipant;
-        this.notify("Minimal Peserta " + this.item?.minParticipant + " (wajib)");
-      }
-      if (vm.$refs?.hotelRef?.hasError) this.notify("Hotel (wajib)");
-
-      return;
       // if (vm.$refs?.dateRef?.hasError) {
       //   return vm.$q.notify({
       //     color: "negative",
@@ -346,118 +388,61 @@ export default {
       //     position: "top",
       //   });
       // } else
+
       if (vm.participant_adult < Number(vm.item?.minParticipant)) {
         return vm.$q.notify({
           color: "negative",
           message: "(Minimal) Peserta " + this.item?.minParticipant + " (wajib)",
           position: "top",
         });
-      } else if (vm.$refs?.dewasaRef?.hasError) {
+      }
+      if (vm.$refs?.dewasaRef?.hasError) {
         return vm.$q.notify({
           color: "negative",
           message: "(Minimal) Peserta " + this.item?.minParticipant + " (wajib)",
           position: "top",
         });
-      } else if (vm.$refs?.hotelRef?.hasError) {
+      }
+      if (vm.$refs?.hotelRef?.hasError) {
         return vm.$q.notify({
           color: "negative",
           message: "Hotel (wajib)",
           position: "top",
         });
-      } else {
-        const payload = {
-          route: {
-            url: window.location.href,
-            host: this.$getHost(),
-            path: this.$route.path,
-            name: this.$route.name,
-            params: this.$route.params,
-            query: this.$route.query,
-          },
-          state: {
-            date_start: this.date_start,
-            participant_young: this.participant_young,
-            participant_adult: this.participant_adult,
-            description: this.description,
-            hotel: this.hotel,
-          },
-        };
-
-        const cookies_name = this.$route.params?.slug_text; //window.location.href
-        vm.$q.cookies.set(cookies_name, JSON.stringify(payload), {
-          secure: true,
-          path: "/", // wajib
-        });
-
-        // console.log('GET JSON.stringify(payload)', vm.$q.cookies.get(window.location.href))
-
-        return;
-        const resp = await vm.onAddToCart({
-          price_id,
-          slug: vm.slug,
-        });
-
-        if (resp?.status == 401) {
-          vm.$global.$emit("LagiaLayout", {
-            label: "dialogAuth",
-            slug: null,
-            vendor: null,
-            value: null,
-            product: null,
-          });
-        }
-        return;
-        if (resp) {
-          vm.$router.push({
-            name: "/tour/cart",
-            query: {
-              page: 1,
-              perPage: 25,
-              search: "",
-              orderField: "desc",
-              orderDirection: false,
-              selected_id: price_id,
-            },
-          });
-
-          let timerInterval;
-
-          vm.$swal({
-            title: "Berhasil",
-            text: "Data sudah tersimpan",
-            // html: "I will close in <b></b> milliseconds.",
-            icon: "success",
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: () => {
-              vm.$swal.showLoading();
-              const timer = vm.$swal.getPopup().querySelector("b");
-              timerInterval = setInterval(() => {
-                // timer.textContent = `${Swal.getTimerLeft()}`;
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          }).then((result) => {
-            /* Read more about handling dismissals below */
-            if (result.dismiss === vm.$swal.DismissReason.timer) {
-              console.log("I was closed by the timer");
-            }
-          });
-          vm.$emit("onBubbleEventSuccess");
-        }
-
-        // console.log("DialogAddToCart resp", resp?.status);
-        // await this.$onKonsultasi(this.name, this.question, this.email);
-        // this.$q.notify({
-        //   icon: "done",
-        //   color: "positive",
-        //   message: "Submitted",
-        //   position: "top",
-        // });
-        // this.question = "";
       }
+
+      if(vm.hotel?.toLocaleLowerCase() !== 'pilih hotel' && vm.hotel?.toLocaleLowerCase() !== 'tanpa hotel') {
+
+        if (vm.$refs?.roomRef?.hasError) {
+          return vm.$q.notify({
+            color: "negative",
+            message: "Jumlah Kamar (min. 1) (wajib)",
+            position: "top",
+          });
+        }
+      }
+
+      this.$q.notify({
+        message: "Simpan data formulir",
+        color: "positive",
+        position: "bottom",
+      });
+
+      vm.$router.push({
+        name: "/tour/product-order",
+        params: {
+          ...this.$route.params,
+        },
+        // query: {
+        //   page: 1,
+        //   perPage: 25,
+        //   search: "",
+        //   orderField: "desc",
+        //   orderDirection: false,
+        //   selected_id: price_id,
+        // },
+      });
+
     },
   },
 };

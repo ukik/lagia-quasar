@@ -1,50 +1,9 @@
 <template>
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
-  <!-- <isHtml2PDF ref="isHtml2PDF"> xxxxxxxxxxxxxxxxxxxx </isHtml2PDF> -->
-  <!-- <div class="sticky">xxxxxxxxxxxxxxxxxxxxx</div> -->
-
-  <!-- :style="`left:${stickyPrice?.x}px;`" -->
-  <!-- <q-dialog
-      seamless
-      full-width
-      position="bottom"
-      v-model="product_price"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card
-      >
-
-          <template v-for="(item, i) in record?.tourPrices">
-            <div :class="price_css">
-          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
-            <q-item-label class="text-white text-capitalize"
-              >Harga Dewasa {{ item?.typePrice }}</q-item-label
-            >
-            <q-item-label class="text-h4">{{
-              $currency($finalPrice(item))
-            }}</q-item-label>
-          </q-item-section>
-        </div>
-
-        <div :class="price_css">
-          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
-            <q-item-label class="text-white text-capitalize"
-              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
-            >
-            <q-item-label class="text-h4">{{
-              $currency($finalPriceAnak(item))
-            }}</q-item-label>
-          </q-item-section>
-        </div>
-        </template>
-      </q-card>
-    </q-dialog> -->
-
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
-    <div
+    <div id="product-detail"
       class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[
         $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
@@ -60,9 +19,11 @@
           description
         }}", "{{ hotel }}", -->
 
+        <!-- {{ participant_adult }} -->
+
         <!-- <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12"> -->
         <StepperOrder v-if="$q.screen.width > 768"
-          @setCookies="setCookies"
+          @setCookies=""
           @onBubbleEvent="step = $event"
           @onBubbleEventRangkuman="onBubbleEventRangkuman"
         >
@@ -166,7 +127,7 @@
           </template>
         </StepperOrder>
 
-        <StepperOrderAccordion v-else @setCookies="setCookies">
+        <StepperOrderAccordion v-else @setCookies="">
           <template v-slot:step1>
             <div v-if="record?.tourStore" class="col-12">
               <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
@@ -362,12 +323,6 @@ export default {
   computed: {
     ...mapState(useTourOrderDetailStore, ['getFormCheck']),
     ...mapWritableState(useTourOrderDetailStore, [
-      // "date_start",
-      // "participant_young",
-      // "participant_adult",
-      // "description",
-      // "hotel",
-
       "date_start",
       "participant_adult",
       "participant_young",
@@ -375,6 +330,9 @@ export default {
       "hotel",
       "dibayar",
       "dibayar_nominal",
+
+      "room_qty",
+      "room_budget",
 
       "name",
       "email",
@@ -384,7 +342,38 @@ export default {
       "address",
 
       "record",
+
+      "loading",
     ]),
+    to_watch() {
+      return {
+        date_start: this.date_start,
+        participant_adult: this.participant_adult,
+        participant_young: this.participant_young,
+        description: this.description,
+        hotel: this.hotel,
+        dibayar: this.dibayar,
+        dibayar_nominal: this.dibayar_nominal,
+
+        room_qty: this.room_qty,
+        room_budget: this.room_budget,
+
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        instance: this.instance,
+        city: this.city,
+        address: this.address,
+      };
+    },
+  },
+  watch: {
+    to_watch() {
+      this.setCookies();
+    },
+    step() {
+      this.onScrollUp("#InnerBanner");
+    }
   },
   mounted() {
     const vm = this;
@@ -422,6 +411,21 @@ export default {
   //   }
   // },
   methods: {
+    onScrollUp(el) {
+      setTimeout(() => {
+
+        // VERSION 1
+        // document.querySelector(el).scrollIntoView({
+        //   behavior: 'smooth'
+        // });
+
+
+        const ANCHOR = document.querySelector(el);
+        if(!ANCHOR) return
+        console.log('ANCHOR')
+        this.$scrollToElement(ANCHOR);
+      }, 500);
+    },
     getCookies(cookies_name) {
       const cookies = this.$q.cookies.get(cookies_name);
       console.log("getDateDiff", this.getDateDiff(cookies.state.date_start));
@@ -437,6 +441,9 @@ export default {
       this.dibayar = cookies.state.dibayar;
       this.dibayar_nominal = cookies.state.dibayar_nominal;
 
+      this.room_qty = cookies.state.room_qty;
+      this.room_budget = cookies.state.room_budget;
+
       this.name = cookies.state.name;
       this.email = cookies.state.email;
       this.phone = cookies.state.phone;
@@ -448,7 +455,7 @@ export default {
 
     },
     setCookies() {
-      console.log("SET COOKIES");
+      console.log("SET COOKIES product-order");
       const payload = {
         route: {
           url: window.location.href,
@@ -467,6 +474,9 @@ export default {
           hotel: this.hotel,
           dibayar: this.dibayar,
           dibayar_nominal: this.dibayar_nominal,
+
+          room_qty: this.room_qty,
+          room_budget: this.room_budget,
 
           name: this.name,
           email: this.email,

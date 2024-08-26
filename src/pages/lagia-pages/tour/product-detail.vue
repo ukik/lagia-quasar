@@ -1,47 +1,6 @@
 <template>
   <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
 
-  <!-- <isHtml2PDF ref="isHtml2PDF"> xxxxxxxxxxxxxxxxxxxx </isHtml2PDF> -->
-  <!-- <div class="sticky">xxxxxxxxxxxxxxxxxxxxx</div> -->
-
-  <!-- :style="`left:${stickyPrice?.x}px;`" -->
-  <!-- <q-dialog
-      seamless
-      full-width
-      position="bottom"
-      v-model="product_price"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card
-      >
-
-          <template v-for="(item, i) in record?.tourPrices">
-            <div :class="price_css">
-          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
-            <q-item-label class="text-white text-capitalize"
-              >Harga Dewasa {{ item?.typePrice }}</q-item-label
-            >
-            <q-item-label class="text-h4">{{
-              $currency($finalPrice(item))
-            }}</q-item-label>
-          </q-item-section>
-        </div>
-
-        <div :class="price_css">
-          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
-            <q-item-label class="text-white text-capitalize"
-              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
-            >
-            <q-item-label class="text-h4">{{
-              $currency($finalPriceAnak(item))
-            }}</q-item-label>
-          </q-item-section>
-        </div>
-        </template>
-      </q-card>
-    </q-dialog> -->
-
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
     <div
@@ -55,35 +14,10 @@
         <q-spinner color="primary" size="3em" />
       </div>
 
-      <!-- <div class="col-12"> -->
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
         <div v-if="record?.tourStore" class="col-12 q-mb-lg">
-          <!-- <q-list bordered>
-            <q-expansion-item group="somegroup" header-class="bg-grey-1" default-opened>
-              <template v-slot:header>
-                <q-item-section avatar>
-                  <q-avatar color="primary" text-color="white">
-                    <q-icon name="storefront"></q-icon>
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section class="text-h6 text-dark">
-                  PROFILE VENDOR
-                </q-item-section>
-              </template>
-              <q-separator />
-
-              <q-card>
-                <q-card-section> -->
           <PriceReferenceStore :item="record?.tourStore"></PriceReferenceStore>
-          <!-- </q-card-section>
-              </q-card>
-            </q-expansion-item>
-          </q-list> -->
         </div>
-
-        <!-- <q-btn @click="$refs.isHtml2PDF.onGenerate()" label="print PDF"></q-btn>
-        <q-btn @click="exportToPDF" label="On PDF"></q-btn> -->
 
         <StoreDetailProductContent
           id="StoreDetailProductContent"
@@ -96,7 +30,6 @@
         v-if="$q.screen.width > 768"
         :class="[$q.screen.width > 768 ? '' : 'row']"
       >
-        <!-- <div id="stickyPrice"></div> -->
         <template v-for="(item, i) in record?.tourPrices">
           <StoreDetailProductPriceSimulasi
             :simulasi="false"
@@ -106,7 +39,7 @@
             :date_sticky="true"
           >
             <template v-slot:header="">
-              <q-card-section  class="bg-grey-1 ">
+              <q-card-section class="bg-grey-1">
                 <q-item-section>
                   <q-item-label class="text-h6 text-weight-normal"
                     >SIMULASI BIAYA</q-item-label
@@ -117,7 +50,8 @@
             </template>
             <template v-slot:buttons>
               <div class="col-xl-auto col-lg-auto col-md-12 col-sm-12 col-xs-12">
-                <q-btn class="full-width"
+                <q-btn
+                  class="full-width"
                   unelevated
                   size="md"
                   no-caps
@@ -129,7 +63,9 @@
                 />
               </div>
               <div class="col-xl col-lg col-md-12 col-sm-12 col-xs-12">
+                {{ loading }} xxx
                 <q-btn
+                  :loading="loading"
                   class="full-width"
                   unelevated
                   size="md"
@@ -147,11 +83,6 @@
         </template>
 
         <q-no-ssr v-if="false">
-          <!-- <StoreDetailProductPriceList
-      :items="record?.tourPrices"
-      :count="record?.tourPricesCount"
-    ></StoreDetailProductPriceList> -->
-
           <FormBookingPackageSide
             class="col-12"
             :class="[$q.screen.width > 768 ? '' : 'q-mt-xl order-last']"
@@ -165,8 +96,6 @@
   </div>
 
   <q-no-ssr>
-    <!-- <q-page-sticky v-if="scrollY >= 480" style="z-index: 999;" position="top" :offset="[10, 10]"> -->
-
     <q-dialog
       v-if="false"
       seamless
@@ -219,15 +148,13 @@ import StoreDetailProductPriceSimulasi from "./components/detail/StoreDetailProd
 // SOLUSI SSR via SETUP
 
 import { useTourProductDetailStore } from "stores/lagia-stores/tour/TourProductDetailStore";
+
 import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
 import { mapWritableState, storeToRefs } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
-
-// import { useRoute } from "vue-router";
-// const route = useRoute();
 
 defineOptions({
   // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
@@ -250,102 +177,185 @@ defineOptions({
   ),
 });
 
-const $auth = useAuthStore();
-const { auth } = storeToRefs($auth);
+// const $auth = useAuthStore();
+// const { auth } = storeToRefs($auth);
 
-const $store = useTourProductDetailStore();
-const {
-  dataType,
-  record,
-  isMaintenance,
-
-  loading,
-} = storeToRefs($store); // have all reactive states here
+// const $store = useTourProductDetailStore();
+// const {
+//   dataType,
+//   record,
+//   isMaintenance,
+// } = storeToRefs($store); // have all reactive states here
 </script>
 
 <script>
-// import html2pdf from "html2pdf.js";
-
-// export default {
-//   methods: {
-//     exportToPDF() {
-//       html2pdf(document.getElementById("StoreDetailProductContent"), {
-//         margin: 1,
-//         filename: "i-was-html.pdf",
-//       });
-//     },
-//   },
-// };
+import { date } from "quasar";
 import { mapWritableState } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
-
+import { useTourProductDetailStore } from "stores/lagia-stores/tour/TourProductDetailStore";
 
 export default {
   // props: ["scrollY"],
   data() {
     return {
       product_price: true,
-      stickyPrice: null,
     };
   },
   computed: {
-    ...mapWritableState(useAddToCartStore, [
+    ...mapWritableState(useTourProductDetailStore, [
       "date_start",
-      "participant_young",
       "participant_adult",
+      "participant_young",
       "description",
       "hotel",
-    ]),
-  },
-  // watch: {
-  //   scrollY(val) {
-  //     if (val >= 480) {
-  //       this.product_price = true;
-  //     } else {
-  //       this.product_price = false;
-  //     }
-  //   },
-  //   // "$q.screen.width": function () {
-  //   //   const stickyPrice = document.querySelector("#stickyPrice");
-  //   //   console.log("stickyPrice", stickyPrice.getBoundingClientRect());
-  //   //   this.stickyPrice = stickyPrice;
-  //   // },
-  // },
-  mounted() {
-    // const stickyPrice = document.querySelector("#stickyPrice");
-    // console.log("stickyPrice", stickyPrice.getBoundingClientRect());
-    // this.stickyPrice = stickyPrice;
+      "dibayar",
+      "dibayar_nominal",
 
-    const cookies_name = "TOUR-"+this.$route.params?.slug+"-"+this.$route.params?.slug_text //window.location.href
+      "room_qty",
+      "room_budget",
+
+      "name",
+      "email",
+      "phone",
+      "instance",
+      "city",
+      "address",
+
+      "record",
+
+      "loading",
+    ]),
+    to_watch() {
+      return {
+        date_start: this.date_start,
+        participant_adult: this.participant_adult,
+        participant_young: this.participant_young,
+        description: this.description,
+        hotel: this.hotel,
+        dibayar: this.dibayar,
+        dibayar_nominal: this.dibayar_nominal,
+
+        room_qty: this.room_qty,
+        room_budget: this.room_budget,
+
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        instance: this.instance,
+        city: this.city,
+        address: this.address,
+      };
+    },
+  },
+  watch: {
+    to_watch() {
+      this.setCookies();
+    },
+  },
+  mounted() {
+    const vm = this;
+    const cookies_name =
+      "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
 
     if (!this.$q.cookies.has(cookies_name)) return;
-    this.$q.notify({
-      message: "Load data formulir",
-      color: "positive",
-      position: "bottom"
-    });
-
-    const cookies = this.$q.cookies.get(cookies_name);
-
-    this.date_start = cookies.state.date_start;
-    this.participant_young = cookies.state.participant_young;
-    this.participant_adult = cookies.state.participant_adult;
-    this.description = cookies.state.description;
-    this.hotel = cookies.state.hotel;
-
-    console.log("GET COOKIES", cookies);
+    vm.getCookies(cookies_name);
+    return;
   },
   methods: {
     onSubmit(i) {
+      this.loading = true;
       this.$refs["side_price" + i][i]?.onSubmit();
+    },
+    getCookies(cookies_name) {
+      const cookies = this.$q.cookies.get(cookies_name);
+      console.log("getDateDiff", this.getDateDiff(cookies.state.date_start));
+
+      if (this.getDateDiff(cookies.state.date_start) > 0) {
+        this.date_start = cookies.state.date_start;
+      }
+
+      this.participant_adult = cookies.state.participant_adult;
+      this.participant_young = cookies.state.participant_young;
+      this.description = cookies.state.description;
+      this.hotel = cookies.state.hotel;
+      this.dibayar = cookies.state.dibayar;
+      this.dibayar_nominal = cookies.state.dibayar_nominal;
+
+      this.room_qty = cookies.state.room_qty;
+      this.room_budget = cookies.state.room_budget;
+
+      this.name = cookies.state.name;
+      this.email = cookies.state.email;
+      this.phone = cookies.state.phone;
+      this.instance = cookies.state.instance;
+      this.city = cookies.state.city;
+      this.address = cookies.state.address;
+
+      console.log("GET COOKIES", cookies);
+    },
+    setCookies() {
+      console.log("SET COOKIES");
+      const payload = {
+        route: {
+          url: window.location.href,
+          host: this.$getHost(),
+          path: this.$route.path,
+          name: this.$route.name,
+          params: this.$route.params,
+          query: this.$route.query,
+        },
+        state: {
+          date_start: this.date_start,
+          participant_adult: this.participant_adult,
+          participant_young: this.participant_young,
+          description: this.description,
+          hotel: this.hotel,
+          dibayar: this.dibayar,
+          dibayar_nominal: this.dibayar_nominal,
+
+          room_qty: this.room_qty,
+          room_budget: this.room_budget,
+
+          name: this.name,
+          email: this.email,
+          phone: this.phone,
+          instance: this.instance,
+          city: this.city,
+          address: this.address,
+        },
+      };
+
+      const cookies_name =
+        "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; // this.$route.params?.slug_text; //window.location.href
+      this.$q.cookies.set(cookies_name, JSON.stringify(payload), {
+        secure: true,
+        path: "/", // wajib
+      });
+
+      // this.$q.notify({
+      //   message: "Simpan data formulir",
+      //   color: "positive",
+      //   position: "bottom"
+      // });
+    },
+    getDateDiff(date_start) {
+      // const payload = date_start?.split('/')
+
+      let max = new Date();
+      max = date.addToDate(max, { days: 3 });
+      //const min = this.$stringToDate("17/9/2014","dd/MM/yyyy","/"); //new Date(date_start); //date.buildDate({ year: payload[0], month: payload[1], date: payload[2] })
+      const min = new Date(date_start);
+      const unit = "days";
+
+      console.log(date_start, max, min);
+      // const diff =
+      return date.getDateDiff(min, max, unit);
     },
   },
 };
 </script>
 
 <style scoped>
-
 .content-page-section {
   padding-bottom: 80px;
 }

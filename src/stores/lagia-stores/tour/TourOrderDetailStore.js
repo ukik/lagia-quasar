@@ -23,6 +23,9 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
     dibayar: null,
     dibayar_nominal: null,
 
+    room_qty: null,
+    room_budget: null,
+
     name: null,
     email: null,
     phone: null,

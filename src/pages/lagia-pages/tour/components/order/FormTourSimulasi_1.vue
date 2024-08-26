@@ -4,8 +4,9 @@
     id="FormTour"
     @submit.prevent.stop="onSubmit"
   >
-    <div class="col-12">
+    <!-- <div class="col-12">
       <q-field
+        v-if="date_sticky"
         dense
         outlined
         bg-color="white"
@@ -30,7 +31,8 @@
         </q-date>
       </q-field>
 
-      <!-- <q-input
+      <q-input
+        v-else-if="!date_sticky"
         @click="$refs.popupProxy.show()"
         clearable
         outlined
@@ -60,28 +62,30 @@
             </q-popup-proxy>
           </q-icon>
         </template>
-      </q-input> -->
-    </div>
+      </q-input>
+    </div> -->
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <q-input
+        type="number"
         @clear="onMinParticipantRule"
+        @blur="$refs.dewasaRef.validate()"
         clearable
         dense
-        mask="###"
-        unmasked-value
         bg-color="white"
         outlined
         color="primary"
         ref="dewasaRef"
         v-model="participant_adult"
-        :placeholder="`(Minimal) Peserta ${item?.minParticipant}`"
-        :hint="`(Minimal) Peserta ${item?.minParticipant}`"
-        :error-message="`(Minimal) Peserta ${item?.minParticipant}`"
-        lazy-rules
+        :placeholder="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :hint="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :error-message="`Peserta Dewasa (min. ${item?.minParticipant})`"
+        :lazy-rules="false"
+        :debounce="2500"
         :rules="[(val) => !!val || '', minParticipantRule]"
         bottom-slots
       >
+        <!-- :rules="[(val) => !!val || '', minParticipantRule]" -->
         <template v-slot:prepend>
           <q-icon name="fa-solid fa-person" />
         </template>
@@ -108,7 +112,7 @@
       </q-input>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" id="hotelRef">
       <q-select
         @clear="hotel = 'Pilih Hotel'"
         :clearable="hotel !== 'Pilih Hotel'"
@@ -127,6 +131,8 @@
         placeholder="Pilih Hotel"
         hint="Pilih Hotel"
         error-message="Pilih Hotel"
+        :lazy-rules="false"
+        :debounce="300"
         :rules="[(val) => (!!val && val !== 'Pilih Hotel') || '']"
       >
         <template v-slot:prepend>
@@ -134,7 +140,7 @@
         </template>
       </q-select>
     </div>
-    <div class="col-12">
+    <!-- <div class="col-12">
       <q-input
         type="textarea"
         clearable
@@ -152,16 +158,16 @@
           <q-icon name="description" />
         </template>
       </q-input>
-    </div>
+    </div> -->
   </form>
 </template>
 
 <script>
 import { storeToRefs, mapState, mapWritableState } from "pinia";
 
-import { useAddToCartStore } from "stores/lagia-stores/tour/AddToCartStore";
+import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 
-import { date } from "quasar";
+import { Cookies, date } from "quasar";
 
 const { addToDate } = date;
 const newDate = addToDate(new Date(), { days: 2 });
@@ -195,41 +201,65 @@ const options = [
 ];
 
 export default {
-  props: ["item"],
+  props: ["item", "date_sticky"],
   data() {
     return {
       slug: "tour",
     };
   },
   mounted() {
+    this.$refs?.dewasaRef?.validate();
+    this.$refs?.dateRef?.validate();
+    this.$refs?.hotelRef?.validate();
+
     // console.log(formattedString, newDate);
-    this.onMinParticipantRule();
+    // this.onMinParticipantRule();
+
+    // const cookies_name = this.$route.params?.slug_text; //window.location.href
+    // const cookies = this.$q.cookies.get(cookies_name);
+
+    // if (!cookies) return;
+    // this.$q.notify({
+    //   message: "Load data formulir",
+    //   color: "positive",
+    // });
+
+    // this.date_start = cookies.state.date_start;
+    // this.participant_young = cookies.state.participant_young;
+    // this.participant_adult = cookies.state.participant_adult;
+    // this.description = cookies.state.description;
+    // this.hotel = cookies.state.hotel;
+
+    // console.log("GET COOKIES", cookies);
   },
   // props: ["item"],
   setup() {
-    const store = useAddToCartStore();
+    const store = useTourOrderDetailStore();
     const {
-      prompt,
-      quantity,
-      date_start,
-      participant_young,
-      participant_adult,
-      // description,
-      hotel,
+      // prompt,
+      // quantity,
+      // date_start,
+      // participant_young,
+      // participant_adult,
+      // // description,
+      // hotel,
     } = storeToRefs(store); // have all reactive states here
-    const { onAdd, onRemove, onAddToCart } = store;
+    const {
+      // onAdd, onRemove,
+      onAddToCart,
+    } = store;
 
     return {
       onAddToCart,
-      onAdd,
-      onRemove,
-      prompt,
-      quantity,
-      date_start,
-      participant_young,
-      participant_adult,
-      // description,
-      hotel,
+      // onAdd,
+      // onRemove,
+      // prompt,
+      // quantity,
+      // date_start,
+      // participant_young,
+      // participant_adult,
+      // // description,
+      // hotel,
       options: options,
 
       optionsFn(date) {
@@ -238,7 +268,13 @@ export default {
     };
   },
   computed: {
-    ...mapWritableState(useAddToCartStore, ['description'])
+    ...mapWritableState(useTourOrderDetailStore, [
+      "date_start",
+      "participant_young",
+      "participant_adult",
+      "description",
+      "hotel",
+    ]),
 
     // getPriceCart() {
     //   if (!this.item) return 0;
@@ -274,10 +310,17 @@ export default {
           // as having an error, but there will not be any
           // error message displayed below the input
           // (only in browser console)
-        }, 0);
+        }, 250);
       });
     },
-    async onSubmit({ price_id }) {
+    notify(message) {
+      this.$q.notify({
+        color: "negative",
+        message: message,
+        position: "top",
+      });
+    },
+    async onSubmit() {
       const vm = this;
 
       vm.$refs?.dewasaRef?.validate();
@@ -285,20 +328,31 @@ export default {
       vm.$refs?.dateRef?.validate();
       vm.$refs?.hotelRef?.validate();
 
-      if (vm.$refs?.dateRef?.hasError) {
-        return vm.$q.notify({
-          color: "negative",
-          message: "Tanggal Berangkat (wajib)",
-          position: "top",
-        });
-      } else if (vm.participant_adult < Number(vm.item?.minParticipant))
+      if (vm.participant_adult < Number(vm.item?.minParticipant)) {
+        vm.participant_adult = this.item?.minParticipant;
+        this.notify("Minimal Peserta " + this.item?.minParticipant + " (wajib)");
+      }
+      if (vm.$refs?.dewasaRef?.hasError) {
+        vm.participant_adult = this.item?.minParticipant;
+        this.notify("Minimal Peserta " + this.item?.minParticipant + " (wajib)");
+      }
+      if (vm.$refs?.hotelRef?.hasError) this.notify("Hotel (wajib)");
+
+      return;
+      // if (vm.$refs?.dateRef?.hasError) {
+      //   return vm.$q.notify({
+      //     color: "negative",
+      //     message: "Tanggal Berangkat (wajib)",
+      //     position: "top",
+      //   });
+      // } else
+      if (vm.participant_adult < Number(vm.item?.minParticipant)) {
         return vm.$q.notify({
           color: "negative",
           message: "(Minimal) Peserta " + this.item?.minParticipant + " (wajib)",
           position: "top",
         });
-
-      if (vm.$refs?.dewasaRef?.hasError) {
+      } else if (vm.$refs?.dewasaRef?.hasError) {
         return vm.$q.notify({
           color: "negative",
           message: "(Minimal) Peserta " + this.item?.minParticipant + " (wajib)",
@@ -311,7 +365,33 @@ export default {
           position: "top",
         });
       } else {
-        return
+        const payload = {
+          route: {
+            url: window.location.href,
+            host: this.$getHost(),
+            path: this.$route.path,
+            name: this.$route.name,
+            params: this.$route.params,
+            query: this.$route.query,
+          },
+          state: {
+            date_start: this.date_start,
+            participant_young: this.participant_young,
+            participant_adult: this.participant_adult,
+            description: this.description,
+            hotel: this.hotel,
+          },
+        };
+
+        const cookies_name = this.$route.params?.slug_text; //window.location.href
+        vm.$q.cookies.set(cookies_name, JSON.stringify(payload), {
+          secure: true,
+          path: "/", // wajib
+        });
+
+        // console.log('GET JSON.stringify(payload)', vm.$q.cookies.get(window.location.href))
+
+        return;
         const resp = await vm.onAddToCart({
           price_id,
           slug: vm.slug,
@@ -326,7 +406,7 @@ export default {
             product: null,
           });
         }
-        return
+        return;
         if (resp) {
           vm.$router.push({
             name: "/tour/cart",

@@ -482,16 +482,25 @@ export default {
     };
   },
   computed: {
-    // ...mapWritableState(useTourCartListStore, ["records"]),
-    // ...mapState(useTourCartSelectedStore, ["selected"]),
-    ...mapWritableState(useTourOrderDetailStore, {
-      name:'name',
-      email:'email',
-      phone:'phone',
-      instance:'instance',
-      city:'city',
-      address:'address',
-    })
+    ...mapWritableState(useTourOrderDetailStore, [
+      "date_start",
+      "participant_adult",
+      "participant_young",
+      "description",
+      "hotel",
+      "dibayar",
+      "dibayar_nominal",
+
+      "room_qty",
+      "room_budget",
+
+      "name",
+      "email",
+      "phone",
+      "instance",
+      "city",
+      "address",
+    ])
   },
   mounted() {
     this.$refs?.nameRef.validate();

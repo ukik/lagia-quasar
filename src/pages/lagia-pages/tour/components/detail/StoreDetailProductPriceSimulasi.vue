@@ -1,5 +1,5 @@
 <template>
-  <div class=" items-start q-gutter-md">
+  <div class="items-start q-gutter-md">
     <q-card class="" flat bordered>
       <slot name="header"></slot>
 
@@ -77,7 +77,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="q-mt-lg " v-if="simulasi" flat bordered>
+    <q-card class="q-mt-lg" v-if="simulasi" flat bordered>
       <!-- <q-separator v-if="simulasi"></q-separator> -->
 
       <q-card-section class="bg-grey-1">
@@ -89,34 +89,11 @@
       <q-separator></q-separator>
 
       <q-card-section>
-        <!-- <q-item-label class="text-h6 q-mb-md text-bold text-dark"
-          >DAFTAR HARGA</q-item-label
-        > -->
-        <!-- <q-list bordered class="q-mx-md q-mb-md">
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Subtotal Dewasa</q-item-label>
-              <q-item-label>{{ $currency(subTotalDewasa) }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Subtotal Anak (2-6 tahun)</q-item-label>
-              <q-item-label >{{ $currency(subTotalAnak) }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label caption>Subtotal Dijumlah (diluar hotel)</q-item-label>
-              <q-item-label >{{
-                $currency(subTotalAnak + subTotalDewasa)
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list> -->
-
         <q-list>
           <table>
+            <tr>
+              <td class="text-h6 bg-cyan text-white text-bold" colspan="2">PESERTA</td>
+            </tr>
             <tr>
               <td>Peserta Dewasa</td>
               <td class="text-h6">
@@ -126,7 +103,19 @@
             <tr>
               <td>Peserta Anak (2-6 tahun)</td>
               <td class="text-h6">
-                {{ participant_young }}
+                {{ !participant_young ? 0 : participant_young }}
+              </td>
+            </tr>
+            <tr>
+              <td>Harga Dewasa</td>
+              <td class="text-h6">
+                {{ $currency($finalPrice(item)) }}
+              </td>
+            </tr>
+            <tr>
+              <td>Harga Anak (2-6 tahun)</td>
+              <td class="text-h6">
+                {{ $currency($finalPriceAnak(item)) }}
               </td>
             </tr>
             <tr>
@@ -141,10 +130,19 @@
                 {{ $currency(subTotalAnak) }}
               </td>
             </tr>
-            <tr>
-              <td>Subtotal Biaya Tour (diluar hotel)</td>
-              <td class="text-h6">
+            <tr class="text-bold">
+              <td>Subtotal Peserta Tour</td>
+              <td class="text-h6 text-bold">
                 {{ $currency(getTotalNonHotel) }}
+              </td>
+            </tr>
+            <tr>
+              <td class="text-h6 bg-cyan text-white text-bold" colspan="2">HOTEL</td>
+            </tr>
+            <tr>
+              <td class="text-body2 bg-orange-1" colspan="2">
+                <q-icon name="info"></q-icon>
+                budget kamar bisa menyesuaikan kebutuhan Anda
               </td>
             </tr>
             <tr>
@@ -152,65 +150,42 @@
               <td class="text-capitalize">{{ hotel }}</td>
             </tr>
             <tr>
-              <td>Kamar Hotel (Harga Min.)</td>
+              <td>Harga Kamar Hotel (Terendah)</td>
               <td>{{ $currency(getHotelPrice?.minPrice) }}</td>
             </tr>
             <tr>
-              <td>Kamar Hotel (Harga Max.)</td>
+              <td>Harga Kamar Hotel (Tertinggi)</td>
               <td>{{ $currency(getHotelPrice?.maxPrice) }}</td>
             </tr>
             <tr>
-              <td>Kamar Hotel (Rata-rata)</td>
-              <td>{{ $currency(getAVGHotel) }}</td>
+              <td>Jumlah Kamar (Dipesan)</td>
+              <td class="text-capitalize">{{ room_qty }}</td>
             </tr>
             <tr>
-              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Single Bed)</td>
-              <td>{{ $currency(getSingleBed) }}</td>
+              <td>Budget Kamar (Dipesan)</td>
+              <td>{{ $currency(room_budget) }}</td>
             </tr>
+            <tr class="text-bold">
+              <td>Subtotal Anggaran Hotel</td>
+              <td class="text-h6 text-bold">
+                {{ $currency(grandTotalHotel) }}
+              </td>
+            </tr>
+
             <tr>
-              <td>Subtotal Kamar Hotel (Rata-rata) (Peserta Double Bed)</td>
-              <td>{{ $currency(getDoubleBed) }}</td>
+              <td class="text-h6 bg-cyan text-white text-bold" colspan="2">PEMBAYARAN</td>
             </tr>
 
-            <!-- <tr class="text-bold">
-              <td>Grand Total + Hotel Harga Minimal</td>
-              <td class="text-positive">
-                {{
-                  $currency(Number(getTotalNonHotel) + Number(getHotelPrice?.minPrice))
-                }}
+            <tr class="text-bold">
+              <td>Full Payment 100% (Biaya Tour + Kamar Hotel)</td>
+              <td class="">
+                {{ $currency(grandTotal) }}
               </td>
             </tr>
             <tr class="text-bold">
-              <td>Grand Total + Hotel Harga Maksimal</td>
-              <td class="text-orange">
-                {{
-                  $currency(Number(getTotalNonHotel) + Number(getHotelPrice?.maxPrice))
-                }}
-              </td>
-            </tr> -->
-            <tr class="text-bold">
-            <td>Grandtotal Biaya Tour + Kamar Hotel (Peserta Single Bed)</td>
-            <td class="">
-              {{ $currency(getSingleBed + getTotalNonHotel) }}
-            </td>
-          </tr>
-          <tr class="text-bold">
-            <td>Grandtotal Biaya Tour + Kamar Hotel (Peserta Double Bed)</td>
-            <td class="">
-              {{ $currency(getDoubleBed + getTotalNonHotel) }}
-            </td>
-          </tr>
-
-          <tr class="text-bold">
-              <td>Down Payment 30% dari Grandtotal (Peserta Single Bed)</td>
+              <td>Down Payment 30% (Biaya Tour + Kamar Hotel)</td>
               <td>
-                <span>{{ $currency(getDPSingleBed) }}</span>
-              </td>
-            </tr>
-            <tr class="text-bold">
-              <td>Down Payment 30% dari Grandtotal (Peserta Double Bed)</td>
-              <td>
-                <span>{{ $currency(getDPDoubleBed) }}</span>
+                <span>{{ $currency(grandTotalDP) }}</span>
               </td>
             </tr>
           </table>
@@ -220,11 +195,11 @@
       <!-- <q-separator></q-separator> -->
     </q-card>
 
-    <q-card class="q-mt-lg " flat bordered>
+    <q-card class="q-mt-lg" flat bordered>
       <q-card-section class="row q-col-gutter-md">
         <slot name="buttons">
           <!-- <q-btn-group  spread unelevated> -->
-          <q-btn
+          <!-- <q-btn
             size="lg"
             no-caps
             square
@@ -252,7 +227,7 @@
             text-color="white"
             label="Pesan via APP"
             icon="shopping_cart_checkout"
-          />
+          /> -->
           <!-- </q-btn-group> -->
         </slot>
       </q-card-section>
@@ -264,7 +239,9 @@
 import { ref } from "vue";
 import { mapState, mapWritableState, storeToRefs } from "pinia";
 
-import { useAddToCartStore } from "src/stores/lagia-stores/tour/AddToCartStore";
+// import { useAddToCartStore } from "src/stores/lagia-stores/tour/AddToCartStore";
+
+import { useTourProductDetailStore } from "src/stores/lagia-stores/tour/TourProductDetailStore";
 
 import FormTourSimulasi from "./FormTourSimulasi";
 
@@ -293,31 +270,7 @@ export default {
     const lightbox = useGlobalEasyLightbox();
     const { showMultiple } = lightbox;
 
-    const store = useAddToCartStore();
-    // const {
-    //   prompt,
-    //   quantity,
-    //   date_start,
-    //   participant_young,
-    //   participant_adult,
-    //   hotel,
-    // } = storeToRefs(store); // have all reactive states here
-    const {
-      // onAdd, onRemove,
-      onAddToCart
-    } = store;
-
     return {
-      onAddToCart,
-      // onAdd,
-      // onRemove,
-      // prompt,
-      // quantity,
-      // date_start,
-      // participant_young,
-      // participant_adult,
-      // hotel,
-
       optionsFn(date) {
         return date >= formattedString; //'2019/02/03' && date <= '2019/02/15'
       },
@@ -328,59 +281,43 @@ export default {
   },
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),
-    ...mapWritableState(useAddToCartStore, [
-      'quantity',
-      'date_start',
-      'participant_young',
-      'participant_adult',
-      'hotel',
-      'dibayar',
+    ...mapWritableState(useTourProductDetailStore, [
+      "date_start",
+      "participant_adult",
+      "participant_young",
+      "description",
+      "hotel",
+      "dibayar",
+      "dibayar_nominal",
+
+      "room_qty",
+      "room_budget",
+
+      "name",
+      "email",
+      "phone",
+      "instance",
+      "city",
+      "address",
     ]),
+    grandTotal() {
+      return Number(this.grandTotalHotel) + Number(this.getTotalNonHotel);
+    },
+    grandTotalDP() {
+      return (Number(this.grandTotal) * 30) / 100;
+    },
+    grandTotalHotel() {
+      return Number(this.room_qty) * Number(this.room_budget);
+    },
     subTotalAnak() {
       return this.participant_young * this.$finalPriceAnak(this.item);
     },
     subTotalDewasa() {
       return this.participant_adult * this.$finalPrice(this.item);
     },
-    getAVGHotel() {
-      return (
-        (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice)) / 2
-      );
-    },
     getAllPerserta() {
       return Number(this.participant_adult) + Number(this.participant_young);
     },
-    getDoubleBed() {
-      const bagi = this.getAllPerserta / 2;
-      const sisa = this.getAllPerserta % 2;
-
-      return this.getAVGHotel * (bagi + sisa);
-    },
-    getSingleBed() {
-      const all = this.getAllPerserta;
-
-      return this.getAVGHotel * all;
-    },
-    getDPSingleBed() {
-      const cal = this.getSingleBed + this.getTotalNonHotel;
-      return (cal * 30) / 100;
-    },
-    getDPDoubleBed() {
-      const cal = this.getDoubleBed + this.getTotalNonHotel;
-      return (cal * 30) / 100;
-    },
-    // getSelectedTourPrice: state => {
-    //   if (state.selected.length > 0) return state.selected[0]?.tourPrice
-    //   return []
-    // },
-    // subTotalAnak: state => {
-    //   if (state.selected.length <= 0) return 0
-    //   return state.participant_young * finalPriceAnak(state.selected[0]?.tourPrice);
-    // },
-    // subTotalDewasa: state => {
-    //   if (state.selected.length <= 0) return 0
-    //   return state.participant_adult * finalPrice(state.selected[0]?.tourPrice);
-    // },
     getHotelPrice() {
       if (this.page_hotel_level_price && this.hotel !== "Pilih Hotel") {
         let temp = {};
@@ -400,16 +337,6 @@ export default {
 
     getTotalNonHotel() {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
-    },
-    getGrandAvg() {
-      return (
-        Number(this.subTotalAnak) +
-        Number(this.subTotalDewasa) +
-        (Number(this.getHotelPrice?.minPrice) + Number(this.getHotelPrice?.maxPrice)) / 2
-      );
-    },
-    getDPAvg() {
-      return this.getGrandAvg - (this.getGrandAvg * 30) / 100;
     },
   },
   methods: {

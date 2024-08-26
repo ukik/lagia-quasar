@@ -15,6 +15,24 @@ export const useTourProductDetailStore = defineStore('TourProductDetailStore', {
     record: {},
     isMaintenance: false,
 
+    date_start: null,
+    participant_adult: null,
+    participant_young: null,
+    description: null,
+    hotel: 'Pilih Hotel',
+    dibayar: null,
+    dibayar_nominal: null,
+
+    room_qty: null,
+    room_budget: null,
+
+    name: null,
+    email: null,
+    phone: null,
+    instance: null,
+    city: null,
+    address: null,
+
     loading: false,
     loading_store: false,
   }),
