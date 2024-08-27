@@ -158,6 +158,10 @@
               <td>{{ $currency(getHotelPrice?.maxPrice) }}</td>
             </tr>
             <tr>
+              <td>Harga Kamar Hotel (Rata-rata)</td>
+              <td>{{ $currency(getHotelAVG) }}</td>
+            </tr>
+            <tr>
               <td>Jumlah Kamar (Dipesan)</td>
               <td class="text-capitalize">{{ room_qty }}</td>
             </tr>
@@ -288,7 +292,7 @@ export default {
       "description",
       "hotel",
       "dibayar",
-      "dibayar_nominal",
+      "dibayar_percent",
 
       "room_qty",
       "room_budget",
@@ -308,6 +312,9 @@ export default {
     },
     grandTotalHotel() {
       return Number(this.room_qty) * Number(this.room_budget);
+    },
+    getHotelAVG() {
+      return (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice)) / 2
     },
     subTotalAnak() {
       return this.participant_young * this.$finalPriceAnak(this.item);
@@ -334,7 +341,6 @@ export default {
         return temp;
       }
     },
-
     getTotalNonHotel() {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
     },

@@ -158,6 +158,10 @@
               <td>{{ $currency(getHotelPrice?.maxPrice) }}</td>
             </tr>
             <tr>
+              <td>Harga Kamar Hotel (Rata-rata)</td>
+              <td>{{ $currency(getHotelAVG) }}</td>
+            </tr>
+            <tr>
               <td>Jumlah Kamar (Dipesan)</td>
               <td class="text-capitalize">{{ room_qty }}</td>
             </tr>
@@ -205,7 +209,112 @@
       <q-separator v-if="subTotalDewasa"></q-separator>
 
       <q-card-section v-if="subTotalDewasa">
-        <q-banner rounded class="bg-teal text-white q-mb-md">
+
+        <q-list bordered >
+
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="full_payment" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-bold text-uppercase"> Full Payment 100% </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="dibayar == 'full_payment'">
+            <q-item-section avatar>
+              <!-- <q-avatar icon="done" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label header class="q-pa-none">
+                Full Payment 100% (Biaya Tour & Kamar Hotel)
+              </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(grandTotal) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator></q-separator>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="dp_payment" color="pink" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-bold text-uppercase"> Down Payment {{ dibayar_percent }}%</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="dibayar == 'dp_payment'">
+            <q-item-section avatar>
+              <!-- <q-avatar icon="done" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label header class="q-pa-none">
+                Down Payment {{ dibayar_percent }}% (Biaya Tour & Kamar Hotel)
+              </q-item-label>
+              <q-item-label class="text-h6" :class="[ getDPRule ? 'text-dark' : 'text-negative']">
+                {{ $currency(grandTotalDP) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="dibayar == 'dp_payment'">
+            <q-item-section avatar>
+              <!-- <q-avatar icon="done" /> -->
+            </q-item-section>
+            <q-item-section>
+              Minimal down payment (DP 30%)
+              <q-input suffix="%"
+              debounce="100"
+                clearable
+                @clear="dibayar_percent = 30"
+                dense
+                type="number"
+                max="100"
+                min="30"
+                bg-color="white"
+                outlined
+                color="primary"
+                ref="dibayarPercentRef"
+                v-model="dibayar_percent"
+                placeholder="0"
+                hint="Minimal down payment (DP 30%) (wajib)"
+                error-message="Minimal down payment (DP 30%) (wajib)"
+
+                :rules="[minDPRule, (val) => !!val || '']"
+              >
+                <template v-slot:prepend>
+                  <!-- <q-icon name="fa-regular fa-credit-card" /> -->
+                </template>
+              </q-input>
+            </q-item-section>
+          </q-item>
+
+          <!-- <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="full_payment" color="cyan" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption> Full Payment 100% (Biaya Tour + Kamar Hotel) </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(grandTotal) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator></q-separator>
+          <q-item-label header>Down Payment 30% </q-item-label>
+          <q-item tag="label" v-ripple>
+            <q-item-section avatar>
+              <q-radio v-model="dibayar" val="dp_payment" color="orange" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption> Down Payment 30% (Biaya Tour + Kamar Hotel) </q-item-label>
+              <q-item-label class="text-h6">
+                {{ $currency(grandTotalDP) }}
+              </q-item-label>
+            </q-item-section>
+          </q-item> -->
+        </q-list>
+
+        <q-banner rounded class="bg-teal text-white q-mt-md">
           <div class="q-mb-lg">
             Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami
             siap membantu Anda mendapatkan layanan terbaik
@@ -231,40 +340,10 @@
           </template>
         </q-banner>
 
-        <q-list bordered separator>
-          <q-item-label header>Full Payment 100%</q-item-label>
-          <q-item tag="label" v-ripple>
-            <q-item-section avatar>
-              <q-radio v-model="dibayar" val="get_full_payment_single_bed" color="cyan" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label caption> Full Payment 100% (Biaya Tour + Kamar Hotel) </q-item-label>
-              <q-item-label class="text-h6">
-                {{ $currency(grandTotal) }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-separator></q-separator>
-          <q-item-label header>Down Payment 30% </q-item-label>
-          <q-item tag="label" v-ripple>
-            <q-item-section avatar>
-              <q-radio v-model="dibayar" val="get_dp_payment_single_bed" color="orange" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label caption> Down Payment 30% (Biaya Tour + Kamar Hotel) </q-item-label>
-              <q-item-label class="text-h6">
-                {{ $currency(grandTotalDP) }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-
-        </q-list>
       </q-card-section>
 
       <!-- <q-separator></q-separator> -->
     </q-card>
-
   </div>
 </template>
 
@@ -312,6 +391,35 @@ export default {
       expanded: ref(false),
     };
   },
+  mounted() {
+    this.$refs?.dibayarPercentRef?.validate();
+  },
+  watch: {
+    dibayar(val) {
+      console.log(val)
+      if(val == 'dp_payment') setTimeout(() => {
+        this.$refs?.dibayarPercentRef?.validate();
+      }, 300);
+    },
+    dibayar_percent(val) {
+      // console.log(1111)
+      // if(val <= 100 && val >= 30) {
+      //   // this.dibayar_percent = 100
+      //   this.$refs?.dibayarPercentRef?.resetValidation();
+      //   return
+      // } else if(val > 100) {
+      //   this.dibayar_percent = 100
+      //   this.$refs?.dibayarPercentRef?.resetValidation();
+      //   return
+      // } else if(val < 30) {
+      //   this.dibayar_percent = 30
+      //   this.$refs?.dibayarPercentRef?.resetValidation();
+      //   return
+      // }
+      // this.$refs?.dibayarPercentRef?.validate();
+      // console.log(this.$refs?.dibayarPercentRef?.hasError)
+    }
+  },
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),
     ...mapWritableState(useTourOrderDetailStore, [
@@ -321,7 +429,7 @@ export default {
       "description",
       "hotel",
       "dibayar",
-      "dibayar_nominal",
+      "dibayar_percent",
 
       "room_qty",
       "room_budget",
@@ -337,10 +445,15 @@ export default {
       return Number(this.grandTotalHotel) + Number(this.getTotalNonHotel);
     },
     grandTotalDP() {
-      return (Number(this.grandTotal) * 30) / 100;
+      return (Number(this.grandTotal) * Number(this.dibayar_percent)) / 100;
     },
     grandTotalHotel() {
       return Number(this.room_qty) * Number(this.room_budget);
+    },
+    getHotelAVG() {
+      return (
+        (Number(this.getHotelPrice?.maxPrice) + Number(this.getHotelPrice?.minPrice)) / 2
+      );
     },
     subTotalAnak() {
       return this.participant_young * this.$finalPriceAnak(this.item);
@@ -370,10 +483,49 @@ export default {
     getTotalNonHotel() {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
     },
+    getDPRule() {
+      return Number(this.dibayar_percent) >= 30 &&  Number(this.dibayar_percent) <= 100
+    }
   },
   methods: {
     onSubmit() {
+      if(this.dibayar == 'dp_payment') {
+        this.$refs?.dibayarPercentRef?.validate();
+        if (this.$refs?.dibayarPercentRef?.hasError) {
+          return this.$NotifyAlert("Down Payment (30% sd 100%) (wajib)")
+        }
+      }
+
+
       this.$refs.form.onSubmit({ price_id: this.item?.id });
+    },
+    minDPRule(val) {
+
+      const vm = this;
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // call
+          //  resolve(true)
+          //     --> content is valid
+          //  resolve(false)
+          //     --> content is NOT valid, no error message
+          //  resolve(error_message)
+          //     --> content is NOT valid, we have error message
+          const stat = val >= 30 && val <= 100;
+          console.log('minDPRule', val, stat)
+
+          if (!stat) resolve(false) // vm.dibayar_percent = 30;
+
+          resolve(true)
+          // resolve(stat || "Minimal down payment (DP 30%) (wajib)");
+
+          // calling reject(...) will also mark the input
+          // as having an error, but there will not be any
+          // error message displayed below the input
+          // (only in browser console)
+        }, 0);
+      });
     },
     badgeCondition(condition) {
       switch (condition) {

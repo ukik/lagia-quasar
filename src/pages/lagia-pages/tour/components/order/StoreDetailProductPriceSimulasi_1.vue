@@ -445,7 +445,7 @@ export default {
       "participant_adult",
       "hotel",
       "dibayar",
-      "dibayar_nominal",
+      "dibayar_percent",
     ]),
     subTotalAnak() {
       return this.participant_young * this.$finalPriceAnak(this.item);
@@ -514,16 +514,16 @@ export default {
     // dibayar(val) {
     //   switch (val) {
     //     case "lunas_double_bed":
-    //       this.dibayar_nominal = this.getDoubleBed + this.getTotalNonHotel;
+    //       this.dibayar_percent = this.getDoubleBed + this.getTotalNonHotel;
     //       break;
     //     case "lunas_single_bed":
-    //       this.dibayar_nominal = this.getSingleBed + this.getTotalNonHotel;
+    //       this.dibayar_percent = this.getSingleBed + this.getTotalNonHotel;
     //       break;
     //     case "dp_double_bed":
-    //       this.dibayar_nominal = this.getDPDoubleBed;
+    //       this.dibayar_percent = this.getDPDoubleBed;
     //       break;
     //     case "dp_single_bed":
-    //       this.dibayar_nominal = this.getDPSingleBed;
+    //       this.dibayar_percent = this.getDPSingleBed;
     //       break;
     //   }
     // },

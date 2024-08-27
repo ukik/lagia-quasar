@@ -21,10 +21,11 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
     description: null,
     hotel: 'Pilih Hotel',
     dibayar: null,
-    dibayar_nominal: null,
+    dibayar_percent: null,
 
     room_qty: null,
     room_budget: null,
+
 
     name: null,
     email: null,
@@ -46,7 +47,14 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       // if(!state.description) return false
       if(!state.hotel || state.hotel == 'Pilih Hotel') return false
       if(!state.dibayar) return false
-      // if(!state.dibayar_nominal) return false
+      if(state.dibayar == 'dp_payment') {
+        if(!state.dibayar_percent) return false
+        if(Number(state.dibayar_percent) >= 30 &&  Number(state.dibayar_percent) <= 100) {
+
+        } else {
+          return false
+        }
+      }
 
       if(!state.name) return false
       if(!state.email) return false
@@ -145,7 +153,7 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
         this.onNotify('Pilih Nominal Dibayar (wajib)')
         return false
       }
-      // if(!this.dibayar_nominal) {
+      // if(!this.dibayar_percent) {
       //   this.onNotify('Pilih Nominal Dibayar (wajib)')
       //   return false
       // }
@@ -203,7 +211,7 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       formData.append('description', this.description);
       formData.append('hotel', this.hotel);
       formData.append('dibayar', this.dibayar);
-      formData.append('dibayar_nominal', this.dibayar_nominal);
+      formData.append('dibayar_percent', this.dibayar_percent);
 
       formData.append('name', this.name);
       formData.append('email', this.email);

@@ -315,7 +315,7 @@ export default {
       "description",
       "hotel",
       "dibayar",
-      "dibayar_nominal",
+      "dibayar_percent",
 
       "room_qty",
       "room_budget",
@@ -388,7 +388,7 @@ export default {
         setTimeout(() => {
           const stat = val >= Number(vm.getHotelPrice?.minPrice);
 
-          if (!stat) vm.onMinParticipantRule();
+          if (!stat) vm.room_budget = vm.getHotelPrice?.minPrice;
 
           resolve(stat || "Budget Terendah Rp." + vm.getHotelPrice?.minPrice + " (wajib)");
         }, 0);

@@ -296,7 +296,7 @@ export default {
       "description",
       "hotel",
       "dibayar",
-      "dibayar_nominal",
+      "dibayar_percent",
 
       "room_qty",
       "room_budget",
@@ -365,7 +365,7 @@ export default {
         setTimeout(() => {
           const stat = val >= Number(vm.getHotelPrice?.minPrice);
 
-          if (!stat) vm.onMinParticipantRule();
+          if (!stat) vm.room_budget = vm.getHotelPrice?.minPrice;
 
           resolve(stat || "Budget Terendah Rp." + vm.getHotelPrice?.minPrice + " (wajib)");
         }, 0);
@@ -422,26 +422,26 @@ export default {
         }
       }
 
-      this.$q.notify({
-        message: "Simpan data formulir",
-        color: "positive",
-        position: "bottom",
-      });
+      // this.$q.notify({
+      //   message: "Simpan data formulir",
+      //   color: "positive",
+      //   position: "bottom",
+      // });
 
-      vm.$router.push({
-        name: "/tour/product-order",
-        params: {
-          ...this.$route.params,
-        },
-        // query: {
-        //   page: 1,
-        //   perPage: 25,
-        //   search: "",
-        //   orderField: "desc",
-        //   orderDirection: false,
-        //   selected_id: price_id,
-        // },
-      });
+      // vm.$router.push({
+      //   name: "/tour/product-order",
+      //   params: {
+      //     ...this.$route.params,
+      //   },
+      //   // query: {
+      //   //   page: 1,
+      //   //   perPage: 25,
+      //   //   search: "",
+      //   //   orderField: "desc",
+      //   //   orderDirection: false,
+      //   //   selected_id: price_id,
+      //   // },
+      // });
 
     },
   },

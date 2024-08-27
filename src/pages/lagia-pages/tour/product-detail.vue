@@ -209,7 +209,7 @@ export default {
       "description",
       "hotel",
       "dibayar",
-      "dibayar_nominal",
+      "dibayar_percent",
 
       "room_qty",
       "room_budget",
@@ -233,7 +233,7 @@ export default {
         description: this.description,
         hotel: this.hotel,
         dibayar: this.dibayar,
-        dibayar_nominal: this.dibayar_nominal,
+        dibayar_percent: this.dibayar_percent,
 
         room_qty: this.room_qty,
         room_budget: this.room_budget,
@@ -270,7 +270,7 @@ export default {
       const cookies = this.$q.cookies.get(cookies_name);
       console.log("getDateDiff", this.getDateDiff(cookies.state.date_start));
 
-      if (this.getDateDiff(cookies.state.date_start) > 0) {
+      if (this.getDateDiff(cookies.state.date_start) >= 0) {
         this.date_start = cookies.state.date_start;
       }
 
@@ -279,7 +279,7 @@ export default {
       this.description = cookies.state.description;
       this.hotel = cookies.state.hotel;
       this.dibayar = cookies.state.dibayar;
-      this.dibayar_nominal = cookies.state.dibayar_nominal;
+      this.dibayar_percent = cookies.state.dibayar_percent;
 
       this.room_qty = cookies.state.room_qty;
       this.room_budget = cookies.state.room_budget;
@@ -311,7 +311,7 @@ export default {
           description: this.description,
           hotel: this.hotel,
           dibayar: this.dibayar,
-          dibayar_nominal: this.dibayar_nominal,
+          dibayar_percent: this.dibayar_percent,
 
           room_qty: this.room_qty,
           room_budget: this.room_budget,

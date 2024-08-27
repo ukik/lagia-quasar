@@ -128,7 +128,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useTourOrderDetailStore, ["getFormCheck", "dibayar_nominal"]),
+    ...mapState(useTourOrderDetailStore, ["getFormCheck", "dibayar_percent"]),
   },
   emits: ["setCookies"],
   methods: {

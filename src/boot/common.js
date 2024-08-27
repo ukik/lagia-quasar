@@ -188,6 +188,13 @@ function stringToDate(_date,_format,_delimiter)
             return formatedDate;
 }
 
+function NotifyAlert(value) {
+  Notify.create({
+    color: "negative",
+    message: value,
+    position: "top",
+  })
+}
 
 export default boot(async ({ app, ssrContext, router, store }) => {
 
@@ -218,6 +225,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   }
   app.config.globalProperties.$onGoto = onGoto;
 
+  app.config.globalProperties.$NotifyAlert = NotifyAlert;
 
   app.config.globalProperties.$getImage = getImage;
   app.config.globalProperties.$formatTime = formatTime;
