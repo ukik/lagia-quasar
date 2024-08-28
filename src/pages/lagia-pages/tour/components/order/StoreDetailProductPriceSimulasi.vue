@@ -401,24 +401,6 @@ export default {
         this.$refs?.dibayarPercentRef?.validate();
       }, 300);
     },
-    dibayar_percent(val) {
-      // console.log(1111)
-      // if(val <= 100 && val >= 30) {
-      //   // this.dibayar_percent = 100
-      //   this.$refs?.dibayarPercentRef?.resetValidation();
-      //   return
-      // } else if(val > 100) {
-      //   this.dibayar_percent = 100
-      //   this.$refs?.dibayarPercentRef?.resetValidation();
-      //   return
-      // } else if(val < 30) {
-      //   this.dibayar_percent = 30
-      //   this.$refs?.dibayarPercentRef?.resetValidation();
-      //   return
-      // }
-      // this.$refs?.dibayarPercentRef?.validate();
-      // console.log(this.$refs?.dibayarPercentRef?.hasError)
-    }
   },
   computed: {
     ...mapState(useInitStore, ["page_hotel_level_price"]),

@@ -304,7 +304,7 @@
       </q-card-actions>
 
       <slot name="step6"></slot>
-
+      {{ getFormCheck }}
       <q-card-actions class="q-pa-none q-mt-lg" align="between">
         <q-btn
           class="q-mr-sm"
@@ -319,58 +319,17 @@
         <q-btn
           @click="
             $emit('setCookies');
-            onCheckout();
+            gotoSubmit();
           "
-          color="primary"
+          :color="getFormCheck ? 'positive' : 'red'"
           label="CHECKOUT"
           icon-right="shopping_cart"
           unelevated
         />
       </q-card-actions>
 
-      <!-- <NavBackButton
-        class="q-pb-none"
-        @onBubbleEvent="
-          done6 = true;
-          step = 7;
-          $emit('setCookies');
-        "
-        @onBubbleEventBack="
-          step = 5;
-          $emit('setCookies');
-        "
-      >
-      </NavBackButton> -->
     </q-step>
 
-    <!-- <q-step
-      :name="7"
-      title=""
-      icon="add_comment"
-      prefix="7"
-      :done="step > 7"
-      :header-nav="step > 7"
-    >
-
-      <slot name="step7"></slot>
-
-    </q-step> -->
-
-    <!-- <q-step
-        :name="5"
-        title="Biaya"
-        icon="add_comment"
-        prefix="5"
-        :done="step > 5"
-        :header-nav="step > 5"
-      >
-        <slot name="step4"></slot>
-
-        <q-stepper-navigation>
-          <q-btn color="primary" @click="done3 = true" label="Finish" />
-          <q-btn flat @click="step = 2" color="primary" label="Back" class="q-ml-sm" />
-        </q-stepper-navigation>
-      </q-step> -->
   </q-stepper>
   <!-- </div> -->
 </template>
@@ -432,6 +391,16 @@ export default {
     onBubbleEventRangkuman() {
       this.$emit("onBubbleEventRangkuman");
     },
+    async gotoSubmit() {
+      await this.onCheckoutVerify()
+      const resp = await this.onCheckout()
+      if(!resp) return
+      const cookies_name =
+      "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
+
+      if (!this.$q.cookies.has(cookies_name)) return;
+        this.$q.cookies.remove(cookies_name)
+      }
   },
 };
 </script>

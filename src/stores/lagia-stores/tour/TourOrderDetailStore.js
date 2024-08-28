@@ -41,27 +41,27 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
   getters: {
     getRecord: state => state.record,
     getFormCheck: state => {
-      if(!state.date_start) return false
-      if(!state.participant_adult) return false
+      if (!state.date_start) return false
+      if (!state.participant_adult) return false
       // if(!state.participant_young) return false
       // if(!state.description) return false
-      if(!state.hotel || state.hotel == 'Pilih Hotel') return false
-      if(!state.dibayar) return false
-      if(state.dibayar == 'dp_payment') {
-        if(!state.dibayar_percent) return false
-        if(Number(state.dibayar_percent) >= 30 &&  Number(state.dibayar_percent) <= 100) {
+      if (!state.hotel || state.hotel == 'Pilih Hotel') return false
+      if (!state.dibayar) return false
+      if (state.dibayar == 'dp_payment') {
+        if (!state.dibayar_percent) return false
+        if (Number(state.dibayar_percent) >= 30 && Number(state.dibayar_percent) <= 100) {
 
         } else {
           return false
         }
       }
 
-      if(!state.name) return false
-      if(!state.email) return false
-      if(!state.phone) return false
+      if (!state.name) return false
+      if (!state.email) return false
+      if (!state.phone) return false
       // if(!state.instance) return false
-      if(!state.city) return false
-      if(!state.address) return false
+      if (!state.city) return false
+      if (!state.address) return false
       return true
     },
 
@@ -135,47 +135,56 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       })
     },
     onCheckoutVerify() {
-      if(!this.date_start) {
+      if (!this.date_start) {
         this.onNotify('Tanggal Berangkat (wajib)')
         return false
       }
-      if(!this.participant_adult) {
+      if (!this.participant_adult) {
         this.onNotify('Peserta (wajib)')
         return false
       }
       // if(!state.participant_young) return false
       // if(!state.description) return false
-      if(!this.hotel || this.hotel == 'Pilih Hotel') {
+      if (!this.hotel || this.hotel == 'Pilih Hotel') {
         this.onNotify('Hotel (wajib)')
         return false
       }
-      if(!this.dibayar) {
+      if (!this.dibayar) {
         this.onNotify('Pilih Nominal Dibayar (wajib)')
         return false
       }
-      // if(!this.dibayar_percent) {
-      //   this.onNotify('Pilih Nominal Dibayar (wajib)')
-      //   return false
-      // }
 
-      if(!this.name) {
+      if (this.dibayar == 'dp_payment') {
+        if (!this.dibayar_percent) {
+          this.onNotify('Down Payment (30% sd 100%) (wajib)')
+          return false
+        }
+        if (Number(this.dibayar_percent) >= 30 && Number(this.dibayar_percent) <= 100) {
+
+        } else {
+          this.onNotify('Down Payment (30% sd 100%) (wajib)')
+          return false
+        }
+      }
+
+      if (!this.name) {
         this.onNotify('Nama Lengkap (wajib)')
         return false
       }
-      if(!this.email) {
+      if (!this.email) {
         this.onNotify('Email (wajib)')
         return false
       }
-      if(!this.phone) {
+      if (!this.phone) {
         this.onNotify('Telepon (wajib)')
         return false
       }
       // if(!state.instance) return false
-      if(!this.city) {
+      if (!this.city) {
         this.onNotify('Kota Asal (wajib)')
         return false
       }
-      if(!this.address) {
+      if (!this.address) {
         this.onNotify('Alamat (wajib)')
         return false
       }
@@ -183,9 +192,8 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
     },
     async onCheckout() {
 
-      console.log('onCheckout', this.getFormCheck)
 
-      if(!this.getFormCheck) return false;
+      if (!this.getFormCheck) return false;
 
       if (this.loading) return false;
 
@@ -213,6 +221,9 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       formData.append('dibayar', this.dibayar);
       formData.append('dibayar_percent', this.dibayar_percent);
 
+      formData.append('room_qty', this.room_qty);
+      formData.append('room_budget', this.room_budget);
+
       formData.append('name', this.name);
       formData.append('email', this.email);
       formData.append('phone', this.phone);
@@ -220,7 +231,7 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       formData.append('city', this.city);
       formData.append('address', this.address);
 
-      formData.append('payload', JSON.stringify([ { id: this.record.id, priceId: this.record.tourPrice.id } ]))
+      formData.append('payload', JSON.stringify([{ id: this.record.id, priceId: this.record.tourPrice.id }]))
 
       const resp = await axios({
         url: `/trevolia-api/v1/entities/tour-bookings/lagia/add`,
@@ -236,13 +247,13 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
             caption: 'data berhasil diproses',
             icon: 'done'
           })
-          if(response.data.data)  return true
-          return false
+          // if (response.data.data) return true
+          // return false
           return response
         })
         .catch((err) => {
           console.log('AddToCartStore error', err?.response)
-          if(err?.response?.status == 401) {
+          if (err?.response?.status == 401) {
             Notify.create({
               color: 'negative',
               position: 'top',
@@ -268,10 +279,21 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       this.loading = false
       Loading.hide()
 
+      if (!resp.data?.data) return false
+      if (!resp) return false
 
-      if(resp) this.onReset()
+      resp.data.data.forEach(element => {
+        console.log('GOTO PURCHASE PAGE', element)
+        this.router.push({
+          name: "/tour/payment-detail",
+          params: {
+            slug: element?.orderId,
+          }
+        })
+      });
 
-      return resp
+      return true;
+      // return resp
 
 
       // if (!resp?.data) return this.loading = false
