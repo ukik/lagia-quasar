@@ -15,6 +15,135 @@
       </div>
 
       <div class="col-12">
+        <q-item-label class="text-center text-h5 text-uppercase"
+          >INVOICE TOUR</q-item-label
+        >
+        <q-item-label class="text-body text-center"
+          >Terimakasih sudah melakukan pemesanan</q-item-label
+        >
+        <q-item-label class="text-center text-h6 q-mb-lg text-primary">{{
+          record?.orderId
+        }}</q-item-label>
+
+        <q-card-actions align="center" class="q-mt-md q-mb-lg">
+          <q-btn
+            @click="onSnap"
+            unelevated
+            color="primary"
+            icon="payment"
+            size="lg"
+            label="Status Pembayaran"
+          ></q-btn>
+          <q-btn v-if="record?.transactionId"
+            @click="onSnapWindow"
+            unelevated
+            color="primary"
+            icon="search"
+            size="lg"
+          ></q-btn>
+        </q-card-actions>
+
+        <q-card class="q-mb-lg" flat bordered>
+          <q-card-section style="font-family: 'Ubuntu', sans-serif">
+            <q-item-label class="q-mb-md">
+              Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour.
+              Jika ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut.
+              Silahkan menghubungi tim Labiru melalui kontak dibawah ini.
+            </q-item-label>
+            <q-item-label class="q-mb-md">
+              Atau Anda juga bisa langsung melakukan pembayaran melalui channel pembayaran
+              yang sudah kami sediakan. Jika Anda bingung soal pembayaran, silahkan
+              hubungi tim Labiru atau Anda dapat membaca petunjuk cara pembayaran. Terima
+              kasih
+            </q-item-label>
+            <q-item-label>
+              Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir
+              kami siap membantu Anda mendapatkan layanan terbaik
+            </q-item-label>
+          </q-card-section>
+          <q-separator></q-separator>
+          <q-list align="left" class="row">
+            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+              <q-item-section avatar>
+                <q-avatar color="orange">
+                  <q-icon color="white" name="fa fa-phone fa-lg"></q-icon>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>Telepon</q-item-label>
+                <q-item-label class="text-title text-bold text-orange"
+                  >000000000000</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+              <q-item-section avatar>
+                <q-avatar color="green">
+                  <q-icon color="white" name="fa-brands fa-whatsapp"></q-icon>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>Whatsapp</q-item-label>
+                <q-item-label class="text-title text-bold text-green"
+                  >000000000000</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+              <q-item-section avatar>
+                <q-avatar color="cyan">
+                  <q-icon color="white" name="message"></q-icon>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>SMS Center</q-item-label>
+                <q-item-label class="text-title text-bold text-cyan"
+                  >000000000000</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+              <q-item-section avatar>
+                <q-avatar color="teal">
+                  <q-icon color="white" name="email"></q-icon>
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption>SMS Center</q-item-label>
+                <q-item-label class="text-title text-bold text-teal"
+                  >000000000000</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+
+        <q-banner rounded class="bg-teal text-white q-my-md">
+          <div class="q-mb-lg">
+            Jika ada yang ingin ditanyakan, jangan khawatir kami siap membantu Anda
+            mendapatkan layanan terbaik
+          </div>
+          <template v-slot:action>
+            <q-btn
+              unelevated
+              outline
+              @click="
+                $global.$emit('LagiaLayout', {
+                  label: 'konsultasi',
+                  slug: 'konsultasi',
+                  vendor: 'tourStore',
+                  value: item,
+                  product: 'tourProduct',
+                })
+              "
+              color="positive"
+              text-color="white"
+              label="Tanya Admin"
+              icon="fa-brands fa-whatsapp"
+            />
+          </template>
+        </q-banner>
+
         <q-card flat bordered>
           <q-tabs
             v-model="tab"
@@ -26,7 +155,7 @@
             narrow-indicator
           >
             <q-tab name="tagihan" label="TAGIHAN" />
-            <q-tab name="invoice" label="INVOICE" />
+            <q-tab name="detail" label="DETAIL" />
             <q-tab name="product" label="PRODUK" />
             <q-tab name="kebijakan" label="KEBIJAKAN" />
           </q-tabs>
@@ -77,14 +206,101 @@
                   <tr>
                     <td>Berangkat</td>
                     <td class="text-capitalize">
-                      <!-- {{ dateFormat(record?.tourBookingItem?.dateStart) }} -->
+                      {{ $dateFormat(record?.tourBookingItem?.dateStart) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Harga Total</td>
+                    <td class="text-capitalize">
+                      {{ $currency(record?.tourBooking?.fullPayment) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="bg-orange text-white" colspan="3">
+                      <div class="row items-center">
+                        <q-icon name="info"></q-icon>nominal tagihan dipilih saat checkout
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="text-bold">
+                    <td>Nominal Tagihan</td>
+                    <td class="text-capitalize">
+                      {{ $currency(record?.grossAmount) }}
+                    </td>
+                  </tr>
+                  <tr v-if="record?.transactionTime">
+                    <td>Waktu Transaksi</td>
+                    <td class="text-capitalize">
+                      {{ record?.transactionTime }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Status Transaksi</td>
+                    <td class="text-capitalize">
+                      {{ $StatusCode(record?.statusCode) }}
+                      {{ record?.transactionStatus }}
+                    </td>
+                  </tr>
+                  <tr v-if="record?.transactionId">
+                    <td>Transaksi ID</td>
+                    <td class="text-capitalize">
+                      {{ record?.transactionId }}
+                    </td>
+                  </tr>
+                  <tr v-if="record?.statusMessage">
+                    <td>Status Pesan</td>
+                    <td class="text-capitalize">
+                      {{ record?.statusMessage }}
+                    </td>
+                  </tr>
+                  <tr v-if="record?.statusCode">
+                    <td>Status Code</td>
+                    <td class="text-capitalize">
+                      {{ record?.statusCode }}
+                    </td>
+                  </tr>
+                  <!-- <tr>
+                    <td>Kunci Signature</td>
+                    <td class="text-capitalize">
+                      {{ (record?.signatureKey) }}
+                    </td>
+                  </tr> -->
+                  <tr v-if="record?.paymentType">
+                    <td>Tipe Pembayaran</td>
+                    <td class="text-capitalize">
+                      {{ record?.paymentType }}
+                    </td>
+                  </tr>
+                  <tr v-if="record?.fraudStatus">
+                    <td>Status Fraud</td>
+                    <td class="text-capitalize">
+                      {{ record?.fraudStatus }}
                     </td>
                   </tr>
                 </table>
+
+                <q-card-actions align="center" class="q-mt-md">
+                  <q-btn
+                    @click="onSnap"
+                    unelevated
+                    color="primary"
+                    icon="payment"
+                    size="lg"
+                    label="Status Pembayaran"
+                  ></q-btn>
+                  <q-btn v-if="record?.transactionId"
+                    @click="onSnapWindow"
+                    unelevated
+                    color="primary"
+                    icon="search"
+                    size="lg"
+                  ></q-btn>
+                </q-card-actions>
               </q-list>
             </q-tab-panel>
 
-            <q-tab-panel name="invoice">
+            <q-tab-panel name="detail">
               <!-- <div class="text-h6">Alarms</div> -->
               <StoreInvoice
                 :about_vendor="false"
@@ -421,7 +637,7 @@ import StoreInvoice from "./components/payment/StoreInvoice";
 import { useTourBookingPaymentStore } from "stores/lagia-stores/tour/TourBookingPaymentStore";
 import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
-import { mapWritableState, storeToRefs, mapState } from "pinia";
+import { mapWritableState, storeToRefs, mapState, mapActions } from "pinia";
 import { useQuasar, Cookies } from "quasar";
 import { ref, nextTick, watch, onMounted } from "vue";
 import { preFetch } from "quasar/wrappers";
@@ -473,10 +689,10 @@ export default {
   // props: ["scrollY"],
   data() {
     return {
-      product_price: true,
-      stickyPrice: null,
+      // product_price: true,
+      // stickyPrice: null,
 
-      step: 1,
+      // step: 1,
 
       tab: "tagihan",
     };
@@ -506,27 +722,27 @@ export default {
 
       "loading",
     ]),
-    to_watch() {
-      return {
-        date_start: this.date_start,
-        participant_adult: this.participant_adult,
-        participant_young: this.participant_young,
-        description: this.description,
-        hotel: this.hotel,
-        dibayar: this.dibayar,
-        dibayar_percent: this.dibayar_percent,
+    // to_watch() {
+    //   return {
+    //     date_start: this.date_start,
+    //     participant_adult: this.participant_adult,
+    //     participant_young: this.participant_young,
+    //     description: this.description,
+    //     hotel: this.hotel,
+    //     dibayar: this.dibayar,
+    //     dibayar_percent: this.dibayar_percent,
 
-        room_qty: this.room_qty,
-        room_budget: this.room_budget,
+    //     room_qty: this.room_qty,
+    //     room_budget: this.room_budget,
 
-        name: this.name,
-        email: this.email,
-        phone: this.phone,
-        instance: this.instance,
-        city: this.city,
-        address: this.address,
-      };
-    },
+    //     name: this.name,
+    //     email: this.email,
+    //     phone: this.phone,
+    //     instance: this.instance,
+    //     city: this.city,
+    //     address: this.address,
+    //   };
+    // },
   },
   // watch: {
   //   to_watch() {
@@ -537,42 +753,12 @@ export default {
   //   }
   // },
   mounted() {
-    return;
-    const vm = this;
-    const cookies_name =
-      "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
-
-    if (!this.$q.cookies.has(cookies_name)) return;
-    vm.getCookies(cookies_name);
-    return;
-
-    this.$q.notify({
-      message: "Load Data Formulir?",
-      color: "primary",
-      position: "bottom",
-      actions: [
-        {
-          label: "Ya",
-          color: "white",
-          handler: () => {
-            vm.getCookies(cookies_name);
-          },
-        },
-        {
-          label: "Tidak",
-          color: "white",
-          handler: () => {
-            /* ... */
-          },
-        },
-      ],
+    this.$nextTick(() => {
+      this.onSnap();
     });
   },
-  // watch: {
-  //   step(val) {
-  //   }
-  // },
   methods: {
+    ...mapActions(useTourBookingPaymentStore, ["onUpdate"]),
     onScrollUp(el) {
       setTimeout(() => {
         // VERSION 1
@@ -586,101 +772,80 @@ export default {
         this.$scrollToElement(ANCHOR);
       }, 500);
     },
-    getCookies(cookies_name) {
-      const cookies = this.$q.cookies.get(cookies_name);
-      console.log("getDateDiff", this.getDateDiff(cookies.state.date_start));
-
-      if (this.getDateDiff(cookies.state.date_start) >= 0) {
-        this.date_start = cookies.state.date_start;
-      }
-
-      this.participant_adult = cookies.state.participant_adult;
-      this.participant_young = cookies.state.participant_young;
-      this.description = cookies.state.description;
-      this.hotel = cookies.state.hotel;
-      this.dibayar = cookies.state.dibayar;
-      this.dibayar_percent = cookies.state.dibayar_percent;
-
-      this.room_qty = cookies.state.room_qty;
-      this.room_budget = cookies.state.room_budget;
-
-      this.name = cookies.state.name;
-      this.email = cookies.state.email;
-      this.phone = cookies.state.phone;
-      this.instance = cookies.state.instance;
-      this.city = cookies.state.city;
-      this.address = cookies.state.address;
-
-      console.log("GET COOKIES", cookies);
-    },
-    setCookies() {
-      console.log("SET COOKIES product-order");
-      const payload = {
-        route: {
-          url: window.location.href,
-          host: this.$getHost(),
-          path: this.$route.path,
-          name: this.$route.name,
-          params: this.$route.params,
-          query: this.$route.query,
-        },
-        state: {
-          date_start: this.date_start,
-          participant_adult: this.participant_adult,
-          participant_young: this.participant_young,
-          description: this.description,
-          hotel: this.hotel,
-          dibayar: this.dibayar,
-          dibayar_percent: this.dibayar_percent,
-
-          room_qty: this.room_qty,
-          room_budget: this.room_budget,
-
-          name: this.name,
-          email: this.email,
-          phone: this.phone,
-          instance: this.instance,
-          city: this.city,
-          address: this.address,
-        },
-      };
-
-      const cookies_name =
-        "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; // this.$route.params?.slug_text; //window.location.href
-      this.$q.cookies.set(cookies_name, JSON.stringify(payload), {
-        secure: true,
-        path: "/", // wajib
+    onUpdateTest() {
+      this.onUpdate({
+        status_code: "200",
+        status_message: "Success, Credit Card transaction is successful",
+        transaction_id: "91bbb1dc-4acc-47b7-8545-9cfb6840410a",
+        order_id: "TOUR-6217ea56-f4b6",
+        gross_amount: "70290000.00",
+        payment_type: "credit_card",
+        transaction_time: "2024-08-29 23:09:55",
+        transaction_status: "capture",
+        fraud_status: "accept",
+        bank: "cimb",
+        masked_card: "48111111-1114",
+        card_type: "credit",
+        approval_code: "1724947795771",
+        finish_redirect_url:
+          "http://trefeltour.test/midtrans/finish?order_id=TOUR-6217ea56-f4b6&status_code=200&transaction_status=capture",
       });
-
-      // this.$q.notify({
-      //   message: "Simpan data formulir",
-      //   color: "positive",
-      //   position: "bottom"
-      // });
     },
-    getDateDiff(date_start) {
-      // const payload = date_start?.split('/')
+    onSnap() {
+      const vm = this;
+      snap.pay(this.record?.snapToken, {
+        // Optional
+        onSuccess: function (result) {
+          /* You may add your own js here, this is just example */
+          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          console.log("onSuccess", result);
+          vm.onUpdate(result);
+        },
+        // Optional
+        onPending: function (result) {
+          /* You may add your own js here, this is just example */
+          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          console.log("onPending", result);
+          vm.onUpdate(result);
+        },
+        // Optional
+        onError: function (result) {
+          /* You may add your own js here, this is just example */
+          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          console.log("onError", result);
+          vm.onUpdate(result);
+        },
+        onClose: function (result) {
+          /* You may add your own js here, this is just example */
+          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+          console.log("onClose", result);
 
-      let max = new Date();
-      max = date.addToDate(max, { days: 3 });
-      //const min = this.$stringToDate("17/9/2014","dd/MM/yyyy","/"); //new Date(date_start); //date.buildDate({ year: payload[0], month: payload[1], date: payload[2] })
-      const min = new Date(date_start);
-      const unit = "days";
+        },
+      });
+    },
+    onSnapWindow() {
+      // if(this.is_cordova) {
 
-      console.log(date_start, max, min);
-      // const diff =
-      return date.getDateDiff(min, max, unit);
-    },
-    onSubmit(i) {
-      this.$refs["side_price" + i][i]?.onSubmit();
-    },
-    onBubbleEventRangkuman() {
-      for (let i = 0; i < this.record?.tourPrices.length; i++) {
-        const id = this.record?.tourPrices[i].id;
-        this.$refs["StoreDetailProductPriceSimulasiRef" + id][i]?.onSubmit();
-      }
-      this.$refs?.FormBookingCustomerDataRef.onSubmit();
-      this.$refs?.FormInformasiRef.onSubmit();
+      //     var options = "location=yes,toolbar=yes,hideurlbar=no,EnableViewPortScale=yes,hardwareback=yes"
+
+      //     var ref = cordova.InAppBrowser.open('https://app.sandbox.midtrans.com/snap/v2/vtweb/'+res.data.payload.snap_token, '_blank', options);
+
+      //     ref.addEventListener('exit', function(event) {
+      //     onRequestData(vm.$store, vm.$route)
+      //     });
+
+      // } else {
+
+      // }
+
+      var options =
+        "location=yes,toolbar=yes,hideurlbar=no,EnableViewPortScale=yes,hardwareback=yes";
+
+      window.open(
+        "https://app.sandbox.midtrans.com/snap/v2/vtweb/" + this.record?.snapToken,
+        "_blank",
+        options
+      );
     },
   },
 };

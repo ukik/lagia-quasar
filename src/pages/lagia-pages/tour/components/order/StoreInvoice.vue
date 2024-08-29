@@ -744,7 +744,7 @@ export default {
       return Number(this.grandTotalHotel) + Number(this.getTotalNonHotel);
     },
     grandTotalDP() {
-      return (Number(this.grandTotal) * 30) / 100;
+      return (Number(this.grandTotal) * Number(this.dibayar_percent)) / 100;
     },
     grandTotalHotel() {
       return Number(this.room_qty) * Number(this.room_budget);
@@ -783,8 +783,8 @@ export default {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
     },
     getDPRule() {
-      return Number(this.dibayar_percent) >= 30 && Number(this.dibayar_percent) <= 100;
-    },
+      return Number(this.dibayar_percent) >= 30 &&  Number(this.dibayar_percent) <= 100
+    }
   },
   methods: {
     dateFormat(val) {

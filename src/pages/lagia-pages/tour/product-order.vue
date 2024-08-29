@@ -18,10 +18,10 @@
         <!-- "{{ date_start }}", "{{ participant_young }}", "{{ participant_adult }}", "{{
           description
         }}", "{{ hotel }}", -->
-        {{ getFormCheck }}
+        <!-- {{ getFormCheck }}
         {{ dibayar }}
         {{ dibayar_percent }}
-        {{ Number(dibayar_percent) >= 30 &&  Number(dibayar_percent) <= 100 }}
+        {{ Number(dibayar_percent) >= 30 &&  Number(dibayar_percent) <= 100 }} -->
 
         <!-- {{ participant_adult }} -->
 
@@ -45,7 +45,7 @@
             <template v-for="(item, i) in record?.tourPrices">
               <StoreDetailProductPriceSimulasi
                 :prop_dibayar="false"
-                class="q-mt-sm"
+                class=""
                 :item="item"
                 :ref="'side_price' + item.id"
               >
@@ -66,13 +66,13 @@
           <template v-slot:step3>
             <!-- <FormLogin />
             <FormRegister /> -->
-            <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
+            <!-- <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
               Saat login data pelanggan akan terisi otomatis dan tersimpan di database
               <template v-slot:action>
                 <q-btn flat icon="login" label="Login" />
               </template>
-            </q-banner>
-            <FormBookingCustomerData class="q-mt-lg" />
+            </q-banner> -->
+            <FormBookingCustomerData />
           </template>
 
           <template v-slot:step4>
@@ -80,16 +80,16 @@
           </template>
 
           <template v-slot:step5>
-            <q-banner inline-actions rounded class="bg-red-1 q-mb-lg">
+            <q-banner inline-actions rounded class="bg-red-1 ">
               Pastikan data wajib sudah diisi dengan benar
             </q-banner>
 
-            <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
+            <!-- <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
               Saat login data pelanggan akan terisi otomatis dan tersimpan di database
               <template v-slot:action>
                 <q-btn flat icon="login" label="Login" />
               </template>
-            </q-banner>
+            </q-banner> -->
             <FormBookingCustomerData ref="FormBookingCustomerDataRef" class="q-mt-lg" />
             <FormInformasi ref="FormInformasiRef" class="q-mt-lg" />
             <template v-for="(item, i) in record?.tourPrices">
@@ -147,12 +147,12 @@
               Pastikan data wajib sudah diisi dengan benar
             </q-banner>
 
-            <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
+            <!-- <q-banner inline-actions rounded class="bg-orange-1 q-mb-lg">
               Saat login data pelanggan akan terisi otomatis dan tersimpan di database
               <template v-slot:action>
                 <q-btn flat icon="login" label="Login" />
               </template>
-            </q-banner>
+            </q-banner> -->
             <FormBookingCustomerData ref="FormBookingCustomerDataRef" class="q-mt-lg" />
             <template v-for="(item, i) in record?.tourPrices">
               <StoreDetailProductPriceSimulasi :simulasi="true"
@@ -314,6 +314,10 @@ import { mapWritableState } from "pinia";
 
 import { useTourOrderDetailStore } from "stores/lagia-stores/tour/TourOrderDetailStore";
 
+const { addToDate } = date;
+const newDate = addToDate(new Date(), { days: 3 });
+const formattedString = date.formatDate(newDate, "YYYY/MM/DD");
+
 export default {
   // props: ["scrollY"],
   data() {
@@ -436,6 +440,8 @@ export default {
 
       if (this.getDateDiff(cookies.state.date_start) >= 0) {
         this.date_start = cookies.state.date_start;
+      } else {
+        this.date_start = formattedString
       }
 
       this.participant_adult = cookies.state.participant_adult;

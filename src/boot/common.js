@@ -150,7 +150,7 @@ function finalPriceAnakBooking(item) {
 
 
 function shuffleArray(arr) {
-  if(!arr) return []
+  if (!arr) return []
   return arr.map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
@@ -161,31 +161,30 @@ function onMap(url) {
 }
 
 
-function onTelp (val) {
+function onTelp(val) {
   window.open(val);
 }
 
 
 function getHost() {
   return window.location.protocol +
-            "//" +
-            window.location.host +
-            "/"
+    "//" +
+    window.location.host +
+    "/"
 }
 
 
-function stringToDate(_date,_format,_delimiter)
-{
-            var formatLowerCase=_format.toLowerCase();
-            var formatItems=formatLowerCase.split(_delimiter);
-            var dateItems=_date.split(_delimiter);
-            var monthIndex=formatItems.indexOf("mm");
-            var dayIndex=formatItems.indexOf("dd");
-            var yearIndex=formatItems.indexOf("yyyy");
-            var month=parseInt(dateItems[monthIndex]);
-            month-=1;
-            var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
-            return formatedDate;
+function stringToDate(_date, _format, _delimiter) {
+  var formatLowerCase = _format.toLowerCase();
+  var formatItems = formatLowerCase.split(_delimiter);
+  var dateItems = _date.split(_delimiter);
+  var monthIndex = formatItems.indexOf("mm");
+  var dayIndex = formatItems.indexOf("dd");
+  var yearIndex = formatItems.indexOf("yyyy");
+  var month = parseInt(dateItems[monthIndex]);
+  month -= 1;
+  var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+  return formatedDate;
 }
 
 function NotifyAlert(value) {
@@ -195,6 +194,66 @@ function NotifyAlert(value) {
     position: "top",
   })
 }
+
+function dateFormat(val) {
+  if (!val) return;
+  const timeSplit = val.split("/");
+
+  let newDate = new Date(timeSplit[0], timeSplit[1], timeSplit[2]);
+  // const timeStamp = date.extractDate(val, 'DD/MM/YYYY')
+  const day = date.formatDate(newDate, "dd");
+  let hari = "";
+  switch (day) {
+    case "Su":
+      hari = "Minggu"
+      break;
+    case "Mo":
+      hari = "Senin"
+      break;
+    case "Tu":
+      hari = "Selasa"
+      break;
+    case "We":
+      hari = "Rabu"
+      break;
+    case "Th":
+      hari = "Kamis"
+      break;
+    case "Fr":
+      hari = "Jumat"
+      break;
+    case "Sa":
+      hari = "Sabtu"
+      break;
+  }
+  const form = date.formatDate(newDate, "DD MMMM YYYY");
+
+  return hari + ", " + form
+}
+
+function StatusCode(params) {
+  switch (params) {
+    case '200':
+      return "success";
+    case '201':
+      return "pending";
+    case '202':
+      return "cancel";
+  }
+}
+
+function StatusCodeColor(params) {
+  switch (params) {
+    case '200':
+      return "positive";
+    case '201':
+      return "orange";
+    case '202':
+      return "red";
+  }
+}
+
+
 
 export default boot(async ({ app, ssrContext, router, store }) => {
 
@@ -256,7 +315,10 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$getHost = getHost;
 
   app.config.globalProperties.$stringToDate = stringToDate;
+  app.config.globalProperties.$dateFormat = dateFormat;
 
+  app.config.globalProperties.$StatusCode = StatusCode;
+  app.config.globalProperties.$StatusCodeColor = StatusCodeColor;
 
 
   // app.config.globalProperties.$is_mobile_size = () => Screen.width <= 425;

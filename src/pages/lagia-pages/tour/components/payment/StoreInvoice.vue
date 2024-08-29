@@ -1,8 +1,8 @@
 <template>
-  <q-item-label class="text-center text-h6 text-uppercase">INVOICE TOUR</q-item-label>
+  <!-- <q-item-label class="text-center text-h6 text-uppercase">INVOICE TOUR</q-item-label>
   <q-item-label class="text-body text-center q-mb-lg"
     >Periksa kembali data invoice sebelum melakukan pembayaran</q-item-label
-  >
+  > -->
 
   <!-- <q-item-label class="text-caption text-center q-mb-lg"
     >Setelah konfirmasi dilakukan invoice tidak dapat diubah</q-item-label
@@ -20,7 +20,7 @@
     </q-card-section>
   </q-card> -->
 
-  <q-card class="q-mb-lg" flat bordered>
+  <!-- <q-card class="q-mb-lg" flat bordered>
     <q-card-section style="font-family: 'Ubuntu', sans-serif">
       <q-item-label class="q-mb-md">
         Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika
@@ -88,46 +88,7 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </q-card>
-
-  <!-- <q-banner bordered rounded class="bg-form text-white q-mb-md">
-    <q-card-section class="q-pa-none">
-      <q-item-label class="q-mb-md">
-        Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika
-        ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan
-        menghubungi tim Labiru melalui kontak dibawah ini.
-      </q-item-label>
-      <q-item-label class="q-mb-md">
-        Atau Anda juga bisa langsung melakukan pembayaran melalui channel pembayaran yang
-        sudah kami sediakan. Jika Anda bingung soal pembayaran, silahkan hubungi tim
-        Labiru atau Anda dapat membaca petunjuk cara pembayaran. Terima kasih
-      </q-item-label>
-      <q-item-label>
-        Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami siap
-        membantu Anda mendapatkan layanan terbaik
-      </q-item-label>
-    </q-card-section>
-
-    <template v-slot:action>
-      <q-btn
-        unelevated
-        @click="
-          $global.$emit('LagiaLayout', {
-            label: 'konsultasi',
-            slug: 'konsultasi',
-            vendor: 'tourStore',
-            value: item,
-            product: 'tourProduct',
-          })
-        "
-        color="positive"
-        text-color="white"
-        icon="fa-brands fa-whatsapp"
-     >
-
-     </q-btn>
-    </template>
-  </q-banner> -->
+  </q-card> -->
 
   <q-card flat bordered>
     <q-card-section v-if="about_vendor">
@@ -382,7 +343,7 @@
             </td>
           </tr>
           <tr class="text-bold text-positive">
-            <td>Nominal Dibayar</td>
+            <td>Nominal Sudah Dibayar</td>
             <td class="">
               {{ $currency(item?.tourBooking?.fullPaymentPaid) }}
             </td>

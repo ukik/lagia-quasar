@@ -279,6 +279,7 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       this.loading = false
       Loading.hide()
 
+      return false
       if (!resp.data?.data) return false
       if (!resp) return false
 

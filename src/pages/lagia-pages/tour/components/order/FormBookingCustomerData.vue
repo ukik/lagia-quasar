@@ -5,7 +5,7 @@
       @submit.prevent.stop="onSubmit"
       @reset.prevent.stop="onReset"
     >
-      <q-card flat class="rounded-borders-2 bg-form q-pt-md">
+      <q-card flat class="rounded-borders-2 bg-form">
         <q-card-section class="text-center">
           <h2 class="q-mb-none">DATA PELANGGAN</h2>
           <h5 class="subtitle q-mb-sm">SILAHKAN LENGKAPI</h5>

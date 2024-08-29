@@ -241,7 +241,7 @@ import { useInitStore } from "src/stores/lagia-stores/page/InitStore";
 import { Cookies, date } from "quasar";
 
 const { addToDate } = date;
-const newDate = addToDate(new Date(), { days: 2 });
+const newDate = addToDate(new Date(), { days: 3 });
 const formattedString = date.formatDate(newDate, "YYYY/MM/DD");
 
 const options = [

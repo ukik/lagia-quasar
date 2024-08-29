@@ -1,4 +1,5 @@
 <template>
+
   <form
     class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12 row q-col-gutter-md"
     id="FormTour"
@@ -203,6 +204,7 @@ export default {
   mounted() {
     this.$refs?.dateRef?.validate();
     this.$refs?.datePickerRef?.validate();
+    // if(!this.date_start) this.date_start = formattedString
   },
   methods: {
     notify(message) {

@@ -304,7 +304,7 @@
       </q-card-actions>
 
       <slot name="step6"></slot>
-      {{ getFormCheck }}
+
       <q-card-actions class="q-pa-none q-mt-lg" align="between">
         <q-btn
           class="q-mr-sm"
