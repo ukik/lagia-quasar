@@ -11,7 +11,7 @@
   <!-- <q-card flat bordered>
     <q-card-section>
       <q-item-label class="q-mb-md">
-      Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan menghubungi tim Labiru melalui kontak dibawah ini.
+      Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR. Jika ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan menghubungi tim Labiru melalui kontak dibawah ini.
     </q-item-label>
     <q-item-label>
       Atau Anda juga bisa langsung melakukan pembayaran melalui channel pembayaran yang sudah kami sediakan. Jika Anda bingung soal pembayaran, silahkan hubungi tim Labiru atau Anda dapat membaca petunjuk cara pembayaran. Terima kasih
@@ -23,7 +23,7 @@
   <!-- <q-card class="q-mb-lg" flat bordered>
     <q-card-section style="font-family: 'Ubuntu', sans-serif">
       <q-item-label class="q-mb-md">
-        Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika
+        Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR. Jika
         ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan
         menghubungi tim Labiru melalui kontak dibawah ini.
       </q-item-label>
@@ -212,7 +212,8 @@
           <tr>
             <td>Peserta</td>
             <td class="text-capitalize">
-              {{ item?.tourBookingItem?.participantAdult }} Dewasa, {{ item?.tourBookingItem?.participantYoung }} Anak (2-6 tahun)
+              {{ item?.tourBookingItem?.participantAdult }} Dewasa,
+              {{ item?.tourBookingItem?.participantYoung }} Anak (2-6 tahun)
             </td>
           </tr>
           <tr>
@@ -250,7 +251,11 @@
           <tr>
             <td>Peserta Anak (2-6 tahun)</td>
             <td class="text-h6">
-              {{ !item?.tourBookingItem?.participantYoung ? 0 : item?.tourBookingItem?.participantYoung }}
+              {{
+                !item?.tourBookingItem?.participantYoung
+                  ? 0
+                  : item?.tourBookingItem?.participantYoung
+              }}
             </td>
           </tr>
           <tr>
@@ -324,7 +329,9 @@
           </tr>
 
           <tr>
-            <td class="text-h6 bg-cyan text-white text-bold" colspan="2">CATATAN KHUSUS</td>
+            <td class="text-h6 bg-cyan text-white text-bold" colspan="2">
+              CATATAN KHUSUS
+            </td>
           </tr>
 
           <tr class="">
@@ -336,25 +343,68 @@
           </tr>
 
           <tr class="text-bold">
-            <td>Full Payment 100%</td>
+            <td>Total Tagihan</td>
             <td class="">
               {{ $currency(item?.tourBooking?.fullPayment) }}
-              <!-- {{ $currency(grandTotal) }} -->
             </td>
           </tr>
-          <tr class="text-bold text-positive">
+          <tr v-if="item?.tourBookingItem?.tourBookingPayments.length > 0">
+            <td colspan="2">Tagihan Sudah Dibayar</td>
+          </tr>
+          <tr v-if="item?.tourBookingItem?.tourBookingPayments.length > 0">
+            <td colspan="2">
+              <template
+                v-for="(val, index) in item?.tourBookingItem?.tourBookingPayments"
+              >
+                <!-- <q-separator></q-separator> -->
+                <q-item class="q-pa-none" dense>
+                  <!-- <q-item-section  top>
+                    <q-avatar color="blue" size="md" class="text-white">1</q-avatar>
+                  </q-item-section> -->
+                  <q-item-section>
+                    <q-item-label header class="q-pa-none"> Transaksi {{ val.transactionId }} </q-item-label>
+                    <q-item-label caption class="q-pa-none">
+                      Dibuat: {{ val?.createdAt }}, Diperbarui: {{ val?.updatedAt }}
+                    </q-item-label>
+                    <q-item-label caption class="q-pa-none">
+                      Status: {{ val?.transactionStatus }} <span v-if="val?.statusMessage">({{ val?.statusMessage }})</span>
+                    </q-item-label>
+
+
+                    <!-- <q-item-label header class="q-pa-none">
+                      Status:
+                      <q-chip
+                        text-color="white"
+                        dense
+                        :color="val?.status == 'capture' ? 'positive' : 'red'"
+                        >{{ val?.status }}</q-chip
+                      >
+                    </q-item-label> -->
+                    <q-item-label class="text-title text-bold">
+                      {{ $currency(val?.grossAmount) }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </td>
+          </tr>
+          <!-- <tr class="text-bold text-positive">
             <td>Nominal Sudah Dibayar</td>
             <td class="">
               {{ $currency(item?.tourBooking?.fullPaymentPaid) }}
             </td>
           </tr>
-          <tr class="text-bold  text-red">
+          <tr class="text-bold text-red">
             <td>Nominal Belum Dibayar</td>
             <td class="">
-              {{ $currency(Number(item?.tourBooking?.fullPayment) - Number(item?.tourBooking?.fullPaymentPaid)) }}
+              {{
+                $currency(
+                  Number(item?.tourBooking?.fullPayment) -
+                    Number(item?.tourBooking?.fullPaymentPaid)
+                )
+              }}
             </td>
-          </tr>
-
+          </tr> -->
         </table>
       </q-list>
     </q-card-section>
@@ -435,8 +485,6 @@
         </template>
       </q-banner>
     </q-card-section> -->
-
-
   </q-card>
 </template>
 
@@ -529,21 +577,35 @@ export default {
       return (Number(this.grandTotal) * 30) / 100;
     },
     grandTotalHotel() {
-      return Number(this.item?.tourBookingItem?.roomQty) * Number(this.item?.tourBookingItem?.roomBudget);
+      return (
+        Number(this.item?.tourBookingItem?.roomQty) *
+        Number(this.item?.tourBookingItem?.roomBudget)
+      );
     },
     getHotelAVG() {
       return (
-        (Number(this.item?.tourBookingItem?.hotelMaxPrice) + Number(this.item?.tourBookingItem?.hotelMinPrice)) / 2
+        (Number(this.item?.tourBookingItem?.hotelMaxPrice) +
+          Number(this.item?.tourBookingItem?.hotelMinPrice)) /
+        2
       );
     },
     subTotalAnak() {
-      return this.item?.tourBookingItem?.participantYoung * this.$finalPriceAnakBooking(this.item?.tourBookingItem);
+      return (
+        this.item?.tourBookingItem?.participantYoung *
+        this.$finalPriceAnakBooking(this.item?.tourBookingItem)
+      );
     },
     subTotalDewasa() {
-      return this.item?.tourBookingItem?.participantAdult * this.$finalPriceBooking(this.item?.tourBookingItem);
+      return (
+        this.item?.tourBookingItem?.participantAdult *
+        this.$finalPriceBooking(this.item?.tourBookingItem)
+      );
     },
     getAllPerserta() {
-      return Number(this.item?.tourBookingItem?.participantAdult) + Number(this.item?.tourBookingItem?.participantYoung);
+      return (
+        Number(this.item?.tourBookingItem?.participantAdult) +
+        Number(this.item?.tourBookingItem?.participantYoung)
+      );
     },
     getTotalNonHotel() {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);

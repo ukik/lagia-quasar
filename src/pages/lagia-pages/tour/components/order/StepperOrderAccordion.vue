@@ -20,7 +20,7 @@
               onPageTwo();
               $emit('setCookies');
             "
-            :color="getFormCheck ? 'positive' : 'red'"
+            color="positive"
             label="Lanjut"
             icon-right="arrow_forward"
             unelevated
@@ -102,7 +102,7 @@
           <q-btn
             @click="
               $emit('setCookies');
-              onCheckout()
+              gotoSubmit();
             "
             color="primary"
             label="CHECKOUT"
@@ -135,33 +135,45 @@ export default {
     ...mapActions(useTourOrderDetailStore, ["onCheckoutVerify","onCheckout"]),
     async onPageOne() {
       this.current = 1;
-      this.onScrollUp("#StepperOrderAccordion");
+      this.$scrollToElement("#StepperOrderAccordion");
     },
     async onPageTwo() {
       this.current = 2;
-      this.onScrollUp("#StepperOrderAccordion");
+      this.$scrollToElement("#StepperOrderAccordion");
     },
     async CheckoutVerify() {
       this.onCheckoutVerify();
       if (!this.getFormCheck) return;
       this.current = 3;
 
-      this.onScrollUp("#StepperOrderAccordion");
+      this.$scrollToElement("#StepperOrderAccordion");
     },
-    onScrollUp(el) {
-      setTimeout(() => {
+    async gotoSubmit() {
+      await this.onCheckoutVerify();
+      const resp = await this.onCheckout();
+      return;
+      if (!resp) return;
+      const cookies_name =
+        "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
 
-        // VERSION 1
-        // document.querySelector(el).scrollIntoView({
-        //   behavior: 'smooth'
-        // });
-
-
-        const ANCHOR = document.querySelector(el);
-        console.log('ANCHOR')
-        this.$scrollToElement(ANCHOR);
-      }, 500);
+      if (!this.$q.cookies.has(cookies_name)) return;
+      this.$q.cookies.remove(cookies_name);
     },
+
+    // onScrollUp(el) {
+    //   const ANCHOR = document.querySelector(el);
+    //   console.log('ANCHOR')
+    //   this.$scrollToElement(ANCHOR);
+    //   // setTimeout(() => {
+
+    //   //   // VERSION 1
+    //   //   // document.querySelector(el).scrollIntoView({
+    //   //   //   behavior: 'smooth'
+    //   //   // });
+
+
+    //   // }, 500);
+    // },
   },
 };
 </script>

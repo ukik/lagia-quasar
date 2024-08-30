@@ -10,7 +10,7 @@
   <!-- <q-card flat bordered>
     <q-card-section>
       <q-item-label class="q-mb-md">
-      Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan menghubungi tim Labiru melalui kontak dibawah ini.
+      Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR. Jika ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan menghubungi tim Labiru melalui kontak dibawah ini.
     </q-item-label>
     <q-item-label>
       Atau Anda juga bisa langsung melakukan pembayaran melalui channel pembayaran yang sudah kami sediakan. Jika Anda bingung soal pembayaran, silahkan hubungi tim Labiru atau Anda dapat membaca petunjuk cara pembayaran. Terima kasih
@@ -22,7 +22,7 @@
   <q-card class="q-mb-lg" flat bordered>
     <q-card-section style="font-family: 'Ubuntu', sans-serif">
       <q-item-label class="q-mb-md">
-        Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika
+        Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR. Jika
         ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan
         menghubungi tim Labiru melalui kontak dibawah ini.
       </q-item-label>
@@ -88,7 +88,7 @@
   <!-- <q-banner bordered rounded class="bg-form text-white q-mb-md">
     <q-card-section class="q-pa-none">
       <q-item-label class="q-mb-md">
-        Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour. Jika
+        Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR. Jika
         ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut. Silahkan
         menghubungi tim Labiru melalui kontak dibawah ini.
       </q-item-label>

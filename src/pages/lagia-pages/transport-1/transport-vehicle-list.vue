@@ -1,6 +1,6 @@
 <template>
   <!-- <main> -->
-  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+  <!-- <InnerBanner :_title="$route?.meta?.title"></InnerBanner> -->
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
@@ -23,7 +23,7 @@
             >
               <template v-slot:error>
                 <div class="absolute-full flex flex-center bg-negative text-white">
-                  Cannot load image 
+                  Cannot load image
                 </div>
               </template>
             </q-img>

@@ -8,13 +8,12 @@
       @click="reset"
       class="q-mb-md"
     /> -->
-  <q-banner inline-actions rounded class="bg-blue-7 text-white q-mb-lg">
-    Login agar data Anda tersimpan di database, mendapatkan info terkini & penawaran
-    menarik dari kami
+  <!-- <q-banner inline-actions rounded class="bg-blue-7 text-white q-mb-lg">
+    Ayo jadi sahabat LAGIA biar sering dapatkan promo menarik
     <template v-slot:action>
-      <q-btn flat icon="login" label="Login" />
+      <q-btn flat icon="login" label="DAFTAR" />
     </template>
-  </q-banner>
+  </q-banner> -->
   <q-stepper
     id="StepperOrder"
     flat
@@ -327,9 +326,7 @@
           unelevated
         />
       </q-card-actions>
-
     </q-step>
-
   </q-stepper>
   <!-- </div> -->
 </template>
@@ -387,20 +384,21 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useTourOrderDetailStore, ["onCheckoutVerify","onCheckout"]),
+    ...mapActions(useTourOrderDetailStore, ["onCheckoutVerify", "onCheckout"]),
     onBubbleEventRangkuman() {
       this.$emit("onBubbleEventRangkuman");
     },
     async gotoSubmit() {
-      await this.onCheckoutVerify()
-      const resp = await this.onCheckout()
-      if(!resp) return
+      await this.onCheckoutVerify();
+      const resp = await this.onCheckout();
+      return;
+      if (!resp) return;
       const cookies_name =
-      "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
+        "TOUR-" + this.$route.params?.slug + "-" + this.$route.params?.slug_text; //window.location.href
 
       if (!this.$q.cookies.has(cookies_name)) return;
-        this.$q.cookies.remove(cookies_name)
-      }
+      this.$q.cookies.remove(cookies_name);
+    },
   },
 };
 </script>

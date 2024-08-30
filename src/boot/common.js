@@ -13,7 +13,8 @@ export const default_alt =
 export const default_footer_mark = `${new Date().getFullYear()} © CUBIX - All Rights Reserved`;
 
 import { boot } from "quasar/wrappers";
-import { useAuthStore } from "src/stores/auth/auth";
+// import { useAuthStore } from "src/stores/auth/auth";
+import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
 // import { mapGetters } from "vuex";
 import { useRouterStore } from 'src/stores/router-store'
@@ -349,21 +350,29 @@ export default boot(async ({ app, ssrContext, router, store }) => {
       };
     },
     computed: {
-      ...mapState(useAuthStore, {
-        storeAuth: 'payload',
-        is_logged: 'is_logged',
-        auth_id: 'auth_id',
-      }),
-      ...mapState(useGlobalStore, {
-        tab_favorite: 'tab_favorite',
-        tab_liked: 'tab_liked',
-        tab_home: 'tab_home',
-      }),
-      ...mapWritableState(useGlobalStore, {
-        tab_favorite: 'tab_favorite',
-        tab_liked: 'tab_liked',
-        tab_home: 'tab_home',
-      }),
+      ...mapState(useAuthStore, [
+        'getAuth',
+        'getIsLogin',
+        'getLoadingInit',
+        'getAccessToken',
+        'getLoading',
+
+      ]),
+      // ...mapState(useAuthStore, {
+      //   storeAuth: 'payload',
+      //   is_logged: 'is_logged',
+      //   auth_id: 'auth_id',
+      // }),
+      // ...mapState(useGlobalStore, {
+      //   tab_favorite: 'tab_favorite',
+      //   tab_liked: 'tab_liked',
+      //   tab_home: 'tab_home',
+      // }),
+      // ...mapWritableState(useGlobalStore, {
+      //   tab_favorite: 'tab_favorite',
+      //   tab_liked: 'tab_liked',
+      //   tab_home: 'tab_home',
+      // }),
       goto() {
         return function (route) {
           const { query } = route
@@ -582,6 +591,17 @@ export default boot(async ({ app, ssrContext, router, store }) => {
         // const set_route = this.$route.name
         await this.$router.back()
       },
+
+
+
+
+
+
+
+
+
+
+
 
       // onEmit(payload) {
       //   this.$global.$emit(this.route_name, payload);

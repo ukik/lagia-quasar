@@ -136,7 +136,7 @@ h3 {
   </q-dialog>
 </q-no-ssr>
   <!-- <q-btn label="dialog" @click="dialog_price = true"></q-btn> -->
-  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+  <!-- <InnerBanner :_title="$route?.meta?.title"></InnerBanner> -->
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">

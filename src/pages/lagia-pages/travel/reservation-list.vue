@@ -1,5 +1,5 @@
 <template>
-  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+  <!-- <InnerBanner :_title="$route?.meta?.title"></InnerBanner> -->
 
   <q-no-ssr>
     <q-dialog

@@ -2,9 +2,48 @@ import { defineStore } from 'pinia';
 
 import axios from 'axios'
 
-import { Notify, Loading, debounce } from 'quasar'
+import { Notify, Loading, debounce, Cookies } from 'quasar'
 
 import caseConvert from 'src/utils/case-convert';
+
+
+// "date_start",
+// "participant_adult",
+// "participant_young",
+// "description",
+// "hotel",
+// "dibayar",
+// "dibayar_percent",
+// "room_qty",
+// "room_budget",
+// "name",
+// "email",
+// "phone",
+// "instance",
+// "city",
+// "address",
+// "snap_token",
+// "transaction_time",
+// "transaction_status",
+// "transaction_id",
+// "status_message",
+// "status_code",
+// "payment_type",
+// "gross_amount",
+// "fraud_status",
+
+function setCookiesBookingPayment(payload) {
+  const cookies_name = "TourBookingPayment"
+  let old = Cookies.has(cookies_name) ? Cookies.get(cookies_name) : []
+
+  old.unshift(payload)
+
+  Cookies.set(cookies_name, JSON.stringify(old), {
+    secure: true,
+    path: "/", // wajib
+  });
+}
+
 
 // no need to import defineStore and acceptHMRUpdate
 export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
@@ -25,7 +64,6 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
 
     room_qty: null,
     room_budget: null,
-
 
     name: null,
     email: null,
@@ -212,11 +250,12 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       // }
 
       formData.append('price_id', this.record?.tourPrice?.id);
+      formData.append('product_slug', this.record?.slug);
 
       formData.append('date_start', this.date_start);
       formData.append('participant_adult', this.participant_adult);
       formData.append('participant_young', !this.participant_young ? 0 : this.participant_young);
-      formData.append('description', this.description);
+      formData.append('description', this.description ? this.description : '');
       formData.append('hotel', this.hotel);
       formData.append('dibayar', this.dibayar);
       formData.append('dibayar_percent', this.dibayar_percent);
@@ -227,7 +266,7 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       formData.append('name', this.name);
       formData.append('email', this.email);
       formData.append('phone', this.phone);
-      formData.append('instance', this.instance);
+      formData.append('instance', this.instance ? this.instance : '');
       formData.append('city', this.city);
       formData.append('address', this.address);
 
@@ -279,12 +318,43 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
       this.loading = false
       Loading.hide()
 
-      return false
+      // return false
       if (!resp.data?.data) return false
       if (!resp) return false
 
       resp.data.data.forEach(element => {
         console.log('GOTO PURCHASE PAGE', element)
+
+        setCookiesBookingPayment({
+          // "id": element.id,
+          "date_start": this.date_start,
+          "participant_adult": this.participant_adult,
+          "participant_young": this.participant_young,
+          "description": this.description,
+          "hotel": this.hotel,
+          "dibayar": this.dibayar,
+          "dibayar_percent": this.dibayar_percent,
+          "room_qty": this.room_qty,
+          "room_budget": this.room_budget,
+          "name": this.name,
+          "email": this.email,
+          "phone": this.phone,
+          "instance": this.instance,
+          "city": this.city,
+          "address": this.address,
+          "snap_token": element?.snapToken,
+          // "transaction_time",
+          // "transaction_status",
+          "transaction_id": element?.orderId,
+          // "status_message",
+          // "status_code",
+          // "payment_type",
+          "gross_amount": element?.grossAmount,
+          // "fraud_status",
+          "product_id": element?.productId,
+          "product_slug": element?.productSlug,
+        })
+
         this.router.push({
           name: "/tour/payment-detail",
           params: {
@@ -293,6 +363,7 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
         })
       });
 
+      return false;
       return true;
       // return resp
 

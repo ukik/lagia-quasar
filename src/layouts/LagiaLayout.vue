@@ -193,8 +193,8 @@ export default {
           // case "/lagia/index":
           // case "/lagia/cart":
           // case "/lagia/cart/tour":
-        // case "/tour/product-detail":
-        // case "/tour/product-order":
+          // case "/tour/product-detail":
+          // case "/tour/product-order":
 
           return false;
         default:
@@ -327,11 +327,11 @@ export default {
           />
 
           <q-toolbar-title class="row">
-            <q-item class="col-auto" dense :to="{name:'/lagia/index'}">
-            <q-item-label>
-              <img style="height: 30px" src="/assets/lagia/white-logo.png" />
-            </q-item-label>
-          </q-item>
+            <q-item class="col-auto" dense :to="{ name: '/lagia/index' }">
+              <q-item-label>
+                <img style="height: 30px" src="/assets/lagia/white-logo.png" />
+              </q-item-label>
+            </q-item>
           </q-toolbar-title>
 
           <q-space
@@ -364,11 +364,11 @@ export default {
           />
 
           <q-toolbar-title class="row">
-            <q-item class="col-auto" dense :to="{name:'/lagia/index'}">
-            <q-item-label>
-              <img style="height: 30px" src="/assets/lagia/white-logo.png" />
-            </q-item-label>
-          </q-item>
+            <q-item class="col-auto" dense :to="{ name: '/lagia/index' }">
+              <q-item-label>
+                <img style="height: 30px" src="/assets/lagia/white-logo.png" />
+              </q-item-label>
+            </q-item>
           </q-toolbar-title>
 
           <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
@@ -513,9 +513,21 @@ export default {
           </q-toolbar>
         </q-card-section>
         <!-- <router-view ></router-view> -->
+        <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+
+        <div v-if="!route_meta?.logged && getIsLogin" class="content-page-section row justify-center">
+          <div
+            class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md"
+          >
+            <div class="col-12">
+              <isBannerDaftar></isBannerDaftar>
+            </div>
+          </div>
+        </div>
 
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
-          <component :is="Component" :key="$route.name"> </component>
+          <component :is="Component" :key="$route.name">
+          </component>
         </router-view>
 
         <q-no-ssr v-else>
@@ -535,7 +547,8 @@ export default {
         <CallAction v-if="hideNavBottomBannerCallToAction"></CallAction>
         <CallActionOffer v-if="hideNavBottomBanner"></CallActionOffer> -->
 
-        <q-no-ssr v-if="$q.screen.width > 425"
+        <q-no-ssr
+          v-if="$q.screen.width > 425"
           :style="$q.screen.width > 425 ? 'padding-bottom:35px;' : 'padding-bottom:80px;'"
         >
           <LayoutFooter></LayoutFooter>
@@ -676,7 +689,8 @@ export default {
 #backTop .q-page-sticky {
   z-index: 99 !important;
 }
-#floatHelp {
+#floatHelp,
+.floatHelp {
   z-index: 99 !important;
 }
 

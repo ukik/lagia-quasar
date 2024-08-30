@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import axios from 'axios'
 
-import { Notify, debounce, Loading } from 'quasar'
+import { Notify, debounce, Loading, Cookies } from 'quasar'
 
 import caseConvert from 'src/utils/case-convert';
 
@@ -15,23 +15,23 @@ export const useTourBookingPaymentStore = defineStore('TourBookingPaymentStore',
     record: {},
     isMaintenance: false,
 
-    date_start: null,
-    participant_adult: null,
-    participant_young: null,
-    description: null,
-    hotel: 'Pilih Hotel',
-    dibayar: null,
-    dibayar_percent: null,
+    // date_start: null,
+    // participant_adult: null,
+    // participant_young: null,
+    // description: null,
+    // hotel: 'Pilih Hotel',
+    // dibayar: null,
+    // dibayar_percent: null,
 
-    room_qty: null,
-    room_budget: null,
+    // room_qty: null,
+    // room_budget: null,
 
-    name: null,
-    email: null,
-    phone: null,
-    instance: null,
-    city: null,
-    address: null,
+    // name: null,
+    // email: null,
+    // phone: null,
+    // instance: null,
+    // city: null,
+    // address: null,
 
     loading: false,
     loading_store: false,

@@ -1,13 +1,11 @@
 <template>
-  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+  <!-- <InnerBanner :_title="$route?.meta?.title"></InnerBanner> -->
 
   <!-- ***Inner Banner html end here*** -->
   <div id="product-detail" class="content-page-section row justify-center">
     <div
-      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
+      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md"
       :class="[
-        $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
-        $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
       <div v-if="!record && loading" class="col-12 text-center">
@@ -15,6 +13,8 @@
       </div>
 
       <div class="col-12">
+        <slot name="login"></slot>
+
         <!-- "{{ date_start }}", "{{ participant_young }}", "{{ participant_adult }}", "{{
           description
         }}", "{{ hotel }}", -->
@@ -380,7 +380,7 @@ export default {
       this.setCookies();
     },
     step() {
-      this.onScrollUp("#product-detail");
+      this.$scrollToElement("#product-detail");
     }
   },
   mounted() {
@@ -419,21 +419,21 @@ export default {
   //   }
   // },
   methods: {
-    onScrollUp(el) {
-      setTimeout(() => {
+    // onScrollUp(el) {
+    //   const ANCHOR = document.querySelector(el);
+    //   if(!ANCHOR) return
+    //   console.log('ANCHOR')
+    //   this.$scrollToElement(ANCHOR);
+    //   // setTimeout(() => {
 
-        // VERSION 1
-        // document.querySelector(el).scrollIntoView({
-        //   behavior: 'smooth'
-        // });
+    //   //   // VERSION 1
+    //   //   // document.querySelector(el).scrollIntoView({
+    //   //   //   behavior: 'smooth'
+    //   //   // });
 
 
-        const ANCHOR = document.querySelector(el);
-        if(!ANCHOR) return
-        console.log('ANCHOR')
-        this.$scrollToElement(ANCHOR);
-      }, 500);
-    },
+    //   // }, 500);
+    // },
     getCookies(cookies_name) {
       const cookies = this.$q.cookies.get(cookies_name);
       console.log("getDateDiff", this.getDateDiff(cookies.state.date_start));

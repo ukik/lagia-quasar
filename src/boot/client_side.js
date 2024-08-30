@@ -42,12 +42,17 @@ const testMe = {
 import { useQuasar, scroll } from "quasar";
 const { getScrollTarget, setVerticalScrollPosition } = scroll;
 
+
 // takes an element object
 function scrollToElement(el) {
-  const target = getScrollTarget(el);
-  const offset = el.offsetTop;
-  const duration = 200;
-  setVerticalScrollPosition(target, offset, duration);
+  const ANCHOR = document.querySelector(el);
+  if(!ANCHOR) return
+  setTimeout(() => {
+    const target = getScrollTarget(ANCHOR);
+    const offset = ANCHOR.offsetTop;
+    const duration = 400;
+    setVerticalScrollPosition(target, offset, duration);
+  }, 500)
 }
 
 export default boot( async ({ app, ssrContext, router, store }) => {

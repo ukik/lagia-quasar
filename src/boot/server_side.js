@@ -316,6 +316,10 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     defineAsyncComponent(() => import('src/components/lagia-components/CallAction.vue'))
   )
 
+  app.component("isBannerDaftar",
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isBannerDaftar.vue'))
+  )
+
 
 
   app.component("isAvailable",

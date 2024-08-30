@@ -328,12 +328,12 @@ import { useTourOrderDetailStore } from "src/stores/lagia-stores/tour/TourOrderD
 const { getScrollTarget, setVerticalScrollPosition } = scroll;
 
 // takes an element object
-function scrollToElement(el) {
-  const target = getScrollTarget(el);
-  const offset = el.offsetTop;
-  const duration = 10;
-  setVerticalScrollPosition(target, offset, duration);
-}
+// function scrollToElement(el) {
+//   const target = getScrollTarget(el);
+//   const offset = el.offsetTop;
+//   const duration = 10;
+//   setVerticalScrollPosition(target, offset, duration);
+// }
 
 export default {
   setup() {

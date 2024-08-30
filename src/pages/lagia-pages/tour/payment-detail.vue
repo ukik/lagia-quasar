@@ -1,20 +1,47 @@
 <template>
-  <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+  <!-- <InnerBanner :_title="$route?.meta?.title"></InnerBanner> -->
+  <!-- <q-btn @click="onCountdown" label="Test"></q-btn> -->
+  <q-dialog
+    v-model="dialog"
+    persistent
+    maximized
+    transition-show="slide-up"
+    transition-hide="slide-down"
+  >
+    <div class="fullscreen row flex-center">
+      <q-card class="rounded-borders-2 bg-transparent" flat>
+        <q-card-actions align="center">
+          <q-avatar size="80px" color="blue" text-color="white">
+            {{ countdown }}
+            <!-- <q-spinner></q-spinner> -->
+          </q-avatar>
+        </q-card-actions>
+        <q-card-actions align="center">
+          <q-item-label caption class="bg-white rounded-borders-3 q-pa-md"
+            >pop-up pembayaran akan muncul</q-item-label
+          >
+        </q-card-actions>
+      </q-card>
+      <!-- <div class="col-12 full-width text-center">
+        <span class="bg-white rounded-borders-2" caption>pop-up pembayaran akan muncul</span>
+      </div> -->
+    </div>
+  </q-dialog>
 
   <!-- ***Inner Banner html end here*** -->
-  <div id="product-detail" class="content-page-section row justify-center">
-    <div
-      class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
-      :class="[
-        $q.screen.width > 425 ? 'q-col-gutter-lg' : 'q-col-gutter-y-xl q-col-gutter-x-lg',
-        $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
-      ]"
-    >
+  <div id="PaymentDetail" class="content-page-section row justify-center">
+    <div class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md">
       <div v-if="!record && loading" class="col-12 text-center">
         <q-spinner color="primary" size="3em" />
       </div>
 
       <div class="col-12">
+        <q-card-actions class="q-pa-none q-mb-lg" align="between">
+          <q-btn :to="{
+            name: '/tour/payment-booking'
+          }" label="RIWAYAT PESANAN" outline icon="receipt" unelevated />
+        </q-card-actions>
+
         <q-item-label class="text-center text-h5 text-uppercase"
           >INVOICE TOUR</q-item-label
         >
@@ -34,7 +61,8 @@
             size="lg"
             label="Status Pembayaran"
           ></q-btn>
-          <q-btn v-if="record?.transactionId"
+          <q-btn
+            v-if="record?.transactionId"
             @click="onSnapWindow"
             unelevated
             color="primary"
@@ -46,7 +74,7 @@
         <q-card class="q-mb-lg" flat bordered>
           <q-card-section style="font-family: 'Ubuntu', sans-serif">
             <q-item-label class="q-mb-md">
-              Terima kasih telah melakukan booking (pemesanan) paket tour di Labiru Tour.
+              Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR.
               Jika ada hal yang ingin ditanyakan atau dikonsultasikan lebih lanjut.
               Silahkan menghubungi tim Labiru melalui kontak dibawah ini.
             </q-item-label>
@@ -238,7 +266,6 @@
                   <tr>
                     <td>Status Transaksi</td>
                     <td class="text-capitalize">
-                      {{ $StatusCode(record?.statusCode) }}
                       {{ record?.transactionStatus }}
                     </td>
                   </tr>
@@ -260,6 +287,15 @@
                       {{ record?.statusCode }}
                     </td>
                   </tr>
+                  <tr>
+                    <td>Status Pembayaran</td>
+                    <td class="text-capitalize">
+                    <q-chip class="q-ma-none" text-color="white" :color="$StatusCodeColor(record?.statusCode)">
+                      {{ $StatusCode(record?.statusCode) }}
+                    </q-chip>
+                    </td>
+                  </tr>
+
                   <!-- <tr>
                     <td>Kunci Signature</td>
                     <td class="text-capitalize">
@@ -289,7 +325,8 @@
                     size="lg"
                     label="Status Pembayaran"
                   ></q-btn>
-                  <q-btn v-if="record?.transactionId"
+                  <q-btn
+                    v-if="record?.transactionId"
                     @click="onSnapWindow"
                     unelevated
                     color="primary"
@@ -409,7 +446,7 @@
                     akan di kenakan extra bed dengan tambahan biaya.
                   </li>
                   <li>
-                    Setelah menerima konfirmasi pemesanan dari Tim Labiru Tour, pemesan
+                    Setelah menerima konfirmasi pemesanan dari Tim LAGIA TOUR, pemesan
                     melakukan pembayaran sesuai metode yang telah ditentukan.
                   </li>
                   <li>
@@ -500,7 +537,7 @@
                 <ol>
                   <li>
                     Tidak ada pengembalian (<em>refund</em>) dan pengurangan biaya jika
-                    obyek wisata/makan/hotel dibatalkan bukan karena pihak Labiru Tour
+                    obyek wisata/makan/hotel dibatalkan bukan karena pihak LAGIA TOUR
                     &amp; Travel, melainkan oleh pihak peserta atau dikarenakan force
                     majeure atau kejadian di luar dugaan.
                   </li>
@@ -545,7 +582,7 @@
                     Konfirmasi sangat tergantung dari tersedianya tempat, terutama untuk
                     akomodasi/hotel. Kami akan berusaha sebaik-baiknya untuk mencarikan
                     hotel yang setara apabila hotel yang diminta dalam keadaan penuh.
-                    Labiru Tour akan mengirim konfirmasi mengenai permintaan anda melalui
+                    LAGIA TOUR akan mengirim konfirmasi mengenai permintaan anda melalui
                     email atau whatsapp setelah semua syarat dan kondisi pemesanan
                     dipenuhi.
                   </li>
@@ -554,7 +591,7 @@
                     kondisi dilapangan.
                   </li>
                   <li>
-                    Labiru Tour &amp; Travel bertindak sebagai perantara antara tamu dan
+                    LAGIA TOUR &amp; Travel bertindak sebagai perantara antara tamu dan
                     perusahaan transportasi atau hotel dan tidak bertanggung jawab jika
                     terjadi pembatalan (delay), kehilangan bagasi, kecelakaan, bencana
                     alam serta segala sesuatu yang diluar dugaan.
@@ -577,7 +614,7 @@
                 <hr />
 
                 <h3><strong>SANGKALAN atau DISCLAIMER</strong></h3>
-                LABIRU TOUR tidak bertanggung jawab dan tidak bisa di tuntut atas:
+                LAGIA TOUR tidak bertanggung jawab dan tidak bisa di tuntut atas:
                 <ol>
                   <li>
                     Kerusakan, kehilangan dan keterlambatan bagasi oleh maskapai
@@ -693,84 +730,52 @@ export default {
       // stickyPrice: null,
 
       // step: 1,
-
+      interval: null,
+      countdown: 3,
       tab: "tagihan",
+      dialog: false,
     };
   },
   computed: {
     ...mapState(useTourBookingPaymentStore, ["getFormCheck"]),
-    ...mapWritableState(useTourBookingPaymentStore, [
-      // "date_start",
-      // "participant_adult",
-      // "participant_young",
-      // "description",
-      // "hotel",
-      // "dibayar",
-      // "dibayar_percent",
-
-      // "room_qty",
-      // "room_budget",
-
-      // "name",
-      // "email",
-      // "phone",
-      // "instance",
-      // "city",
-      // "address",
-
-      "record",
-
-      "loading",
-    ]),
-    // to_watch() {
-    //   return {
-    //     date_start: this.date_start,
-    //     participant_adult: this.participant_adult,
-    //     participant_young: this.participant_young,
-    //     description: this.description,
-    //     hotel: this.hotel,
-    //     dibayar: this.dibayar,
-    //     dibayar_percent: this.dibayar_percent,
-
-    //     room_qty: this.room_qty,
-    //     room_budget: this.room_budget,
-
-    //     name: this.name,
-    //     email: this.email,
-    //     phone: this.phone,
-    //     instance: this.instance,
-    //     city: this.city,
-    //     address: this.address,
-    //   };
-    // },
+    ...mapWritableState(useTourBookingPaymentStore, ["record", "loading"]),
   },
-  // watch: {
-  //   to_watch() {
-  //     this.setCookies();
-  //   },
-  //   step() {
-  //     this.onScrollUp("#product-detail");
-  //   }
-  // },
   mounted() {
     this.$nextTick(() => {
-      this.onSnap();
+      // this.onSnap();
     });
+    this.$scrollToElement("#PaymentDetail");
+    this.onCountdown();
+    // this.dialog = true;
   },
   methods: {
     ...mapActions(useTourBookingPaymentStore, ["onUpdate"]),
-    onScrollUp(el) {
-      setTimeout(() => {
-        // VERSION 1
-        // document.querySelector(el).scrollIntoView({
-        //   behavior: 'smooth'
-        // });
+    // onScrollUp(el) {
+    //   setTimeout(() => {
+    //     // VERSION 1
+    //     // document.querySelector(el).scrollIntoView({
+    //     //   behavior: 'smooth'
+    //     // });
 
-        const ANCHOR = document.querySelector(el);
-        if (!ANCHOR) return;
-        console.log("ANCHOR");
-        this.$scrollToElement(ANCHOR);
-      }, 500);
+    //     const ANCHOR = document.querySelector(el);
+    //     if (!ANCHOR) return;
+    //     console.log("ANCHOR");
+    //     this.$scrollToElement(ANCHOR);
+    //   }, 500);
+    // },
+    onCountdown() {
+      this.dialog = true;
+      this.countdown = 3;
+      clearInterval(this.interval);
+      this.interval = setInterval(() => {
+        console.log(this.countdown);
+        this.countdown--;
+        if (this.countdown <= 0) {
+          this.onSnap();
+          clearInterval(this.interval);
+          this.dialog = false;
+        }
+      }, 1000);
     },
     onUpdateTest() {
       this.onUpdate({
@@ -793,35 +798,38 @@ export default {
     },
     onSnap() {
       const vm = this;
-      snap.pay(this.record?.snapToken, {
-        // Optional
-        onSuccess: function (result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log("onSuccess", result);
-          vm.onUpdate(result);
-        },
-        // Optional
-        onPending: function (result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log("onPending", result);
-          vm.onUpdate(result);
-        },
-        // Optional
-        onError: function (result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log("onError", result);
-          vm.onUpdate(result);
-        },
-        onClose: function (result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log("onClose", result);
-
-        },
-      });
+      try {
+        snap.pay(this.record?.snapToken, {
+          // Optional
+          onSuccess: function (result) {
+            /* You may add your own js here, this is just example */
+            // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            console.log("onSuccess", result);
+            vm.onUpdate(result);
+          },
+          // Optional
+          onPending: function (result) {
+            /* You may add your own js here, this is just example */
+            // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            console.log("onPending", result);
+            vm.onUpdate(result);
+          },
+          // Optional
+          onError: function (result) {
+            /* You may add your own js here, this is just example */
+            // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            console.log("onError", result);
+            vm.onUpdate(result);
+          },
+          onClose: function (result) {
+            /* You may add your own js here, this is just example */
+            // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            console.log("onClose", result);
+          },
+        });
+      } catch (error) {
+        this.$NotifyAlert("Coba lagi");
+      }
     },
     onSnapWindow() {
       // if(this.is_cordova) {

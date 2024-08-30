@@ -71,6 +71,18 @@ export default function (store, cookies, ssrContext) {
       component: () => import("pages/lagia-pages/tour/payment-detail.vue"),
     },
 
+    {
+      path: "/tour/payment-booking",
+      name: "/tour/payment-booking",
+      meta: {
+        ssr: true,
+        logged: false,
+        role: '',
+        title: 'purchase',
+      },
+      component: () => import("pages/lagia-pages/tour/payment-booking.vue"),
+    },
+
 
     {
       path: "/tour/cart",
