@@ -181,6 +181,7 @@ function onMouseLeave() {
 export default {
   computed: {
     hideNav() {
+      return true
       switch (this.$route.name) {
         case "dashboard-login":
         case "dashboard-register":
@@ -513,7 +514,8 @@ export default {
           </q-toolbar>
         </q-card-section>
         <!-- <router-view ></router-view> -->
-        <InnerBanner :_title="$route?.meta?.title"></InnerBanner>
+        <InnerBanner v-if="route_name !== '/lagia/index'" :_title="$route?.meta?.title"></InnerBanner>
+
 
         <div v-if="!route_meta?.logged && getIsLogin" class="content-page-section row justify-center">
           <div

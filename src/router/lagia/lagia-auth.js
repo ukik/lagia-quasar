@@ -10,6 +10,20 @@ export default function (store, cookies, ssrContext) {
 
   return [
     // EMPTY
+
+    {
+      path: "/lagia/dashboard",
+      name: "/lagia/dashboard",
+      meta: {
+        ssr: true,
+        logged: true,
+        role: '',
+        title: 'dashboard',
+      },
+      component: () => import("pages/lagia-pages/dashboard/dashboard.vue"),
+    },
+
+
     {
       path: "/login",
       name: "/login",

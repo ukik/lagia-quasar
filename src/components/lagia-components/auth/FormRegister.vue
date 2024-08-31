@@ -52,7 +52,7 @@
             </q-input>
           </div>
 
-          <div class="col-12">
+          <!-- <div class="col-12">
             <q-input
               :loading="loading.form_register"
               :disable="loading.form_register"
@@ -82,7 +82,7 @@
                 <span class="text-white" v-else>Username wajib diisi *</span>
               </template>
             </q-input>
-          </div>
+          </div> -->
 
           <div class="col-12">
             <q-input
@@ -214,7 +214,7 @@
             </q-input>
           </div>
 
-          <div class="col-12">
+          <!-- <div class="col-12">
             <q-select
               :loading="loading.form_register"
               :disable="loading.form_register"
@@ -252,7 +252,7 @@
                 <span class="text-white" v-else>Gender wajib diisi *</span>
               </template>
             </q-select>
-          </div>
+          </div> -->
 
           <div v-if="false" class="col-12 text-center row items-center">
             <q-card-section
@@ -384,12 +384,12 @@ export default {
     const $q = useQuasar();
 
     const nameRef = ref(null);
-    const usernameRef = ref(null);
+    // const usernameRef = ref(null);
     const phoneRef = ref(null);
     const emailRef = ref(null);
     const passwordRef = ref(null);
     const passwordConfirmationRef = ref(null);
-    const genderRef = ref(null);
+    // const genderRef = ref(null);
 
     // const name = ref(null);
     // const username = ref(null);
@@ -428,12 +428,12 @@ export default {
       loading,
 
       nameRef,
-      usernameRef,
+      // usernameRef,
       phoneRef,
       emailRef,
       passwordRef,
       passwordConfirmationRef,
-      genderRef,
+      // genderRef,
 
       // email,
       // name,
@@ -470,23 +470,23 @@ export default {
 
       async onSubmit() {
         nameRef.value.validate();
-        usernameRef.value.validate();
+        // usernameRef.value.validate();
         phoneRef.value.validate();
         emailRef.value.validate();
         passwordRef.value.validate();
         passwordConfirmationRef.value.validate();
-        genderRef.value.validate();
+        // genderRef.value.validate();
 
         // acceptRef.value.validate();
 
         if (
           nameRef.value.hasError ||
-          usernameRef.value.hasError ||
+          // usernameRef.value.hasError ||
           phoneRef.value.hasError ||
           emailRef.value.hasError ||
           passwordRef.value.hasError ||
-          passwordConfirmationRef.value.hasError ||
-          genderRef.value.hasError
+          passwordConfirmationRef.value.hasError
+          // genderRef.value.hasError
         ) {
           $q.notify({
             color: "negative",
@@ -507,7 +507,7 @@ export default {
 
         const resp = await onRegister();
 
-        if (resp.isLogin) {
+        if (resp?.isLogin) {
           if (this.$route.name == "/register") {
             this.$router.push({ name: "/lagia/index" });
           }
@@ -527,12 +527,12 @@ export default {
         accept.value = false;
 
         nameRef.value.resetValidation();
-        usernameRef.value.resetValidation();
+        // usernameRef.value.resetValidation();
         phoneRef.value.resetValidation();
         emailRef.value.resetValidation();
         passwordRef.value.resetValidation();
         passwordConfirmationRef.value.resetValidation();
-        genderRef.value.resetValidation();
+        // genderRef.value.resetValidation();
         // acceptRef.value.resetValidation();
       },
     };

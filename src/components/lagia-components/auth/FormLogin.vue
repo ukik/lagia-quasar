@@ -232,7 +232,7 @@ export default {
 
       if (resp.isLogin) {
         if (this.$route.name == "/login") {
-          this.$router.push({ name: "/lagia/index" });
+          this.$router.push({ name: "/lagia/dashboard" });
         }
         this.$emit("onBubbleEventLogged");
       }

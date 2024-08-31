@@ -70,7 +70,6 @@ export default function (store, cookies, ssrContext) {
         },
 
 
-
         {
           path: "/lagia/404",
           name: "/lagia/404",

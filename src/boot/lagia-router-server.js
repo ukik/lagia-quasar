@@ -32,7 +32,7 @@ export default boot(async ({ router, store }) => {
       return next()
     } else if (getIsLogin.value && to.name == '/login') {
       console.log('beforeEach boot/lagia-router-server.js 3', getIsLogin.value, to.name)
-      return next({ name: "/tour/cart" })
+      return next({ name: "/lagia/dashboard" })
     } else if (to.meta.logged && !getIsLogin.value && to.name !== '/login') {
       console.log('beforeEach boot/lagia-router-server.js 2')
       return next({ name: '/login' })

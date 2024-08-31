@@ -290,11 +290,11 @@ export const useAuthStore = defineStore('AuthStore', {
 
       console.log('onLogout', resp)
 
-      if(!resp?.data?.isLogin) {
+      if (!resp?.data?.isLogin) {
         await this.onClearAuth()
         Cookies.remove('accessToken')
         this.router.push({ name: "/login" })
-       }
+      }
 
       return resp
     },
@@ -345,15 +345,25 @@ export const useAuthStore = defineStore('AuthStore', {
             color: 'negative',
             position: 'top',
             message: 'Loading failed',
-            caption: err?.data?.meta?.message[0],
+            caption: err?.response?.data?.message?.toString(),
             icon: 'report_problem'
           })
+          return false
         })
 
       this.loading.form_login = false
       console.log('onLogin', resp)
 
-      if (!resp?.data) return this.loading.form_login = false
+      if (resp == false) return
+      if (!resp?.data?.isLogin) {
+        Notify.create({
+          color: 'negative',
+          position: 'top',
+          message: 'Loading failed',
+          caption: 'Gagal login',
+          icon: 'report_problem'
+        })
+      }
 
       resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
 
@@ -368,6 +378,8 @@ export const useAuthStore = defineStore('AuthStore', {
       if (this.loading.form_register) return false;
 
       this.loading.form_register = true;
+
+      Loading.show()
 
       // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
@@ -393,29 +405,45 @@ export const useAuthStore = defineStore('AuthStore', {
       })
         .then((response) => {
           // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
-          Notify.create({
-            color: 'positive',
-            position: 'top',
-            message: 'Loading success',
-            caption: 'data berhasil diproses',
-            icon: 'done'
-          })
+          // Notify.create({
+          //   color: 'positive',
+          //   position: 'top',
+          //   message: 'Loading success',
+          //   caption: 'data berhasil diproses',
+          //   icon: 'done'
+          // })
           return response
         })
         .catch((err) => {
+          console.log('err', err, err.response)
           Notify.create({
             color: 'negative',
             position: 'top',
             message: 'Loading failed',
-            caption: err?.data?.meta?.message[0],
+            caption: err.response?.data?.message?.toString(),
             icon: 'report_problem'
           })
+          return false
         })
 
       this.loading.form_register = false
-      console.log('onRegister', resp)
+      console.log('onRegister', resp?.data)
 
-      if (!resp?.data) return this.loading.form_register = false
+      Loading.hide()
+
+      if (resp == false) return
+      if (!resp?.data?.isLogin) {
+        Notify.create({
+          color: 'orange',
+          position: 'top',
+          message: 'Loading success',
+          caption: resp?.data?.data?.message,
+          icon: 'report_problem'
+        })
+        return
+      }
+      // if (!resp) return
+      // if (!resp?.data) return
 
 
       resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
@@ -485,6 +513,8 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_forgot_password = true;
 
+      Loading.show();
+
       // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
 
@@ -522,15 +552,17 @@ export const useAuthStore = defineStore('AuthStore', {
             color: 'negative',
             position: 'top',
             message: 'Loading failed',
-            caption: err?.data?.meta?.message[0],
+            caption: err?.response?.data?.message?.toString(),
             icon: 'report_problem'
           })
         })
 
+      Loading.hide();
+
       this.loading.form_forgot_password = false
       console.log('onLogin', resp)
 
-      if (!resp?.data) return this.loading.form_forgot_password = false
+      // if (!resp?.data) return this.loading.form_forgot_password = false
     },
 
     async onVerify(slug = 'verify') {
@@ -541,6 +573,7 @@ export const useAuthStore = defineStore('AuthStore', {
 
       // const accessToken = Cookies.get("accessTokent");
       // const csrf = Cookies.get("XSRF-TOKEN");
+      Loading.show();
 
       const formData = new FormData();
       for (const key in this.form_verify) {
@@ -585,7 +618,9 @@ export const useAuthStore = defineStore('AuthStore', {
       this.loading.form_verify = false
       console.log('onLogin', resp)
 
-      if (!resp?.data) return this.loading.form_verify = false
+      Loading.hide();
+
+      // if (!resp?.data) return this.loading.form_verify = false
     },
 
     async onRequestVerification() {

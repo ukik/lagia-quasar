@@ -1,9 +1,9 @@
 <template>
-  <q-page class="row flex flex-center">
-    <div class="col-xl-4 col-lg-6 col-md-7 col-sm-11 col-11 q-py-xl">
-      <FormRegister class="q-py-xl" />
+  <div class="row flex flex-center">
+    <div class="col-xl-4 col-lg-6 col-md-7 col-sm-11 col-11 q-pb-xl">
+      <FormRegister class="q-pb-xl" />
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script setup>

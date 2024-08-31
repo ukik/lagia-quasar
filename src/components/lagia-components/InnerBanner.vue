@@ -5,17 +5,18 @@
       style="background-image: url(assets/images/img7.jpg); padding-top: 134.562px"
     >
       <div class="inner-banner-content text-uppercase">
-        <h4 class="text-white" v-if="$q.screen.width <= 425">{{ title }}</h4>
-        <h1 v-else class="page-title">{{ title }}</h1>
+        <h4 class="text-white" v-if="$q.screen.width <= 425">{{ _title }}</h4>
+        <h1 v-else class="page-title">{{ _title }}</h1>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, defineProps } from "vue";
-const { _title } = defineProps(["_title"]);
-const title = _title;
+
+<script>
+export default {
+  props:['_title']
+}
 </script>
 
 <style scoped>
