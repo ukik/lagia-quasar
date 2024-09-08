@@ -2,6 +2,14 @@
   <!-- {{ getCulinary }} -->
   <HomeTron :records="page_widget_tron"></HomeTron>
 
+
+
+  <widgetTourPriceList
+    v-if="record_tour_price"
+    :records="record_tour_price"
+  ></widgetTourPriceList>
+
+
   <widgetTourProductList
     v-if="record_tour"
     :records="record_tour"
@@ -101,6 +109,7 @@ import { useGlobalEasyLightbox } from "src/stores/lagia-stores/GlobalEasyLightbo
 import { useIndexStore } from "stores/lagia-stores/page/IndexStore";
 import { useRouter, onBeforeRouteLeave } from "vue-router";
 
+import widgetTourPriceList from "./tour/widget-price-list.vue";
 import widgetTourProductList from "./tour/widget-product-list.vue";
 import widgetCulinaryProductList from "./culinary/widget-culinary-product-list.vue";
 import widgetSouvenirProductList from "./souvenir/widget-souvenir-product-list.vue";
@@ -139,6 +148,7 @@ const {
   record_testimonial,
 
   record_tour,
+  record_tour_price,
   record_culinary,
   record_souvenir,
   record_lodge,

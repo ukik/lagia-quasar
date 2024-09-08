@@ -18,38 +18,102 @@
         <NoData></NoData>
       </div> -->
 
-      <div v-for="(item, index) in items" class="col-xl-6 col-lg-6 col-sm-12 col-xs-12">
-        <q-card flat bordered class="rounded-borders-2 text-dark">
-          <q-card-section horizontal class="q-pa-none">
-            <q-avatar
-              size="120px"
-              font-size="50px"
-              color="blue"
-              text-color="white"
-              :icon="item?.icon"
-            />
+      <!--  -->
 
-            <q-separator vertical></q-separator>
-            <q-card-section class="q-py-sm">
-              <q-item-label lines="1" class="text-h5">{{ item?.title }}</q-item-label>
-              <q-item-label lines="1" class="text-body2">{{item?.message}}</q-item-label>
-              <q-item-label lines="1" class="text-body2">
 
-                <q-btn flat
-                unelevated
-                rounded
-                dense
-                class=""
-                color="primary"
-                label="selanjutnya"
+        <isDashboardButton
+          :item="{
+    title: 'Purchase',
+    message: 'lihat proses pelunasan',
+    icon: 'receipt',
+    link: '/tour/payment-booking',
+  }"
+        ></isDashboardButton>
+
+        <isDashboardButton v-if="getIsLogin"
+          :item='{
+    title: "Pelanggan",
+    message: "ubah data profile",
+    icon: "face",
+    link: "/edit/customer",
+    logged: true,
+  }'
+        ></isDashboardButton>
+
+        <isDashboardButton v-if="getIsLogin"
+          :item='{
+    title: "Verifikasi",
+    message: "ubah email verifikasi",
+    icon: "face",
+    link: "/verify",
+    logged: true,
+  }'
+        ></isDashboardButton>
+
+        <isDashboardButton v-if="getIsLogin"
+          :item='{
+    title: "Ganti Email",
+    message: "ubah email login",
+    icon: "email",
+    link: "/edit/email",
+    logged: true,
+  }'
+        ></isDashboardButton>
+
+
+      <template v-for="(item, index) in items">
+        <div
+          if="item?.logged && getIsLogin"
+          class="col-xl-6 col-lg-6 col-sm-12 col-xs-12"
+        >
+          <q-card flat bordered class="rounded-borders-2 text-dark">
+            <q-card-section horizontal class="q-pa-none">
+              <q-avatar
+                size="120px"
+                font-size="50px"
+                color="blue"
+                text-color="white"
+                :icon="item?.icon"
               />
-              </q-item-label>
 
+              <q-separator vertical></q-separator>
+              <q-card-section class="q-py-sm">
+                <q-item-label lines="1" class="text-h5">{{ item?.title }}</q-item-label>
+                <q-item-label lines="1" class="text-body2">{{
+                  item?.message
+                }}</q-item-label>
+                <q-item-label lines="1" class="text-body2">
+                  <q-btn
+                    flat
+                    v-if="item?.link"
+                    :to="{
+                      name: item?.link,
+                    }"
+                    unelevated
+                    rounded
+                    dense
+                    class=""
+                    color="primary"
+                    label="Selanjutnya"
+                  />
+
+                  <q-btn
+                    flat
+                    v-else
+                    unelevated
+                    rounded
+                    dense
+                    class=""
+                    color="negative"
+                    label="Belum Ada"
+                  />
+                </q-item-label>
+              </q-card-section>
             </q-card-section>
-          </q-card-section>
-          <!--  -->
-        </q-card>
-      </div>
+            <!--  -->
+          </q-card>
+        </div>
+      </template>
     </div>
   </div>
   <!-- Call To Action -->
@@ -90,40 +154,50 @@
 </template>
 
 <script async setup>
-import { ref } from 'vue';
+import isDashboardButton from "./components/isDashboardButton";
+
+import { ref } from "vue";
 
 const items = ref([
+  // {
+  //   title: 'Keranjang',
+  //   message: 'menunggu proses pemesanan',
+  //   icon: 'shopping_cart'
+  // },
+  // {
+  //   title: 'Booking',
+  //   message: 'menunggu proses pembayaran',
+  //   icon: 'shopping_bag'
+  // },
   {
-    title: 'Keranjang',
-    message: 'menunggu proses pemesanan',
-    icon: 'shopping_cart'
+    title: "Purchase",
+    message: "menunggu proses pelunasan",
+    icon: "receipt",
+    link: "/tour/payment-booking",
+    logged: false,
   },
   {
-    title: 'Booking',
-    message: 'menunggu proses pembayaran',
-    icon: 'shopping_bag'
+    title: "Pelanggan",
+    message: "lengkapi data profile",
+    icon: "face",
+    link: "/edit/customer",
+    logged: true,
   },
   {
-    title: 'Invoice',
-    message: 'menunggu proses pelunasan',
-    icon: 'receipt'
+    title: "Konfigurasi",
+    message: "pengaturan akses akun",
+    icon: "settings",
+    link: "/edit/account",
+    logged: true,
   },
   {
-    title: 'Biodata',
-    message: 'lengkapi data profile',
-    icon: 'face'
+    title: "Alamat",
+    message: "lengkapi alamat booking",
+    icon: "home",
+    link: "",
+    logged: true,
   },
-  {
-    title: 'Konfigurasi',
-    message: 'pengaturan akses akun',
-    icon: 'settings'
-  },
-  {
-    title: 'Alamat',
-    message: 'lengkapi alamat booking',
-    icon: 'home'
-  },
-])
+]);
 </script>
 
 <style scoped>

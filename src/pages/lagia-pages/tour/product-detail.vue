@@ -63,7 +63,6 @@
                 />
               </div>
               <div class="col-xl col-lg col-md-12 col-sm-12 col-xs-12">
-                {{ loading }} xxx
                 <q-btn
                   :loading="loading"
                   class="full-width"

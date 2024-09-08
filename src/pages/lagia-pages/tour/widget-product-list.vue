@@ -4,10 +4,10 @@
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
       <h6 class="text-blue">BEST PRICE OFFER</h6>
       <h2>LAGIA TOUR</h2>
-      <p>
+      <!-- <p>
         Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
         Vestibulum cumque laudantium. Sit ornare mollitia tenetur, aptent.
-      </p>
+      </p> -->
     </div>
   </div>
 
@@ -30,7 +30,14 @@
       >
         <q-card square flat bordered class="rounded-borders-2">
           <q-card-section class="row q-pa-none">
-            <q-img
+            <isImageSlideCarousel
+              v-if="item?.image && item?.image.length > 0"
+              height="300px"
+              class="rounded-borders-0 col-12"
+              :_gallery="item?.image"
+            ></isImageSlideCarousel>
+
+            <!-- <q-img
               v-if="item?.image && item?.image.length > 0"
               loading="lazy"
               :ratio="1"
@@ -72,21 +79,59 @@
                   Cannot load image
                 </div>
               </template>
-            </q-img>
+            </q-img> -->
             <q-img
               loading="lazy"
               :ratio="1"
               class="col-12 q-border-bottom"
               v-else
-              :src="$defaultUser"
-            />
+              :src="$defaultErrorImage"
+            >
+              <div v-if="$q.screen.width > 425" class="absolute-bottom">
+                {{ item?.name }}
+              </div>
+
+              <div class="absolute-full bg-transparent q-pa-none">
+                <q-btn
+                  class="absolute-full"
+                  :to="{
+                    name: '/tour/product-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                </q-btn>
+              </div>
+            </q-img>
 
             <q-card-section class="row col-12 flex items-start q-pa-none">
-              <q-list padding>
+              <q-list class="col-12">
+                <q-item
+                  clickable
+                  :to="{
+                    name: '/tour/product-detail',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+                >
+                  <q-item-section class="text-title">
+                    <q-item-label lines="1"
+                      >{{ item?.name }}
+                    </q-item-label>
+                    <q-item-label caption
+                      >dibuat: {{ item?.createdAt }}</q-item-label
+                    >
+                  </q-item-section>
+                </q-item>
+                <q-separator></q-separator>
                 <q-item v-if="$q.screen.width > 425">
                   <q-item-section>
                     <q-item-label caption>Kategori</q-item-label>
-                    <q-item-label lines="1">
+                    <q-item-label lines="1" class="text-capitalize">
                       {{ item?.category }}
                     </q-item-label>
                   </q-item-section>
@@ -113,7 +158,7 @@
                 <q-item>
                   <q-item-section>
                     <q-item-label caption>Durasi</q-item-label>
-                    <q-item-label>
+                    <q-item-label class="text-capitalize">
                       {{ item?.durasi }}
                     </q-item-label>
                   </q-item-section>
@@ -129,117 +174,76 @@
               </q-list>
             </q-card-section>
 
-            <q-card-section
-              v-if="false"
-              class="bg-grey-2 row col-12 flex items-start q-pa-none"
-            >
-              <div class="text-box full-width col-12 text-capitalize">
-                <q-expansion-item class="bg-white" default-opened>
-                  <template v-slot:header>
-                    <q-item-section class="text-h6 q-px-none">
-                      <q-item-label lines="1">
-                        {{ item?.name }}
-                      </q-item-label>
-                    </q-item-section>
-                  </template>
-                  <q-card>
-                    <isQItemLabelSimpleValue
-                      label="category"
-                      :value="item?.category"
-                    ></isQItemLabelSimpleValue>
+            <q-separator></q-separator>
 
-                    <isQItemLabelSimpleValue
-                      label="durasi"
-                      :value="item?.durasi"
-                    ></isQItemLabelSimpleValue>
-                    <isQItemLabelSimpleValue
-                      label="Destinasi"
-                      :value="item?.province"
-                    ></isQItemLabelSimpleValue>
-                    <!-- <isQItemLabelSimpleValue
-                      label="city"
-                      :value="item?.city"
-                    ></isQItemLabelSimpleValue> -->
-                    <!-- <isQItemLabelSimpleValue
-                      label="country"
-                      :value="item?.country"
-                    ></isQItemLabelSimpleValue>
-
-                    <isQItemLabelSimpleValue
-                      @onBubbleEvent="
-                        $refs.isModal.onOpen({
-                          dialog_value: true,
-                          dialog_payload: {
-                            value: item?.description,
-                            label: 'description',
-                          },
-                        })
-                      "
-                      :clickable="true"
-                      label="description"
-                      value="Detail"
-                      textcolor="text-primary"
-                    ></isQItemLabelSimpleValue> -->
-                  </q-card>
-                </q-expansion-item>
-              </div>
-            </q-card-section>
-
-            <q-card-section
-              v-if="false"
-              class="bg-form col-12 row flex flex-center text-white q-pt-lg"
-            >
-              <q-rating
-                v-if="item?.ratingAvg?.avgRating"
-                readonly
-                v-model="item.ratingAvg.avgRating"
-                size="sm"
-                :max="5"
-                color="white"
-              ></q-rating>
-
-              <q-rating
-                v-else
-                readonly
-                v-model="ratingZero"
-                size="sm"
-                :max="5"
-                color="white"
-              ></q-rating>
-
-              <div v-if="false" class="full-width text-body text-center q-mx-sm">
-                Review (34)
-              </div>
-              <div class="package-price col-12 text-center row q-mt-md">
-                <h6 class="col-12">
-                  {{ item?.tourPricesCount }}
-                  <small class="text-weight-light"> Harga</small>
-                </h6>
-                <small class="col-12 text-center text-caption">( available )</small>
-              </div>
-
-              <div class="row col-12 justify-center q-mt-lg">
+            <!-- <q-card-section class="q-pa-none"> -->
+              <!-- <q-btn-group spread unelevated class="full-width">
                 <q-btn
-                  outline
-                  class="text-weight-normal col-12"
-                  color="form"
-                  text-color="white"
-                  label="selengkapnya"
                   :to="{
-                    name: '/tour/store-detail',
+                    name: '/tour/product-detail',
                     params: {
                       slug: item?.id,
                       slug_text: item?.slug,
                     },
                   }"
+                  label="detail produk"
+                  icon="visibility"
                 />
-              </div>
-            </q-card-section>
-          </q-card-section>
+                <q-separator vertical></q-separator>
+                <q-btn
+                  @click="
+                    $emit('onBubbleEvent', {
+                      label: 'store',
+                      payload: item,
+                    })
+                  "
+                  label="detail vendor"
+                  icon="storefront"
+                />
+              </q-btn-group> -->
+            <!-- </q-card-section> -->
 
-          <!-- <q-card-action>
-              <q-item-label class="text-black text-center" lines="3">{{ item?.subtitle }}</q-item-label>
-            </q-card-action> -->
+            <!-- <q-separator></q-separator> -->
+
+            <q-btn
+              unelevated
+              square
+              :to="{
+                    name: '/tour/product-order',
+                    params: {
+                      slug: item?.id,
+                      slug_text: item?.slug,
+                    },
+                  }"
+              class="full-width"
+              style="border-radius: 0px"
+              color="form"
+              text-color="white"
+              label="Buat Pesanan"
+              icon="shopping_cart_checkout"
+            />
+
+            <!-- <q-btn
+              unelevated
+              square
+              class="full-width"
+              style="border-radius: 0px"
+              @click="
+                $global.$emit('LagiaLayout', {
+                  label: 'konsultasi',
+                  slug: 'konsultasi',
+                  vendor: 'tourProduct',
+                  value: item,
+                  product: 'tourProduct',
+                })
+              "
+              color="positive"
+              text-color="white"
+              label="Tanya Admin"
+              icon="fa-brands fa-whatsapp"
+            /> -->
+
+          </q-card-section>
         </q-card>
       </div>
     </div>

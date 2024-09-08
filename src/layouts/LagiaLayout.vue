@@ -344,6 +344,16 @@ export default {
             v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
           ></LayoutHeaderMenu>
 
+
+          <q-btn :to="{
+            name: getIsLogin ? '/lagia/dashboard' : '/login'
+          }"
+            flat
+            size="17px"
+            round
+            :icon="getIsLogin ? 'dashboard' : 'login'"
+            aria-label="Menu"
+          />
           <q-btn
             flat
             size="17px"
@@ -374,6 +384,25 @@ export default {
 
           <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
 
+          <q-btn :to="{
+            name: getIsLogin ? '/lagia/dashboard' : '/login'
+          }"
+            flat
+            size="17px"
+            round
+            :icon="getIsLogin ? 'dashboard' : 'login'"
+            aria-label="Menu"
+          />
+          <q-btn :to="{
+            name: getIsLogin ? '/lagia/dashboard' : '/login'
+          }"
+            flat
+            size="17px"
+            round
+            :icon="getIsLogin ? 'dashboard' : 'login'"
+            aria-label="Menu"
+          />
+
           <q-btn
             flat
             size="17px"
@@ -400,9 +429,11 @@ export default {
     >
       <q-no-ssr>
         <q-list>
-          <q-item-label header>
-            <img style="height: 50px" src="/assets/lagia/color-logo.png" />
-          </q-item-label>
+          <q-card-actions align="center">
+            <q-btn to="/" flat><img style="height: 50px" src="/assets/lagia/color-logo.png" /></q-btn>
+          </q-card-actions>
+          <!-- <q-item-label header>
+          </q-item-label> -->
 
           <LayoutLeftMenu></LayoutLeftMenu>
         </q-list>
@@ -526,6 +557,9 @@ export default {
             </div>
           </div>
         </div>
+
+
+
 
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
           <component :is="Component" :key="$route.name">

@@ -1,6 +1,7 @@
 <template>
   <div class="inner-banner-wrap">
-    <div id="InnerBanner"
+    <div
+      id="InnerBanner"
       class="inner-baner-container"
       style="background-image: url(assets/images/img7.jpg); padding-top: 134.562px"
     >
@@ -9,20 +10,31 @@
         <h1 v-else class="page-title">{{ _title }}</h1>
       </div>
     </div>
+
+    <div v-if="getIsLogin && !getAuthUser?.emailVerifiedAt" class="full-width">
+      <q-banner inline-actions class="text-white bg-orange">
+        Email akun ini belum terverifikasi
+        <template v-slot:action>
+          <q-btn :to="{
+            name: '/verify'
+          }" outline icon="security" color="white" label="Verifikasi" />
+        </template>
+      </q-banner>
+    </div>
+    <isBannerDaftar></isBannerDaftar>
   </div>
 </template>
 
-
 <script>
 export default {
-  props:['_title']
-}
+  props: ["_title"],
+};
 </script>
 
 <style scoped>
 /* below from style.css */
 .inner-banner-wrap {
-  padding-bottom: 95px;
+  padding-bottom: 45px;
 }
 
 .inner-baner-container {

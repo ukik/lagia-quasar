@@ -2,7 +2,7 @@
   <div>
     <!-- {{ getAuth }} -->
     <!-- <q-list bordered class="rounded-borders"> -->
-    <q-item
+    <!-- <q-item
       :to="{
         name: '/lagia/index',
       }"
@@ -15,7 +15,39 @@
         <q-icon name="home" />
       </q-item-section>
       <q-item-section>Beranda</q-item-section>
+    </q-item> -->
+
+    <q-item
+      :to="{
+        name: '/lagia/dashboard',
+      }"
+      :active="link === '/lagia/dashboard'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="dashboard" />
+      </q-item-section>
+      <q-item-section>Dashboard</q-item-section>
     </q-item>
+
+    <q-item dense
+      :inset-level="1"
+      :to="{
+        name: '/tour/payment-booking',
+      }"
+      :active="link === '/tour/payment-booking'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="receipt" />
+      </q-item-section>
+      <q-item-section>Purchase</q-item-section>
+    </q-item>
+
 
     <q-item
       :to="{
@@ -62,13 +94,31 @@
       <q-item-section>Testimoni</q-item-section>
     </q-item>
 
-    <q-item-label header>Etalase</q-item-label>
+    <q-item-label header>Harga</q-item-label>
 
     <q-item
       :to="{
         name: '/tour/price-list',
       }"
       :active="link === '/tour/price-list'"
+      active-class="text-primary"
+      clickable
+      v-ripple
+    >
+      <q-item-section avatar>
+        <q-icon name="fa-solid fa-tags" />
+      </q-item-section>
+      <q-item-section>Harga Tour</q-item-section>
+    </q-item>
+
+
+    <q-item-label header>Etalase</q-item-label>
+
+    <q-item
+      :to="{
+        name: '/tour/product-list',
+      }"
+      :active="link === '/tour/product-list'"
       active-class="text-primary"
       clickable
       v-ripple

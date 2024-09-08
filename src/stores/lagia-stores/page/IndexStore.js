@@ -20,6 +20,7 @@ export const useIndexStore = defineStore('IndexStore', {
     record_testimonial: null,
 
     record_tour: null,
+    record_tour_price: null,
     record_culinary: null,
     record_souvenir: null,
     record_lodge: null,
@@ -81,6 +82,7 @@ export const useIndexStore = defineStore('IndexStore', {
       // } catch (error) {
       //   if (response?.data?.data['image']) response.data.data['image'] = [response?.data?.data['image']]
       // }
+
       let tour = response?.data?.data?.tour?.data
       if (tour) {
         try {
@@ -93,6 +95,31 @@ export const useIndexStore = defineStore('IndexStore', {
           });
         }
         this.record_tour = tour
+      }
+
+
+      let tour_price = response?.data?.data?.tourPrice?.data
+      if (tour_price) {
+        try {
+          tour_price.forEach(element => {
+            if (element?.tourProduct?.image) element['tourProduct']['image'] = JSON.parse(element['tourProduct']['image'])
+          });
+        } catch (error) {
+          tour_price.forEach(element => {
+            if (element?.tourProduct?.image) element['tourProduct']['image'] = [element['tourProduct']['image']]
+          });
+        }
+
+        try {
+          tour_price.forEach(element => {
+            if (element?.tourStore?.image) element['tourStore']['image'] = JSON.parse(element['tourStore']['image'])
+          });
+        } catch (error) {
+          tour_price.forEach(element => {
+            if (element?.tourStore?.image) element['tourStore']['image'] = [element['tourStore']['image']]
+          });
+        }
+        this.record_tour_price = tour_price
       }
 
 

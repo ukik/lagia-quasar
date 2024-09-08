@@ -5,7 +5,7 @@
         <!-- <h2>LOGIN</h2> -->
         <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
         <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
-        <div class="text-h5 text-uppercase text-white">Email Verifikasi</div>
+        <div class="text-h5 text-uppercase text-white">Ganti Email</div>
         <div class="text-body text-white">Lengkapi formulir di bawah ini</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
@@ -32,7 +32,7 @@
               outlined
               color="primary"
               ref="emailRef"
-              v-model="form_verify.email"
+              v-model="form_update_email.email"
               placeholder="Email"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -45,7 +45,7 @@
                 <div class="text-white">Email kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form_verify.email">Email</span>
+                <span class="text-white" v-if="form_update_email.email">Email</span>
                 <span class="text-white" v-else>Email wajib diisi *</span>
               </template>
             </q-input>
@@ -62,7 +62,7 @@
               outlined
               color="primary"
               ref="tokenRef"
-              v-model="form_verify.token"
+              v-model="form_update_email.token"
               placeholder="Token"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
@@ -75,7 +75,7 @@
                 <div class="text-white">Token kosong</div>
               </template>
               <template v-slot:hint>
-                <span class="text-white" v-if="form_verify.token">Token</span>
+                <span class="text-white" v-if="form_update_email.token">Token</span>
                 <span class="text-white" v-else>Token wajib diisi *</span>
               </template>
             </q-input>
@@ -83,7 +83,7 @@
 
           <q-card-actions class="col-12 text-center q-mt-lg" align="center">
             <q-btn
-              :disable="loading.form_verify"
+              :disable="loading.form_update_email"
               type="submit"
               icon-right="send"
               outline
@@ -93,7 +93,7 @@
               label="verifikasi email"
             ></q-btn>
             <!-- <q-btn
-              :disable="loading.form_verify"
+              :disable="loading.form_update_email"
               type="reset"
               icon-right="delete"
               outline
@@ -129,7 +129,7 @@
 
 <script>
 import { useQuasar } from "quasar";
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 
 import { mapWritableState, storeToRefs } from "pinia";
 import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
@@ -137,8 +137,8 @@ import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 export default {
   setup() {
     const store = useAuthStore();
-    const { onVerify, onRequestVerification, onClearVerify } = store;
-    const { form_verify, auth, loading } = storeToRefs(store);
+    const { onVerifyUpdateEmail, onRequestUpdateEmail, onClearUpdateEmail } = store;
+    const { form_update_email, auth, loading } = storeToRefs(store);
 
     const $q = useQuasar();
 
@@ -149,7 +149,7 @@ export default {
       store,
       auth,
       loading,
-      form_verify,
+      form_update_email,
 
       emailRef,
       tokenRef,
@@ -178,12 +178,12 @@ export default {
         }
 
 
-        if (type == "resend") return await onRequestVerification();
-        await onVerify();
+        if (type == "resend") return await onRequestUpdateEmail();
+        await onVerifyUpdateEmail();
       },
 
       onReset() {
-        onClearVerify();
+        onClearUpdateEmail();
 
         emailRef.value.resetValidation();
         tokenRef.value.resetValidation();
@@ -192,12 +192,12 @@ export default {
   },
   computed: {
     ...mapWritableState(useAuthStore, [
-      'form_verify'
+      'form_update_email'
     ])
   },
   mounted() {
-    if(this.$route.query?.token) this.form_verify.token = this.$route.query?.token
-    if(this.$route.query?.email) this.form_verify.email = this.$route.query?.email
+    if(this.$route.query?.token) this.form_update_email.token = this.$route.query?.token
+    if(this.$route.query?.email) this.form_update_email.email = this.$route.query?.email
   }
 };
 </script>

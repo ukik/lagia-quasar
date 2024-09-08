@@ -113,7 +113,6 @@
 
           <q-card-actions class="col-12 text-center q-mt-lg" align="between">
             <q-btn
-              :loading="loading.form_login"
               :disable="loading.form_login"
               type="submit"
               icon-right="login"
@@ -125,7 +124,6 @@
             ></q-btn>
             <!-- <div class="col-1"></div> -->
             <q-btn
-              :loading="loading.form_login"
               :disable="loading.form_login"
               type="reset"
               icon-right="delete"

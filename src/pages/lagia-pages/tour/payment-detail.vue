@@ -798,6 +798,7 @@ export default {
     },
     onSnap() {
       const vm = this;
+      if(!this.record?.snapToken) return this.$NotifyAlert("Invoice tidak ditemukan");
       try {
         snap.pay(this.record?.snapToken, {
           // Optional
@@ -845,7 +846,7 @@ export default {
       // } else {
 
       // }
-
+      if(!this.record?.snapToken) return this.$NotifyAlert("Invoice tidak ditemukan");
       var options =
         "location=yes,toolbar=yes,hideurlbar=no,EnableViewPortScale=yes,hardwareback=yes";
 

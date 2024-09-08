@@ -67,7 +67,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     config.headers.post['Content-Type'] = 'application/json'
     config.headers.post['Content-Type'] = 'application/pdf';
 
-    // console.log('boot/axios.js A', config)
+    console.log('boot/axios.js A', config)
 
     return config
 
@@ -122,8 +122,9 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
       if(response?.data?.data?.accessToken) await cookies.set('accessToken', response?.data?.data?.accessToken, is_cookie_secure)
     } else {
       // dipindah ke pinia saat user click logout
-      // await onClearAuth()
-      // await cookies.remove('accessToken')
+      await onClearAuth()
+      await cookies.remove('accessToken')
+      if(route.getMeta?.logged) router.replace({ name: '/login' })
     }
 
 
@@ -145,6 +146,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
     //     await auth.setInit(response?.data?.init)
     //   }
     // }
+    console.log('boot/axios.js C', route, response?.data?.isLogin, route.getMeta)
 
     return response
 
@@ -153,7 +155,7 @@ export default boot(async ({ app, ssrContext, router, store, urlPath }) => {
 
 }, function (error) {
   // Loading.hide()
-  console.log('boot/axios.js', error?.response)
+  console.log('boot/axios.js C', error?.response)
 
   try {
     if(error?.response?.status == 401) {

@@ -6,32 +6,6 @@ import { Notify, Loading, debounce, Cookies } from 'quasar'
 
 import caseConvert from 'src/utils/case-convert';
 
-
-// "date_start",
-// "participant_adult",
-// "participant_young",
-// "description",
-// "hotel",
-// "dibayar",
-// "dibayar_percent",
-// "room_qty",
-// "room_budget",
-// "name",
-// "email",
-// "phone",
-// "instance",
-// "city",
-// "address",
-// "snap_token",
-// "transaction_time",
-// "transaction_status",
-// "transaction_id",
-// "status_message",
-// "status_code",
-// "payment_type",
-// "gross_amount",
-// "fraud_status",
-
 function setCookiesBookingPayment(payload) {
   const cookies_name = "TourBookingPayment"
   let old = Cookies.has(cookies_name) ? Cookies.get(cookies_name) : []
@@ -43,6 +17,7 @@ function setCookiesBookingPayment(payload) {
     path: "/", // wajib
   });
 }
+
 
 
 // no need to import defineStore and acceptHMRUpdate
@@ -107,6 +82,14 @@ export const useTourOrderDetailStore = defineStore('TourOrderDetailStore', {
   },
 
   actions: {
+    onUpdateCustomerData(payload) {
+      this.name = payload?.fullName
+      this.email = payload?.email
+      this.phone = payload?.phone
+      this.instance = payload?.instance
+      this.city = payload?.city
+      this.address = payload?.address
+    },
     onReset() {
       this.date_start = null
       // this.participant_adult = 1

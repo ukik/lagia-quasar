@@ -90,6 +90,27 @@
 
   <!-- ***Inner Banner html end here*** -->
   <div class="content-page-section row justify-center">
+    <div class="col-12 flex flex-center q-mt-lg">
+      <div class="full-width text-center q-mb-xl">
+        <q-btn-group unelevated outline>
+          <q-btn
+            color="white"
+            outline
+            text-color="black"
+            to="/tour/product-list"
+            label="Paket Tour"
+            icon="explore"
+          />
+          <q-btn
+            color="form"
+            text-color="white"
+            to="/tour/price-list"
+            label="Harga Tour"
+            icon-right="fa-solid fa-tags"
+          />
+        </q-btn-group>
+      </div>
+    </div>
     <div
       class="row justify-start col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[

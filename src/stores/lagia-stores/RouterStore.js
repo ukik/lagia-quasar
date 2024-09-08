@@ -11,6 +11,12 @@ export const useRouterStore = defineStore('router', {
         lang: '',
       },
       params: '',
+      meta: {
+        ssr: null,
+        logged: null,
+        role: '',
+        title: '',
+      }
     },
   }),
   getters: {
@@ -28,6 +34,9 @@ export const useRouterStore = defineStore('router', {
     },
     getParams(state) {
       return state.route.params;
+    },
+    getMeta(state) {
+      return state.route.meta;
     },
   },
   actions: {

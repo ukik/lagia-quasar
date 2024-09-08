@@ -369,17 +369,6 @@
                     <q-item-label caption class="q-pa-none">
                       Status: {{ val?.transactionStatus }} <span v-if="val?.statusMessage">({{ val?.statusMessage }})</span>
                     </q-item-label>
-
-
-                    <!-- <q-item-label header class="q-pa-none">
-                      Status:
-                      <q-chip
-                        text-color="white"
-                        dense
-                        :color="val?.status == 'capture' ? 'positive' : 'red'"
-                        >{{ val?.status }}</q-chip
-                      >
-                    </q-item-label> -->
                     <q-item-label class="text-title text-bold">
                       {{ $currency(val?.grossAmount) }}
                     </q-item-label>
@@ -409,82 +398,6 @@
       </q-list>
     </q-card-section>
 
-    <!-- <q-separator></q-separator>
-
-    <q-card-section>
-      <q-item-section>
-        <q-item-label class="text-h6 text-weight-normal"
-          >RIWAYAT TAGIHAN</q-item-label
-        >
-      </q-item-section>
-    </q-card-section>
-
-    <q-separator></q-separator>
-
-    <q-card-section>
-      <q-list bordered>
-        <q-item>
-          <q-item-section>
-            <q-item-label header class="q-pa-none">
-              Full Payment 100%
-            </q-item-label>
-            <q-item-label class="text-h6">
-              {{ $currency(grandTotal) }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <template v-for="(val, index) in item?.tourBookingItem?.tourBookingPayments">
-          <q-separator></q-separator>
-          <q-item >
-            <q-item-section avatar top>
-              <q-avatar color="blue" size="md" class="text-white">1</q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label header class="q-pa-none">
-                Transaksi
-              </q-item-label>
-              <q-item-label caption class="q-pa-none">
-                Dibuat: {{ val?.updatedAt }}
-              </q-item-label>
-              <q-item-label header class="q-pa-none">
-                Status: <q-chip text-color="white" dense :color="val?.status == 'capture' ? 'positive' : 'red'">{{ val?.status }}</q-chip>
-              </q-item-label>
-              <q-item-label class="text-title">
-                {{ $currency(val?.grossAmount) }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-list>
-
-
-
-      <q-banner rounded class="bg-teal text-white q-mt-md">
-        <div class="q-mb-lg">
-          Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami
-          siap membantu Anda mendapatkan layanan terbaik
-        </div>
-        <template v-slot:action>
-          <q-btn
-            unelevated
-            outline
-            @click="
-              $global.$emit('LagiaLayout', {
-                label: 'konsultasi',
-                slug: 'konsultasi',
-                vendor: 'tourStore',
-                value: item,
-                product: 'tourProduct',
-              })
-            "
-            color="positive"
-            text-color="white"
-            label="Tanya Admin"
-            icon="fa-brands fa-whatsapp"
-          />
-        </template>
-      </q-banner>
-    </q-card-section> -->
   </q-card>
 </template>
 

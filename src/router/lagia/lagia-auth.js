@@ -11,17 +11,7 @@ export default function (store, cookies, ssrContext) {
   return [
     // EMPTY
 
-    {
-      path: "/lagia/dashboard",
-      name: "/lagia/dashboard",
-      meta: {
-        ssr: true,
-        logged: true,
-        role: '',
-        title: 'dashboard',
-      },
-      component: () => import("pages/lagia-pages/dashboard/dashboard.vue"),
-    },
+
 
 
     {
@@ -94,5 +84,94 @@ export default function (store, cookies, ssrContext) {
       },
       component: () => import("pages/lagia-pages/dashboard/verify.vue"),
     },
+
+    {
+      path: "/lagia/dashboard",
+      name: "/lagia/dashboard",
+      meta: {
+        ssr: false,
+        logged: false,
+        role: '',
+        title: 'dashboard',
+      },
+      component: () => import("pages/lagia-pages/dashboard/dashboard.vue"),
+    },
+    {
+      path: "/edit/customer",
+      name: "/edit/customer",
+      meta: {
+        ssr: false,
+        logged: true,
+        role: '',
+        title: 'Pelanggan',
+      },
+      component: () => import("pages/lagia-pages/dashboard/edit-customer.vue"),
+    },
+    {
+      path: "/edit/email",
+      name: "/edit/email",
+      meta: {
+        ssr: false,
+        logged: true,
+        role: '',
+        title: 'Sunting Email',
+      },
+      component: () => import("pages/lagia-pages/dashboard/edit-email.vue"),
+    },
+    // {
+    //   path: "/re-request-verification",
+    //   name: "/re-request-verification",
+    //   meta: {
+    //     ssr: false,
+    //     logged: true,
+    //     role: '',
+    //     title: 'Pelanggan',
+    //   },
+    //   component: () => import("pages/lagia-pages/dashboard/re-request-verification.vue"),
+    // },
+
+
+
+
+
+
+
+
+    // DI BAWAH BELUM DI PROSES
+    {
+      path: "/edit/account",
+      name: "/edit/account",
+      meta: {
+        ssr: false,
+        logged: true,
+        role: '',
+        title: 'Akun',
+      },
+      component: () => import("pages/lagia-pages/dashboard/edit-account.vue"),
+    },
+    {
+      path: "/edit/phone",
+      name: "/edit/phone",
+      meta: {
+        ssr: false,
+        logged: true,
+        role: '',
+        title: 'Sunting Telepon',
+      },
+      component: () => import("pages/lagia-pages/dashboard/edit-phone.vue"),
+    },
+
+    // {
+    //   path: "/edit/password",
+    //   name: "/edit/password",
+    //   meta: {
+    //     ssr: false,
+    //     logged: true,
+    //     role: '',
+    //     title: 'Sunting Password',
+    //   },
+    //   component: () => import("pages/lagia-pages/dashboard/edit-password.vue"),
+    // },
+
   ]
 }

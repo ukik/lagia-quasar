@@ -1,51 +1,34 @@
 <template>
   <div class="row flex flex-center">
     <div class="col-xl-4 col-lg-6 col-md-7 col-sm-11 col-11 q-pb-xl">
-      <FormVerify class="q-pb-xl" />
+      <FormVerify v-if="!getIsLogin || !getAuthUser?.emailVerifiedAt" class="q-pb-xl" />
+
+      <q-list v-else-if="getAuthUser?.emailVerifiedAt" flat style="height: 400px" class="flex flex-center" bordered>
+        <q-card class="text-center" flat>
+          <q-avatar size="100px">
+            <img src="assets/flaticon/verified.png" />
+          </q-avatar>
+          <div class="full-width q-mt-md">Akun anda sudah terverifikasi</div>
+          <div class="full-width text-h6">Terimakasih</div>
+          <div class="full-width q-mt-lg">
+            <q-btn
+              :to="{
+                name: '/lagia/dashboard',
+              }"
+              outline
+              flat
+              icon="arrow_back"
+              label="kembali"
+            />
+          </div>
+        </q-card>
+      </q-list>
     </div>
   </div>
 </template>
 
 <script setup>
-import FormVerify from 'src/components/lagia-components/auth/FormVerify.vue';
-
-
-const rating = 4;
-const content = {
-  title: "Service",
-  cards: [
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img30.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img31.jpg",
-      subtitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.`,
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img32.jpg",
-      subtitle:
-        "Donec temporibus consectetuer, repudiandae integer pellentesque aliquet justo at sequi, atque quasi.",
-    },
-    {
-      id: "1",
-      title: "Mr. Bean",
-      image: "assets/images/img13.jpg",
-      subtitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.`,
-    },
-  ],
-};
+import FormVerify from "src/components/lagia-components/auth/FormVerify.vue";
 </script>
 <style scoped>
 h2 {

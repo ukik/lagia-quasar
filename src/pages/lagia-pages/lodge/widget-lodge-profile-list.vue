@@ -287,7 +287,7 @@
             <q-card-section
               class="bg-cyan-8 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-12 row flex flex-center text-white q-pt-lg"
             >
-              <q-rating
+              <!-- <q-rating
                 v-if="item?.ratingAvg?.avgRating"
                 readonly
                 v-model="item.ratingAvg.avgRating"
@@ -307,22 +307,23 @@
 
               <div v-if="false" class="full-width text-body text-center q-mx-sm">
                 Review (34)
-              </div>
-              <router-link
+              </div> -->
+
+              <q-btn flat
                 :to="{
                   name: '/lodge/room-list',
                   query: {
                     vendor: item?.id,
                   },
                 }"
-                class="package-price col-12 text-center row q-mt-md text-white"
+                class="package-price text-center row q-mb-md text-white col-auto"
               >
                 <h6 class="col-12">
                   {{ item?.lodgeRoomsCount }}
                   <small class="text-weight-light"> Kamar</small>
                 </h6>
                 <small class="col-12 text-center">( Available )</small>
-              </router-link>
+              </q-btn>
 
               <div class="row col-12 justify-center">
                 <q-btn-group outline rounded class="">

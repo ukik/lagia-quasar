@@ -155,7 +155,6 @@
 
           <q-card-actions class="col-12 text-center q-mt-lg" align="between">
             <q-btn
-              :loading="loading.form_reset_password"
               :disable="loading.form_reset_password"
               type="submit"
               icon-right="login"
@@ -167,7 +166,6 @@
             ></q-btn>
             <!-- <div class="col-1"></div> -->
             <q-btn
-              :loading="loading.form_reset_password"
               :disable="loading.form_reset_password"
               type="reset"
               icon-right="delete"

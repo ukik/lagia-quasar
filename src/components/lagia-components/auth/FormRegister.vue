@@ -292,7 +292,6 @@
               :class="[$q.screen.width > 425 ? '' : 'q-mb-lg col-12']"
             >
               <q-btn
-                :loading="loading.form_register"
                 :disable="loading.form_register"
                 outline
                 class="rounded-borders-3"
@@ -305,7 +304,6 @@
 
           <q-card-actions class="col-12 text-center q-mt-lg" align="between">
             <q-btn
-              :loading="loading.form_register"
               :disable="loading.form_register"
               type="submit"
               icon-right="person"

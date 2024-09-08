@@ -351,6 +351,7 @@ export default boot(async ({ app, ssrContext, router, store }) => {
     },
     computed: {
       ...mapState(useAuthStore, [
+        'getAuthUser',
         'getAuth',
         'getIsLogin',
         'getLoadingInit',

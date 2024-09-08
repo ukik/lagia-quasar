@@ -119,7 +119,10 @@
                 >
                 <ul class="shadow-3">
                   <li>
-                    <router-link to="/tour/product-list">Tour</router-link>
+                    <router-link to="/tour/product-list">Tour Paket</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/tour/price-list">Tour Harga</router-link>
                   </li>
 
                   <!-- <li class="menu-item-has-children">

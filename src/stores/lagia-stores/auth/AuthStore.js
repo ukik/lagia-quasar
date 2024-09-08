@@ -23,19 +23,26 @@ export const useAuthStore = defineStore('AuthStore', {
 
   state: () => ({
     form_forgot_password: {
-      email: "demo77338880643600@gmail.com",
+      email: "versusmx@gmail.com",
+    },
+    // form_re_request_verification: {
+    //   email: "",
+    // },
+    form_update_email: {
+      email: "",
+      token: ""
     },
     form_verify: {
-      email: "demo77338880643600@gmail.com",
-      token: "123456789"
+      email: "",
+      token: ""
     },
     form_login: {
-      email: "demo77338880643600@gmail.com",
+      email: "versusmx@gmail.com",
       password: "123456789",
       remember: false,
     },
     form_reset_password: {
-      email: "demo77338880643600@gmail.com",
+      email: "versusmx@gmail.com",
       password: "123456789",
       passwordConfirmation: "123456789",
       token: "501023", // dari badaso_password_resets->token, di create dari forgot-password badaso
@@ -90,10 +97,12 @@ export const useAuthStore = defineStore('AuthStore', {
       form_forgot_password: false,
       form_verify: false,
       form_logout: false,
+      // form_re_request_verification: false,
     }
   }),
 
   getters: {
+    getAuthUser: state => state.auth?.data?.user,
     getAuth: state => state.auth,
     getIsLogin: state => state.auth.isLogin,
     getLoadingInit: state => state.loading.init,
@@ -299,8 +308,6 @@ export const useAuthStore = defineStore('AuthStore', {
       return resp
     },
 
-
-
     async onLogin() {
 
       if (this.loading.form_login) return false;
@@ -496,13 +503,14 @@ export const useAuthStore = defineStore('AuthStore', {
             color: 'negative',
             position: 'top',
             message: 'Loading failed',
-            caption: err?.data?.meta?.message[0],
+            caption: err?.response?.data?.message?.toString(),
             icon: 'report_problem'
           })
+          return err?.response
         })
 
       this.loading.form_reset_password = false
-      console.log('onLogin', resp)
+      console.log('onResetPassword', resp)
 
       if (!resp?.data) return this.loading.form_reset_password = false
     },
@@ -560,7 +568,7 @@ export const useAuthStore = defineStore('AuthStore', {
       Loading.hide();
 
       this.loading.form_forgot_password = false
-      console.log('onLogin', resp)
+      console.log('onForgotPassword', resp)
 
       // if (!resp?.data) return this.loading.form_forgot_password = false
     },
@@ -571,8 +579,6 @@ export const useAuthStore = defineStore('AuthStore', {
 
       this.loading.form_verify = true;
 
-      // const accessToken = Cookies.get("accessTokent");
-      // const csrf = Cookies.get("XSRF-TOKEN");
       Loading.show();
 
       const formData = new FormData();
@@ -588,21 +594,18 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/' + slug,
         method: 'post',
         data: formData,
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   // authorization: `Bearer ${accessToken}`,
-        //   // "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
-        // }
       })
         .then((response) => {
-          // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
+          console.log('VERIFY', response?.data?.message)
           Notify.create({
             color: 'positive',
             position: 'top',
-            message: 'Loading success',
-            caption: 'data berhasil diproses',
+            message: response?.data?.message?.toString(),
+            // message: 'Loading success',
+            caption: response?.data?.data?.message?.toString(),
             icon: 'done'
           })
+          console.log()
           return response
         })
         .catch((err) => {
@@ -610,22 +613,117 @@ export const useAuthStore = defineStore('AuthStore', {
             color: 'negative',
             position: 'top',
             message: 'Loading failed',
-            caption: err?.data?.meta?.message[0],
+            caption: err?.response?.data?.message?.toString(),
             icon: 'report_problem'
           })
+          return err?.response
         })
 
       this.loading.form_verify = false
-      console.log('onLogin', resp)
+      console.log('onVerify', resp?.data?.isLogin)
 
       Loading.hide();
 
-      // if (!resp?.data) return this.loading.form_verify = false
+      if(!resp.data.data) return
+
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
+      this.auth = resp?.data
+
+      if(resp?.data?.isLogin && slug == 'verify') {
+        this.router.replace({
+          name: '/lagia/dashboard'
+        })
+      }
+
+      this.onClearVerify()
     },
 
     async onRequestVerification() {
       this.onVerify('re-request-verification')
     },
+
+    async onVerifyUpdateEmail(slug = 'verify-email') {
+
+      if (this.loading.form_update_email) return false;
+
+      this.loading.form_update_email = true;
+
+      Loading.show();
+
+      const formData = new FormData();
+      for (const key in this.form_update_email) {
+        const value = JSON.parse(JSON.stringify(this.form_update_email[key]))
+        console.log(key, value)
+        formData.append(key, value);
+      }
+
+      console.log('formData', this.form_update_email)
+
+      const resp = await axios({
+        url: '/trevolia-api/v1/auth/user/' + slug,
+        method: 'post',
+        data: formData,
+      })
+        .then((response) => {
+          console.log('VERIFY', response?.data?.message)
+          Notify.create({
+            color: 'positive',
+            position: 'top',
+            message: response?.data?.message?.toString(),
+            // message: 'Loading success',
+            caption: response?.data?.data?.message?.toString(),
+            icon: 'done'
+          })
+          console.log()
+          return response
+        })
+        .catch((err) => {
+          Notify.create({
+            color: 'negative',
+            position: 'top',
+            message: 'Loading failed',
+            caption: err?.response?.data?.message?.toString(),
+            icon: 'report_problem'
+          })
+          return err?.response
+        })
+
+      Loading.hide();
+
+      this.loading.form_update_email = false
+
+      if(!resp.data.data) return
+
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
+      this.auth = resp?.data
+
+      console.log('onVerifyUpdateEmail', resp?.data)
+
+      if(!resp?.data?.isLogin) {
+        await this.onClearAuth()
+        this.router.replace({
+          name: '/login'
+        })
+        return
+      }
+
+      if(resp?.data?.isLogin && slug == 'verify-email') {
+        this.router.replace({
+          name: '/lagia/dashboard'
+        })
+      }
+
+      console.log('onVerifyUpdateEmail', this.auth, resp?.data)
+
+      this.onClearUpdateEmail()
+    },
+
+    async onRequestUpdateEmail() {
+      this.onVerifyUpdateEmail('email')
+    },
+
 
     async onClearResetPassword() {
       this.form_reset_password = {
@@ -638,6 +736,13 @@ export const useAuthStore = defineStore('AuthStore', {
 
     async onClearVerify() {
       this.form_verify = {
+        email: "",
+        token: ""
+      }
+    },
+
+    async onClearUpdateEmail() {
+      this.form_update_email = {
         email: "",
         token: ""
       }

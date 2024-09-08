@@ -9,12 +9,12 @@
         <q-card class="rounded-borders-3" flat bordered>
           <q-card-section class="q-py-xl">
             <q-card-section class="text-center col-3">
-              <h2 class="counter-no text-bold">
+              <div class="counter-no text-bold">
                 {{ current_satisfiedCustomer }}
-                <sup
+                <!-- <sup
                   ><span class="text-h6">{{ records?.satisfiedCustomer }}+</span></sup
-                >
-              </h2>
+                > -->
+              </div>
               <div class="counter-desc text-primary">SATISFIED CUSTOMER</div>
             </q-card-section>
           </q-card-section>
@@ -26,9 +26,9 @@
             <q-card-section class="text-center col-3">
               <h2 class="counter-no text-bold">
                 {{ current_activePartner }}
-                <sup
+                <!-- <sup
                   ><span class="text-h6">{{ records?.activePartner }}+</span></sup
-                >
+                > -->
               </h2>
               <div class="counter-desc text-primary">ACTIVE PARTNERS</div>
             </q-card-section>
@@ -41,9 +41,9 @@
             <q-card-section class="text-center col-3">
               <h2 class="counter-no text-bold">
                 {{ current_tourDestination }}
-                <sup
+                <!-- <sup
                   ><span class="text-h6">{{ records?.tourDestination }}+</span></sup
-                >
+                > -->
               </h2>
               <div class="counter-desc text-primary">TOUR DESTINATION</div>
             </q-card-section>
@@ -56,9 +56,9 @@
             <q-card-section class="text-center col-3">
               <h2 class="counter-no text-bold">
                 {{ current_travelGruide }}
-                <sup
+                <!-- <sup
                   ><span class="text-h6">{{ records?.travelGruide }}+</span></sup
-                >
+                > -->
               </h2>
               <div class="counter-desc text-primary">TRAVEL GUIDES</div>
             </q-card-section>
@@ -121,13 +121,15 @@ export default {
 </script>
 
 <style scoped>
-.counter-wrap .counter-no {
+.counter-no {
   font-family: "Montserrat", sans-serif;
-  font-size: 50px;
+  font-size: xxx-large;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 10px;
 }
+
+
 
 .call-action-box p {
   font-size: medium;
