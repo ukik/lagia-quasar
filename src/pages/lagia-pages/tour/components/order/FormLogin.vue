@@ -6,7 +6,7 @@
         <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
         <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
         <div class="text-h5 text-uppercase text-white">Login</div>
-        <div class="text-body text-capitalize text-white">fill the form below</div>
+        <div class="text-body text-capitalize text-white">isi formulir di bawah ini</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.

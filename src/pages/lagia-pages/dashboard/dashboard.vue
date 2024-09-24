@@ -11,6 +11,8 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+    <!-- <isBackButtonPage></isBackButtonPage> -->
+
       <!-- <div v-if="records.length <= 0 && loading" class="col-12 text-center">
         <q-spinner color="primary" size="3em" />
       </div>
@@ -56,6 +58,16 @@
     message: "ubah email login",
     icon: "email",
     link: "/edit/email",
+    logged: true,
+  }'
+        ></isDashboardButton>
+
+        <isDashboardButton v-if="getIsLogin"
+          :item='{
+    title: "Ganti Password",
+    message: "ubah password login",
+    icon: "email",
+    link: "/edit/password",
     logged: true,
   }'
         ></isDashboardButton>

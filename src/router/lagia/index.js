@@ -69,6 +69,18 @@ export default function (store, cookies, ssrContext) {
           component: () => import("pages/lagia-pages/index.vue"),
         },
 
+        {
+          path: "/lagia/dashboard",
+          name: "/lagia/dashboard",
+          meta: {
+            ssr: false,
+            logged: false,
+            role: '',
+            title: 'dashboard',
+            file: 'index',
+          },
+          component: () => import("pages/lagia-pages/dashboard/dashboard.vue"),
+        },
 
         {
           path: "/lagia/404",

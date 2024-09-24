@@ -314,7 +314,7 @@
           </q-item> -->
         </q-list>
 
-        <q-banner rounded class="bg-teal text-white q-mt-md">
+        <!-- <q-banner rounded class="bg-teal text-white q-mt-md">
           <div class="q-mb-lg">
             Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami
             siap membantu Anda mendapatkan layanan terbaik
@@ -338,7 +338,7 @@
               icon="fa-brands fa-whatsapp"
             />
           </template>
-        </q-banner>
+        </q-banner> -->
 
       </q-card-section>
 

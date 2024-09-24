@@ -25,6 +25,7 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
     lastPage: 0,
     currentPage: 1,
     perPage: 24,  // perPage & rowPerPage itu sama
+    to: 0,
 
     isAvailable: '',
     venueId: '',
@@ -32,7 +33,26 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
     loading: false,
     init: false,
 
-    additional:'',
+    additional: {
+      // provinceOptions:[],
+      // cityOptions:[],
+      // countryOptions:[],
+    },
+
+
+    // FILTER
+    name:'',
+    category:'',
+    durasi:'',
+    level:'',
+    province:'',
+    city:'',
+    country :'',
+    price_min: '',
+    price_max: '',
+
+
+    is_loadmore: false,
   }),
 
   getters: {
@@ -40,17 +60,22 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
   },
 
   actions: {
+    setQuery(key,val) {
+      this[key] = val
+    },
+
+
     // WASAPDA debounce membuat data dari server tidak tampil / SSR gagal
     async onFetch ({ currentPage, query }) {
 
-      console.log("this.loading", this.loading)
+      console.log("this.loading", this.loading, this.is_loadmore)
 
       if (this.loading) return false;
 
       this.loading = true;
 
       const response = await axios({
-          url: '/trevolia-api/v1/entities/tour-products',
+          url: '/trevolia-api/v1/entities/tour-products/lagia',
           method: 'get',
           params: {
             slug: this.slug,
@@ -111,15 +136,28 @@ export const useTourProductListStore = defineStore('TourProductListStore', {
       this.lastPage = response?.data?.data?.lastPage
       this.currentPage = response?.data?.data?.currentPage
       this.perPage = response?.data?.data?.perPage
+      this.to = response?.data?.data?.to
       this.totalItem = response?.data?.data?.total
-      this.data = response?.data?.data;
-      this.records = response?.data?.data?.data;
+
+      // this.data = response?.data?.data;
+
+      if(this.is_loadmore) {
+        let arr = [
+          ...this.records,
+          ...response?.data?.data?.data
+        ]
+        this.records = arr
+      } else {
+        this.records = response?.data?.data?.data;
+      }
+      this.is_loadmore = false
 
       console.log('stores/lagia-stores/TourProductListStore 2', this.data, this.records, this.lastPage, this.currentPage, this.perPage, this.totalItem)
 
       if (response?.data?.additional?.image) response.data.additional['image'] = JSON.parse(response.data.additional['image'])
       // if (response?.data?.additional?.category) response.data.additional['category'] = JSON.parse(response.data.additional['category'])
       this.additional = response?.data?.additional
+
       console.log('additional', this.additional)
     },
 

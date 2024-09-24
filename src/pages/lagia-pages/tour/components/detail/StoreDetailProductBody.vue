@@ -7,9 +7,9 @@
     <div class="text-caption q-mb-md">Dibuat: {{ record?.createdAt }}</div>
 
     <q-rating
-      v-if="record?.ratingAvg?.avgRating"
+      v-if="record?.level"
       readonly
-      v-model="record.ratingAvg.avgRating"
+      v-model="record.level"
       size="sm"
       :max="5"
       color="red"

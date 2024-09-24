@@ -31,7 +31,7 @@
           <template v-slot:bottom>
             <q-card-section>
               <div class="col-12 row items-center justify-center text-white">
-                <div class="text-left">Don't have an account?</div>
+                <div class="text-left">Belum punya akun?</div>
                 <q-btn
                   flat
                   @click="current = 'register'"
@@ -40,12 +40,12 @@
                   color="white"
                   size="16px"
                   class="rounded-borders-4"
-                  label="Register"
+                  label="Registrasi"
                 ></q-btn>
               </div>
 
               <div class="col-12 row items-center justify-center text-white">
-                <div class="text-left">Do you have an account?</div>
+                <div class="text-left">Apakah Anda punya akun?</div>
                 <q-btn
                   capitalize
                   flat
@@ -64,7 +64,7 @@
           <template v-slot:bottom>
             <q-card-section>
               <div class="col-12 row items-center justify-center text-white">
-                <div class="text-left">Don't have an account?</div>
+                <div class="text-left">Belum punya akun?</div>
                 <q-btn
                   flat
                   @click="current = 'register'"
@@ -73,12 +73,12 @@
                   color="white"
                   size="16px"
                   class="rounded-borders-4"
-                  label="Register"
+                  label="Registrasi"
                 ></q-btn>
               </div>
 
               <div class="col-12 row items-center justify-center text-white">
-                <div class="text-left">I forget password!</div>
+                <div class="text-left">Saya lupa kata sandi!</div>
                 <q-btn
                   flat
                   @click="current = 'forgot'"
@@ -87,7 +87,7 @@
                   color="white"
                   size="16px"
                   class="rounded-borders-4"
-                  label="Ask password"
+                  label="minta password"
                 ></q-btn>
               </div>
             </q-card-section>
@@ -101,7 +101,7 @@
           <template v-slot:bottom>
             <q-card-section>
               <div class="col-12 row items-center justify-center text-white">
-                <div class="text-left">Do you have an account?</div>
+                <div class="text-left">Apakah Anda punya akun?</div>
                 <q-btn
                   capitalize
                   flat
@@ -115,7 +115,7 @@
               </div>
 
               <div class="col-12 row items-center justify-center text-white">
-                <div class="text-left">I forget password!</div>
+                <div class="text-left">Saya lupa kata sandi!</div>
                 <q-btn
                   flat
                   @click="current = 'forgot'"
@@ -124,7 +124,7 @@
                   color="white"
                   size="16px"
                   class="rounded-borders-4"
-                  label="Ask password"
+                  label="minta password"
                 ></q-btn>
               </div>
             </q-card-section>

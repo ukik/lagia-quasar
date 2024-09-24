@@ -370,7 +370,7 @@ export default {
       // simulating a delay
 
       const vm = this;
-
+      if(!vm.item?.minParticipant) return
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           // call
@@ -397,7 +397,7 @@ export default {
     },
     minPrice(val) {
       const vm = this;
-
+      if(!vm.getHotelPrice?.minPrice) return
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const stat = val >= Number(vm.getHotelPrice?.minPrice);
@@ -468,6 +468,13 @@ export default {
           return vm.$q.notify({
             color: "negative",
             message: "Jumlah Kamar (min. 1) (wajib)",
+            position: "top",
+          });
+        }
+        if (vm.$refs?.roomBudgetRef?.hasError) {
+          return vm.$q.notify({
+            color: "negative",
+            message: "Budget kamar (wajib)",
             position: "top",
           });
         }

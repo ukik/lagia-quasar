@@ -27,8 +27,9 @@
               square
               color="positive"
               text-color="white"
-              icon="search"
-              label="Preview"
+              @click="$onWhatsappTanyaAdmin"
+              icon="fa-brands fa-whatsapp"
+              label="Tanya Admin"
             />
           </div>
           <div class="col">
@@ -52,7 +53,7 @@
       :count="record?.tourPricesCount"
     ></StoreDetailProductPriceList> -->
 
-    <div class="page-content-2 q-mt-xl" v-if="false">
+    <!-- <div class="page-content-2 q-mt-xl" v-if="false">
       <h3>Placerat quaerat curae reiciendis commodi. X</h3>
 
       <div class="row col-gutters q-col-gutter-sm q-mb-lg">
@@ -95,7 +96,7 @@
           elementum, montes. Torquent, soluta, ac nihil.
         </h6>
       </q-banner>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -3,7 +3,7 @@
 
   <div class="row items-start q-gutter-md">
     <q-card class="my-card q-mt-lg" flat bordered>
-      <q-card-section>
+      <!-- <q-card-section>
         <isDestinationRatingNoFloat
           :rating="item?.transportVehicle?.ratingAvg?.avgRating"
         ></isDestinationRatingNoFloat>
@@ -15,6 +15,30 @@
             >
             <q-item-label class="text-h4">{{
               $currency($finalPrice(item))
+            }}</q-item-label>
+          </q-item-section>
+        </div>
+      </q-card-section> -->
+
+      <q-card-section class="row q-col-gutter-md">
+        <div :class="price_css">
+          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
+            <q-item-label class="text-white text-capitalize"
+              >Harga Dewasa {{ item?.typePrice }}</q-item-label
+            >
+            <q-item-label class="text-h5 text-white">{{
+              $currency($finalPrice(item))
+            }}</q-item-label>
+          </q-item-section>
+        </div>
+
+        <div :class="price_css">
+          <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
+            <q-item-label class="text-white text-capitalize"
+              >Harga Anak (2-6 tahun) {{ item?.typePrice }}</q-item-label
+            >
+            <q-item-label class="text-h5 text-white">{{
+              $currency($finalPriceAnak(item))
             }}</q-item-label>
           </q-item-section>
         </div>
@@ -45,15 +69,19 @@
       <q-card-section class="custom q-pa-none">
         <q-list class="row flex items-start text-caption text-dark">
           <isQItemLabelValue
-            label="generalPrice"
+            label="HPP Dewasa"
             :value="$currency(item?.generalPrice)"
           ></isQItemLabelValue>
           <isQItemLabelValue
-            label="discountPrice"
+                  label="HPP Anak (2-6 tahun)"
+                  :value="$currency(item?.generalPriceChild)"
+                ></isQItemLabelValue>
+          <isQItemLabelValue
+            label="Diskon"
             :value="$percent(item?.discountPrice)"
           ></isQItemLabelValue>
           <isQItemLabelValue
-            label="cashbackPrice"
+            label="Cashback"
             :value="$currency(item?.cashbackPrice)"
           ></isQItemLabelValue>
           <!-- <isQItemLabelValue
@@ -126,6 +154,31 @@
       <q-card-section class="q-pa-none">
         <q-btn-group spread unelevated>
           <q-btn
+
+            :to="{
+              name: '/tour/product-detail',
+              params: {
+                slug: item?.productId,
+                slug_text: item?.tourProduct?.slug,
+              },
+            }"
+            label="detail"
+            icon="local_mall"
+          />
+          <q-separator vertical></q-separator>
+          <q-btn
+
+          :to="{
+          name: '/tour/product-order',
+          params: {
+            slug: item?.productId,
+            slug_text: item?.tourProduct?.slug,
+          },
+        }"
+        label="Buat Pesanan"
+        icon="shopping_cart_checkout"
+          />
+          <!-- <q-btn
             @click="
               $emit('onBubbleEvent', {
                 label: 'detail',
@@ -145,7 +198,7 @@
             "
             label="Add To Cart"
             icon="shopping_cart_checkout"
-          />
+          /> -->
           <!-- <q-separator vertical></q-separator>
           <q-btn
             @click="

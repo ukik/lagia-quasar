@@ -10,6 +10,8 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+    <isBackButtonPage></isBackButtonPage>
+
       <div class="col-12">
         <q-img
           class="rounded-borders-2 q-mb-lg"

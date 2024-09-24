@@ -352,6 +352,9 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.component("isCartButton",
     defineAsyncComponent(() => import('src/components/lagia-components/widget/isCartButton.vue'))
   )
+  app.component("isBackButtonPage",
+    defineAsyncComponent(() => import('src/components/lagia-components/widget/isBackButtonPage.vue'))
+  )
 
 
 })

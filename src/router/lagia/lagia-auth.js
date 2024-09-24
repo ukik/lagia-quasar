@@ -22,6 +22,7 @@ export default function (store, cookies, ssrContext) {
         logged: false,
         role: '',
         title: 'Login',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/login.vue"),
       beforeEnter: (to, from, next) => {
@@ -47,7 +48,8 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Register',
+        title: 'Registrasi',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/register.vue"),
     },
@@ -58,7 +60,8 @@ export default function (store, cookies, ssrContext) {
         ssr: true,
         logged: false,
         role: '',
-        title: 'Forget Password',
+        title: 'Lupa Password',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/forgot-password.vue"),
     },
@@ -70,6 +73,7 @@ export default function (store, cookies, ssrContext) {
         logged: false,
         role: '',
         title: 'Reset Password',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/reset-password.vue"),
     },
@@ -81,21 +85,12 @@ export default function (store, cookies, ssrContext) {
         logged: false,
         role: '',
         title: 'Email Verification',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/verify.vue"),
     },
 
-    {
-      path: "/lagia/dashboard",
-      name: "/lagia/dashboard",
-      meta: {
-        ssr: false,
-        logged: false,
-        role: '',
-        title: 'dashboard',
-      },
-      component: () => import("pages/lagia-pages/dashboard/dashboard.vue"),
-    },
+
     {
       path: "/edit/customer",
       name: "/edit/customer",
@@ -104,6 +99,7 @@ export default function (store, cookies, ssrContext) {
         logged: true,
         role: '',
         title: 'Pelanggan',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/edit-customer.vue"),
     },
@@ -115,9 +111,23 @@ export default function (store, cookies, ssrContext) {
         logged: true,
         role: '',
         title: 'Sunting Email',
+        file: 'lagia-auth',
       },
       component: () => import("pages/lagia-pages/dashboard/edit-email.vue"),
     },
+    {
+      path: "/edit/password",
+      name: "/edit/password",
+      meta: {
+        ssr: false,
+        logged: true,
+        role: '',
+        title: 'Ganti Password',
+      },
+      component: () => import("pages/lagia-pages/dashboard/edit-password.vue"),
+    },
+
+
     // {
     //   path: "/re-request-verification",
     //   name: "/re-request-verification",
@@ -138,28 +148,30 @@ export default function (store, cookies, ssrContext) {
 
 
     // DI BAWAH BELUM DI PROSES
-    {
-      path: "/edit/account",
-      name: "/edit/account",
-      meta: {
-        ssr: false,
-        logged: true,
-        role: '',
-        title: 'Akun',
-      },
-      component: () => import("pages/lagia-pages/dashboard/edit-account.vue"),
-    },
-    {
-      path: "/edit/phone",
-      name: "/edit/phone",
-      meta: {
-        ssr: false,
-        logged: true,
-        role: '',
-        title: 'Sunting Telepon',
-      },
-      component: () => import("pages/lagia-pages/dashboard/edit-phone.vue"),
-    },
+    // {
+    //   path: "/edit/account",
+    //   name: "/edit/account",
+    //   meta: {
+    //     ssr: false,
+    //     logged: true,
+    //     role: '',
+    //     title: 'Akun',
+    //     file: 'lagia-auth',
+    //   },
+    //   component: () => import("pages/lagia-pages/dashboard/edit-account.vue"),
+    // },
+    // {
+    //   path: "/edit/phone",
+    //   name: "/edit/phone",
+    //   meta: {
+    //     ssr: false,
+    //     logged: true,
+    //     role: '',
+    //     title: 'Sunting Telepon',
+    //     file: 'lagia-auth',
+    //   },
+    //   component: () => import("pages/lagia-pages/dashboard/edit-phone.vue"),
+    // },
 
     // {
     //   path: "/edit/password",

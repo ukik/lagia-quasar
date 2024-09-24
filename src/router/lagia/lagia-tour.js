@@ -33,6 +33,8 @@ export default function (store, cookies, ssrContext) {
         title: 'list tour',
       },
       component: () => import("pages/lagia-pages/tour/product-list.vue"),
+      // component: () => import("pages/lagia-pages/tour/product-list-normal-scroll.vue"),
+      // component: () => import("pages/lagia-pages/tour/product-list-virtual-scroll.vue"),
     },
 
     {

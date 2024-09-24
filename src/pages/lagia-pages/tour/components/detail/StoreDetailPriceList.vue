@@ -11,7 +11,7 @@
     <q-card :style="$q.screen.width > 768 ? 'width: 750px !important' : ''">
       <q-card-section class="q-py-none">
         <q-toolbar style="height: 50px" class="q-pa-none">
-          <div class="text-h6 text-capitalize">Detail Price</div>
+          <div class="text-h6 text-capitalize">Detail Harga</div>
           <q-space></q-space>
           <q-btn dense flat icon="close" v-close-popup></q-btn>
         </q-toolbar>
@@ -26,13 +26,15 @@
 
   <q-list id="StoreDetailPriceList" bordered separator class="rounded-borders q-mt-lg">
     <q-item avatar>
-      <q-item-section avatar v-if="$q.screen.width > 425">
+      <!-- <q-item-section avatar v-if="$q.screen.width > 425">
         <q-avatar color="form" text-color="white">
           {{ count }}
         </q-avatar>
-      </q-item-section>
+      </q-item-section> -->
       <q-item-section>
-        <q-item-label class="text-h6 text-weight-normal">PRICE LIST</q-item-label>
+        <q-item-label class="text-h6 text-weight-normal">
+        LIST HARGA <q-chip color="blue" text-color="white">{{ count }}</q-chip>
+        </q-item-label>
       </q-item-section>
     </q-item>
 
@@ -40,7 +42,9 @@
     <template v-for="(item, i) in items">
       <q-item v-ripple="false">
         <q-item-section class="q-mt-xs" avatar top v-if="$q.screen.width > 425">
-          <q-avatar icon="check" color="blue-4" text-color="white" />
+          <q-avatar color="form" text-color="white">
+            <span class="text-body2">{{ item?.id }}</span>
+          </q-avatar>
         </q-item-section>
 
         <q-item-section>

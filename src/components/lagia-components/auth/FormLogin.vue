@@ -6,7 +6,7 @@
         <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
         <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
         <div class="text-h5 text-uppercase text-white">Login</div>
-        <div class="text-body text-capitalize text-white">fill the form below</div>
+        <div class="text-body text-capitalize text-white">isi formulir di bawah ini</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.
@@ -142,7 +142,7 @@
       <slot name="bottom">
         <q-card-section>
           <div class="col-12 row items-center justify-center text-white">
-            <div class="text-left">Don't have an account?</div>
+            <div class="text-left">Belum punya akun?</div>
             <q-btn
               flat
               :to="{ name: '/register' }"
@@ -151,12 +151,12 @@
               color="white"
               size="16px"
               class="rounded-borders-4"
-              label="Register"
+              label="Registrasi"
             ></q-btn>
           </div>
 
           <div class="col-12 row items-center justify-center text-white">
-            <div class="text-left">I forget password!</div>
+            <div class="text-left">Saya lupa kata sandi!</div>
             <q-btn
               flat
               :to="{ name: '/forgot-password' }"
@@ -165,7 +165,7 @@
               color="white"
               size="16px"
               class="rounded-borders-4"
-              label="Ask password"
+              label="minta password"
             ></q-btn>
           </div>
         </q-card-section>

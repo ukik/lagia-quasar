@@ -343,11 +343,18 @@
           </tr>
 
           <tr class="text-bold">
-            <td>Total Tagihan</td>
+            <td>Harga Total</td>
             <td class="">
               {{ $currency(item?.tourBooking?.fullPayment) }}
             </td>
           </tr>
+          <tr class="text-bold">
+            <td>Nominal Tagihan</td>
+            <td class="text-capitalize">
+              {{ $currency(item?.grossAmount) }} ({{ $currency(item?.dibayarPercent) }}%)
+            </td>
+          </tr>
+
           <tr v-if="item?.tourBookingItem?.tourBookingPayments.length > 0">
             <td colspan="2">Tagihan Sudah Dibayar</td>
           </tr>

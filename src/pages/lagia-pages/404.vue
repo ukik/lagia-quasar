@@ -1,12 +1,14 @@
 <template>
   <!-- <main> -->
-  <InnerBanner _title="Not Found" style="padding-bottom: 0px"></InnerBanner>
+  <!-- <InnerBanner _title="Not Found" style="padding-bottom: 0px"></InnerBanner> -->
 
   <!-- Call To Action -->
   <div class="call-action-box bg-color-callback bg-light-grey row justify-center">
     <div
       class="row justify-center col-xl-9 col-lg-9 col-md-8 col-sm-11 col-12 text-center q-px-md"
     >
+      <isBackButtonPage></isBackButtonPage>
+
       <div class="col-12">
         <span class="extra-big">404</span>
         <h2 class="q-py-lg">SORRY ! THAT PAGE CAN'T BE FOUND</h2>

@@ -7,7 +7,8 @@
       :count="record?.tourPricesCount"
     ></StoreDetailPriceList>
 
-    <div class="page-content-2 q-mt-xl">
+    <q-btn to="/tour/product-list" class="full-width q-mt-md" unelevated color="form" no-caps size="17px" :label="`Total ${record?.tourPricesCount} Paket Tour`"></q-btn>
+    <!-- <div class="page-content-2 q-mt-xl">
       <h3>Placerat quaerat curae reiciendis commodi. X</h3>
 
       <div class="row col-gutters q-col-gutter-sm q-mb-lg">
@@ -50,7 +51,7 @@
           elementum, montes. Torquent, soluta, ac nihil.
         </h6>
       </q-banner>
-    </div>
+    </div> -->
   </div>
   <!-- </div> -->
 </template>

@@ -32,10 +32,10 @@
           </div>
         </template>
       </q-img> -->
-      <q-img
+      <q-img height="300px"
         loading="lazy"
         :ratio="1"
-        class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+        class="col-12"
         v-else
         :src="$defaultErrorImage"
       />
@@ -63,6 +63,7 @@
         ></q-rating> -->
 
         <q-item
+          style="height: 72px"
           clickable
           :to="{
             name: '/tour/product-detail',
@@ -76,7 +77,7 @@
             <q-item-label lines="2"
               >{{ item?.name }}: {{ item?.tourProduct?.name }}</q-item-label
             >
-            <q-item-label caption>dibuat: {{ item?.createdAt }}</q-item-label>
+            <!-- <q-item-label caption>dibuat: {{ item?.createdAt }}</q-item-label> -->
           </q-item-section>
         </q-item>
       </q-card-section>
@@ -107,7 +108,7 @@
         </q-item>
       </q-card-section> -->
 
-      <q-item>
+      <!-- <q-item>
         <q-item-section>
           <q-item-label caption class="text-capitalize">Harga Dewasa</q-item-label>
           <q-item-label class="text-h5">{{ $currency($finalPrice(item)) }}</q-item-label>
@@ -124,7 +125,7 @@
             $currency($finalPriceAnak(item))
           }}</q-item-label>
         </q-item-section>
-      </q-item>
+      </q-item> -->
 
       <!-- <q-item >
           <q-item-section class="bg-primary col-auto rounded-borders-1 q-pa-md col-12">
@@ -137,16 +138,38 @@
           </q-item-section>
         </q-item> -->
 
-      <q-separator></q-separator>
+      <!-- <q-separator></q-separator> -->
 
       <q-card-section class="q-pa-none">
         <q-expansion-item>
           <template v-slot:header>
             <q-item-section> Deskripsi </q-item-section>
           </template>
+
           <q-separator></q-separator>
 
           <q-card>
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption class="text-capitalize">Harga Dewasa</q-item-label>
+                  <q-item-label class="text-h5">{{ $currency($finalPrice(item)) }}</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-separator></q-separator>
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption class="text-capitalize"
+                    >Harga Anak (2-6 tahun)</q-item-label
+                  >
+                  <q-item-label class="text-h5">{{
+                    $currency($finalPriceAnak(item))
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+            <q-separator></q-separator>
+
             <q-card-section>
               {{ item?.description }}
             </q-card-section>
@@ -228,25 +251,34 @@
 
       <q-separator></q-separator>
 
-      <!-- <q-card-section class="q-pa-none">
-        <q-btn-group spread outline>
+      <q-card-section class="q-pa-none">
+        <q-btn-group spread unelevated>
           <q-btn
-            @click="
-              $emit('onBubbleEvent', {
-                label: 'detail',
-                payload: item,
-              })
-            "
+          v-if="item?.tourProduct"
+            :to="{
+              name: '/tour/product-detail',
+              params: {
+                slug: item?.productId,
+                slug_text: item?.tourProduct?.slug,
+              },
+            }"
             label="detail"
-            icon="visibility"
-          />
-          <q-btn
-            @click="$emit('onBubbleEvent', { label: 'store', payload: item })"
-            label="Store"
             icon="local_mall"
           />
+          <q-separator vertical></q-separator>
+          <q-btn
+          :to="{
+              name: '/tour/store-detail',
+              params: {
+                slug: item?.storeId,
+                slug_text: item?.tourStore?.slug,
+              },
+            }"
+            label="vendor"
+            icon="store"
+          />
         </q-btn-group>
-      </q-card-section> -->
+      </q-card-section>
 
       <!-- <q-card-section class="q-pa-none">
         <q-btn-group spread unelevated>

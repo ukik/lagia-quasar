@@ -5,8 +5,8 @@
         <!-- <h2>LOGIN</h2> -->
         <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
         <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
-        <div class="text-h5 text-uppercase text-white">Register</div>
-        <div class="text-body text-capitalize text-white">fill the form below</div>
+        <div class="text-h5 text-uppercase text-white">Registrasi</div>
+        <div class="text-body text-capitalize text-white">isi formulir di bawah ini</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.
@@ -307,7 +307,7 @@
       <q-separator color="white-1"></q-separator>
       <q-card-section>
         <div class="col-12 row items-center justify-center text-white">
-          <div class=" text-left">Do you have an account?</div>
+          <div class=" text-left">Apakah Anda punya akun?</div>
           <q-btn capitalize
             flat
             :to="{ name: '/login' }"

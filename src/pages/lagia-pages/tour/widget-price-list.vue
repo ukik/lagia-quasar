@@ -1,7 +1,7 @@
 <template>
   <div class="call-action-box bg-color-callback row justify-center">
     <div class="col-xl-6 col-lg-8 col-md-11 col-sm-12 col-12 text-center q-px-md">
-      <h6 class="text-blue">BEST PRICE OFFER</h6>
+      <h6 class="text-blue">BEST TOUR OFFER</h6>
       <h2>LAGIA HARGA TOUR</h2>
       <!-- <p>
         Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
@@ -81,10 +81,9 @@
       </div>
     </div>
 
-
     <div class="text-center full-width top-margin-1">
       <q-btn
-        to="/tour/price-list"
+        to="/tour/product-list"
         icon-right="arrow_forward"
         size="18px"
         style="height: 50px"
@@ -92,14 +91,14 @@
         rounded
         class="rounded-borders-4"
         color="primary"
-        label="selengkapnya"
+        :label="`selengkapnya (${total})`"
       />
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["records"],
+  props: ["records","total"],
 };
 </script>
 
@@ -169,7 +168,7 @@ h2 {
 
 .bg-color-callback {
   padding-top: 85px;
-  padding-bottom: 85px;
+  padding-bottom: 45px;
 }
 .bg-light-grey {
   background-color: #f8f8f8;

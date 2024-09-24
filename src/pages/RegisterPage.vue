@@ -4,7 +4,7 @@
       <q-form @submit="onSubmit" class="row flex flex-center">
         <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12 col-xs-12 q-col-gutter-y-lg text-center justify-center">
           <div class="text-h4 q-mb-md text-bold q-mt-md">
-            Register
+            Registrasi
           </div>
           <!-- <div class="col-12 q-my-xl">
           <img

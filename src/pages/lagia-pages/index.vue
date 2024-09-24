@@ -2,24 +2,6 @@
   <!-- {{ getCulinary }} -->
   <HomeTron :records="page_widget_tron"></HomeTron>
 
-
-
-  <widgetTourPriceList
-    v-if="record_tour_price"
-    :records="record_tour_price"
-  ></widgetTourPriceList>
-
-
-  <widgetTourProductList
-    v-if="record_tour"
-    :records="record_tour"
-  ></widgetTourProductList>
-
-  <widgetLodgeProfileList
-    v-if="record_lodge"
-    :records="record_lodge"
-  ></widgetLodgeProfileList>
-
   <q-intersection once>
     <HomeCounter
       v-if="page_widget_counter"
@@ -27,15 +9,90 @@
     ></HomeCounter>
   </q-intersection>
 
+  <div class="col-12 text-center q-px-md bg-blue-1 q-py-lg">
+    <!-- <h6 class="text-blue">PILIH LOKASI</h6> -->
+    <h2 class="text-primary q-ma-none">TOUR SECTION</h2>
+  </div>
+
+  <widgetTourPriceList
+    v-if="record_tour_price"
+    :records="record_tour_price"
+    :total="record_tour_price_total"
+  ></widgetTourPriceList>
+
+  <widgetTourCategory
+    v-if="tour_products_category"
+    :records="tour_products_category"
+  ></widgetTourCategory>
+
+  <!-- <widgetTourCity
+    v-if="tour_products_city"
+    :records="tour_products_city"
+  ></widgetTourCity> -->
+
+  <widgetTourProvince
+    v-if="tour_products_province"
+    :records="tour_products_province"
+  ></widgetTourProvince>
+
+  <widgetTourDurasi
+    v-if="tour_products_durasi"
+    :records="tour_products_durasi"
+  ></widgetTourDurasi>
+
+  <widgetTourLevel
+    v-if="tour_products_level"
+    :records="tour_products_level"
+  ></widgetTourLevel>
+
+  <!-- <widgetTourProductList
+    v-if="record_tour"
+    :records="record_tour"
+  ></widgetTourProductList>
+ -->
+  <!-- <widgetLodgeProfileList
+    v-if="record_lodge"
+    :records="record_lodge"
+  ></widgetLodgeProfileList> -->
+  <!-- </div> -->
+  <!-- <q-intersection key="1" @visibility="onVisibility"> -->
+  <!-- tidak semua q-intersection bisa, di component jadi ya paham aja -->
+  <HomePromo v-if="false"></HomePromo>
+
+  <div class="big-top-margin col-12 text-center q-px-md bg-pink-1 q-py-lg">
+    <!-- <h6 class="text-blue">PILIH LOKASI</h6> -->
+    <h2 class="text-pink q-ma-none">RENTAL SECTION</h2>
+  </div>
+
   <WidgetTransportVehicleList
     v-if="record_transport"
     :records="record_transport"
   ></WidgetTransportVehicleList>
 
+
+  <div class="big-top-margin col-12 text-center q-px-md bg-green-1 q-py-lg">
+    <!-- <h6 class="text-blue">PILIH LOKASI</h6> -->
+    <h2 class="text-green q-ma-none">WISATA SECTION</h2>
+  </div>
+
+
   <WidgetTourismVenueList
     v-if="record_tourism"
     :records="record_tourism"
   ></WidgetTourismVenueList>
+
+
+
+  <div class="big-top-margin col-12 text-center q-px-md bg-orange-1 q-py-lg">
+    <!-- <h6 class="text-blue">PILIH LOKASI</h6> -->
+    <h2 class="text-orange q-ma-none">JASA SECTION</h2>
+  </div>
+
+  <WidgetTalentProfileList
+    v-if="record_talent"
+    :records="record_talent"
+  ></WidgetTalentProfileList>
+
 
   <!-- <HomeDestination></HomeDestination> -->
   <HomePackage v-if="false"></HomePackage>
@@ -50,11 +107,6 @@
     v-if="page_widget_promo"
     :records="page_widget_promo"
   ></HomeCallActionPromo>
-
-  <!-- </div> -->
-  <!-- <q-intersection key="1" @visibility="onVisibility"> -->
-  <!-- tidak semua q-intersection bisa, di component jadi ya paham aja -->
-  <HomePromo v-if="false"></HomePromo>
 
   <!-- </q-intersection> -->
   <!-- <div v-if="wait" class="full-width text-center q-mb-xl q-py-xl">
@@ -90,12 +142,8 @@
     :records="record_souvenir"
   ></widgetSouvenirProductList>
 
-  <WidgetTalentProfileList
-    v-if="record_talent"
-    :records="record_talent"
-  ></WidgetTalentProfileList>
 
-  <HomeCallAction v-if="page_widget_call" :records="page_widget_call[0]"></HomeCallAction>
+  <HomeCallAction class="big-top-margin" v-if="page_widget_call" :records="page_widget_call[0]"></HomeCallAction>
   <!-- </q-intersection> -->
 </template>
 
@@ -110,6 +158,13 @@ import { useIndexStore } from "stores/lagia-stores/page/IndexStore";
 import { useRouter, onBeforeRouteLeave } from "vue-router";
 
 import widgetTourPriceList from "./tour/widget-price-list.vue";
+
+import widgetTourCategory from "./tour/widget-category.vue";
+import widgetTourCity from "./tour/widget-city.vue";
+import widgetTourProvince from "./tour/widget-province.vue";
+import widgetTourDurasi from "./tour/widget-durasi.vue";
+import widgetTourLevel from "./tour/widget-level.vue";
+
 import widgetTourProductList from "./tour/widget-product-list.vue";
 import widgetCulinaryProductList from "./culinary/widget-culinary-product-list.vue";
 import widgetSouvenirProductList from "./souvenir/widget-souvenir-product-list.vue";
@@ -149,6 +204,7 @@ const {
 
   record_tour,
   record_tour_price,
+  record_tour_price_total,
   record_culinary,
   record_souvenir,
   record_lodge,
@@ -161,6 +217,12 @@ const {
   page_widget_offer,
   page_widget_promo,
   page_widget_tron,
+
+  tour_products_category,
+  tour_products_city,
+  tour_products_province,
+  tour_products_durasi,
+  tour_products_level,
 
   loading,
 } = storeToRefs($store); // have all reactive states here
@@ -184,3 +246,13 @@ function onVisibility(val) {
   wait.value = false;
 }
 </script>
+
+<style lang="css" scoped>
+.bg-padding {
+  padding-top: 85px;
+  padding-bottom: 85px;
+}
+.big-top-margin {
+  margin-top: 85px;
+}
+</style>

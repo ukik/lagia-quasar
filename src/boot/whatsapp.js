@@ -5,6 +5,12 @@ import { boot } from 'quasar/wrappers'
 import { storeToRefs } from "pinia";
 import { useInitStore } from "stores/lagia-stores/page/InitStore";
 
+function getHost() {
+  return window.location.protocol +
+    "//" +
+    window.location.host +
+    "/"
+}
 
 function onOrder(whatsapp) {
 
@@ -133,7 +139,7 @@ function onKonsultasi(name = null, email = null, question = null){
   const initStore = useInitStore();
   const { getFooterContact } = storeToRefs(initStore); // have all reactive states here
 
-  // console.log('whatsapp', getFooterContact.value?.grid2Value)
+  // console.log('whatsapp', getFooterContact?.value?.grid2Value)
 
   // %0a = newline
 
@@ -147,7 +153,7 @@ function onKonsultasi(name = null, email = null, question = null){
 
   // Links: No special character needed
 
-  const num = getFooterContact.value?.grid2Value
+  const num = getFooterContact?.value?.grid2Value
   // const name = "Megaman 8"
   const msg =
   (
@@ -194,13 +200,12 @@ function onKonsultasi(name = null, email = null, question = null){
   window.open(`https://api.whatsapp.com/send?phone=${num}&text=${msg}`, '_blank')
 }
 
-
 function onKonsultasiProduk(name = null, email = null, question = null, link = null){
 
   const initStore = useInitStore();
   const { getFooterContact } = storeToRefs(initStore); // have all reactive states here
 
-  const num = getFooterContact.value?.grid2Value
+  const num = getFooterContact?.value?.grid2Value
   const msg =
   (
   // `Selamat datang di *LAGIA* %0D%0A %0D%0A`+
@@ -249,14 +254,99 @@ function onKonsultasiProduk(name = null, email = null, question = null, link = n
   window.open(`https://api.whatsapp.com/send?phone=${num}&text=${msg}`, '_blank')
 }
 
+function onWhatsappTanyaAdmin() {
+  const initStore = useInitStore();
+  const { getFooterContact } = storeToRefs(initStore); // have all reactive states here
+
+  const num = getFooterContact?.value?.whatsapp
+
+  const link = window.location.href?.split('/#/').join('/'); //getHost()+
+
+  const string1 = `Halo kak Lagia!%0D%0ABisakah saya mendapatkan info selengkapnya tentang ini? %0D%0A %0D%0A${link}
+  `;
+
+  const message = `https://wa.me/${num}/?text=${string1}`
+
+  // alert(message)
+
+  // window.open(message, `_blank`)
+  // window.open(`whatsapp://send?phone=${num}&text=${string1}`, `_blank`)
+
+  window.open(`https://api.whatsapp.com/send?phone=${num}&text=${string1}`, '_blank')
+}
+
 
 function onCall(){
 
   const initStore = useInitStore();
-  const { getFooterContact } = storeToRefs(initStore); // have all reactive states here
+  const { getFooterContact } = (initStore); // have all reactive states here
 
-  return 'tel:'+ getFooterContact.value?.grid2Value
+  return 'tel:'+ getFooterContact?.value?.grid2Value
 }
+
+function onPhone1() {
+  const initStore = useInitStore();
+  const { getFooterContact } = (initStore); // have all reactive states here
+
+  console.log(`tel:${getFooterContact?.phone1}`)
+
+  window.open(`tel:${getFooterContact?.phone1}`);
+}
+
+function onPhone2() {
+  const initStore = useInitStore();
+  const { getFooterContact } = (initStore); // have all reactive states here
+
+  console.log(`tel:${getFooterContact?.phone2}`)
+
+  window.open(`tel:${getFooterContact?.phone2}`);
+}
+
+function onEmail(subject = '', body = '') {
+  const initStore = useInitStore();
+  const { getFooterContact } = (initStore); // have all reactive states here
+
+  const temp = String(`mailto:${getFooterContact?.email}?subject=${subject}&body=${body}`).replace('^', '@')
+
+  console.log(temp)
+
+  window.open( temp );
+  // window.open(`tel:${getFooterContact?.email}`);
+}
+
+function onSms1(val = '') {
+  const initStore = useInitStore();
+  const { getFooterContact } = (initStore); // have all reactive states here
+
+  if(navigator.userAgent.match(/Android/i)){
+
+    window.open(`sms://${getFooterContact?.smsCenter1}/?body=(${encodeURIComponent(val)})`,'_blank')
+
+  }
+  if(navigator.userAgent.match(/iPhone/i)){
+
+  window.open(`sms://${getFooterContact?.smsCenter1}/&body=(${encodeURIComponent(val)})`,'_blank')
+
+  }
+}
+
+function onSms2(val = '') {
+  const initStore = useInitStore();
+  const { getFooterContact } = (initStore); // have all reactive states here
+
+  if(navigator.userAgent.match(/Android/i)){
+
+    window.open(`sms://${getFooterContact?.smsCenter2}/?body=(${encodeURIComponent(val)})`,'_blank')
+
+  }
+  if(navigator.userAgent.match(/iPhone/i)){
+
+  window.open(`sms://${getFooterContact?.smsCenter2}/&body=(${encodeURIComponent(val)})`,'_blank')
+
+  }
+}
+
+
 
 export default boot(async ({ app, ssrContext, router, store }) => {
 
@@ -279,6 +369,14 @@ export default boot(async ({ app, ssrContext, router, store }) => {
   app.config.globalProperties.$onKonsultasi = onKonsultasi;
   app.config.globalProperties.$onKonsultasiProduk = onKonsultasiProduk;
   app.config.globalProperties.$onCall = onCall;
+
+  app.config.globalProperties.$onPhone1 = onPhone1;
+  app.config.globalProperties.$onPhone2 = onPhone2;
+  app.config.globalProperties.$onEmail = onEmail;
+  app.config.globalProperties.$onSms1 = onSms1;
+  app.config.globalProperties.$onSms2 = onSms2;
+
+  app.config.globalProperties.$onWhatsappTanyaAdmin = onWhatsappTanyaAdmin;
 
 
 

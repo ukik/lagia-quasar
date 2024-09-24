@@ -1,39 +1,51 @@
 <template>
-  <q-carousel
-    id="ImageSlideCarousel"
-    :autoplay="autoplay"
-    swipeable
-    animated
-    :navigation="!thumbnails"
-    arrows
-    v-model="slide"
-    v-model:fullscreen="fullscreen"
-    infinite
-    transition-prev="slide-right"
-    transition-next="slide-left"
-    @mouseenter="autoplay = false"
-    @mouseleave="autoplay = 4500"
-    :height="height"
-    :thumbnails="thumbnails"
-  >
-    <template v-for="(item, i) in _gallery">
-      <q-carousel-slide :name="i" :img-src="item"></q-carousel-slide>
-    </template>
+  <div>
 
-    <template v-slot:control>
-      <q-carousel-control position="top-right" :offset="[10, 10]">
-        <q-btn
-          size="md"
-          rounded
-          dense
-          color="white"
-          text-color="primary"
-          :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-          @click="showMultiple(_gallery, slide)"
-        />
-      </q-carousel-control>
-    </template>
-  </q-carousel>
+    <q-img
+      v-if="!_gallery"
+      :height="height"
+      loading="lazy"
+      :src="$defaultErrorImage"
+    />
+
+    <q-carousel
+      v-else
+      id="ImageSlideCarousel"
+      :autoplay="autoplay"
+      swipeable
+      animated
+      :navigation="!thumbnails"
+      arrows
+      v-model="slide"
+      v-model:fullscreen="fullscreen"
+      infinite
+      transition-prev="slide-right"
+      transition-next="slide-left"
+      @mouseenter="autoplay = false"
+      @mouseleave="autoplay = 4500"
+      :height="height"
+      :thumbnails="thumbnails"
+    >
+      <template v-for="(item, i) in _gallery">
+        <q-carousel-slide :name="i" :img-src="item"></q-carousel-slide>
+      </template>
+
+      <template v-slot:control>
+        <q-carousel-control position="top-right" :offset="[10, 10]">
+          <q-btn
+            size="md"
+            rounded
+            dense
+            flat
+            color="white"
+            text-color="white"
+            :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+            @click="showMultiple(_gallery, slide)"
+          />
+        </q-carousel-control>
+      </template>
+    </q-carousel>
+  </div>
 </template>
 
 <script>

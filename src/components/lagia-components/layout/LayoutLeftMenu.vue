@@ -94,7 +94,7 @@
       <q-item-section>Testimoni</q-item-section>
     </q-item>
 
-    <q-item-label header>Harga</q-item-label>
+    <!-- <q-item-label header>Harga</q-item-label>
 
     <q-item
       :to="{
@@ -109,7 +109,7 @@
         <q-icon name="fa-solid fa-tags" />
       </q-item-section>
       <q-item-section>Harga Tour</q-item-section>
-    </q-item>
+    </q-item> -->
 
 
     <q-item-label header>Etalase</q-item-label>
@@ -193,7 +193,7 @@
       </template>
     </q-expansion-item> -->
 
-    <q-item
+    <!-- <q-item
       :to="{
         name: '/lodge/price-list',
       }"
@@ -206,7 +206,7 @@
         <q-icon name="apartment" />
       </q-item-section>
       <q-item-section>Hotel</q-item-section>
-    </q-item>
+    </q-item> -->
 
 
     <!-- <q-expansion-item

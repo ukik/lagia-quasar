@@ -1,6 +1,8 @@
 <template>
   <div class="row flex flex-center">
     <div class="col-xl-4 col-lg-6 col-md-7 col-sm-11 col-11 q-pb-xl">
+      <isBackButtonPage></isBackButtonPage>
+
       <FormVerify v-if="!getIsLogin || !getAuthUser?.emailVerifiedAt" class="q-pb-xl" />
 
       <q-list v-else-if="getAuthUser?.emailVerifiedAt" flat style="height: 400px" class="flex flex-center" bordered>

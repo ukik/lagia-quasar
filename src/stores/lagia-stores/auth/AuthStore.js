@@ -22,8 +22,27 @@ export const useAuthStore = defineStore('AuthStore', {
   id: 'AuthStore',
 
   state: () => ({
+    change_email_dikirim: {
+      success: false,
+      error: false,
+      pending: false,
+      message: '',
+    },
+    email_verify_dikirim: {
+      success: false,
+      error: false,
+      pending: false,
+      message: '',
+    },
+    change_password_dikirim: {
+      success: false,
+      error: false,
+      pending: false,
+      message: '',
+    },
+
     form_forgot_password: {
-      email: "versusmx@gmail.com",
+      email: "",
     },
     // form_re_request_verification: {
     //   email: "",
@@ -42,10 +61,10 @@ export const useAuthStore = defineStore('AuthStore', {
       remember: false,
     },
     form_reset_password: {
-      email: "versusmx@gmail.com",
-      password: "123456789",
-      passwordConfirmation: "123456789",
-      token: "501023", // dari badaso_password_resets->token, di create dari forgot-password badaso
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      token: "", // dari badaso_password_resets->token, di create dari forgot-password badaso
     },
     form_register: {
       name: 'demo@gmail.com' + _id,
@@ -481,11 +500,6 @@ export const useAuthStore = defineStore('AuthStore', {
         url: '/trevolia-api/v1/auth/reset-password',
         method: 'post',
         data: formData,
-        // headers: {
-        //   // "Content-Type": "application/json",
-        //   // authorization: `Bearer ${accessToken}`,
-        //   // "X-XSRF-TOKEN": csrf, // tapi undefined, katanya hanya bisa sama domain/sub domain (tambahan tidak penting untuk saat ini)
-        // }
       })
         .then((response) => {
           // console.log('fetchCSRF AXIOS', response.headers['Set-Cookie'], JSON.parse(JSON.stringify(response.headers)))
@@ -496,9 +510,14 @@ export const useAuthStore = defineStore('AuthStore', {
             caption: 'data berhasil diproses',
             icon: 'done'
           })
+          this.change_password_dikirim.error = false
+
+          console.log()
           return response
         })
         .catch((err) => {
+          this.change_password_dikirim.error = true
+          this.change_password_dikirim.message = err?.response?.data?.message?.toString()
           Notify.create({
             color: 'negative',
             position: 'top',
@@ -509,10 +528,39 @@ export const useAuthStore = defineStore('AuthStore', {
           return err?.response
         })
 
+
       this.loading.form_reset_password = false
       console.log('onResetPassword', resp)
 
-      if (!resp?.data) return this.loading.form_reset_password = false
+      if(!resp.data.data) return
+
+      if(this.getIsLogin) {
+        if(!resp?.data?.isLogin) {
+          this.onClearChangePasswordDikirim()
+          await this.onClearAuth()
+          Cookies.remove('accessToken')
+          this.router.replace({
+            name: '/login'
+          })
+          return
+        }
+      }
+
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
+      this.auth = resp?.data
+
+      if(resp?.data?.isLogin) {
+        this.change_password_dikirim.success = true
+        this.onClearChangePasswordDikirim()
+        this.router.replace({
+          name: '/lagia/dashboard'
+        })
+      }
+
+      this.onClearForgotPassword()
+      this.onClearResetPassword()
+      // if (!resp?.data) return this.loading.form_reset_password = false
     },
 
     async onForgotPassword() {
@@ -553,9 +601,14 @@ export const useAuthStore = defineStore('AuthStore', {
             caption: 'data berhasil diproses',
             icon: 'done'
           })
+          this.change_password_dikirim.error = false
+
+          console.log()
           return response
         })
         .catch((err) => {
+          this.change_password_dikirim.error = true
+          this.change_password_dikirim.message = err?.response?.data?.message?.toString()
           Notify.create({
             color: 'negative',
             position: 'top',
@@ -563,12 +616,32 @@ export const useAuthStore = defineStore('AuthStore', {
             caption: err?.response?.data?.message?.toString(),
             icon: 'report_problem'
           })
+          return err?.response
         })
 
       Loading.hide();
 
       this.loading.form_forgot_password = false
       console.log('onForgotPassword', resp)
+
+      if(!resp.data.data) return
+
+      if(this.getIsLogin) {
+        if(!resp?.data?.isLogin) {
+          this.onClearChangeEmailDikirim()
+          await this.onClearAuth()
+          Cookies.remove('accessToken')
+          this.router.replace({
+            name: '/login'
+          })
+          return
+        }
+      }
+
+      if(resp?.data?.data?.status == "email-terkirim") {
+        this.change_password_dikirim.pending = true
+        return
+      }
 
       // if (!resp?.data) return this.loading.form_forgot_password = false
     },
@@ -605,10 +678,15 @@ export const useAuthStore = defineStore('AuthStore', {
             caption: response?.data?.data?.message?.toString(),
             icon: 'done'
           })
+
+          this.email_verify_dikirim.error = false
+
           console.log()
           return response
         })
         .catch((err) => {
+          this.email_verify_dikirim.error = true
+          this.email_verify_dikirim.message = err?.response?.data?.message?.toString()
           Notify.create({
             color: 'negative',
             position: 'top',
@@ -620,17 +698,35 @@ export const useAuthStore = defineStore('AuthStore', {
         })
 
       this.loading.form_verify = false
+      console.log('onVerify', resp?.data)
       console.log('onVerify', resp?.data?.isLogin)
 
       Loading.hide();
 
       if(!resp.data.data) return
 
+      if(!resp?.data?.isLogin) {
+        this.onClearEmailVerifyDikirim()
+        await this.onClearAuth()
+        Cookies.remove('accessToken')
+        this.router.replace({
+          name: '/login'
+        })
+        return
+      }
+
+      if(resp?.data?.data?.status == "email-terkirim") {
+        this.email_verify_dikirim.pending = true
+        return
+      }
+
       resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
 
       this.auth = resp?.data
 
       if(resp?.data?.isLogin && slug == 'verify') {
+        this.email_verify_dikirim.success = true
+        this.onClearEmailVerifyDikirim()
         this.router.replace({
           name: '/lagia/dashboard'
         })
@@ -676,9 +772,14 @@ export const useAuthStore = defineStore('AuthStore', {
             icon: 'done'
           })
           console.log()
+          this.change_email_dikirim.error = false
+
           return response
         })
         .catch((err) => {
+          this.change_email_dikirim.error = true
+          this.change_email_dikirim.message = err?.response?.data?.message?.toString()
+
           Notify.create({
             color: 'negative',
             position: 'top',
@@ -695,21 +796,30 @@ export const useAuthStore = defineStore('AuthStore', {
 
       if(!resp.data.data) return
 
-      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
-
-      this.auth = resp?.data
-
-      console.log('onVerifyUpdateEmail', resp?.data)
-
       if(!resp?.data?.isLogin) {
+        this.onClearChangeEmailDikirim()
         await this.onClearAuth()
+        Cookies.remove('accessToken')
         this.router.replace({
           name: '/login'
         })
         return
       }
 
+      if(resp?.data?.data?.status == "email-terkirim") {
+        this.change_email_dikirim.pending = true
+        return
+      }
+
+      resp.data.data['roles'] = JSON.parse(resp?.data?.data['roles'])
+
+      this.auth = resp?.data
+
+      console.log('onVerifyUpdateEmail', resp?.data)
+
       if(resp?.data?.isLogin && slug == 'verify-email') {
+        this.change_email_dikirim.success = true
+        this.onClearChangeEmailDikirim()
         this.router.replace({
           name: '/lagia/dashboard'
         })
@@ -771,6 +881,31 @@ export const useAuthStore = defineStore('AuthStore', {
         password: '',
         confirm: '',
         gender: 'Gender',
+      }
+    },
+
+    async onClearChangeEmailDikirim() {
+      this.change_email_dikirim = {
+        success: false,
+        error: false,
+        pending: false,
+        message: '',
+      }
+    },
+    async onClearEmailVerifyDikirim() {
+      this.email_verify_dikirim = {
+        success: false,
+        error: false,
+        pending: false,
+        message: '',
+      }
+    },
+    async onClearChangePasswordDikirim() {
+      this.change_password_dikirim = {
+        success: false,
+        error: false,
+        pending: false,
+        message: '',
       }
     },
 

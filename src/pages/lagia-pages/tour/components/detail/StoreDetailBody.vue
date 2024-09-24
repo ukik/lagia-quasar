@@ -6,7 +6,7 @@
     <h3 class="q-mb-xs">{{ record?.name }}</h3>
     <div class="text-caption q-mb-md">Dibuat: {{ record?.createdAt }}</div>
 
-    <q-rating
+    <!-- <q-rating
       v-if="record?.ratingAvg?.avgRating"
       readonly
       v-model="record.ratingAvg.avgRating"
@@ -22,7 +22,7 @@
       size="sm"
       :max="5"
       color="grey"
-    ></q-rating>
+    ></q-rating> -->
 
     <q-item class="rounded-borders-1 bg-grey-2 q-mt-lg" clickable v-ripple>
       <q-item-section avatar>
@@ -82,7 +82,7 @@
       <isQItemLabelSimpleValue
         :dense="false"
         col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-        label="name"
+        label="nama"
         :value="record?.name"
       ></isQItemLabelSimpleValue>
       <isQItemLabelSimpleValue
@@ -94,25 +94,25 @@
       <isQItemLabelSimpleValue
         :dense="false"
         col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-        label="phone"
+        label="telepon"
         :value="record?.phone"
       ></isQItemLabelSimpleValue>
       <isQItemLabelSimpleValue
         :dense="false"
         col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-        label="codepos"
+        label="kodepos"
         :value="record?.codepos"
       ></isQItemLabelSimpleValue>
       <isQItemLabelSimpleValue
         :dense="false"
         col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-        label="city"
+        label="kota"
         :value="record?.city"
       ></isQItemLabelSimpleValue>
       <isQItemLabelSimpleValue
         :dense="false"
         col="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-        label="country"
+        label="negara"
         :value="record?.country"
       ></isQItemLabelSimpleValue>
     </q-list>
@@ -129,7 +129,7 @@
           })
         "
         :clickable="true"
-        label="location"
+        label="lokasi"
         value="Detail"
         textcolor="text-primary"
       ></isQItemLabelSimpleValue>
@@ -142,16 +142,16 @@
           })
         "
         :clickable="true"
-        label="address"
+        label="alamat"
         value="Detail"
         textcolor="text-primary"
       ></isQItemLabelSimpleValue>
     </q-list>
 
-    <h6 class="q-mt-lg q-mb-sm">POLICY</h6>
+    <h6 class="q-mt-lg q-mb-sm">KEBIJAKAN</h6>
     <div v-html="record?.policy"></div>
 
-    <h6 class="q-mt-lg q-mb-sm">DESCRIPTION</h6>
+    <h6 class="q-mt-lg q-mb-sm">DESKRIPSI</h6>
     <div v-html="record?.description"></div>
   </div>
 </template>

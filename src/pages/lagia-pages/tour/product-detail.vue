@@ -58,8 +58,9 @@
                   square
                   color="positive"
                   text-color="white"
-                  icon="search"
-                  label="Preview"
+                  @click="$onWhatsappTanyaAdmin"
+              icon="fa-brands fa-whatsapp"
+              label="Tanya Admin"
                 />
               </div>
               <div class="col-xl col-lg col-md-12 col-sm-12 col-xs-12">

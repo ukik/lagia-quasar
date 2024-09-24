@@ -55,9 +55,14 @@ function scrollToElement(el) {
   }, 500)
 }
 
+function scrollTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 export default boot( async ({ app, ssrContext, router, store }) => {
 
   app.config.globalProperties.$scrollToElement = scrollToElement;
+  app.config.globalProperties.$scrollTop = scrollTop;
 
   app.use(VueEasyLightbox)
   app.use(MasonryWall)

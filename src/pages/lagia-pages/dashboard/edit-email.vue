@@ -1,6 +1,7 @@
 <template>
   <div class="row flex flex-center">
     <div class="col-xl-4 col-lg-6 col-md-7 col-sm-11 col-11 q-pb-xl">
+      <isBackButtonPage></isBackButtonPage>
       <FormVerifyUpdateEmail class="q-pb-xl" />
     </div>
   </div>

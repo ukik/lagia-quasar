@@ -1,3 +1,3 @@
 export default function (number) {
-    return number+'%'
+    return `${number}%`
 }

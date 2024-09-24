@@ -1,5 +1,42 @@
 <template>
   <div class="form-box">
+
+
+
+    <q-banner v-if="email_verify_dikirim.pending" class="bg-primary text-white rounded-borders-2 q-mb-md">
+      Email telah dikirim ke alamat yang Anda berikan. Silakan ikuti tautan dalam email untuk menyelesaikan permintaan ganti email Anda.
+      <template v-slot:action>
+        <q-btn flat color="white" icon="close" label="tutup" @click="email_verify_dikirim.pending = false" />
+      </template>
+      <template v-slot:avatar>
+        <q-icon name="done" color="white" />
+      </template>
+    </q-banner>
+
+    <q-banner v-if="email_verify_dikirim.error && email_verify_dikirim.message" class="bg-negative text-white rounded-borders-2 q-mb-md">
+      Terjadi kesalahan: {{ email_verify_dikirim.message }}.
+      <template v-slot:action>
+        <q-btn flat color="white" icon="close" label="tutup" @click="email_verify_dikirim.error = false" />
+      </template>
+      <template v-slot:avatar>
+        <q-icon name="done" color="white" />
+      </template>
+    </q-banner>
+
+    <q-banner v-if="email_verify_dikirim.success" class="bg-positive text-white rounded-borders-2 q-mb-md">
+      Verifikasi akun berhasil dilakukan.
+      <template v-slot:action>
+        <q-btn flat color="white" icon="close" label="tutup" @click="email_verify_dikirim.success = false" />
+      </template>
+      <template v-slot:avatar>
+        <q-icon name="done" color="white" />
+      </template>
+    </q-banner>
+
+
+
+
+
     <q-card flat class="rounded-borders-2 bg-form">
       <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
@@ -192,7 +229,8 @@ export default {
   },
   computed: {
     ...mapWritableState(useAuthStore, [
-      'form_verify'
+      'form_verify',
+      'email_verify_dikirim'
     ])
   },
   mounted() {

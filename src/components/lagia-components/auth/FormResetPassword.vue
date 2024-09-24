@@ -1,12 +1,46 @@
 <template>
   <div class="form-box">
+
+    <q-banner v-if="change_password_dikirim.pending" class="bg-primary text-white rounded-borders-2 q-mb-md">
+      Email telah dikirim ke alamat yang Anda berikan. Silakan ikuti tautan dalam email untuk menyelesaikan permintaan ganti email Anda.
+      <template v-slot:action>
+        <q-btn flat color="white" icon="close" label="tutup"  @click="change_password_dikirim.pending = false"/>
+      </template>
+      <template v-slot:avatar>
+        <q-icon name="done" color="white" />
+      </template>
+    </q-banner>
+
+    <q-banner v-if="change_password_dikirim.error && change_password_dikirim.message" class="bg-negative text-white rounded-borders-2 q-mb-md">
+      Terjadi kesalahan: {{ change_password_dikirim.message }}.
+      <template v-slot:action>
+        <q-btn flat color="white" icon="close" label="tutup" @click="change_password_dikirim.error = false" />
+      </template>
+      <template v-slot:avatar>
+        <q-icon name="done" color="white" />
+      </template>
+    </q-banner>
+
+    <q-banner v-if="change_password_dikirim.success" class="bg-positive text-white rounded-borders-2 q-mb-md">
+      Verifikasi akun berhasil dilakukan.
+      <template v-slot:action>
+        <q-btn flat color="white" icon="close" label="tutup" @click="change_password_dikirim.success = false"/>
+      </template>
+      <template v-slot:avatar>
+        <q-icon name="done" color="white"  />
+      </template>
+    </q-banner>
+
+
+
+
     <q-card flat class="rounded-borders-2 bg-form">
       <q-card-section class="text-center">
         <!-- <h2>LOGIN</h2> -->
         <!-- <img style="height: 48px" src="assets/images/site-logo.png" /> -->
         <!-- <q-separator color="white" class="q-my-sm"></q-separator> -->
         <div class="text-h5 text-uppercase text-white">Reset Password</div>
-        <div class="text-body text-capitalize text-white">fill the form below</div>
+        <div class="text-body text-capitalize text-white">isi formulir di bawah ini</div>
         <!-- <p>
           Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum.
           Vestibulum cumque laudantm sit.
@@ -23,8 +57,6 @@
         >
           <div class="col-12">
             <q-input
-              :loading="loading.form_reset_password"
-              :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -55,8 +87,6 @@
 
           <div class="col-12">
             <q-input
-              :loading="loading.form_reset_password"
-              :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -67,7 +97,7 @@
               color="primary"
               ref="passwordRef"
               v-model="form_reset_password.password"
-              placeholder="Password"
+              placeholder="Password Baru"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
               bottom-slots
@@ -89,8 +119,6 @@
 
           <div class="col-12">
             <q-input
-              :loading="loading.form_reset_password"
-              :disable="loading.form_reset_password"
               type="password"
               clearable
               counter
@@ -101,7 +129,7 @@
               color="primary"
               ref="passwordConfirmationRef"
               v-model="form_reset_password.passwordConfirmation"
-              placeholder="Konfirmasi Password"
+              placeholder="Konfirmasi Password Baru"
               :lazy-rules="true"
               :rules="[(val) => !!val || '']"
               bottom-slots
@@ -123,8 +151,6 @@
 
           <div class="col-12">
             <q-input
-              :loading="loading.form_reset_password"
-              :disable="loading.form_reset_password"
               type="text"
               clearable
               counter
@@ -153,8 +179,18 @@
             </q-input>
           </div>
 
-          <q-card-actions class="col-12 text-center q-mt-lg" align="between">
+          <q-card-actions class="col-12 text-center q-mt-lg" align="center">
             <q-btn
+              :disable="loading.form_reset_password"
+              type="submit"
+              icon-right="send"
+              outline
+              color="white"
+              size="16px"
+              class="rounded-borders-4"
+              label="verifikasi password"
+            ></q-btn>
+            <!-- <q-btn
               :disable="loading.form_reset_password"
               type="submit"
               icon-right="login"
@@ -163,9 +199,9 @@
               size="16px"
               class="rounded-borders-4 q-mx-sm"
               label="login"
-            ></q-btn>
+            ></q-btn> -->
             <!-- <div class="col-1"></div> -->
-            <q-btn
+            <!-- <q-btn
               :disable="loading.form_reset_password"
               type="reset"
               icon-right="delete"
@@ -175,9 +211,58 @@
               size="16px"
               class="rounded-borders-4 q-mx-sm"
               label="reset"
-            ></q-btn>
+            ></q-btn> -->
           </q-card-actions>
         </form>
+      </q-card-section>
+
+      <div class="col-12 q-mt-md"></div>
+      <q-separator color="white-1"></q-separator>
+      <q-card-section>
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="col-xl col-lg col-md col-sm col-xs-12 "
+            :class="[$q.screen.width > 425 ? 'text-left' : 'text-center']"
+          >Tidak menerima email atau token kedaluwarsa?</div>
+          <q-btn
+            @click="onRequestToken"
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Kirim Ulang Token"
+          ></q-btn>
+        </div>
+      </q-card-section>
+
+      <q-separator color="white-1"></q-separator>
+      <q-card-section>
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">Belum punya akun?</div>
+          <q-btn
+            flat
+            :to="{ name: '/register' }"
+            capitalize
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Registrasi"
+          ></q-btn>
+        </div>
+
+        <div class="col-12 row items-center justify-center text-white">
+          <div class="text-left">Apakah Anda punya akun?</div>
+          <q-btn
+            capitalize
+            flat
+            :to="{ name: '/login' }"
+            outline
+            color="white"
+            size="16px"
+            class="rounded-borders-4"
+            label="Login"
+          ></q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
@@ -187,13 +272,13 @@
 import { useQuasar } from "quasar";
 import { ref, defineProps } from "vue";
 
-import { storeToRefs } from "pinia";
+import { mapWritableState, storeToRefs } from "pinia";
 import { useAuthStore } from "src/stores/lagia-stores/auth/AuthStore";
 
 export default {
   setup() {
     const store = useAuthStore();
-    const { onResetPassword, onClearResetPassword } = store;
+    const { onResetPassword, onClearResetPassword, onForgotPassword } = store;
     const { form_reset_password, auth, loading } = storeToRefs(store);
 
     const $q = useQuasar();
@@ -245,8 +330,43 @@ export default {
         passwordConfirmationRef.value.resetValidation();
         tokenRef.value.resetValidation();
       },
+
+      onRequestToken() {
+        emailRef.value.validate();
+
+        if (
+          emailRef.value.hasError
+        ) {
+          $q.notify({
+            color: "negative",
+            message: "Peringatan",
+            caption: "Email wajib diisi",
+            position: "top",
+          });
+          return;
+        }
+
+        onForgotPassword()
+      }
     };
   },
+  computed: {
+    ...mapWritableState(useAuthStore, [
+      'change_password_dikirim',
+      'form_forgot_password',
+      'form_reset_password',
+      'getAuthUser',
+    ])
+  },
+  mounted() {
+    if(this.$route.query?.email) {
+      this.form_reset_password.email = this.$route.query?.email
+      this.form_forgot_password.email = this.$route.query?.email
+    }
+    if(this.$route.query?.token) {
+      this.form_forgot_password.token = this.$route.query?.token
+    }
+  }
 };
 </script>
 

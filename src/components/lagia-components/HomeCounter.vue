@@ -3,7 +3,7 @@
 
   <div class="call-action-box bg-color-callback row justify-center">
     <div
-      class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 text-left row justify-center items-center q-col-gutter-xl"
+      class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 text-left row justify-center items-center q-col-gutter-lg"
     >
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
         <q-card class="rounded-borders-3" flat bordered>
@@ -153,7 +153,7 @@ h2 {
 
 .bg-color-callback {
   padding-top: 85px;
-  /* padding-bottom: 85px; */
+  padding-bottom: 85px;
 }
 
 .image-mobile-radius {

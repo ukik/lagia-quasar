@@ -119,11 +119,11 @@
                 >
                 <ul class="shadow-3">
                   <li>
-                    <router-link to="/tour/product-list">Tour Paket</router-link>
+                    <router-link to="/tour/product-list">Tour</router-link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <router-link to="/tour/price-list">Tour Harga</router-link>
-                  </li>
+                  </li> -->
 
                   <!-- <li class="menu-item-has-children">
                     <router-link
@@ -224,9 +224,10 @@
                     </ul>
                   </li> -->
 
-                  <li>
+                  <!-- <li>
                     <router-link to="/lodge/profile-list">Hotel</router-link>
-                  </li>
+                  </li> -->
+
                   <!-- <li class="menu-item-has-children">
                     <router-link
                       to="/lodge/room-list"
@@ -629,12 +630,14 @@ a {
   color: #ffffff;
   display: inline-block;
   font-size: 16px;
-  padding: 20px 0;
+  /* padding: 20px 0; */
+  padding: 13px 0 15px 0;
   font-weight: 400;
   line-height: 1.3;
   position: relative;
   text-transform: uppercase;
-  height: 60px;
+  /* height: 60px; */
+  height: 50px;
 
   font-weight: 500 !important;
 }

@@ -37,9 +37,15 @@
 
       <div class="col-12">
         <q-card-actions class="q-pa-none q-mb-lg" align="between">
-          <q-btn :to="{
-            name: '/tour/payment-booking'
-          }" label="RIWAYAT PESANAN" outline icon="receipt" unelevated />
+          <q-btn
+            :to="{
+              name: '/tour/payment-booking',
+            }"
+            label="RIWAYAT PESANAN"
+            outline
+            icon="receipt"
+            unelevated
+          />
         </q-card-actions>
 
         <q-item-label class="text-center text-h5 text-uppercase"
@@ -91,33 +97,33 @@
           </q-card-section>
           <q-separator></q-separator>
           <q-list align="left" class="row">
-            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+            <q-item @click="$onPhone1" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
               <q-item-section avatar>
                 <q-avatar color="orange">
                   <q-icon color="white" name="fa fa-phone fa-lg"></q-icon>
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label caption>Telepon</q-item-label>
-                <q-item-label class="text-title text-bold text-orange"
-                  >000000000000</q-item-label
-                >
+                <q-item-label caption>Telepon 1</q-item-label>
+                <q-item-label class="text-title text-bold text-orange">{{
+                  getFooterContact?.phone1
+                }}</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+            <q-item @click="$onPhone2" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
               <q-item-section avatar>
                 <q-avatar color="green">
-                  <q-icon color="white" name="fa-brands fa-whatsapp"></q-icon>
+                  <q-icon color="white" name="fa fa-phone fa-lg"></q-icon>
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label caption>Whatsapp</q-item-label>
-                <q-item-label class="text-title text-bold text-green"
-                  >000000000000</q-item-label
-                >
+                <q-item-label caption>Telepon 2</q-item-label>
+                <q-item-label class="text-title text-bold text-green">{{
+                  getFooterContact?.phone2
+                }}</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+            <q-item @click="$onSms1" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
               <q-item-section avatar>
                 <q-avatar color="cyan">
                   <q-icon color="white" name="message"></q-icon>
@@ -126,21 +132,21 @@
               <q-item-section>
                 <q-item-label caption>SMS Center</q-item-label>
                 <q-item-label class="text-title text-bold text-cyan"
-                  >000000000000</q-item-label
-                >
+                  >{{ getFooterContact?.smsCenter1 }}
+                </q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+            <q-item @click="$onEmail" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
               <q-item-section avatar>
                 <q-avatar color="teal">
                   <q-icon color="white" name="email"></q-icon>
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label caption>SMS Center</q-item-label>
-                <q-item-label class="text-title text-bold text-teal"
-                  >000000000000</q-item-label
-                >
+                <q-item-label caption>Email</q-item-label>
+                <q-item-label class="text-title text-bold text-teal">{{
+                  getFooterContact?.email
+                }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -152,10 +158,8 @@
             mendapatkan layanan terbaik
           </div>
           <template v-slot:action>
-            <q-btn
-              unelevated
-              outline
-              @click="
+
+            <!-- @click="
                 $global.$emit('LagiaLayout', {
                   label: 'konsultasi',
                   slug: 'konsultasi',
@@ -163,7 +167,13 @@
                   value: item,
                   product: 'tourProduct',
                 })
-              "
+              " -->
+
+            <q-btn
+              unelevated
+              outline
+              data-action="share/whatsapp/share"
+              @click="$onWhatsappTanyaAdmin"
               color="positive"
               text-color="white"
               label="Tanya Admin"
@@ -237,7 +247,7 @@
                       {{ $dateFormat(record?.tourBookingItem?.dateStart) }}
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="text-bold">
                     <td>Harga Total</td>
                     <td class="text-capitalize">
                       {{ $currency(record?.tourBooking?.fullPayment) }}
@@ -253,7 +263,7 @@
                   <tr class="text-bold">
                     <td>Nominal Tagihan</td>
                     <td class="text-capitalize">
-                      {{ $currency(record?.grossAmount) }}
+                      {{ $currency(record?.grossAmount) }} ({{ $currency(record?.dibayarPercent) }}%)
                     </td>
                   </tr>
                   <tr v-if="record?.transactionTime">
@@ -287,12 +297,16 @@
                       {{ record?.statusCode }}
                     </td>
                   </tr>
-                  <tr>
+                  <tr v-if="record?.statusCode">
                     <td>Status Pembayaran</td>
                     <td class="text-capitalize">
-                    <q-chip class="q-ma-none" text-color="white" :color="$StatusCodeColor(record?.statusCode)">
-                      {{ $StatusCode(record?.statusCode) }}
-                    </q-chip>
+                      <q-chip
+                        class="q-ma-none"
+                        text-color="white"
+                        :color="$StatusCodeColor(record?.statusCode)"
+                      >
+                        {{ $StatusCode(record?.statusCode) }}
+                      </q-chip>
                     </td>
                   </tr>
 
@@ -720,6 +734,7 @@ const {
 import { date } from "quasar";
 import { mapWritableState } from "pinia";
 
+import { useInitStore } from "stores/lagia-stores/page/InitStore";
 import { useTourBookingPaymentStore } from "stores/lagia-stores/tour/TourBookingPaymentStore";
 
 export default {
@@ -737,6 +752,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(useInitStore, ["getFooterContact"]),
     ...mapState(useTourBookingPaymentStore, ["getFormCheck"]),
     ...mapWritableState(useTourBookingPaymentStore, ["record", "loading"]),
   },
@@ -777,28 +793,43 @@ export default {
         }
       }, 1000);
     },
-    onUpdateTest() {
-      this.onUpdate({
-        status_code: "200",
-        status_message: "Success, Credit Card transaction is successful",
-        transaction_id: "91bbb1dc-4acc-47b7-8545-9cfb6840410a",
-        order_id: "TOUR-6217ea56-f4b6",
-        gross_amount: "70290000.00",
-        payment_type: "credit_card",
-        transaction_time: "2024-08-29 23:09:55",
-        transaction_status: "capture",
-        fraud_status: "accept",
-        bank: "cimb",
-        masked_card: "48111111-1114",
-        card_type: "credit",
-        approval_code: "1724947795771",
-        finish_redirect_url:
-          "http://trefeltour.test/midtrans/finish?order_id=TOUR-6217ea56-f4b6&status_code=200&transaction_status=capture",
-      });
-    },
-    onSnap() {
+    // onUpdateTest() {
+    //   this.onUpdate({
+    //     status_code: "200",
+    //     status_message: "Success, Credit Card transaction is successful",
+    //     transaction_id: "91bbb1dc-4acc-47b7-8545-9cfb6840410a",
+    //     order_id: "TOUR-6217ea56-f4b6",
+    //     gross_amount: "70290000.00",
+    //     payment_type: "credit_card",
+    //     transaction_time: "2024-08-29 23:09:55",
+    //     transaction_status: "capture",
+    //     fraud_status: "accept",
+    //     bank: "cimb",
+    //     masked_card: "48111111-1114",
+    //     card_type: "credit",
+    //     approval_code: "1724947795771",
+    //     finish_redirect_url:
+    //       "http://trefeltour.test/midtrans/finish?order_id=TOUR-6217ea56-f4b6&status_code=200&transaction_status=capture",
+    //   });
+    // },
+    async onSnap() {
       const vm = this;
-      if(!this.record?.snapToken) return this.$NotifyAlert("Invoice tidak ditemukan");
+
+      // const temp = await vm.$axios({
+      //   url: 'https://app.sandbox.midtrans.com/snap/v1/transactions/'+this.record?.snapToken,
+      //   method: 'get',
+      // })
+      // .then((response) => {
+      //   return response
+      // })
+      // .catch((err) => {
+      //   return err
+      // })
+
+      // console.log(temp)
+      // return
+
+      if (!this.record?.snapToken) return this.$NotifyAlert("Invoice tidak ditemukan");
       try {
         snap.pay(this.record?.snapToken, {
           // Optional
@@ -846,7 +877,7 @@ export default {
       // } else {
 
       // }
-      if(!this.record?.snapToken) return this.$NotifyAlert("Invoice tidak ditemukan");
+      if (!this.record?.snapToken) return this.$NotifyAlert("Invoice tidak ditemukan");
       var options =
         "location=yes,toolbar=yes,hideurlbar=no,EnableViewPortScale=yes,hardwareback=yes";
 

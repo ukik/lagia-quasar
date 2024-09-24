@@ -181,7 +181,7 @@ function onMouseLeave() {
 export default {
   computed: {
     hideNav() {
-      return true
+      return true;
       switch (this.$route.name) {
         case "dashboard-login":
         case "dashboard-register":
@@ -304,121 +304,114 @@ export default {
     :view="$q.screen.width > 768 ? 'lHr LpR lfr' : 'lHr LpR lFr'"
     @scroll="scrollHandler"
   >
-    <q-no-ssr>
-      <q-header
-        unlevated
-        class="row justify-center"
-        :class="[$q.screen.width > 768 ? scroll_triggered : '']"
-        :style="
-          $q.screen.width > 768
-            ? scroll_triggered === 'bg-top'
-              ? 'border-bottom: solid 1px #ffffff4a;'
-              : 'border-bottom: solid 1px #ffffff4a;'
-            : ''
-        "
-      >
-        <q-toolbar v-if="hideNav" class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
-          <q-btn
-            flat
-            dense
-            round
-            icon="menu"
-            aria-label="Menu"
-            @click="toggleLeftDrawer"
-          />
+    <q-header
+      unlevated
+      class="row justify-center"
+      :class="[$q.screen.width > 768 ? scroll_triggered : '']"
+      :style="
+        $q.screen.width > 768
+          ? scroll_triggered === 'bg-top'
+            ? 'border-bottom: solid 1px #ffffff4a;'
+            : 'border-bottom: solid 1px #ffffff4a;'
+          : ''
+      "
+    >
+      <transition name="fade">
+        <div
+          class="absolute-full"
+          style="background-color: #1976d2"
+          v-if="scroll_triggered === 'bg-down'"
+        ></div>
+      </transition>
+      <q-toolbar v-if="hideNav" class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-          <q-toolbar-title class="row">
-            <q-item class="col-auto" dense :to="{ name: '/lagia/index' }">
-              <q-item-label>
-                <img style="height: 30px" src="/assets/lagia/white-logo.png" />
-              </q-item-label>
-            </q-item>
-          </q-toolbar-title>
+        <q-toolbar-title class="row">
+          <q-item class="col-auto" dense :to="{ name: '/lagia/index' }">
+            <q-item-label>
+              <img style="height: 30px" src="/assets/lagia/white-logo.png" />
+            </q-item-label>
+          </q-item>
+        </q-toolbar-title>
 
+        <transition name="fade">
           <q-space
-            v-if="$q.screen.width > 768 && scroll_triggered === 'bg-top'"
+            v-show="$q.screen.width > 768 && scroll_triggered === 'bg-top'"
           ></q-space>
+        </transition>
 
+        <transition name="fade">
           <LayoutHeaderMenu
             :scroll_triggered="scroll_triggered"
-            v-if="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
+            v-show="$q.screen.width > 768 && scroll_triggered === 'bg-down'"
           ></LayoutHeaderMenu>
+        </transition>
 
-
-          <q-btn :to="{
-            name: getIsLogin ? '/lagia/dashboard' : '/login'
+        <q-btn
+          :to="{
+            name: getIsLogin ? '/lagia/dashboard' : '/login',
           }"
-            flat
-            size="17px"
-            round
-            :icon="getIsLogin ? 'dashboard' : 'login'"
-            aria-label="Menu"
-          />
-          <q-btn
-            flat
-            size="17px"
-            round
-            icon="support_agent"
-            aria-label="Menu"
-            @click="rightDrawerOpen = !rightDrawerOpen"
-          />
-        </q-toolbar>
+          flat
+          size="17px"
+          round
+          :icon="getIsLogin ? 'dashboard' : 'login'"
+          aria-label="Menu"
+        />
+        <q-btn
+          flat
+          size="17px"
+          round
+          icon="support_agent"
+          aria-label="Menu"
+          @click="rightDrawerOpen = !rightDrawerOpen"
+        />
+      </q-toolbar>
 
-        <q-toolbar v-else class="bg-primary text-white">
-          <q-btn
-            flat
-            dense
-            round
-            icon="menu"
-            aria-label="Menu"
-            @click="toggleLeftDrawer"
-          />
+      <q-toolbar v-else class="text-white">
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-          <q-toolbar-title class="row">
-            <q-item class="col-auto" dense :to="{ name: '/lagia/index' }">
-              <q-item-label>
-                <img style="height: 30px" src="/assets/lagia/white-logo.png" />
-              </q-item-label>
-            </q-item>
-          </q-toolbar-title>
+        <q-toolbar-title class="row">
+          <q-item class="col-auto" dense :to="{ name: '/lagia/index' }">
+            <q-item-label>
+              <img style="height: 30px" src="/assets/lagia/white-logo.png" />
+            </q-item-label>
+          </q-item>
+        </q-toolbar-title>
 
-          <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
+        <LayoutHeaderMenu v-if="$q.screen.width > 768"></LayoutHeaderMenu>
 
-          <q-btn :to="{
-            name: getIsLogin ? '/lagia/dashboard' : '/login'
+        <q-btn
+          :to="{
+            name: getIsLogin ? '/lagia/dashboard' : '/login',
           }"
-            flat
-            size="17px"
-            round
-            :icon="getIsLogin ? 'dashboard' : 'login'"
-            aria-label="Menu"
-          />
-          <q-btn :to="{
-            name: getIsLogin ? '/lagia/dashboard' : '/login'
+          flat
+          size="17px"
+          round
+          :icon="getIsLogin ? 'dashboard' : 'login'"
+          aria-label="Menu"
+        />
+        <q-btn
+          :to="{
+            name: getIsLogin ? '/lagia/dashboard' : '/login',
           }"
-            flat
-            size="17px"
-            round
-            :icon="getIsLogin ? 'dashboard' : 'login'"
-            aria-label="Menu"
-          />
+          flat
+          size="17px"
+          round
+          :icon="getIsLogin ? 'dashboard' : 'login'"
+          aria-label="Menu"
+        />
 
-          <q-btn
-            flat
-            size="17px"
-            round
-            icon="support_agent"
-            aria-label="Menu"
-            @click="rightDrawerOpen = !rightDrawerOpen"
-          />
-        </q-toolbar>
-      </q-header>
-    </q-no-ssr>
+        <q-btn
+          flat
+          size="17px"
+          round
+          icon="support_agent"
+          aria-label="Menu"
+          @click="rightDrawerOpen = !rightDrawerOpen"
+        />
+      </q-toolbar>
+    </q-header>
 
-    <!-- v-show="leftDrawerVisible"
-      @mouseover="onMouseOver"
-      @mouseleave="onMouseLeave"
-      :show-if-above="false" -->
     <q-drawer
       persistent
       :width="280"
@@ -430,7 +423,9 @@ export default {
       <q-no-ssr>
         <q-list>
           <q-card-actions align="center">
-            <q-btn to="/" flat><img style="height: 50px" src="/assets/lagia/color-logo.png" /></q-btn>
+            <q-btn to="/" flat
+              ><img style="height: 50px" src="/assets/lagia/color-logo.png"
+            /></q-btn>
           </q-card-actions>
           <!-- <q-item-label header>
           </q-item-label> -->
@@ -474,7 +469,6 @@ export default {
 
         <q-card-section
           v-if="hideNav"
-          id="thing_to_stick"
           class="absolute-top bg-redX q-py-none row justify-center"
           :style="
             $q.screen.width > 768
@@ -545,10 +539,12 @@ export default {
           </q-toolbar>
         </q-card-section>
         <!-- <router-view ></router-view> -->
-        <InnerBanner v-if="route_name !== '/lagia/index'" :_title="$route?.meta?.title"></InnerBanner>
+        <InnerBanner
+          v-if="route_name !== '/lagia/index'"
+          :_title="$route?.meta?.title"
+        ></InnerBanner>
 
-
-        <div v-if="!route_meta?.logged && getIsLogin" class="content-page-section row justify-center">
+        <!-- <div v-if="!route_meta?.logged && getIsLogin" class="content-page-section row justify-center">
           <div
             class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md"
           >
@@ -556,21 +552,36 @@ export default {
               <isBannerDaftar></isBannerDaftar>
             </div>
           </div>
-        </div>
+        </div> -->
 
-
-
+        <!-- <div class="row justify-center">
+          <div
+            class="text-left q-pb-lg"
+            :class="[
+              $route.meta?.file == 'lagia-auth'
+                ? 'col-xl-4 col-lg-6 col-md-7 col-sm-11 col-11'
+                : 'col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12 q-px-md',
+            ]"
+          >
+            <q-btn
+              @click="$router.back"
+              dense
+              label="Kembali"
+              flat
+              icon="arrow_back_ios"
+            ></q-btn>
+            <q-separator class="col-12 q-mt-md" color="grey-4"></q-separator>
+          </div>
+        </div> -->
 
         <router-view v-if="route_meta.ssr" v-slot="{ Component }">
-          <component :is="Component" :key="$route.name">
-          </component>
+          <component :is="Component" :key="$route.name"> </component>
         </router-view>
 
         <q-no-ssr v-else>
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :is="Component" :key="$route.name">
-              </component>
+              <component :is="Component" :key="$route.name"> </component>
             </keep-alive>
           </router-view>
         </q-no-ssr>
@@ -737,7 +748,7 @@ export default {
 
 <style scoped>
 .bg-top {
-  background-color: #3a78c900;
+  background-color: transparent;
   -webkit-transition: background-color 150ms linear;
   -ms-transition: background-color 150ms linear;
   transition: background-color 150ms linear;
@@ -750,9 +761,20 @@ export default {
   transition: background-color 150ms linear;
 }
 
-#thing_to_stick {
-  /* position: fixed; */
-  top: 0;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.header-transition {
+  -webkit-transition: background-color 150ms linear;
+  -ms-transition: background-color 150ms linear;
+  transition: background-color 150ms linear;
 }
 
 .bottom-footer {

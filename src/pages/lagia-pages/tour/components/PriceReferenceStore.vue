@@ -69,7 +69,7 @@
         <q-card-section class="q-px-none">
           <!-- <div class="text-box full-width q-px-sm col-12 text-capitalize"> -->
 
-          <q-item dense>
+          <!-- <q-item dense>
             <q-item-section>
               <q-item-label lines="1">Rating</q-item-label>
             </q-item-section>
@@ -94,7 +94,7 @@
                 ></q-rating>
               </q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <!-- <isQItemLabelSimpleValue
             label="codepos"

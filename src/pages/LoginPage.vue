@@ -25,7 +25,7 @@
 
         <div  class="col-12 col-md-6 text-right q-mb-md">
           <q-btn :to="{ name: 'ForgetPage' }" dense flat no-caps text-color="blue">
-            Forgot Password?
+            Lupa Password?
           </q-btn>
         </div>
 
@@ -35,8 +35,8 @@
         </div>
 
         <div  class="col-12 col-md-6 text-center q-mb-md">
-          Don't have an account? <q-btn :to="{ name: 'RegisterPage' }" dense flat no-caps text-color="blue">
-            Register Here
+          Belum punya akun? <q-btn :to="{ name: 'RegisterPage' }" dense flat no-caps text-color="blue">
+            Registrasi Sekarang
           </q-btn>
         </div>
       </div>

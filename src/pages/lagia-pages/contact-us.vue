@@ -11,6 +11,8 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+    <isBackButtonPage></isBackButtonPage>
+
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="section-heading">
           <h5 class="text-primary">{{ record?.title1 }}</h5>

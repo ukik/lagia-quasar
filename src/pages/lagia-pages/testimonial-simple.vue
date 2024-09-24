@@ -8,6 +8,8 @@
       class="row justify-center col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
       :class="[$q.screen.width > 425 ? '' : '', $q.screen.width > 768 ? '' : '']"
     >
+    <isBackButtonPage></isBackButtonPage>
+
       <!-- VERSI TANPA FORM -->
       <div class="col-12" v-if="records.length <= 0 && !loading">
         <NoData></NoData>

@@ -13,6 +13,8 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <isBackButtonPage></isBackButtonPage>
+
       <isInfo></isInfo>
 
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 q-mb-lg q-mt-md">

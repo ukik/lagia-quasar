@@ -256,6 +256,7 @@ function StatusCodeColor(params) {
 
 
 
+
 export default boot(async ({ app, ssrContext, router, store }) => {
 
   const routerStore = useRouterStore()

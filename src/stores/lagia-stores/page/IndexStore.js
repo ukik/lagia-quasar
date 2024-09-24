@@ -21,6 +21,8 @@ export const useIndexStore = defineStore('IndexStore', {
 
     record_tour: null,
     record_tour_price: null,
+    record_tour_price_total: null,
+
     record_culinary: null,
     record_souvenir: null,
     record_lodge: null,
@@ -33,6 +35,12 @@ export const useIndexStore = defineStore('IndexStore', {
     page_widget_offer: null,
     page_widget_promo: null,
     page_widget_tron: null,
+
+    tour_products_category: null,
+    tour_products_city: null,
+    tour_products_province: null,
+    tour_products_durasi: null,
+    tour_products_level: null,
 
     loading: false,
     init: false,
@@ -120,6 +128,7 @@ export const useIndexStore = defineStore('IndexStore', {
           });
         }
         this.record_tour_price = tour_price
+        this.record_tour_price_total = response?.data?.data?.tourPrice?.total
       }
 
 
@@ -267,6 +276,17 @@ export const useIndexStore = defineStore('IndexStore', {
       this.page_widget_offer = response?.data?.data?.pageWidgetOffer?.data
       this.page_widget_promo = response?.data?.data?.pageWidgetPromo?.data
       this.page_widget_tron = response?.data?.data?.pageWidgetTron?.data
+
+      this.tour_products_category = response?.data?.data?.tourProductsCategory?.data
+      this.tour_products_city = response?.data?.data?.tourProductsCity?.data
+      this.tour_products_province = response?.data?.data?.tourProductsProvince?.data
+      this.tour_products_durasi = response?.data?.data?.tourProductsDurasi?.data
+
+      let _tour_products_level = response?.data?.data?.tourProductsLevel?.data
+      _tour_products_level.forEach(element => {
+        element['level'] = Number(element?.level)
+      });
+      this.tour_products_level = _tour_products_level
 
       this.record = response?.data?.data;
 

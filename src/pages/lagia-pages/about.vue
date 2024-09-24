@@ -10,6 +10,8 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+      <isBackButtonPage></isBackButtonPage>
+
       <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
         <AboutContent :item="record"></AboutContent>
 

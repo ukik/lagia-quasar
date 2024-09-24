@@ -11,6 +11,8 @@
         $q.screen.width > 768 ? 'q-col-gutter-lg' : '',
       ]"
     >
+    <isBackButtonPage></isBackButtonPage>
+
       <div v-if="records.length <= 0 && loading" class="col-12 text-center">
         <q-spinner color="primary" size="3em" />
       </div>

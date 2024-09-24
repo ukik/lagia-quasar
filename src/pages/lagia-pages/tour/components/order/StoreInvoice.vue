@@ -1,7 +1,7 @@
 <template>
   <q-item-label class="text-center text-h6 text-uppercase">INVOICE TOUR</q-item-label>
   <q-item-label class="text-body text-center q-mb-lg"
-    >Periksa kembali data invoice sebelum melakukan pembayaran</q-item-label
+    >Periksa kembali data invoice sebelum melakukan checkout</q-item-label
   >
   <!-- <q-item-label class="text-caption text-center q-mb-lg"
     >Setelah konfirmasi dilakukan invoice tidak dapat diubah</q-item-label
@@ -19,7 +19,11 @@
     </q-card-section>
   </q-card> -->
 
-  <q-card class="q-mb-lg" flat bordered>
+
+
+
+
+  <!-- <q-card class="q-mb-lg" flat bordered>
     <q-card-section style="font-family: 'Ubuntu', sans-serif">
       <q-item-label class="q-mb-md">
         Terima kasih telah melakukan booking (pemesanan) paket tour di LAGIA TOUR. Jika
@@ -38,33 +42,33 @@
     </q-card-section>
     <q-separator></q-separator>
     <q-list align="left" class="row">
-      <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+      <q-item @click="$onPhone1" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
         <q-item-section avatar>
           <q-avatar color="orange">
             <q-icon color="white" name="fa fa-phone fa-lg"></q-icon>
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label caption>Telepon</q-item-label>
-          <q-item-label class="text-title text-bold text-orange"
-            >000000000000</q-item-label
-          >
+          <q-item-label caption>Telepon 1</q-item-label>
+          <q-item-label class="text-title text-bold text-orange">{{
+            getFooterContact?.phone1
+          }}</q-item-label>
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+      <q-item @click="$onPhone2" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
         <q-item-section avatar>
           <q-avatar color="green">
-            <q-icon color="white" name="fa-brands fa-whatsapp"></q-icon>
+            <q-icon color="white" name="fa fa-phone fa-lg"></q-icon>
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label caption>Whatsapp</q-item-label>
-          <q-item-label class="text-title text-bold text-green"
-            >000000000000</q-item-label
-          >
+          <q-item-label caption>Telepon 2</q-item-label>
+          <q-item-label class="text-title text-bold text-green">{{
+            getFooterContact?.phone2
+          }}</q-item-label>
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+      <q-item @click="$onSms1" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
         <q-item-section avatar>
           <q-avatar color="cyan">
             <q-icon color="white" name="message"></q-icon>
@@ -72,22 +76,29 @@
         </q-item-section>
         <q-item-section>
           <q-item-label caption>SMS Center</q-item-label>
-          <q-item-label class="text-title text-bold text-cyan">000000000000</q-item-label>
+          <q-item-label class="text-title text-bold text-cyan"
+            >{{ getFooterContact?.smsCenter1 }}
+          </q-item-label>
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+      <q-item @click="$onEmail" clickable v-ripple class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
         <q-item-section avatar>
           <q-avatar color="teal">
             <q-icon color="white" name="email"></q-icon>
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label caption>SMS Center</q-item-label>
-          <q-item-label class="text-title text-bold text-teal">000000000000</q-item-label>
+          <q-item-label caption>Email</q-item-label>
+          <q-item-label class="text-title text-bold text-teal">{{
+            getFooterContact?.email
+          }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
-  </q-card>
+  </q-card> -->
+
+
+
 
   <!-- <q-banner bordered rounded class="bg-form text-white q-mb-md">
     <q-card-section class="q-pa-none">
@@ -303,11 +314,13 @@
           </tr>
 
           <tr>
-            <td class="text-h6 bg-cyan text-white text-bold" colspan="2">CATATAN KHUSUS</td>
+            <td class="text-h6 bg-cyan text-white text-bold" colspan="2">
+              CATATAN KHUSUS
+            </td>
           </tr>
 
           <tr class="">
-            <td colspan="2">{{ !description ? 'Tidak Ada' : description }}</td>
+            <td colspan="2">{{ !description ? "Tidak Ada" : description }}</td>
           </tr>
 
           <tr>
@@ -326,8 +339,6 @@
               <span>{{ $currency(grandTotalDP) }}</span>
             </td>
           </tr>
-
-
         </table>
       </q-list>
     </q-card-section>
@@ -629,32 +640,9 @@
       </q-list>
 
       <q-banner rounded class="bg-teal text-white q-mt-md">
-        <div class="q-mb-lg">
-          Penyesuaian biaya dapat dikonsultasikan dengan tim kami, jangan khawatir kami
-          siap membantu Anda mendapatkan layanan terbaik
-        </div>
-        <template v-slot:action>
-          <q-btn
-            unelevated
-            outline
-            @click="
-              $global.$emit('LagiaLayout', {
-                label: 'konsultasi',
-                slug: 'konsultasi',
-                vendor: 'tourStore',
-                value: item,
-                product: 'tourProduct',
-              })
-            "
-            color="positive"
-            text-color="white"
-            label="Tanya Admin"
-            icon="fa-brands fa-whatsapp"
-          />
-        </template>
+        Minimal down payment (DP 30%) tapi Anda bisa mengaturnya sendiri.
       </q-banner>
     </q-card-section>
-
   </q-card>
 </template>
 
@@ -720,6 +708,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(useInitStore, ["getFooterContact"]),
     ...mapState(useInitStore, ["page_hotel_level_price"]),
     ...mapWritableState(useTourOrderDetailStore, [
       "date_start",
@@ -783,8 +772,8 @@ export default {
       return Number(this.subTotalAnak) + Number(this.subTotalDewasa);
     },
     getDPRule() {
-      return Number(this.dibayar_percent) >= 30 &&  Number(this.dibayar_percent) <= 100
-    }
+      return Number(this.dibayar_percent) >= 30 && Number(this.dibayar_percent) <= 100;
+    },
   },
   methods: {
     dateFormat(val) {

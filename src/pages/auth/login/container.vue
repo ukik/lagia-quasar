@@ -35,7 +35,7 @@
     </div>
 
     <q-list bordered class="col-11 text-center q-mt-lg q-py-md">
-      Don't have an account?
+      Belum punya akun?
       <q-btn :to="{
         name: 'auth_signup'
       }" dense flat no-caps text-color="blue">
